@@ -1,0 +1,20 @@
+export { default as IconCheck } from './IconCheck';
+export { default as IconCheckCircle } from './IconCheckCircle';
+export { default as IconCheckSquareFill } from './IconCheckSquareFill';
+export { default as IconDash } from './IconDash';
+export { default as IconDashSquare } from './IconDashSquare';
+export { default as IconExclamation } from './IconExclamation';
+export { default as IconExclamationCircle } from './IconExclamationCircle';
+export { default as IconInfoCircle } from './IconInfoCircle';
+export { default as IconPlus } from './IconPlus';
+export { default as IconPlusCircle } from './IconPlusCircle';
+export { default as IconPlusCircleDotted } from './IconPlusCircleDotted';
+export { default as IconPlusSquare } from './IconPlusSquare';
+export { default as IconXCircle } from './IconXCircle';
+export { default as IconX } from './IconX';
+export { default as IconSquareFill } from './IconSquareFill';
+export { default as IconWarning } from './IconWarning';
+export { default as IconLess } from './IconLess';
+export * from './IconQuestionCircle';
+export * from './IconFilter';
+

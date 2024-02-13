@@ -1,0 +1,25 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts"],
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noImplicitOverride": true,
+    "jsx": "react-jsx",
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vitest"],
+    "noEmit": true,
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
+  },
+  "files": [],
+  "exclude": ["node_modules"]
+}

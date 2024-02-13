@@ -1,0 +1,17 @@
+[data-rs-theme='demo-light'],
+[data-rs-theme='demo-dark'] {
+  --rs-color-background-primary: #1da1f2;
+  --rs-color-background-primary-highlighted: #1a90da;
+  --rs-color-on-background-primary: #fff;
+  --rs-color-rgb-background-primary: 29, 161, 242;
+  --rs-color-on-background-primary-highlighted: #fff;
+  --rs-color-rgb-background-primary-highlighted: 26, 144, 218;
+}
+
+[data-rs-theme='demo-light'] {
+  color-scheme: light;
+}
+
+[data-rs-theme='demo-dark'] {
+  color-scheme: dark;
+}

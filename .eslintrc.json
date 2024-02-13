@@ -1,0 +1,80 @@
+{
+  "root": true,
+  "ignorePatterns": ["**/*"],
+  "plugins": ["@nx"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "extends": [
+        "plugin:@nx/typescript",
+        "plugin:prettier/recommended",
+        "plugin:react/jsx-runtime"
+      ],
+      "plugins": ["import"],
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/consistent-type-imports": "error",
+        "import/prefer-default-export": 0,
+        "no-shadow": 0,
+        "react-hooks/exhaustive-deps": 0,
+        "react/function-component-definition": 0,
+        "react/jsx-props-no-spreading": 0,
+        "react/prop-types": 0,
+        "import/order": [
+          "error",
+          {
+            "groups": [
+              ["external", "builtin"],
+              "internal",
+              ["parent", "sibling", "index"]
+            ],
+            "newlines-between": "always",
+            "pathGroups": [
+              {
+                "pattern": "~/**",
+                "group": "internal"
+              },
+              {
+                "pattern": "config",
+                "group": "internal",
+                "position": "after"
+              }
+            ],
+            "pathGroupsExcludedImportTypes": ["internal"]
+          }
+        ],
+
+        // FIXME: fix these rules
+        "import/no-extraneous-dependencies": 0,
+        "import/no-cycle": 0
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@nx/typescript"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "extends": ["plugin:@nx/javascript"],
+      "rules": {}
+    }
+  ]
+}

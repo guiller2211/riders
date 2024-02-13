@@ -1,0 +1,75 @@
+#############################################################################
+# ducati
+
+## The following Netlify configurration is for the ducati application ONLY
+## In situations where multiple sites need to be deployed from a monorepo,
+## Netlify configuration should be managed directly via the UI
+#############################################################################
+
+## -- BUILD -- ##
+
+[build]
+command = "npx nx build ducati --skip-nx-cache && npx nx server:netlify ducati --skip-nx-cache"
+publish = "apps/ducati/dist/public"
+
+[build.environment]
+PROJECT_NAME = "ducati"
+
+## - PROXY & CACHE -- ##
+
+[[redirects]]
+from = "/*"
+status = 200
+to = "/.netlify/functions/server"
+
+# Favicon
+[[headers]]
+for = "/favicon.ico"
+[headers.values]
+"Cache-Control" = "public, max-age=3600"
+
+# Images, Icons, etc.
+[[headers]]
+for = "/assets/*"
+[headers.values]
+"Cache-Control" = "public, max-age=3600"
+
+# Remix
+[[headers]]
+for = "/build/*"
+[headers.values]
+"Cache-Control" = "public, max-age=60, s-maxage=60"
+
+## -- FUNCTIONS -- ##
+
+[functions]
+directory = "apps/ducati/dist/netlify"
+external_node_modules = [
+  "@remix-run/react",
+  "@remix-run/node",
+  "isbot",
+  "remix-typedjson",
+  "tslog",
+  "react-prismazoom",
+  "node-ts-cache",
+  "node-ts-cache-storage-memory",
+  "lodash",
+  "@uniformdev/canvas",
+  "@uniformdev/canvas-react",
+  "@uniformdev/context-remix",
+  "@reduxjs/toolkit",
+  "formik",
+  "ramda",
+  "ramda-adjunct",
+  "react-redux",
+  "yup",
+  "axios",
+  "classnames",
+]
+included_files = ["apps/ducati/dist/index.js", "apps/ducati/data/**", "apps/ducati/config/*.json"]
+node_bundler = "esbuild"
+
+## -- PLUGINS -- ##
+
+#[[plugins]]
+#package = "./tools/plugins/netlify/affected-build"

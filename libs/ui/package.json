@@ -1,0 +1,32 @@
+{
+  "name": "@ducati/ui",
+  "version": "0.0.0",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js"
+    },
+    "./index.css": "./index.css"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.6.0",
+    "formik": "^2.4.5",
+    "ramda": "^0.29.1",
+    "ramda-adjunct": "^4.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.1.3",
+    "yup": "^1.3.2"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.29.8"
+  },
+  "peerDependencies": {
+    "postcss": "^8.4.26",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

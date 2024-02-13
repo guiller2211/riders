@@ -1,0 +1,21 @@
+{
+  "run": {
+    "command": "nx run ducati:dev:development --skip-nx-cache",
+    "startTime": "2024-02-13T21:00:26.130Z",
+    "endTime": "2024-02-13T21:00:31.322Z",
+    "inner": false
+  },
+  "tasks": [
+    {
+      "taskId": "ducati:server:express",
+      "target": "server:express",
+      "projectName": "ducati",
+      "hash": "14072370777143207033",
+      "startTime": "2024-02-13T21:00:26.148Z",
+      "endTime": "2024-02-13T21:00:31.321Z",
+      "params": "",
+      "cacheStatus": "cache-miss",
+      "status": 1
+    }
+  ]
+}

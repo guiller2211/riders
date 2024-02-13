@@ -1,0 +1,61 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "npmScope": "decohome",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "build:storybook",
+          "lint",
+          "server:express",
+          "server:netlify",
+          "test"
+        ],
+        "cacheDirectory": "./.cache/nx"
+      }
+    }
+  },
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*"],
+    "build": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json"
+    ]
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["build", "^build"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "inputs": ["build", "^build"]
+    },
+    "test": {
+      "inputs": [
+        "build",
+        "^build",
+        "{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+        "{projectRoot}/tsconfig.spec.json"
+      ]
+    }
+  },
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  },
+  "generators": {
+    "@nx/react": {
+      "application": {
+        "babel": true
+      },
+      "library": {
+        "unitTestRunner": "vitest"
+      }
+    }
+  }
+}
