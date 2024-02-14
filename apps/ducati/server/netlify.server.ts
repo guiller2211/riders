@@ -2,18 +2,15 @@ import path from 'path';
 import { createRequestHandler } from '@netlify/remix-adapter';
 import { installGlobals } from '@remix-run/node';
 
+// Ruta del directorio de salida
 const OUTPUT_DIR = process.env.OUTPUT_DIR || 'apps/ducati/dist';
 const OUTPUT_DIR_PATH = path.join(process.cwd(), OUTPUT_DIR);
 
-// Leverage Node's Built-In Fetch Implementation
+// Instala los globales de Node para el Fetch
 installGlobals();
 
+// Función para purgar la caché de require
 function purgeRequireCache() {
-  // purge require cache on requests for "server side HMR" this won't let
-  // you have in-memory objects between requests in development,
-  // netlify typically does this for you, but we've found it to be hit or
-  // miss and sometimes requires you to refresh the page after it auto reloads
-  // or even have to restart your server
   for (const key in require.cache) {
     if (key.startsWith(OUTPUT_DIR)) {
       delete require.cache[key];
@@ -21,14 +18,29 @@ function purgeRequireCache() {
   }
 }
 
-exports.handler =
-  process.env.NODE_ENV === 'production'
-    ? createRequestHandler({
-        build: require(OUTPUT_DIR_PATH),
-      })
-    : (event: any, context: any) => {
-        purgeRequireCache();
-        return createRequestHandler({
-          build: require(OUTPUT_DIR_PATH),
-        })(event, context);
-      };
+exports.handler = async (event:any, context:any) => {
+  try {
+    // Requiere el archivo de construcción
+    const build = require(OUTPUT_DIR_PATH);
+
+    // Crea el manejador de solicitudes
+    const requestHandler = createRequestHandler({ build });
+
+    // Verifica si estamos en producción
+    if (process.env.NODE_ENV === 'production') {
+      // Si estamos en producción, simplemente ejecuta el manejador de solicitudes
+      return requestHandler(event, context);
+    } else {
+      // Si no estamos en producción, purga la caché de require y luego ejecuta el manejador de solicitudes
+      purgeRequireCache();
+      return requestHandler(event, context);
+    }
+  } catch (error) {
+    // Maneja cualquier error que pueda ocurrir al requerir el archivo de construcción
+    console.error('Error al requerir el archivo de construcción:', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Internal Server Error' }),
+    };
+  }
+};
