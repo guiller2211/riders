@@ -2,7 +2,7 @@ import path from 'path';
 import { createRequestHandler } from '@netlify/remix-adapter';
 import { installGlobals } from '@remix-run/node';
 
-const OUTPUT_DIR = process.env.OUTPUT_DIR || 'apps/performio/dist';
+const OUTPUT_DIR = process.env.OUTPUT_DIR || 'apps/ducati/dist';
 const OUTPUT_DIR_PATH = path.join(process.cwd(), OUTPUT_DIR);
 
 // Leverage Node's Built-In Fetch Implementation
