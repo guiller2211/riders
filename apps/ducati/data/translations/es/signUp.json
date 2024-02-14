@@ -1,0 +1,24 @@
+{
+  "page": {
+    "login": {
+      "title": "Registrarse"
+    }
+  },
+  "signUp": {
+    "heading": "Crea una cuenta",
+    "placeholders": {
+      "title": "Título",
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar Contraseña"
+    },
+    "marketingConsent": "Esta es una descripción de consentimiento de marketing de muestra que deberá actualizarse o reemplazarse, según el consentimiento de registro válido requerido.",
+    "termsConsent": "Confirmo que he leído y acepto los",
+    "termsAndConditions": "Términos & Condiciones",
+    "registerButton": "Registrar cuenta",
+    "alreadyHaveAccount": "Ya tengo una cuenta.",
+    "clickHereToSignIn": "Clic aquí para iniciar sesión."
+  }
+}

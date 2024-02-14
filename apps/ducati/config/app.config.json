@@ -1,0 +1,80 @@
+{
+  "store": {
+    "id": "axcello",
+    "dataDir": "./data/stores"
+  },
+  "cookies": {
+    "session": {
+      "name": "axcello-session",
+      "httpOnly": true,
+      "path": "/",
+      "sameSite": "lax",
+      "secure": true,
+      "secrets": ["WnTNLh3FpLU@DTZd"]
+    }
+  },
+  "i18n": {
+    "dataDir": "./data/translations"
+  },
+  "site": {
+    "navigation": {
+      "bar": {
+        "topLevelNodeLimit": 4,
+        "nestedNodeLimit": 15
+      }
+    },
+    "search": {
+      "pageSize": 30
+    }
+  },
+  "statuses": {
+    "order": [
+      {
+        "id": "376cbd41-85fe-4f7c-98a2-d752b1863013",
+        "name": "Open",
+        "data": {
+          "badgeColor": "primary"
+        }
+      },
+      {
+        "id": "9d2e2ad3-dabb-440a-bc4f-b87bae666668",
+        "name": "Shipped",
+        "data": {
+          "badgeColor": "primary"
+        }
+      },
+      {
+        "id": "f5a3a287-8a95-4cb0-8d87-f3b4e0bb5a67",
+        "name": "In Process",
+        "data": {
+          "badgeColor": "positive"
+        }
+      },
+      {
+        "id": "87e56a03-0f64-47ca-a72d-4092c18c05b8",
+        "name": "Ready to Ship",
+        "data": {
+          "badgeColor": "positive"
+        }
+      },
+      {
+        "name": "Confirmed",
+        "data": {
+          "badgeColor": "positive"
+        }
+      },
+      {
+        "name": "Complete",
+        "data": {
+          "badgeColor": "positive"
+        }
+      },
+      {
+        "name": "Cancelled",
+        "data": {
+          "badgeColor": "critical"
+        }
+      }
+    ]
+  }
+}

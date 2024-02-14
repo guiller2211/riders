@@ -1,0 +1,12 @@
+{
+  "header": {
+    "guest": {
+      "login": "Acceder",
+      "signUp": "Registrar"
+    },
+    "user": {
+      "greeting": "Hola, {{name}}",
+      "account": "Cuenta"
+    }
+  }
+}

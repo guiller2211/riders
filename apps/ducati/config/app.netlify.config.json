@@ -1,0 +1,8 @@
+{
+  "store": {
+    "dataDir": "apps/performio/data/stores"
+  },
+  "i18n": {
+    "dataDir": "apps/performio/data/translations"
+  }
+}

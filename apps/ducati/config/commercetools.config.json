@@ -1,0 +1,166 @@
+{
+  "credentials": {
+    "projectKey": "b2b-accelerator",
+    "scopes": [{ "manage_project": "b2b-accelerator" }],
+    "region": "us-central1.gcp",
+    "clientId": "bM2BahqYNoKqL48Qtjs5MskC",
+    "clientSecret": "gaJzzifRr3ZYXA1IFSJy0JeDttOeXTdi",
+    "log": false
+  },
+  "cache": [
+    {
+      "container": "category",
+      "ttl": {
+        "defaultTTL": 3600
+      }
+    },
+    {
+      "container": "categoryQuery",
+      "ttl": {
+        "defaultTTL": 3600
+      }
+    }
+  ],
+  "search": {
+    "product": {
+      "sort": {
+        "by": {
+          "field": [
+            {
+              "key": "sysId",
+              "value": "id"
+            },
+            {
+              "key": "price",
+              "value": "price"
+            },
+            {
+              "key": "reviews",
+              "value": [
+                {
+                  "key": "averageRating",
+                  "value": "reviewRatingStatistics.averageRating"
+                },
+                {
+                  "key": "highestRating",
+                  "value": "reviewRatingStatistics.highestRating"
+                },
+                {
+                  "key": "lowestRating",
+                  "value": "reviewRatingStatistics.lowestRating"
+                },
+                {
+                  "key": "reviewCount",
+                  "value": "reviewRatingStatistics.count"
+                }
+              ]
+            },
+            {
+              "key": "customAttributes",
+              "value": []
+            }
+          ],
+          "variants": [
+            {
+              "key": "availability",
+              "value": [
+                {
+                  "key": "restockableInDays",
+                  "value": "variants.availability.restockableInDays"
+                },
+                {
+                  "key": "availableQuantity",
+                  "value": "variants.availability.availableQuantity"
+                }
+              ]
+            },
+            {
+              "key": "sku",
+              "value": "variants.sku"
+            },
+            {
+              "key": "variantPrice",
+              "value": "variants.scopedPrice.currentValue.centAmount"
+            }
+          ]
+        },
+        "direction": [
+          {
+            "key": "asc",
+            "value": "asc",
+            "variants": [
+              {
+                "key": "ascmin",
+                "value": "asc.min"
+              },
+              {
+                "key": "ascmax",
+                "value": "asc.max"
+              }
+            ]
+          },
+          {
+            "key": "desc",
+            "value": "desc",
+            "variants": [
+              {
+                "key": "descmax",
+                "value": "desc.max"
+              },
+              {
+                "key": "descmin",
+                "value": "desc.min"
+              }
+            ]
+          }
+        ]
+      },
+      "facets": [
+        {
+          "type": "terms",
+          "key": "manufacturer",
+          "expression": "variants.attributes.manufacturerName"
+        },
+        {
+          "type": "terms",
+          "key": "brand",
+          "expression": "variants.attributes.brandName"
+        }
+      ]
+    },
+    "order": {
+      "sort": {
+        "by": {
+          "field": [
+            {
+              "key": "orderNo",
+              "value": "orderNumber"
+            },
+            {
+              "key": "poNumber",
+              "value": "purchaseOrderNumber"
+            },
+            {
+              "key": "total",
+              "value": "totalPrice.centAmount"
+            },
+            {
+              "key": "datePlaced",
+              "value": "createdAt"
+            }
+          ]
+        },
+        "direction": [
+          {
+            "key": "asc",
+            "value": "asc"
+          },
+          {
+            "key": "desc",
+            "value": "desc"
+          }
+        ]
+      }
+    }
+  }
+}

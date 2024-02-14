@@ -1,0 +1,36 @@
+{
+  "addresses": {
+    "heading": "Addresses",
+    "add": {
+      "cardHeading": "Add New Address",
+      "cardHeadingEmpty": "Add an Address",
+      "drawerHeading": "Add New Address",
+      "drawerAction": "Add Address",
+      "success": "Your address has been successfully added.",
+      "error": "There was an issue adding your address, please try again and if you continue to have issues contact support."
+    },
+    "action": {
+      "save": "Save Address"
+    },
+    "edit": {
+      "drawerHeading": "Edit Address",
+      "drawerAction": "Save Changes",
+      "success": "Your address has been successfully updated.",
+      "error": "There was an issue updating your address, please try again and if you continue to have issues contact support."
+    },
+    "setAsDefault": {
+      "title": "Set as Default Address",
+      "success": "Your preferred address has been updated.",
+      "error": "There was an issue updating your preferred address, please try again and if you continue to have issues contact support."
+    },
+    "remove": {
+      "drawerHeading": "Are you sure you want to delete this address?",
+      "drawerAction": "Yes, delete this address.",
+      "warningMessage": "By deleting this address, it will be removed from your account.",
+      "success": "Your address has been removed.",
+      "error": "There was an issue removing your address, please try again and if you continue to have issues contact support."
+    },
+    "default": "Default",
+    "missingInfo": "Missing Information"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "page": {
+    "shipping": {
+      "title": "Shipping"
+    }
+  },
+  "shipping": {
+    "title": "Shipping",
+    "addOtherAddres": "Add an Apartment, Suite, Building, Etc.",
+    "continueToPayment": "Continue to Payment",
+    "setDefaultShippingAddress": "Set as Default Shipping Address",
+    "saveAddressForFutureUse": "Save this Address for Future Use",
+    "placeholders": {
+      "phoneNumber": "Phone Number",
+      "zipcode": "ZIP Code",
+      "state": "State",
+      "city": "City",
+      "address": "Address",
+      "lastname": "Last Name",
+      "name": "Name"
+    },
+    "action": {
+      "add": "Add a New Address"
+    }
+  },
+  "shippingMethod": {
+    "title": "Shipping Methods",
+    "free": "FREE",
+    "businessDays": "{{range}} Business Days",
+    "estimatedArrivalFor": "Estimated Arrival for {{stimated}}",
+    "requiresPhysicalAddressForDelivery": "Requires Physical Address for Delivery"
+  }
+}

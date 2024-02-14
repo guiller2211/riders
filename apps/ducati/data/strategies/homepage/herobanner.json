@@ -1,0 +1,16 @@
+{
+  "preHeading": { "message": "Yearly Tool Event" },
+  "heading": { "message": "Up to 50% Off Milwaukee brand grinders." },
+  "subHeading": { "message": "+ $39 Total Guard." },
+  "button": { "message": "Button", "href": "/category/cutting-tools-2" },
+  "image": {
+    "desktop": {
+      "src": "/assets/images/banners/banner2.png",
+      "alt": "Hero Banner"
+    },
+    "mobile": {
+      "src": "/assets/images/banners/banner2.png",
+      "alt": "Hero Banner"
+    }
+  }
+}

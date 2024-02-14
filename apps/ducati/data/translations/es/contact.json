@@ -1,0 +1,20 @@
+{
+  "page": {
+    "login": {
+      "title": "Contacto"
+    }
+  },
+  "contactForm": {
+    "heading": "Contacto",
+    "subHeading": "¿Preguntas o inquietudes?",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu nullam risus nec id consequat massa rutrum. In mauris pretium curabitur mi, platea neque velit, ornare nisl. Ornare lobortis urna risus convallis massa. Ullamcorper proin tempor id dui imperdiet.",
+    "submit": "Enviar",
+    "placeholders": {
+      "firstName": "Nombre",
+      "lastName": "Apellido",
+      "email": "Correo electrónico",
+      "needHelp": "Necesito ayuda con...",
+      "message": "Mensaje"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "page": {
+    "home": {
+      "title": "Order"
+    }
+  },
+  "order": {
+    "actions": {
+      "reorder": "Reorder",
+      "view": "View Invoice"
+    },
+    "products": "Products",
+    "orderNum": "Order #{{num}}",
+    "placed": "Placed on {{day}}/{{month}}/{{year}}",
+    "ending": "Ending in {{num}}",
+    "exp": "Exp. {{month}}/{{year}} ",
+    "free": "FREE",
+    "businessDays": "Business Days",
+    "shippingOn": "Shipping on: {{date}}",
+    "card": {
+      "billedTo": "Billed To",
+      "payment": "Payment",
+      "shipTo": "Ship To",
+      "shipMethod": "Ship Method"
+    },
+    "status": {
+      "0": "Cancelled",
+      "1": "In Progress",
+      "2": "Shipped",
+      "3": "Delivered"
+    }
+  },
+  "summary": {
+    "orderSummary": "Order Summary",
+    "itemsSubtotal": "Item(s) Subtotal",
+    "shipping": "Shipping",
+    "free": "Free",
+    "salesTax": "Sales Tax ({{name}} {{percentage}}%)"
+  }
+}

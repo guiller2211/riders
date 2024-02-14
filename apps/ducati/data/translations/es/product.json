@@ -1,0 +1,41 @@
+{
+  "page": {
+    "product": {
+      "title": "Product",
+      "heading": "Product Detail Heading Page",
+      "save": "Save",
+      "frame": "Frame Capacity",
+      "ton": "ton",
+      "overal": "Overall Height",
+      "oderDays": "Business Days",
+      "addToCart": "Add to Cart"
+    }
+  },
+  "productDetail": {
+    "intro": {
+      "sku": "SKU:",
+      "mfg": "Mfg:"
+    },
+    "overview": {
+      "heading": "Overview",
+      "readMore": "Read More about This Product"
+    },
+    "reviews": {
+      "numberOfReviews": "{{total}} Reviews",
+      "writeReview": "Write a Review"
+    },
+    "addOn": {
+      "heading": "Add-On",
+      "addProduct": "Add a {{productName}}"
+    },
+    "orderMessage": {
+      "orderNow": "Order now and receive it within: "
+    },
+    "specifications": {
+      "heading": "Specifications"
+    },
+    "questions": {
+      "heading": "Q&A"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "default": {
+    "heading": "We're sorry!",
+    "description": "We couldn't find what you were looking for",
+    "button": "Go back to homepage"
+  },
+  "pageNotFound": {
+    "heading": "Page not found",
+    "description": "We couldn't find what you were looking for",
+    "button": "Go back to homepage"
+  },
+  "serviceUnavailable": {
+    "heading": "Service Unavailable",
+    "description": "Unexpected error has ocurred",
+    "button": "Refresh"
+  },
+  "statusCode": "Status: {{status}}"
+}

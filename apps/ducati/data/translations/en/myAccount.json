@@ -1,0 +1,16 @@
+{
+  "page": {
+    "account": {
+      "heading": "Account"
+    }
+  },
+  "quickLinks": {
+    "overview": "Overview",
+    "personalDetails": "Personal Details",
+    "addresses": "Addresses",
+    "payments": "Payments",
+    "quotes": "Quotes",
+    "orders": "Orders",
+    "users": "Users"
+  }
+}

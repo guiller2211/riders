@@ -1,0 +1,25 @@
+{
+  "personalDetails": {
+    "heading": "Update your name, email, and account password at any time.",
+    "name": "Name",
+    "editName": "Edit Name",
+    "emailAddress": "Email Address",
+    "changeEmail": "Change Email",
+    "accountPassword": "Account Password",
+    "changePassword": "Change Password",
+    "lastUpdate": "(Last Update on {{date}})",
+    "edit": "Edit Personal Details",
+    "placeholders": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "phoneNumber": "Phone number",
+      "email": "Email address",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "actions": {
+      "save": "Save"
+    }
+  }
+}

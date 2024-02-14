@@ -1,0 +1,18 @@
+{
+  "feature1": {
+    "heading": { "message": "Fast, Free shiping" },
+    "subHeading": { "message": "On orders over $35." }
+  },
+  "feature2": {
+    "heading": { "message": "No-Hassle Returns" },
+    "subHeading": { "message": "Issues? We'll make it right." }
+  },
+  "feature3": {
+    "heading": { "message": "Net 30 Terms" },
+    "subHeading": { "message": "Get 30 days to pay." }
+  },
+  "feature4": {
+    "heading": { "message": "Friendly Customer Service" },
+    "subHeading": { "message": "U.S.-based customer service." }
+  }
+}

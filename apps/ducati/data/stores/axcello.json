@@ -1,0 +1,20 @@
+{
+  "id": "axcello",
+  "name": "Axcello",
+  "countries": {
+    "enabled": ["US"],
+    "default": "US"
+  },
+  "currencies": {
+    "enabled": ["USD"],
+    "default": "USD"
+  },
+  "languages": {
+    "enabled": ["en", "es"],
+    "default": "en"
+  },
+  "locales": {
+    "enabled": ["en-US"],
+    "default": "en-US"
+  }
+}

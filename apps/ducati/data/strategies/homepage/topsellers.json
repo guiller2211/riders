@@ -1,0 +1,63 @@
+{
+  "title": "Top Sellers",
+  "items": [
+    {
+      "title": { "message": "Dake" },
+      "description": { "message": "12', 96-Teeth Circular Saw Blade" },
+      "image": { "src": "/assets/images/product/product1.png" },
+      "link": { "props": { "href": "/product/G6637815" } },
+      "price": { "message": "507.72" }
+    },
+    {
+      "title": { "message": "Haltech" },
+      "description": { "message": "SHOCKWAVE Impact Right Angle Adapter" },
+      "image": { "src": "/assets/images/product/product2.png" },
+      "link": { "props": { "href": "/product/G4240185" } },
+      "price": { "message": "375.93" }
+    },
+    {
+      "title": { "message": "Airsept" },
+      "description": { "message": "Multi-Tool, Black Handle, 17 Tools" },
+      "image": { "src": "/assets/images/product/product3.png" },
+      "link": { "props": { "href": "/product/G5130172" } },
+      "price": { "message": "109.00" }
+    },
+    {
+      "title": { "message": "Schneider Electronic" },
+      "description": { "message": "Bi-Material Diagonal Cutting Pliers – 6'" },
+      "image": { "src": "/assets/images/product/product4.png" },
+      "link": { "props": { "href": "/product/G3660772" } },
+      "price": { "message": "375.73" }
+    },
+    {
+      "title": { "message": "Dake" },
+      "description": { "message": "SHOCKWAVE 1-7/8' MAG NUTDRIVER 3/8'" },
+      "image": { "src": "/assets/images/product/product1.png" },
+      "link": { "props": { "href": "/product/G4333603" } },
+      "price": { "message": "507.72" }
+    },
+    {
+      "title": { "message": "Haltech" },
+      "description": { "message": "Soft Face Sledge, 2-1/2 lb., 14 In, Steel" },
+      "image": { "src": "/assets/images/product/product2.png" },
+      "link": { "props": { "href": "/product/G5174592" } },
+      "price": { "message": "375.93" }
+    },
+    {
+      "title": { "message": "Airsept" },
+      "description": {
+        "message": "SHOCKWAVE™ Impact Duty' 3/8' Drive 3/4' Deep Well 6 Point Impact Socket"
+      },
+      "image": { "src": "/assets/images/product/product3.png" },
+      "link": { "props": { "href": "/product/G101259540" } },
+      "price": { "message": "109.00" }
+    },
+    {
+      "title": { "message": "Schneider Electronic" },
+      "description": { "message": "General Purpose File Set, Ergonomic, 9 PC" },
+      "image": { "src": "/assets/images/product/product4.png" },
+      "link": { "props": { "href": "/product/G1072626" } },
+      "price": { "message": "375.93" }
+    }
+  ]
+}

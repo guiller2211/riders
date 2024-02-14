@@ -1,0 +1,18 @@
+{
+  "page": {
+    "checkout": {
+      "title": "Checkout",
+      "shipping": {
+        "title": "Shipping"
+      }
+    }
+  },
+  "checkoutStep": {
+    "shipping": "Shipping",
+    "payment": "Payment",
+    "reviewOrder": "Review Order"
+  },
+  "checkoutPrevious": {
+    "free": "Free"
+  }
+}

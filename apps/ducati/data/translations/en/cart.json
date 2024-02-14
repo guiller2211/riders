@@ -1,0 +1,37 @@
+{
+  "page": {
+    "cart": {
+      "title": "Cart"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "items": "My Items ({{items}})",
+    "title_one": "Cart ({{count}} item)",
+    "title_other": "Cart ({{count}} items)",
+    "inStock": "in Stock. Ships now.",
+    "empty": {
+      "title": "You have no items in your cart",
+      "sub_title": "Head back to the homepage or use search to find the products you need."
+    },
+    "actions": {
+      "secureCheckout": "Secure Checkout",
+      "back_home": "Go back to homepage",
+      "saveCart": "Save Cart",
+      "saveToList": "Save to list"
+    },
+    "message": {
+      "alert": "Alerts display a prominent message related to the whole page or its specific area."
+    },
+    "alert": {
+      "minimum": "The minimum quantity for this product is {{count}}",
+      "maximum": "The maximum quantity for this product is {{count}}"
+    }
+  },
+  "availability": {
+    "inStock": "{{count}} in stock",
+    "available": "{{count}} Available",
+    "dateAvailable": "{{message}}",
+    "outOfStock": "Out of stock"
+  }
+}

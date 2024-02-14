@@ -1,0 +1,21 @@
+{
+  "credentials": {
+    "spaceId": "lsy94j22x2wn",
+    "authId": "P-l5Izn9-4xxOqQBSDYuXV63P_vcHQ-3p3IO30d3-Gk"
+  },
+  "cache": [
+    {
+      "container": "page",
+      "ttl": {
+        "defaultTTL": 300
+      }
+    },
+    {
+      "container": "entry",
+      "ttl": {
+        "defaultTTL": 300,
+        "footer": 3600
+      }
+    }
+  ]
+}

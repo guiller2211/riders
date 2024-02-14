@@ -1,0 +1,19 @@
+{
+  "page": {
+    "login": {
+      "title": "Iniciar Sesión"
+    }
+  },
+  "login": {
+    "heading": "Iniciar Sesión",
+    "forgotPassword": "Has olvidado tu contraseña?",
+    "keepSignedIn": "Mantenerme conectado",
+    "signInButton": "Iniciar Sesión",
+    "dontHaveAccount": "No tienes una cuenta?",
+    "createOne": "Crea una aquí",
+    "placeholders": {
+      "username": "Nombre de usuario",
+      "password": "Contraseña"
+    }
+  }
+}

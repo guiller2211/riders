@@ -1,0 +1,36 @@
+{
+  "paymentMethods": {
+    "heading": "Payments",
+    "add": {
+      "cardHeading": "Add New Payment Method",
+      "cardHeadingEmpty": "Add an Payment Method",
+      "drawerHeading": "Add Payment Method",
+      "drawerAction": "Add Payment Method",
+      "success": "Your payment method has been successfully added.",
+      "error": "There was an issue adding your payment method, please try again and if you continue to have issues contact support."
+    },
+    "edit": {
+      "drawerHeading": "Edit Payment Method",
+      "drawerAction": "Save Changes",
+      "paymentUpdated": "Your payment method has been updated.",
+      "success": "Your payment method has been successfully updated.",
+      "error": "There was an issue updating your payment method, please try again and if you continue to have issues contact support."
+    },
+    "setAsDefault": {
+      "title": "Set as Default Payment Method",
+      "success": "Your preferred payment method has been updated.",
+      "error": "There was an issue updating your preferred payment method, please try again and if you continue to have issues contact support."
+    },
+    "remove": {
+      "drawerHeading": "Are you sure you want to delete this payment method?",
+      "drawerAction": "Yes, delete this payment method",
+      "warningMessage": "By deleting this payment method, it will be removed from your account.",
+      "success": "Your payment method has been removed.",
+      "error": "There was an issue removing your payment method, please try again and if you continue to have issues contact support."
+    },
+    "preferred": "Preferred",
+    "expired": "Expired",
+    "endingIn": "Ending In ",
+    "expires": "Expires"
+  }
+}

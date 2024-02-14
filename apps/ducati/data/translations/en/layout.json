@@ -1,0 +1,102 @@
+{
+  "actions": {
+    "change": "Change",
+    "close": "Close",
+    "edit": "Edit",
+    "remove": "Remove",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "breadcrumbs": {
+    "home": "Home"
+  },
+  "placeholders": {
+    "email": "Email Address",
+    "password": "Password"
+  },
+  "header": {
+    "searchbarPlaceholder": "What are you looking for?",
+    "guest": {
+      "hi": "Hi!",
+      "info": "Sign in or create an account to save to favorites, track and manage your purchases, addresses, and more. Members also enjoy exclusive offers and deals.",
+      "signInAndRegister": "Sign In/Register",
+      "signIn": "Sign In",
+      "signUp": "Register",
+      "createAccount": "Create Account"
+    },
+    "user": {
+      "greeting": "Hi, {{name}}",
+      "account": "My Account",
+      "accountNumber": "Account Number (#{{accountNumber}})",
+      "action": {
+        "signOut": "Sign Out"
+      }
+    },
+    "info": {
+      "checkOrder": "Check Order Status",
+      "needHelp": "Need Help"
+    }
+  },
+  "forms": {
+    "login": {
+      "validations": {
+        "invalidCredentials": "The user and password combination is not valid"
+      }
+    },
+    "validations": {
+      "required": "This field is required",
+      "errorEmail": "Please check the format and the minimum length of the email",
+      "errorPassword": "The minimum length for the password is 6 characters"
+    },
+    "notResult": {
+      "NoResultsFound": "No results found. Please try again."
+    }
+  },
+  "loader": {
+    "message": "Loading",
+    "ariaLabel": "Loading"
+  },
+  "shared": {
+    "addToCart": "Add to Cart",
+    "reviews": {
+      "numberOfReviews": "{{total}} Reviews",
+      "writeReview": "Write a Review"
+    }
+  },
+  "pagination": {
+    "showing": "Showing {{startIndex}}-{{endIndex}} of {{totalItems}}",
+    "goToPage": "Go to page",
+    "go": "Go"
+  },
+  "sentRequest": {
+    "heading": "We’ve received your message.",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam eu nullam risus nec id consequat massa rutrum. In mauris pretium curabitur mi, platea neque velit, ornare nisl. Ornare lobortis urna risus convallis massa. Ullamcorper proin tempor id dui imperdiet."
+  },
+  "miniCart": {
+    "title": "Added to Cart",
+    "countCart": "Your Cart ({{count}} Items)",
+    "actions": {
+      "checkout": "Checkout",
+      "viewCart": "View Cart"
+    },
+    "empty": {
+      "countCart": "Your Cart (0 Item)",
+      "title": "You have no items in your cart",
+      "sub_title": "Head back to the homepage or use search to find the products you need.",
+      "actions": {
+        "continue": "Continue Shopping",
+        "back_home": "Go back to homepage"
+      }
+    },
+    "subtotal": "Subtotal",
+    "product": {
+      "sku": "SKU: {{sku}}",
+      "qty": "QTY: {{qty}}"
+    },
+    "price": {
+      "total": "Total",
+      "each": "/ Each"
+    },
+    "edit": "Edit product amount in cart"
+  }
+}

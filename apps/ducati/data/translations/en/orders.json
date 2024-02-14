@@ -1,0 +1,33 @@
+{
+  "page": {
+    "home": {
+      "title": "Order"
+    }
+  },
+  "ordersHistory": {
+    "heading": "Orders",
+    "actions": {
+      "accept": "Accept and Order"
+    }
+  },
+  "orderDetails": {
+    "title": "Order"
+  },
+  "table": {
+    "numOrder": "Order Number",
+    "poNumber": "P.O. Number",
+    "status": "Order Status",
+    "creationDate": "Date Placed",
+    "total": "Total",
+    "placeholder": {
+      "searchAll": "Search All Orders"
+    }
+  },
+  "empty": {
+    "text": {
+      "noPrevious": "There are no previous orders for your account.",
+      "change": "Let’s change that."
+    },
+    "button": "Start Shopping"
+  }
+}

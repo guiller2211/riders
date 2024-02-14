@@ -1,0 +1,23 @@
+{
+  "page": {
+    "address": {
+      "title": "Address"
+    }
+  },
+  "address": {
+    "placeholders": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "address": "Address",
+      "city": "City",
+      "state": "State",
+      "zipCode": "ZIP Code",
+      "phoneNumber": "Phone number"
+    },
+    "check": {
+      "addOtherAddres": "Add Address Line 2",
+      "saveAddressForFutureUse": "Save this Address for Future Use",
+      "setDefaultShippingAddress": "Set as Default Shipphing Addres"
+    }
+  }
+}

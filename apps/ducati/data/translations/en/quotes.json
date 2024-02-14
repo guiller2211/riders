@@ -1,0 +1,66 @@
+{
+  "quotes": {
+    "heading": "Quotes"
+  },
+  "actions": {
+    "create": "Create New Quote",
+    "accept": "Accept and Order"
+  },
+  "empty": {
+    "text": {
+      "noPrevious": "There are no previous quotes for your account.",
+      "change": "Let’s change that.",
+      "question": "Not sure what to do?",
+      "suggestion": "Just add products to your cart and request a quote from there, or request a quote directly from a product page."
+    },
+    "button": "Start Shopping"
+  },
+  "table": {
+    "quoteNumber": "Quote Number",
+    "placedBy": "Placed By",
+    "datePlaced": "Date Placed",
+    "quoteStatus": "Quote Status",
+    "status": "Status",
+    "total": "Total",
+    "expirationDate": "Expiration Date",
+    "actions": "Actions",
+    "action": "Action",
+    "comment": "Comments",
+    "approverComments": "Comments",
+    "permission": "Permission",
+    "approver": "Approver",
+    "by": "By",
+    "date": "Date",
+    "cardTotal": "Cart Total",
+    "placeholder": {
+      "searchAll": "Search All Quotes"
+    }
+  },
+  "detail": {
+    "quoteDetails": "Quote Details",
+    "shipping": "Shipping",
+    "products": "Products",
+    "approvalDetails": "Approval Details",
+    "action": {
+      "request": "Request New Quote",
+      "accept": "Accept and Order",
+      "cancel": "Cancel"
+    },
+    "field": {
+      "quote": "Quote #{{num}}",
+      "poNumber": "P.O Number",
+      "orderPlacedBy": "Order Placed By",
+      "datePlaced": "Date Placed",
+      "parentUnit": "Parent Unit",
+      "costCenter": "Cost Center",
+      "startDate": "Start Date"
+    },
+    "card": {
+      "shipTo": "Ship To",
+      "shipMethod": "Ship Method",
+      "shippingOn": "Shipping on: {{date}}",
+      "businessDays": "Business Days",
+      "free": "FREE"
+    }
+  }
+}

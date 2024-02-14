@@ -1,0 +1,51 @@
+{
+  "users": {
+    "heading": "Users",
+    "button": {
+      "add": "Add New User"
+    }
+  },
+  "detail": {
+    "button": {
+      "back": "Back to Users",
+      "reset": "Reset Password",
+      "disableUser": "Disable User",
+      "editUser": "Edit User Details"
+    },
+    "field": {
+      "poNumber": "P.O Number",
+      "orderPlacedBy": "Order Placed By",
+      "datePlaced": "Date Placed",
+      "parentUnit": "Parent Unit",
+      "costCenter": "Cost Center",
+      "startDate": "Start Date"
+    },
+    "accordion": {
+      "approvers": "Approvers",
+      "permissions": "Permissions",
+      "userGroups": "User Groups",
+      "linkTitle": {
+        "addApprover": "Add Approver",
+        "addPermissions": "Add Permissions",
+        "addUserGroups": "Add User Groups"
+      }
+    }
+  },
+  "modal": {
+    "title": "Add User",
+    "field": {
+      "title": "Title",
+      "firstName": "First Name",
+      "lastName": "Last Name"
+    }
+  },
+  "table": {
+    "name": "Name",
+    "userType": "User Type",
+    "status": "Status",
+    "division": "Division",
+    "placeholder": {
+      "searchAll": "Search All Users"
+    }
+  }
+}
