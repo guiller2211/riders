@@ -20,19 +20,9 @@ function purgeRequireCache() {
     }
   }
 }
-exports.handler = async (event:any, context:any) => {
-  if (process.env.NODE_ENV === 'production') {
-    // Si estamos en producción, simplemente ejecuta el manejador de solicitudes
-    return createRequestHandler({
-      build: require(OUTPUT_DIR_PATH)
-    })(event, context);
-  } else {
-    // Si no estamos en producción, purga la caché de require y luego ejecuta el manejador de solicitudes
-    purgeRequireCache();
-    return createRequestHandler({
-      build: require(OUTPUT_DIR_PATH)
-    })(event, context);
-  }
-};
 
-  
+exports.handler = async (event: any, context: any) => {
+  return createRequestHandler({
+    build: require(OUTPUT_DIR_PATH),
+  })(event, context);
+};
