@@ -31,6 +31,7 @@ const Head = () => {
     </head>
   );
 };
+
 const Body = (props: { children: ReactNode }) => {
   const { children } = props;
 
@@ -44,6 +45,7 @@ const Body = (props: { children: ReactNode }) => {
     </body>
   );
 };
+
 const Document = (props: { children: ReactNode }) => {
   const { children } = props;
   return (

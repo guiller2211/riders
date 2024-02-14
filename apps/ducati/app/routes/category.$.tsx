@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { CategoryPage } from '../ui/pages/category.page';
 import { FacetProps, FacetValueTypeEnum } from '@ducati/ui';
+import { supabase } from '../../utils/supabase';
 import { LayoutUtils } from '../../framework/layout.server';
 
 function getFacetData(): FacetProps[] {
@@ -65,11 +66,15 @@ function getFacetData(): FacetProps[] {
 
 export async function loader({}: LoaderFunctionArgs) {
   const layout = LayoutUtils.getLayout();
+  const { data: products, error } = await supabase.from('products').select();
 
+  if (error) {
+    throw error;
+  }
   return typedjson({
     layout,
     facets: getFacetData(),
-    getProduct:  [],
+    getProduct: products ?? [],
   });
 }
 
