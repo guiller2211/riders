@@ -4,24 +4,24 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
- 
   "dependencies": {
     "@netlify/remix-adapter": "2.2.0",
-    "@remix-run/node": "^2.6.0",
     "@remix-run/express": "^2.6.0",
-    "@remix-run/react": "^2.3.0",
+    "@remix-run/node": "^2.6.0",
+    "@remix-run/react": "^2.6.0",
     "@supabase/supabase-js": "^2.39.4",
+    "compression": "^1.7.4",
+    "express": "^4.18.2",
     "isbot": "^3.6.8",
+    "morgan": "^1.10.0",
     "node-ts-cache": "^4.4.0",
     "node-ts-cache-storage-memory": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reshaped": "^2.9.5",
-    "tslog": "^4.9.2",
-    "express": "^4.18.2"
+    "tslog": "^4.9.2"
   },
   "devDependencies": {
-    "remix-typedjson": "^0.4.1",
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "@nx/esbuild": "18.0.4",
@@ -54,14 +54,16 @@
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
-    "vite-require": "^0.2.3",
-    "vite-tsconfig-paths": "^4.3.1",
     "jsdom": "~22.1.0",
+    "lodash": "^4.17.21",
     "nx": "18.0.4",
     "prettier": "^2.6.2",
+    "remix-typedjson": "^0.4.1",
     "typescript": "~5.3.2",
     "vite": "~5.0.0",
-    "vitest": "^1.0.4",
-    "lodash": "^4.17.21"
+    "vite-require": "^0.2.3",
+    "vite-tsconfig-paths": "^4.3.1",
+    "vitest": "^1.0.4"
   }
 }
+
