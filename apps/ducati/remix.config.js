@@ -16,7 +16,7 @@ module.exports = {
   // postcss: true,
   // publicPath: '/build',
   serverBuildPath: 'dist/index.js',
-  serverDependenciesToBundle: ['reshaped', '@coveo/headless'],
+  serverDependenciesToBundle: ['reshaped', '@coveo/headless', '@supabase/supabase-js'],
   serverMinify: true,
   serverModuleFormat: 'cjs',
   // tailwind: true,
