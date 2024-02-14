@@ -9,7 +9,7 @@
 ## -- BUILD -- ##
 [build.environment]
 PROJECT_NAME = "ducati"
-NODE_VERSION = "18"
+NODE_VERSION = "16"
 
 [build]
 command = "npx nx build ducati --skip-nx-cache && npx nx server:netlify ducati --skip-nx-cache"
