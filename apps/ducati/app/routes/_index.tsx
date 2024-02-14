@@ -1,6 +1,6 @@
 import { HomePage } from '../ui/pages/home.page';
 import { typedjson } from 'remix-typedjson';
-import supabase from '../../utils/supabase';
+import { supabase } from '../../utils/supabase';
 import { LoaderFunctionArgs } from '@remix-run/server-runtime';
 import { LayoutUtils } from '../../framework/layout.server';
 

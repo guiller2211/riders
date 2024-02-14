@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts", "utils/supabase.js"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts", "utils/supabase.js", "utils/supabase.js"],
   "compilerOptions": {
     "strict": true,
     "allowJs": true,

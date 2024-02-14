@@ -2,7 +2,7 @@ import type { LoaderFunctionArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { CategoryPage } from '../ui/pages/category.page';
 import { FacetProps, FacetValueTypeEnum } from '@ducati/ui';
-import supabase from '../../utils/supabase';
+import { supabase } from '../../utils/supabase';
 import { LayoutUtils } from '../../framework/layout.server';
 
 function getFacetData(): FacetProps[] {
