@@ -67,6 +67,6 @@ function wrapResponse(response: any): HandlerResponse {
   // Si la respuesta es de tipo Response, envuélvela en un objeto HandlerResponse
   return {
     statusCode: response.status || 200,
-    body: response.body || '',
+    body: JSON.stringify(response.body || ''),
   };
 }
