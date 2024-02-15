@@ -1,4 +1,3 @@
-import { useTypedLoaderData } from 'remix-typedjson';
 import { View } from 'reshaped';
 import { loader } from '../../routes/category.$';
 import {
@@ -7,9 +6,10 @@ import {
   ProductListForPLP,
   useResponsiveClientValue,
 } from '@ducati/ui';
+import { useLoaderData } from '@remix-run/react';
 
 export const CategoryPage = () => {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
 
   return (
     <View
@@ -23,7 +23,7 @@ export const CategoryPage = () => {
       </View.Item>
 
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
-        {loaderData.layout.product && loaderData.layout.product.length > 0 ? (
+        {loaderData.getProduct && loaderData.getProduct.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
             <ProductListForPLP products={loaderData.getProduct} />
           </View>

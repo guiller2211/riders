@@ -1,16 +1,16 @@
 import React from 'react';
 import { Facet } from '../index';
-import { IconSliders } from '../../../../../icons';
-import { useResponsiveClientValue, useTranslation } from '../../../../../hooks';
-import { View, Button, Hidden } from '../../../../atomic';
+//import { IconSliders } from '../../../../../icons';
+import { useTranslation } from '../../../../../hooks';
+import { View} from '../../../../atomic';
 import type { FacetsProps } from './Facets.types';
 
 const Facets = (props: FacetsProps) => {
   const { facets } = props;
-  const translate = useTranslation();
+
   return (
     <View>
-      <Hidden hide={useResponsiveClientValue({ s: true, l: false })}>
+      {/* <Hidden hide={useResponsiveClientValue({ s: true, l: false })}> */}
         <View direction="column" gap={8}>
           <View.Item columns={12}>
             {facets?.map((facet, index) => (
@@ -24,8 +24,8 @@ const Facets = (props: FacetsProps) => {
             ))}
           </View.Item>
         </View>
-      </Hidden>
-      <Hidden hide={useResponsiveClientValue({ s: false, l: true })}>
+      {/* </Hidden> */}
+      {/* <Hidden hide={useResponsiveClientValue({ s: false, l: true })}>
         <View direction="column" gap={8}>
           <View.Item columns={12}>
             <Button
@@ -39,7 +39,7 @@ const Facets = (props: FacetsProps) => {
             </Button>
           </View.Item>
         </View>
-      </Hidden>
+      </Hidden> */}
     </View>
   );
 };

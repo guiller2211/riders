@@ -6,6 +6,7 @@ import { CategoryCarousel, Herobanner, ProductListForPLP } from '@ducati/ui';
 
 export const HomePage = () => {
   const loaderData = useLoaderData<typeof loader>();
+  
   return (
     <View gap={10}>
       <Herobanner images={loaderData.layout.homeImage} />

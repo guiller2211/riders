@@ -8,7 +8,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from '@remix-run/react';
-import 'reshaped/themes/reshaped/theme.css';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode } from 'react';
 import { LayoutUtils } from '../framework/layout.server';

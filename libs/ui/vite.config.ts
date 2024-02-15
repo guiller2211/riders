@@ -1,25 +1,54 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import dts from 'vite-plugin-dts';
+import { join } from 'path';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default defineConfig({
-  root: __dirname,
-  cacheDir: '../../node_modules/.vite/libs/ui',
+  cacheDir: '../../.cache/vite/ui',
 
-  plugins: [react(), nxViteTsPaths()],
+  plugins: [
+    dts({
+      entryRoot: 'src',
+      tsconfigPath: join(__dirname, 'tsconfig.lib.json'),
+    }),
+    react(),
+    nodePolyfills({
+      globals: {
+        Buffer: true,
+        global: true,
+        process: true,
+      },
+      protocolImports: true,
+    }),
+    tsconfigPaths({
+      root: '../../',
+    }),
+  ],
 
-  // Uncomment this if you are using workers.
-  // worker: {
-  //  plugins: [ nxViteTsPaths() ],
-  // },
+  build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'ui',
+      fileName: 'index',
+      formats: ['es', 'cjs'],
+    },
+    rollupOptions: {
+      external: ['react', 'react-dom', 'react/jsx-runtime'],
+    },
+  },
 
   test: {
-    setupFiles: ['./src/test-setup.ts'],
     globals: true,
-    cache: { dir: '../../node_modules/.vitest' },
+    cache: {
+      dir: '../../.cache/vitest/ui',
+    },
+    coverage: {
+      provider: 'v8',
+    },
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    reporters: ['default'],
-    coverage: { reportsDirectory: '../../coverage/libs/ui', provider: 'v8' },
   },
 });

@@ -1,23 +1,16 @@
-import '../../themes/default/base.module.css';
-
-import {
-  Button,
-  Dismissible,
-  Hidden,
-  Modal,
-  View,
-} from '../../components/atomic';
+import { Button, Dismissible, Hidden, Modal, View } from '../../components/atomic';
 import { HeaderLogo } from '../HeaderLogo';
 import { HeaderUser } from '../HeaderUser';
 import { HeaderCart } from '../HeaderCart';
-import type { HeaderProps } from './Header.types';
 import { HeaderAdditionalBar } from '../HeaderAdditionalBar';
-import { useResponsiveClientValue, useToggle } from '../../hooks';
 import { IconList } from '../../icons';
+import type { HeaderProps } from './Header.types';
+import { useToggle } from '../../hooks';
 
 export const Header = (props: HeaderProps) => {
-  const { navigation, logo } = props;
+  const { navigation, logo, className } = props;
   const { activate, deactivate, active } = useToggle(false);
+
   return (
     <View
       as="header"
@@ -28,18 +21,18 @@ export const Header = (props: HeaderProps) => {
       align="center"
       justify="center"
     >
-      <HeaderLogo image={logo?.image} link={logo?.link} />
-      {/* <Hidden hide={useResponsiveClientValue({ s: true, m: false, l: false })}> */}
-        <HeaderAdditionalBar navigation={navigation} />
 
-        <View.Item>
-          <View direction="row">
-            <HeaderUser />
-            <HeaderCart />
-          </View>
-        </View.Item>
-      {/* </Hidden> */}
-    {/*   <Hidden hide={useResponsiveClientValue({ s: false, l: true })}>
+      <HeaderLogo image={logo?.image} link={logo?.link} />
+
+      <HeaderAdditionalBar navigation={navigation} />
+      <View.Item>
+        <View direction="row">
+          <HeaderUser />
+          <HeaderCart />
+        </View>
+      </View.Item>
+
+      {/*   <View className='mobile-screen'>
         <Button
           color="primary"
           variant="ghost"
@@ -57,7 +50,7 @@ export const Header = (props: HeaderProps) => {
             <Modal.Subtitle>Modal subtitle</Modal.Subtitle>
           </Dismissible>
         </Modal>
-      </Hidden> */}
+      </View> */}
     </View>
   );
 };

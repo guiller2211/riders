@@ -1,5 +1,4 @@
 import { I18nService } from '@ducati/core';
-
 import type { ILogObj } from 'tslog';
 import { Logger } from 'tslog';
 import { useContext } from 'react';

@@ -71,6 +71,7 @@ export async function loader({}: LoaderArgs) {
   if (error) {
     throw error;
   }
+  
   return typedjson({
     layout,
     facets: getFacetData(),
