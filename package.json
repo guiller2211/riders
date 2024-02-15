@@ -2,7 +2,9 @@
   "name": "@ducati/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "nx run ducati:build && remix build"
+  },
   "private": true,
   "dependencies": {
     "@netlify/remix-adapter": "2.2.0",
