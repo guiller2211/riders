@@ -16,7 +16,7 @@ OUTPUT_DIR.split('/').forEach(
 const ENTRY = path.join(outputPath, 'index.js');
 
 const MODE = process.env.NODE_ENV || 'development';
-const PORT = process.env.PORT || 4300;
+const PORT = process.env.PORT || 3000;
 
 // Leverage Node's Built-In Fetch Implementation
 installGlobals();
