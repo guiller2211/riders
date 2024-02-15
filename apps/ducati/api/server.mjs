@@ -38,7 +38,7 @@ async function startServer() {
     createRequestHandler({
       build: vite
         ? () => unstable_loadViteServerBuild(vite)
-        : require.resolve("../dist/public"),
+        : require.resolve("../dist/public/build"),
     })
   );
 
