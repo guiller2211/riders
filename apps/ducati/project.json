@@ -15,7 +15,7 @@
         "cwd": "apps/ducati",
         "runBuildTargetDependencies": true
       }
-    }, 
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
@@ -94,12 +94,12 @@
       "dependsOn": [],
       "command": "npx netlify deploy",
       "options": {
-        "cwd": "dist"
+        "cwd": "apps/ducati"
       },
       "configurations": {
         "production": {
           "command": "npx netlify deploy --prod",
-          "cwd": "dist"
+          "cwd": "apps/ducati"
         }
       }
     }
