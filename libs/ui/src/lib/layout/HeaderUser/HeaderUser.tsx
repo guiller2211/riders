@@ -8,7 +8,7 @@ export const HeaderUser = (props: HeaderUserProps) => {
 
   return (
     <View gap={1} direction="row" align="center" justify="center">
-      {isLoggedIn ? (
+      {isLoggedIn && (
         <View gap={1} direction="column" backgroundColor="white">
           <Text variant="body-3">{name}</Text>
           <View direction="row" align="center">
@@ -18,11 +18,7 @@ export const HeaderUser = (props: HeaderUserProps) => {
             <Icon svg={IconChevronRight} />
           </View>
         </View>
-      ) : (
-        <Button variant="ghost" color="inherit" size="xlarge">
-          <Icon svg={IconHome} size={6}/>
-        </Button>
-      )}
+      ) }
     </View>
   );
 };
