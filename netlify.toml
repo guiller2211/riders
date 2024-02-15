@@ -66,7 +66,7 @@ external_node_modules = [
   "axios",
   "classnames",
 ]
-included_files = ["apps/ducati/dist/index.js", "apps/ducati/data/**", "apps/ducati/config/*.json"]
+included_files = ["apps/ducati/dist/index.js"]
 node_bundler = "esbuild"
 
 ## -- PLUGINS -- ##
