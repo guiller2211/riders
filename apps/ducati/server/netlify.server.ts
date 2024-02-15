@@ -21,8 +21,14 @@ function purgeRequireCache() {
   }
 }
 
-exports.handler = async (event: any, context: any) => {
-  return createRequestHandler({
-    build: require(OUTPUT_DIR_PATH),
-  })(event, context);
-};
+exports.handler =
+  process.env.NODE_ENV === 'production'
+    ? createRequestHandler({
+        build: require(OUTPUT_DIR_PATH),
+      })
+    : (event: any, context: any) => {
+        purgeRequireCache();
+        return createRequestHandler({
+          build: require(OUTPUT_DIR_PATH),
+        })(event, context);
+      };
