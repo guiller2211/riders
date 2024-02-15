@@ -10,6 +10,7 @@
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
     "@supabase/supabase-js": "^2.39.4",
+    "@vercel/remix": "^2.5.1",
     "compression": "^1.7.4",
     "express": "^4.18.2",
     "isbot": "^3.6.8",
@@ -66,4 +67,3 @@
     "vitest": "^1.0.4"
   }
 }
-
