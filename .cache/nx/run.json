@@ -1,18 +1,18 @@
 {
   "run": {
-    "command": "nx server:netlify ducati --skip-nx-cache",
-    "startTime": "2024-02-14T20:03:32.454Z",
-    "endTime": "2024-02-14T20:03:37.423Z",
+    "command": "nx build ducati --skip-nx-cache",
+    "startTime": "2024-02-15T18:11:52.872Z",
+    "endTime": "2024-02-15T18:11:56.164Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "ducati:server:netlify",
-      "target": "server:netlify",
+      "taskId": "ducati:build",
+      "target": "build",
       "projectName": "ducati",
-      "hash": "16192892669440919361",
-      "startTime": "2024-02-14T20:03:32.462Z",
-      "endTime": "2024-02-14T20:03:37.422Z",
+      "hash": "1120365767917660814",
+      "startTime": "2024-02-15T18:11:52.880Z",
+      "endTime": "2024-02-15T18:11:56.159Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0

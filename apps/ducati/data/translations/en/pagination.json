@@ -1,7 +1,0 @@
-{
-  "pagination": {
-    "showing": "Showing {{startIndex}}-{{endIndex}} of {{totalItems}}",
-    "goToPage": "Go to page",
-    "go": "Go"
-  }
-}
