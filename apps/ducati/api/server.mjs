@@ -16,7 +16,7 @@ async function startServer() {
       // Configuración específica de desarrollo para Vite
     });
     // Escucha cambios y transmite la señal de dev ready
-    broadcastDevReady(require.resolve("ruta/de/tu/entry/file"));
+    broadcastDevReady(require.resolve("../dist/public/index.js"));
   }
 
   const app = express();
@@ -38,7 +38,7 @@ async function startServer() {
     createRequestHandler({
       build: vite
         ? () => unstable_loadViteServerBuild(vite)
-        : require.resolve("../dist/public/build"),
+        : require.resolve("../dist/public"),
     })
   );
 
@@ -48,7 +48,7 @@ async function startServer() {
     console.log(`App Ready: http://localhost:${port}`);
 
     if (process.env.NODE_ENV === "development") {
-      broadcastDevReady(require.resolve("ruta/de/tu/entry/file"));
+      broadcastDevReady(require.resolve("../dist/public/index.js"));
     }
   });
 }
