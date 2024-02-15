@@ -1,5 +1,5 @@
 import ContentPage from '../ui/pages/content.page';
-import { HeadersFunction, LoaderFunctionArgs } from '@remix-run/node';
+import { HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { ContentLoader, Registry, UrlUtils } from '@ducati/core';
 import { typedjson } from 'remix-typedjson';
 
@@ -9,7 +9,7 @@ export async function loader({
   request,
   context: { registry },
   params,
-}: LoaderFunctionArgs) {
+}: LoaderArgs) {
   const appRegistry: Registry = registry as Registry;
 
   const pageSlug: string = UrlUtils.getLeafPath(request.url, false);

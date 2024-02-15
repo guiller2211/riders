@@ -1,24 +1,25 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
+    "baseUrl": ".",
     "declaration": false,
-    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es2015",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "node",
     "paths": {
       "@ducati/core": ["libs/core/src/index.ts"],
       "@ducati/types": ["libs/types/src/index.ts"],
       "@ducati/ui": ["libs/ui/src/index.ts"]
-    }
+    },
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "sourceMap": true,
+    "target": "ES2021",
+    "noPropertyAccessFromIndexSignature": false
   },
   "exclude": ["node_modules", "tmp"]
 }

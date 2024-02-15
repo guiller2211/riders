@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { CategoryPage } from '../ui/pages/category.page';
 import { FacetProps, FacetValueTypeEnum } from '@ducati/ui';
@@ -64,7 +64,7 @@ function getFacetData(): FacetProps[] {
   ];
 }
 
-export async function loader({}: LoaderFunctionArgs) {
+export async function loader({}: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const { data: products, error } = await supabase.from('products').select();
 

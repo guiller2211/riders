@@ -1,21 +1,21 @@
 {
   "run": {
-    "command": "nx deploy-functions ducati",
-    "startTime": "2024-02-15T20:05:25.485Z",
-    "endTime": "2024-02-15T20:05:39.617Z",
+    "command": "nx run ducati:dev:development --skip-nx-cache",
+    "startTime": "2024-02-15T20:40:49.251Z",
+    "endTime": "2024-02-15T20:40:53.903Z",
     "inner": false
   },
   "tasks": [
     {
-      "taskId": "ducati:deploy-functions",
-      "target": "deploy-functions",
+      "taskId": "ducati:server:express",
+      "target": "server:express",
       "projectName": "ducati",
-      "hash": "1520818865262341909",
-      "startTime": "2024-02-15T20:05:25.495Z",
-      "endTime": "2024-02-15T20:05:39.616Z",
+      "hash": "7023214999351071794",
+      "startTime": "2024-02-15T20:40:49.259Z",
+      "endTime": "2024-02-15T20:40:53.903Z",
       "params": "",
       "cacheStatus": "cache-miss",
-      "status": 0
+      "status": 1
     }
   ]
 }

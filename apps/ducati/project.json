@@ -3,8 +3,14 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/ducati",
   "projectType": "application",
-  "tags": [],
   "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "remix build",
+        "cwd": "apps/ducati"
+      }
+    },
     "dev": {
       "executor": "nx:run-commands",
       "dependsOn": ["^build", "server:express"],
@@ -15,56 +21,11 @@
         "cwd": "apps/ducati",
         "runBuildTargetDependencies": true
       }
-    },
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "remix build",
-        "cwd": "apps/ducati"
-      }
-    },
-    "serve-static": {
-      "executor": "@nx/web:file-server",
-      "options": {
-        "buildTarget": "ducati:build",
-        "port": 4200
-      }
-    },
-    "serve-functions": {
-      "command": "npx netlify dev"
-    },
-    "server:netlify": {
-      "executor": "@nx/esbuild:esbuild",
-      "inputs": [
-        "{projectRoot}/server/netlify.server.ts",
-        "{projectRoot}/config/registry.server.ts",
-        "{projectRoot}/package.json"
-      ],
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "platform": "node",
-        "outputPath": "apps/ducati/dist/netlify",
-        "outputFileName": "server.js",
-        "format": ["cjs"],
-        "bundle": true,
-        "main": "apps/ducati/server/netlify.server.ts",
-        "tsConfig": "apps/ducati/tsconfig.json",
-        "deleteOutputPath": false,
-        "assets": [
-          {
-            "input": "apps/ducati/public",
-            "glob": "**/*",
-            "output": "../public"
-          }
-        ],
-        "external": ["@coveo/headless"]
-      }
-    },
+    }, 
     "server:express": {
       "executor": "@nx/esbuild:esbuild",
       "inputs": [
         "{projectRoot}/server/express.server.ts",
-        "{projectRoot}/config/registry.server.ts",
         "{projectRoot}/package.json"
       ],
       "outputs": ["{options.outputPath}"],
@@ -90,18 +51,32 @@
         "watch": false
       }
     },
-    "deploy-functions": {
-      "dependsOn": [],
-      "command": "npx netlify deploy",
+    "server:netlify": {
+      "executor": "@nx/esbuild:esbuild",
+      "inputs": [
+        "{projectRoot}/server/netlify.server.ts",
+        "{projectRoot}/package.json"
+      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
-        "cwd": "apps/ducati"
-      },
-      "configurations": {
-        "production": {
-          "command": "npx netlify deploy --prod",
-          "cwd": "apps/ducati"
-        }
+        "platform": "node",
+        "outputPath": "apps/ducati/dist/netlify",
+        "outputFileName": "server.js",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "apps/ducati/server/netlify.server.ts",
+        "tsConfig": "apps/ducati/tsconfig.json",
+        "deleteOutputPath": false,
+        "assets": [
+          {
+            "input": "apps/ducati/public",
+            "glob": "**/*",
+            "output": "../public"
+          }
+        ],
+        "external": ["@coveo/headless"]
       }
     }
-  }
+  },
+  "tags": []
 }

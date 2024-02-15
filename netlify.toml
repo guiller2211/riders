@@ -1,18 +1,19 @@
 #############################################################################
-# ducati
+# PERFORMIO
 
-## The following Netlify configurration is for the ducati application ONLY
+## The following Netlify configurration is for the Performio application ONLY
 ## In situations where multiple sites need to be deployed from a monorepo,
 ## Netlify configuration should be managed directly via the UI
 #############################################################################
 
 ## -- BUILD -- ##
-[build.environment]
-PROJECT_NAME = "ducati"
 
 [build]
-command = "npx nx build ducati --skip-nx-cache && npx nx server:netlify ducati --skip-nx-cache"
-publish = "apps/ducati/dist/public"
+command = "npx nx build performio --skip-nx-cache && npx nx server:netlify performio --skip-nx-cache"
+publish = "apps/performio/dist/public"
+
+[build.environment]
+PROJECT_NAME = "performio"
 
 ## - PROXY & CACHE -- ##
 
@@ -42,7 +43,7 @@ for = "/build/*"
 ## -- FUNCTIONS -- ##
 
 [functions]
-directory = "apps/ducati/dist/netlify"
+directory = "apps/performio/dist/netlify"
 external_node_modules = [
   "@remix-run/react",
   "@remix-run/node",
@@ -66,7 +67,7 @@ external_node_modules = [
   "axios",
   "classnames",
 ]
-included_files = ["apps/ducati/dist/index.js"]
+included_files = ["apps/performio/dist/index.js", "apps/performio/data/**", "apps/performio/config/*.json"]
 node_bundler = "esbuild"
 
 ## -- PLUGINS -- ##

@@ -1,10 +1,10 @@
 import { HomePage } from '../ui/pages/home.page';
 import { typedjson } from 'remix-typedjson';
 import { supabase } from '../../utils/supabase';
-import { LoaderFunctionArgs } from '@remix-run/server-runtime';
 import { LayoutUtils } from '../../framework/layout.server';
+import { LoaderArgs } from '@remix-run/node';
 
-export async function loader({}: LoaderFunctionArgs) {
+export async function loader({}: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
 
   const { data: products, error } = await supabase.from('products').select();
