@@ -19,7 +19,7 @@
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "remix build",
+        "command": "vercel build",
         "cwd": "apps/ducati"
       }
     },
