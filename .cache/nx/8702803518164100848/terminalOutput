@@ -1,0 +1,10 @@
+[7m[34m info [39m[27m building...[90m (NODE_ENV=production)[39m
+[7m[33m warn [39m[27m The following Remix future flags are now obsolete and can be removed from your remix.config.js file:
+- v2_errorBoundary
+- v2_headers
+- v2_meta
+- v2_normalizeFormMethod
+- v2_routeConvention
+- v2_dev
+
+[7m[34m info [39m[27m built[90m (1.3s)[39m

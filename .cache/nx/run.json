@@ -1,8 +1,8 @@
 {
   "run": {
-    "command": "nx build ducati --skip-nx-cache",
-    "startTime": "2024-02-15T18:56:26.092Z",
-    "endTime": "2024-02-15T18:56:29.005Z",
+    "command": "nx build ducati --prod",
+    "startTime": "2024-02-15T19:09:02.783Z",
+    "endTime": "2024-02-15T19:09:06.138Z",
     "inner": false
   },
   "tasks": [
@@ -10,9 +10,9 @@
       "taskId": "ducati:build",
       "target": "build",
       "projectName": "ducati",
-      "hash": "8250080313919032804",
-      "startTime": "2024-02-15T18:56:26.101Z",
-      "endTime": "2024-02-15T18:56:29.003Z",
+      "hash": "8702803518164100848",
+      "startTime": "2024-02-15T19:09:02.792Z",
+      "endTime": "2024-02-15T19:09:06.138Z",
       "params": "",
       "cacheStatus": "cache-miss",
       "status": 0
