@@ -16,7 +16,7 @@ export const CategoryPage = () => {
       direction={useResponsiveClientValue({ s: 'column', l: 'row' })}
       paddingTop={5}
       gap={6}
-      paddingInline={20}
+      paddingInline={useResponsiveClientValue({ s: 10,l: 20 })}
     >
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 3 })}>
         <Facets facets={loaderData.facets} />

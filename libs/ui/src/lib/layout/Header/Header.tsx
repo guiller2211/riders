@@ -84,7 +84,7 @@ export const Header = (props: HeaderProps) => {
               <Divider />
 
               {navigation?.map((nav, i) => {
-                return nav.nodes && nav.nodes.length > 0 && (
+                return nav.nodes && nav.nodes.length > 0 ? (
                   <Accordion>
                     <Accordion.Trigger >
                       <Text color='warning' variant="featured-3" weight="medium">
@@ -94,14 +94,27 @@ export const Header = (props: HeaderProps) => {
                     <Accordion.Content>
                       {nav.nodes?.map((node, i) => {
                         return (
-                          <Text color='warning' variant="body-3" weight="medium">
-                            {node.button?.message}
-                          </Text>
+                          <Link href={node.button?.props?.href} variant='plain' color='inherit'>
+                            <Text variant="body-3" weight="medium">
+                              {node.button?.message}
+                            </Text>
+                          </Link>
                         );
                       })}
                     </Accordion.Content>
                   </Accordion>
                 )
+                  : (
+                    <Button
+                      variant="ghost"
+                      color="inherit"
+                      href={nav.button?.props?.href}
+                      key={i}>
+                      <Text color="warning" variant="body-3" weight="medium">
+                        {nav.button?.message}
+                      </Text>
+                    </Button>
+                  )
               })}
 
             </DrawerContent>
