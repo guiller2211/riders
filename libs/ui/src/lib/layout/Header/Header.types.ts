@@ -7,6 +7,8 @@ import { ViewProps } from '../../components/atomic';
 
 export type HeaderProps = ViewProps & {
   logo?: HeaderLogoProps;
+  onClose?: VoidFunction;
+  open?: boolean;
   messageBar?: UIComposedProps;
   navigation: UIComposedProps[];
   user?: HeaderUserProps;
