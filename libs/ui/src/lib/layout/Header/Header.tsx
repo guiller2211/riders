@@ -5,7 +5,9 @@ import { HeaderCart } from '../HeaderCart';
 import { HeaderAdditionalBar } from '../HeaderAdditionalBar';
 import { IconList } from '../../icons';
 import type { HeaderProps } from './Header.types';
-import { useToggle } from '../../hooks';
+import { useResponsiveClientValue, useToggle } from '../../hooks';
+import styles from './Header.module.css';
+
 
 export const Header = (props: HeaderProps) => {
   const { navigation, logo, className } = props;
@@ -23,34 +25,35 @@ export const Header = (props: HeaderProps) => {
     >
 
       <HeaderLogo image={logo?.image} link={logo?.link} />
-
-      <HeaderAdditionalBar navigation={navigation} />
       <View.Item>
-        <View direction="row">
+        <View className={styles['non-mobile-screen']} direction='row' gap={6} >
+          <HeaderAdditionalBar navigation={navigation} />
           <HeaderUser />
           <HeaderCart />
         </View>
       </View.Item>
 
-      {/*   <View className='mobile-screen'>
-        <Button
-          color="primary"
-          variant="ghost"
-          size="large"
-          endIcon={IconList}
-          onClick={activate}
-        />
-        <Modal
-          active={active}
-          onClose={deactivate}
-          position={useResponsiveClientValue({ s: 'bottom', m: 'end' })}
-        >
-          <Dismissible onClose={deactivate} closeAriaLabel="Close modal">
-            <Modal.Title>Modal title</Modal.Title>
-            <Modal.Subtitle>Modal subtitle</Modal.Subtitle>
-          </Dismissible>
-        </Modal>
-      </View> */}
-    </View>
+      <View.Item gapBefore='auto'>
+        <View className={styles['mobile-screen']} align='center'>
+          <Button
+            color="primary"
+            variant="ghost"
+            size="xlarge"
+            endIcon={IconList}
+            onClick={activate}
+          />
+          <Modal
+            active={active}
+            onClose={deactivate}
+            position={useResponsiveClientValue({ s: 'bottom', m: 'end', l: 'end' })}
+          >
+            <Dismissible onClose={deactivate} closeAriaLabel="Close modal">
+              <Modal.Title>Modal title</Modal.Title>
+              <Modal.Subtitle>Modal subtitle</Modal.Subtitle>
+            </Dismissible>
+          </Modal>
+        </View >
+      </View.Item>
+    </View >
   );
 };

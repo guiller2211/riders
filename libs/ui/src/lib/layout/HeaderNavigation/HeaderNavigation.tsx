@@ -12,7 +12,7 @@ import { IconChevronDown, IconHome } from '../../icons';
 export const HeaderNavigation = (props: { nodes: UIComposedProps[] }) => {
   const { nodes } = props;
   return (
-    <View gap={2} direction="row" align="center" justify="center">
+    <View gap={2} direction="row" >
       {nodes?.map((nav,i) => {
         return nav.nodes && nav.nodes.length > 0 ? (
           <DropdownMenu key={i}>

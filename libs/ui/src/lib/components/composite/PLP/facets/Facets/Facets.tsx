@@ -1,16 +1,17 @@
-import React from 'react';
 import { Facet } from '../index';
-//import { IconSliders } from '../../../../../icons';
-import { useTranslation } from '../../../../../hooks';
-import { View} from '../../../../atomic';
+import { IconSliders } from '../../../../../icons';
+import {  useTranslation } from '../../../../../hooks';
+import { View, Button } from '../../../../atomic';
 import type { FacetsProps } from './Facets.types';
+import styles from './Facets.module.css';
 
 const Facets = (props: FacetsProps) => {
   const { facets } = props;
-
+  const translate = useTranslation();
   return (
     <View>
-      {/* <Hidden hide={useResponsiveClientValue({ s: true, l: false })}> */}
+      
+      <View className={styles['non-mobile-screen']}>
         <View direction="column" gap={8}>
           <View.Item columns={12}>
             {facets?.map((facet, index) => (
@@ -24,8 +25,9 @@ const Facets = (props: FacetsProps) => {
             ))}
           </View.Item>
         </View>
-      {/* </Hidden> */}
-      {/* <Hidden hide={useResponsiveClientValue({ s: false, l: true })}>
+      </View>
+
+      <View className={styles['mobile-screen']}>
         <View direction="column" gap={8}>
           <View.Item columns={12}>
             <Button
@@ -35,11 +37,12 @@ const Facets = (props: FacetsProps) => {
               variant="outline"
               fullWidth
             >
-              {translate('category.actions.showFilter')}
+              Filtro de categorias
             </Button>
           </View.Item>
         </View>
-      </Hidden> */}
+      </View>
+
     </View>
   );
 };

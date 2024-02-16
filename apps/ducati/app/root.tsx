@@ -1,8 +1,9 @@
-import { Layout, LayoutProps, Theme } from '@ducati/ui';
+import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction } from '@remix-run/node';
+import type { LinksFunction, V2_MetaFunction } from '@remix-run/node';
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -11,10 +12,15 @@ import {
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
+import "reshaped/themes/reshaped/theme.css";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
-];
+const links: LinksFunction = () => {
+  return [
+    ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+    ...(baseTheme ? [{ rel: 'stylesheet', href: baseTheme }] : []),
+  ];
+};
+
 export async function loader() {
   const layout: LayoutProps = LayoutUtils.getLayout();
 
@@ -36,11 +42,12 @@ const Body = (props: { children: ReactNode }) => {
 
   return (
     <body>
-      <Theme theme="base" defaultColorMode="light">
+      <Theme theme="reshaped">
         {children}
       </Theme>
       <ScrollRestoration />
       <Scripts />
+      <LiveReload />
     </body>
   );
 };
@@ -48,14 +55,14 @@ const Body = (props: { children: ReactNode }) => {
 const Document = (props: { children: ReactNode }) => {
   const { children } = props;
   return (
-    <html lang="es">
+    <html lang="es" data-rs-theme="reshaped" data-rs-color-mode="light">
       <Head />
       <Body>{children}</Body>
     </html>
   );
 };
 
-export default function App() {
+const Root = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
 
   return (
@@ -66,3 +73,26 @@ export default function App() {
     </Document>
   );
 }
+
+const meta: V2_MetaFunction = ({ data }) => {
+  return [
+    {
+      name: 'viewport',
+      content: 'width=device-width,initial-scale=1',
+    },
+    {
+      charSet: 'utf-8',
+    },
+    {
+      title: data?.meta?.title ?? '',
+    },
+    {
+      name: 'description',
+      content: data?.meta?.description,
+    },
+  ];
+};
+
+export default Root;
+export { meta };
+export { links };
