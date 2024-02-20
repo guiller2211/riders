@@ -7,7 +7,7 @@ import { IconList } from '../../icons';
 import type { HeaderProps } from './Header.types';
 import { useOpenState, useToggle } from '../../hooks';
 import styles from './Header.module.css';
-import { Drawer } from '../../components';
+import { Drawer, MenuHeader } from '../../components';
 import { DrawerContent, DrawerHeader } from '../../components/composite/shared/utils/Drawer';
 
 
@@ -48,44 +48,7 @@ export const Header = (props: HeaderProps) => {
                   variant: 'outline',
                 }}
               />
-
-              <DrawerContent direction="column" gap={6}>
-
-                {navigation?.map((nav, i) => {
-                  return nav.nodes && nav.nodes.length > 0 ? (
-                    <Accordion key={i}>
-                      <Accordion.Trigger >
-                        <Text color='warning' variant="featured-3" weight="medium">
-                          {nav.button?.message}
-                        </Text>
-                      </Accordion.Trigger>
-                      <Accordion.Content>
-                        {nav.nodes?.map((node, i) => {
-                          return (
-                            <Link key={i} href={node.button?.props?.href} variant='plain' color='inherit'>
-                              <Text variant="body-3" weight="medium">
-                                {node.button?.message}
-                              </Text>
-                            </Link>
-                          );
-                        })}
-                      </Accordion.Content>
-                    </Accordion>
-                  )
-                    : (
-                      <Button
-                        variant="ghost"
-                        color="inherit"
-                        href={nav.button?.props?.href}
-                        key={i}>
-                        <Text color="warning" variant="body-3" weight="medium">
-                          {nav.button?.message}
-                        </Text>
-                      </Button>
-                    )
-                })}
-
-              </DrawerContent>
+              <MenuHeader navigation={navigation} />
             </Drawer>
           </View >
         </View>

@@ -4,6 +4,7 @@ import { DEFAULT_POSITION, DEFAULT_SIZE } from './Drawer.constants';
 import { Modal } from '../../../../atomic';
 import styles from './Drawer.module.css';
 import type { DrawerProps } from './Drawer.types';
+import { useResponsiveClientValue } from 'reshaped';
 
 export const Drawer = (props: DrawerProps) => {
   const {
@@ -19,8 +20,8 @@ export const Drawer = (props: DrawerProps) => {
     <Modal
       className={cn(styles.root, className)}
       padding={padding}
-      position={position}
-      size={size}
+      position={useResponsiveClientValue(position)}
+      size={useResponsiveClientValue(size)}
       {...rest}
     >
       {children}
