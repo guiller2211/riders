@@ -7,16 +7,14 @@ export const Layout = (props: LayoutProps) => {
   const { children, header } = props;
 
   return (
-    <View gap={5} backgroundColor="black">
+    <View gap={5}  backgroundColor='black'>
       <View.Item columns={12}>
         <Header {...header} />
       </View.Item>
 
       <View.Item columns={12}>
-        <View align="center">
-          <View paddingBottom={{ s: 12, l: 25 }}>
-            {children}
-          </View>
+        <View paddingBottom={useResponsiveClientValue({ s: 12, l: 25 })}>
+          {children}
         </View>
       </View.Item>
     </View>

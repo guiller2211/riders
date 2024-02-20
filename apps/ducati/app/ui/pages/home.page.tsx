@@ -1,8 +1,6 @@
-import { useTypedLoaderData } from 'remix-typedjson';
-import { View } from 'reshaped';
 import { loader } from '../../routes/_index';
 import { useLoaderData } from '@remix-run/react';
-import { CategoryCarousel, Herobanner, ProductListForPLP, useResponsiveClientValue } from '@ducati/ui';
+import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue } from '@ducati/ui';
 
  
 export const HomePage = () => {

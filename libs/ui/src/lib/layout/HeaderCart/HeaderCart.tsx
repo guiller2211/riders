@@ -8,7 +8,7 @@ export const HeaderCart = (props: HeaderCartProps) => {
   return (
     <View
       direction="row"
-      backgroundColor="neutral-faded"
+      backgroundColor="warning"
       borderRadius="circular"
       width={18}
       align="center"

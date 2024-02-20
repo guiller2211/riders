@@ -1,6 +1,6 @@
 import { Button, View, Text, Actionable, Icon } from '../../components/atomic';
 import type { HeaderUserProps } from './HeaderUser.types';
-import { IconChevronRight, IconHome} from '../../icons';
+import { IconChevronRight, IconHome, IconPerson} from '../../icons';
 import styles from './HeaderUser.module.css';
 
 export const HeaderUser = (props: HeaderUserProps) => {
@@ -8,7 +8,7 @@ export const HeaderUser = (props: HeaderUserProps) => {
 
   return (
     <View gap={1} direction="row" align="center" justify="center">
-      {isLoggedIn && (
+      {isLoggedIn ? (
         <View gap={1} direction="column" backgroundColor="white">
           <Text variant="body-3">{name}</Text>
           <View direction="row" align="center">
@@ -18,7 +18,11 @@ export const HeaderUser = (props: HeaderUserProps) => {
             <Icon svg={IconChevronRight} />
           </View>
         </View>
-      ) }
+      ) : (
+        <Button variant="ghost" color="inherit" size="xlarge">
+          <Icon svg={IconPerson} size={6}/>
+        </Button>
+      )}
     </View>
   );
 };

@@ -41,7 +41,7 @@ const Body = (props: { children: ReactNode }) => {
   const { children } = props;
 
   return (
-    <body>
+    <body style={{ backgroundColor: 'black' }}>
       <Theme theme="reshaped">
         {children}
       </Theme>
@@ -55,7 +55,7 @@ const Body = (props: { children: ReactNode }) => {
 const Document = (props: { children: ReactNode }) => {
   const { children } = props;
   return (
-    <html lang="es" data-rs-theme="reshaped" data-rs-color-mode="light">
+    <html lang="es">
       <Head />
       <Body>{children}</Body>
     </html>

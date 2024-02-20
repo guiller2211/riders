@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Scrim, View, Image, Text, Button } from '../../../atomic';
 import { HerobannerProps } from './Herobanner.types';
-import { StandaloneSearchBox } from '@ducati/ui';
+import { StandaloneSearchBox, useResponsiveClientValue } from '@ducati/ui';
 
 export const Herobanner = (props: HerobannerProps) => {
   const { images } = props;
@@ -21,8 +21,8 @@ export const Herobanner = (props: HerobannerProps) => {
   const imagePath = images?.[imageIndex]?.src || '';
 
   return (
-    <View overflow="hidden">
-      <Scrim backgroundSlot={<Image src={imagePath} width="100%" />}>
+    <View overflow="hidden" height={useResponsiveClientValue({s: 120, l: 250})}>
+      <Scrim  backgroundSlot={<Image src={imagePath} width="100%" />}>
         <View align="center" direction="column" gap={5}>
           <Text variant="title-2" weight="bold">
             ¡SABER MÁS, ANTES!

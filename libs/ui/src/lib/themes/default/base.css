@@ -174,8 +174,8 @@ body,
   --rs-color-border-positive-faded:#163c30;
   --rs-color-border-critical:#e95454;
   --rs-color-border-critical-faded:#412a2b;
-  --rs-color-background-page:#0d1117;
-  --rs-color-background-page-faded:#0f131a;
+  --rs-color-background-page:black;
+  --rs-color-background-page-faded:black;
   --rs-color-background-elevation-base:#14181f;
   --rs-color-background-elevation-raised:#181d25;
   --rs-color-background-elevation-overlay:#1c212b;
