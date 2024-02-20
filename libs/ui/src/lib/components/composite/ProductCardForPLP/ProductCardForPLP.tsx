@@ -15,10 +15,10 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       backgroundColor="neutral"
       gap={5}
     >
-      <Link>
+      <Link href={"/product/" + product.sku}>
         <Image
           displayMode="contain"
-          src={product.images?.url}
+          src={product.image?.url}
           height={70}
           width="100%"
         />
@@ -28,7 +28,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         <Popover triggerType="hover">
           <Popover.Trigger>
             {(attributes: any) => (
-              <Link attributes={attributes} variant="plain" color="inherit">
+              <Link href={"/product/" + product.sku} attributes={attributes} variant="plain" color="inherit">
                 {product.name}
               </Link>
             )}
@@ -39,7 +39,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         </Popover>
       </Text>
 
-      <Text variant="body-3">SKU: 1234</Text>
+      <Text variant="body-3">SKU: {product.sku}</Text>
 
       <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
         <View.Item columns={useResponsiveClientValue({s: 12, l: 6})}>

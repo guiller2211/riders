@@ -8,12 +8,14 @@ import type { Image } from '../media';
 export interface AbstractProduct extends Resource {
   name?: string;
   description?: string;
+  sku?: string;
   type?: ProductType;
   categories?: Category[];
 //  primaryCategoryId?: string;
   price?: Price;
   attributes?: ProductAttribute[];
-  images?: Image;
+  image?: Image;
+  images?: Image[];
   // discountPrice?: string;
   // discounts?: string;
   // inStock?: string;

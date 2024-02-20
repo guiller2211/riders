@@ -10,3 +10,4 @@ export * from './getDefaultId-utils';
 export * from './formatChekout-utils';
 export * from './address-utils';
 export * from './filterListByProperty-utils';
+export * from './product-utils';
