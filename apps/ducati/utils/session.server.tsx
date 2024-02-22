@@ -5,7 +5,7 @@ const { getSession, commitSession, destroySession } =
     // a Cookie from `createCookie` or the CookieOptions to create one
     cookie: {
       name: "sb:token",
-      expires: new Date(Date.now() + 9000),
+      expires: new Date(Date.now() + 900000),
       httpOnly: true,
       maxAge: 60,
       path: "/",

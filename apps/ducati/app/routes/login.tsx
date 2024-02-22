@@ -40,11 +40,9 @@ export async function action({ request, context: { registry } }: ActionArgs) {
     });
 
     if (user) {
-        // get session and set access_token
         let session = await getSession(request.headers.get("Cookie"));
         session.set("access_token", user.session?.access_token);
 
-        // redirect to page with the cookie set in header
         return redirect("/", {
             headers: {
                 "Set-Cookie": await commitSession(session),

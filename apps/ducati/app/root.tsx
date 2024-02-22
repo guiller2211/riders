@@ -31,18 +31,14 @@ export async function loader({ request }: LoaderArgs) {
 
   const layout: LayoutProps = LayoutUtils.getLayout();
 
-
   let session = await getSession(request.headers.get("Cookie"));
 
-  // if there is no access token in the header then
-  // the user is not authenticated, go to login
   if (!session.has("access_token")) {
     return typedjson({
       layout
     });
 
   } else {
-    // otherwise execute the query for the page, but first get token
     const { data: user, error: sessionErr } = await supabase.auth.getUser(
       session.get("access_token")
     );
@@ -65,18 +61,23 @@ export async function loader({ request }: LoaderArgs) {
       logger.debug('we are in anonymous session. Set isLoggedin flag = false');
       layout.header.user.isLoggedIn = false;
     }
+
     if (!sessionErr) {
-      // activate the session with the auth_token
-      supabase.auth.signInWithOAuth(session.get("access_token"));
-
-
-      // return data and any potential errors alont with user
+      commitSession(session);
+      
       return typedjson({ layout: layout, user });
     } else {
       return typedjson({ layout, error: sessionErr });
     }
   }
 }
+
+export async function signOutHandler() {
+  // Destroy the session to log out the user
+  destroySession();
+}
+
+
 export const action = async ({ request }: ActionArgs) => {
   // get session
   let session = await getSession(request.headers.get("Cookie"));
