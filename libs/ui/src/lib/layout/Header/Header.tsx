@@ -47,7 +47,7 @@ export const Header = (props: HeaderProps) => {
                   variant: 'outline',
                 }}
               />
-              <MenuHeader navigation={navigation} />
+              <MenuHeader navigation={navigation} user={user}/>
             </Drawer>
           </View >
         </View>

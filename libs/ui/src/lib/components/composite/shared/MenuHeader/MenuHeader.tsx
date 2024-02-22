@@ -3,35 +3,40 @@ import { DrawerContent } from "../utils";
 import { MenuHeaderProps } from "./MenuHeader.types";
 
 export const MenuHeader = (props: MenuHeaderProps) => {
-    const { navigation } = props;
+    const { navigation, user } = props;
     return (
 
         <DrawerContent direction="column" gap={6}>
+            {user.isLoggedIn ?
+                (<Text variant="body-3">{user.name}</Text>)
+                :
+                (<View direction="row" gap={4}>
+                    <View.Item columns={{ s: 12, l: 6 }}>
+                        <Button
+                            href='/login'
+                            variant="solid"
+                            size="large"
+                            fullWidth
+                        >
+                            Ingresar
+                        </Button>
+                    </View.Item>
+                    <View.Item columns={{ s: 12, l: 6 }}>
+                        <Button
+                            href='/'
+                            variant="outline"
+                            size="large"
+                            fullWidth
+                        >
+                            Crear Cuenta
+                        </Button>
+                    </View.Item>
+                </View>
+                )
+            }
 
-           <View direction="row" gap={4}>
-                <View.Item columns={{ s: 12, l: 6 }}>
-                  <Button
-                    href='/login'
-                    variant="solid"
-                    size="large"
-                    fullWidth
-                  >
-                    Ingresar
-                  </Button>
-                </View.Item>
-                <View.Item columns={{ s: 12, l: 6 }}>
-                  <Button
-                    href='/'
-                    variant="outline"
-                    size="large"
-                    fullWidth
-                  >
-                    Crear Cuenta
-                  </Button>
-                </View.Item>
-              </View>
+            <Divider />
 
-              <Divider />
             {navigation?.map((nav, i) => {
                 return nav.nodes && nav.nodes.length > 0 ? (
                     <Accordion key={i}>
