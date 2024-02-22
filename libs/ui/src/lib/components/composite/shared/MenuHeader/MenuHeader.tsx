@@ -1,36 +1,70 @@
+import { useResponsiveClientValue } from "reshaped";
 import { Accordion, Link, Text, Button, View, Divider } from "../../../atomic";
 import { DrawerContent } from "../utils";
 import { MenuHeaderProps } from "./MenuHeader.types";
+import { AppRoutes } from "@ducati/types";
 
 export const MenuHeader = (props: MenuHeaderProps) => {
     const { navigation, user } = props;
-    return (
 
+
+    return (
         <DrawerContent direction="column" gap={6}>
             {user.isLoggedIn ?
-                (<Text variant="body-3">{user.name}</Text>)
+                (<View>
+                    <Accordion >
+                        <Accordion.Trigger >
+                            <Text variant="body-3">{user.name}</Text>
+                        </Accordion.Trigger>
+                        <Accordion.Content>
+                            <View direction="column" align="start">
+                                <Button
+                                    variant="ghost"
+                                    color="inherit"
+                                    href="/">
+                                    <Text color="warning" variant="body-3" weight="medium">
+                                        Mi Perfil
+                                    </Text>
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    color="inherit"
+                                    href="/">
+                                    <Text color="warning" variant="body-3" weight="medium">
+                                        Mis Compras
+                                    </Text>
+                                </Button>
+                                <Button variant="ghost" href={AppRoutes.Logout}>
+                                    <Text color="warning" variant="body-3" weight="medium">
+                                        Cerrar Sesion
+                                    </Text>
+                                </Button>
+                            </View>
+                        </Accordion.Content>
+                    </Accordion>
+
+
+                </View>
+                )
+
                 :
                 (<View direction="row" gap={4}>
-                    <View.Item columns={{ s: 12, l: 6 }}>
-                        <Button
-                            href='/login'
-                            variant="solid"
-                            size="large"
-                            fullWidth
-                        >
-                            Ingresar
-                        </Button>
-                    </View.Item>
-                    <View.Item columns={{ s: 12, l: 6 }}>
-                        <Button
-                            href='/'
-                            variant="outline"
-                            size="large"
-                            fullWidth
-                        >
-                            Crear Cuenta
-                        </Button>
-                    </View.Item>
+                    <Button
+                        href='/login'
+                        variant="solid"
+                        size="large"
+                        fullWidth
+                    >
+                        Ingresar
+                    </Button>
+                    <Button
+                        href='/'
+                        variant="outline"
+                        size="large"
+                        fullWidth
+                    >
+                        Crear Cuenta
+                    </Button>
                 </View>
                 )
             }

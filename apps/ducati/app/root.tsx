@@ -1,6 +1,6 @@
 import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
-import { redirect, type LinksFunction, type LoaderArgs, type V2_MetaFunction } from '@remix-run/node';
+import { redirect, type LinksFunction, type LoaderArgs, type V2_MetaFunction, ActionArgs } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -31,10 +31,8 @@ export async function loader({ request }: LoaderArgs) {
 
   const layout: LayoutProps = LayoutUtils.getLayout();
 
-  console.log(request.headers.get("Cookie"))
 
   let session = await getSession(request.headers.get("Cookie"));
-  console.log(session.has('access_token'));
 
   // if there is no access token in the header then
   // the user is not authenticated, go to login
@@ -52,19 +50,17 @@ export async function loader({ request }: LoaderArgs) {
     if (user && user.user?.id) {
 
       const { data: profile } = await supabase.from('profiles')
-      .select()
-      .eq('id', user.user?.id)
-
-      console.log(profile, "aqui")
+        .select()
+        .eq('id', user.user?.id)
 
       if (profile && profile.length > 0) {
         const userProfile = profile[0];
-    
+
         layout.header.user.isLoggedIn = true;
         layout.header.user.name = `${userProfile.firstName ?? ''} ${userProfile.lastName ?? ''}`;
         logger.debug(layout.header.user.name + ' is logged in');
       }
-      
+
     } else {
       logger.debug('we are in anonymous session. Set isLoggedin flag = false');
       layout.header.user.isLoggedIn = false;
@@ -81,6 +77,15 @@ export async function loader({ request }: LoaderArgs) {
     }
   }
 }
+export const action = async ({ request }: ActionArgs) => {
+  // get session
+  let session = await getSession(request.headers.get("Cookie"));
+
+  // destroy session and redirect to login page
+  return redirect("/login", {
+    headers: { "Set-Cookie": await destroySession(session) },
+  });
+};
 
 const Head = () => {
   return (
@@ -118,6 +123,7 @@ const Document = (props: { children: ReactNode }) => {
 
 const Root = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
+
 
   return (
     <Document>

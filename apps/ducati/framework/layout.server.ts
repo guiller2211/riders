@@ -98,12 +98,6 @@ function getHeaderNavigation() {
   ];
 }
 
-/* function getHeader(): HeaderProps {
-  return {
-    logo: getHeaderLogo(),
-    navigation: getHeaderNavigation(),
-  };
-} */
 function getHeader(): HeaderProps {
   return {
     logo: getHeaderLogo(),

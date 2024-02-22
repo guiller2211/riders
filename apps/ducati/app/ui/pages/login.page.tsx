@@ -9,7 +9,7 @@ export const LoginPage = () => {
     const { result, error  } = useActionData<typeof action>() ?? {};
     const submit = useSubmit();
     const navigation = useNavigation();
-    console.log(result)
+
     const submitForm = async (e: FormEvent<HTMLFormElement>) => {
         submit(e.currentTarget);
     };

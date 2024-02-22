@@ -2,6 +2,7 @@ import { Button, View, Text, Actionable, Icon, DropdownMenu } from '../../compon
 import type { UserProps } from './HeaderUser.types';
 import { IconChevronRight, IconHome, IconPerson } from '../../icons';
 import styles from './HeaderUser.module.css';
+import { AppRoutes } from '@ducati/types';
 
 export const HeaderUser = (props: UserProps) => {
   const { user } = props;
@@ -24,6 +25,7 @@ export const HeaderUser = (props: UserProps) => {
             <Button
               variant="ghost"
               color="inherit"
+              href={AppRoutes.Logout}
             > cerrar sesion</Button>
           </DropdownMenu.Content>
         </DropdownMenu>

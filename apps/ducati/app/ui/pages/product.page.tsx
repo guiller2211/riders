@@ -16,7 +16,6 @@ import { Product } from '@ducati/types';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
-  console.log(loaderData.product)
   const product: Product = loaderData.product && loaderData.product.length > 0
     ? loaderData.product[0] : null;
 
