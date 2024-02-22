@@ -1,0 +1,355 @@
+import { useState } from 'react';
+import type { FormEvent } from 'react';
+
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  Icon,
+  Link,
+  Select,
+  Text,
+  TextField,
+  View,
+} from '../../../../atomic';
+import { IconEyeFill, IconEyeSlashFill } from '../../../../../icons';
+import { ValidationUtils } from '../../../../../utils';
+import type { SignUpFormProps } from './SignUpForm.types';
+
+const SignUpForm = (props: SignUpFormProps) => {
+  const { sendForm, titles, isLoading } = props;
+
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptanceTerms, setAcceptanceTerms] = useState(false);
+
+  const [titleHasError, setTitleHasError] = useState(false);
+  const [firstNameHasError, setFirstNameHasError] = useState(false);
+  const [lastNameHasError, setLastNameHasError] = useState(false);
+  const [emailHasError, setEmailHasError] = useState(false);
+  const [passwordHasError, setPasswordHasError] = useState(false);
+  const [confirmPasswordHasError, setConfirmPasswordHasError] = useState(false);
+  const [acceptanceTermsHasError, setAcceptanceTermsHasError] = useState(false);
+
+  const isTitleValid = () => ValidationUtils.isOptionSelected(title);
+  const isFirstNameValid = () =>
+    ValidationUtils.validateMinAndMaxLength(firstName, 3, 100) &&
+    ValidationUtils.isFieldText(firstName);
+  const isLastNameValid = () =>
+    ValidationUtils.validateMinAndMaxLength(lastName, 3, 100) &&
+    ValidationUtils.isFieldText(lastName);
+  const isEmailValid = () =>
+    ValidationUtils.validateMinAndMaxLength(email, 10, 100) &&
+    ValidationUtils.validateEmailAddress(email);
+  const isPasswordValid = () =>
+    ValidationUtils.validateMinAndMaxLength(password, 6, 30);
+  const isConfirmPasswordValid = () =>
+    ValidationUtils.validateMinAndMaxLength(confirmPassword, 6, 30) &&
+    password === confirmPassword;
+  const isAcceptanceValid = () => acceptanceTerms;
+
+  const titleValidation = () => setTitleHasError(!isTitleValid());
+  const firstNameValidation = () => setFirstNameHasError(!isFirstNameValid());
+  const lastNameValidation = () => setLastNameHasError(!isLastNameValid());
+  const emailValidation = () => setEmailHasError(!isEmailValid());
+  const passwordValidation = () => setPasswordHasError(!isPasswordValid());
+  const confirmPasswordValidation = () =>
+    setConfirmPasswordHasError(!isConfirmPasswordValid());
+  const acceptanceValidation = () =>
+    setAcceptanceTermsHasError(!isAcceptanceValid());
+
+  const isValidForm = () => {
+    return !!(
+      isTitleValid() &&
+      isFirstNameValid() &&
+      isLastNameValid() &&
+      isEmailValid() &&
+      isPasswordValid() &&
+      isConfirmPasswordValid() &&
+      isAcceptanceValid()
+    );
+  };
+
+  const validateForm = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isValidForm()) {
+      sendForm(e);
+    } else {
+      titleValidation();
+      firstNameValidation();
+      lastNameValidation();
+      emailValidation();
+      passwordValidation();
+      confirmPasswordValidation();
+      acceptanceValidation();
+      e.preventDefault();
+    }
+  };
+  return (
+   /*  <form method="POST" onSubmit={(e) => validateForm(e)}>
+      <View gap={6} direction="row">
+        <View.Item columns={12}>
+          <FormControl hasError={titleHasError}>
+            <Select
+              name="title"
+              placeholder={translate('signUp.placeholders.title')}
+              onChange={(e) => setTitle(e.value)}
+              size="xlarge"
+              disabled={isLoading}
+              options={titles}
+              onFocus={() => setTitleHasError(false)}
+              onBlur={() => titleValidation()}
+              inputAttributes={{
+                'aria-label': translate('login.placeholders.title'),
+                tabIndex: 1,
+              }}
+            />
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <FormControl hasError={firstNameHasError}>
+            <TextField
+              name="firstName"
+              placeholder={translate('signUp.placeholders.firstName')}
+              onChange={(e) => setFirstName(e.value)}
+              disabled={isLoading}
+              size="xlarge"
+              inputAttributes={{
+                'aria-label': translate('signUp.placeholders.firstName'),
+                tabIndex: 2,
+                onFocus: () => setFirstNameHasError(false),
+                onBlur: () => firstNameValidation(),
+              }}
+            />
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <FormControl hasError={lastNameHasError}>
+            <TextField
+              name="lastName"
+              placeholder={translate('signUp.placeholders.lastName')}
+              onChange={(e) => setLastName(e.value)}
+              disabled={isLoading}
+              size="xlarge"
+              inputAttributes={{
+                'aria-label': translate('signUp.placeholders.email'),
+                tabIndex: 3,
+                onFocus: () => setLastNameHasError(false),
+                onBlur: () => lastNameValidation(),
+              }}
+            />
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <FormControl hasError={emailHasError}>
+            <TextField
+              name="email"
+              placeholder={translate('signUp.placeholders.email')}
+              onChange={(e) => setEmail(e.value)}
+              disabled={isLoading}
+              size="xlarge"
+              inputAttributes={{
+                type: 'email',
+                'aria-label': translate('signUp.placeholders.email'),
+                tabIndex: 4,
+                onFocus: () => setEmailHasError(false),
+                onBlur: () => emailValidation(),
+              }}
+            />
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <FormControl hasError={passwordHasError}>
+            <View overflow="hidden">
+              <TextField
+                name="password"
+                placeholder={translate('signUp.placeholders.password')}
+                onChange={(e) => setPassword(e.value)}
+                disabled={isLoading}
+                size="xlarge"
+                inputAttributes={{
+                  type: showPassword ? 'text' : 'password',
+                  'aria-label': translate('login.placeholders.password'),
+                  tabIndex: 5,
+                  onFocus: () => setPasswordHasError(false),
+                  onBlur: () => passwordValidation(),
+                }}
+              />
+              <div style={{ position: 'absolute', bottom: 8, right: 16 }}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <Icon
+                    svg={showPassword ? IconEyeFill : IconEyeSlashFill}
+                    size={6}
+                  />
+                </Button>
+              </div>
+            </View>
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <FormControl hasError={confirmPasswordHasError}>
+            <View overflow="hidden">
+              <TextField
+                name="confirmPassword"
+                placeholder={translate('signUp.placeholders.confirmPassword')}
+                onChange={(e) => setConfirmPassword(e.value)}
+                disabled={isLoading}
+                size="xlarge"
+                inputAttributes={{
+                  type: showConfirmPassword ? 'text' : 'password',
+                  'aria-label': translate('signUp.placeholders.email'),
+                  tabIndex: 6,
+                  onFocus: () => setConfirmPasswordHasError(false),
+                  onBlur: () => confirmPasswordValidation(),
+                }}
+              />
+              <div style={{ position: 'absolute', bottom: 8, right: 16 }}>
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowConfirmPassword(!showPassword)}
+                >
+                  <Icon
+                    svg={showConfirmPassword ? IconEyeFill : IconEyeSlashFill}
+                    size={6}
+                  />
+                </Button>
+              </div>
+            </View>
+            <FormControl.Error>
+              {translate('forms.validations.required', 'layout')}
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <View gap={2} direction="row" paddingTop={{ l: 6, s: 5 }}>
+            <View.Item columns={12}>
+              <Checkbox
+                name="marketingConsent"
+                disabled={isLoading}
+                inputAttributes={{ tabIndex: 7 }}
+              >
+                <View paddingStart={1}>
+                  <Text variant="body-2">
+                    {translate('signUp.marketingConsent')}
+                  </Text>
+                </View>
+              </Checkbox>
+            </View.Item>
+          </View>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <View gap={2} direction="row" paddingTop={1}>
+            <View.Item columns={12}>
+              <FormControl hasError={acceptanceTermsHasError}>
+                <Checkbox
+                  name="agreeTerms"
+                  disabled={isLoading}
+                  onChange={(e) => {
+                    setAcceptanceTerms(e.checked);
+                    if (e.checked) setAcceptanceTermsHasError(false);
+                  }}
+                  inputAttributes={{ tabIndex: 8 }}
+                >
+                  <View gap={1} direction="row">
+                    <View.Item>
+                      <Text variant="body-2">
+                        {translate('signUp.termsConsent')}
+                      </Text>
+                    </View.Item>
+                    <View.Item>
+                      <Link
+                        color="primary"
+                        href="./terms-and-conditions"
+                        disabled={isLoading}
+                      >
+                        <Text variant="body-2" weight="medium">
+                          {translate('signUp.termsAndConditions')}
+                        </Text>
+                      </Link>
+                    </View.Item>
+                  </View>
+                </Checkbox>
+              </FormControl>
+            </View.Item>
+            <View.Item columns={12}>
+              <FormControl hasError={acceptanceTermsHasError}>
+                <FormControl.Error>
+                  {translate('forms.validations.required', 'layout')}
+                </FormControl.Error>
+              </FormControl>
+            </View.Item>
+          </View>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <Button
+            color="primary"
+            size="xlarge"
+            loading={isLoading}
+            type="submit"
+            fullWidth
+            attributes={{
+              'aria-label': translate('signUp.registerButton'),
+              tabIndex: 9,
+            }}
+          >
+            {translate('signUp.registerButton')}
+          </Button>
+        </View.Item>
+
+        <View.Item columns={12}>
+          <View
+            direction={{ l: 'row', s: 'column' }}
+            align={{ l: 'start', s: 'center' }}
+            gap={{ l: 1, s: 0 }}
+            paddingTop={6}
+          >
+            <Text variant="body-2">
+              {translate('signUp.alreadyHaveAccount')}
+            </Text>
+            <Link color="primary" href="./login" disabled={isLoading}>
+              <Text variant="body-2" weight="medium">
+                {translate('signUp.clickHereToSignIn')}
+              </Text>
+            </Link>
+          </View>
+        </View.Item>
+      </View>
+    </form> */
+    <></>
+  );
+};
+export default SignUpForm;

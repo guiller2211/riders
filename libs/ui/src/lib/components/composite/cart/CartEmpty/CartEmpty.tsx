@@ -1,11 +1,10 @@
 import { Button, Hidden, Icon, Image, Text, View } from '../../../atomic';
-import { useResponsiveClientValue, useTranslation } from '../../../../hooks';
+import { useResponsiveClientValue } from '../../../../hooks';
 import { IconCart } from '../../../../icons';
 import type { CartEmptyProps } from './CartEmpty.types';
 
 const CartEmpty = (props: CartEmptyProps) => {
   const { data, isMiniCart } = props;
-  const translate = useTranslation();
 
   return (
     <View>
@@ -22,11 +21,11 @@ const CartEmpty = (props: CartEmptyProps) => {
             >
               <View paddingBottom={1}>
                 <Text variant="featured-1" weight="bold">
-                  {translate('cart.empty.title', 'cart')}
+                  carrito
                 </Text>
               </View>
               <Text variant="featured-3" align={useResponsiveClientValue({ s: 'center', m: 'start' })}>
-                {translate('cart.empty.sub_title', 'cart')}
+              carrito
               </Text>
               {data.link?.props && (
                 <View paddingTop={8}>
@@ -35,7 +34,7 @@ const CartEmpty = (props: CartEmptyProps) => {
                     color="black"
                     href={data.link.props.href}
                   >
-                    {translate('cart.actions.back_home', 'cart')}
+                    volver
                   </Button>
                 </View>
               )}
@@ -58,11 +57,11 @@ const CartEmpty = (props: CartEmptyProps) => {
                 paddingEnd={useResponsiveClientValue({ s: 13, l: 0 })}
               >
                 <Text variant="featured-2" align="center" weight="bold">
-                  {translate('miniCart.empty.title', 'layout')}
+                  mini cart
                 </Text>
               </View>
               <Text variant="featured-3" align="center">
-                {translate('miniCart.empty.sub_title', 'layout')}
+                mini cart
               </Text>
               {data.link?.props && (
                 <View paddingTop={8}>
@@ -71,7 +70,7 @@ const CartEmpty = (props: CartEmptyProps) => {
                     color="black"
                     href={data.link.props.href}
                   >
-                    {translate('miniCart.empty.actions.continue', 'layout')}
+                    continuar
                   </Button>
                 </View>
               )}

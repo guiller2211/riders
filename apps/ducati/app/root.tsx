@@ -1,6 +1,6 @@
 import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
-import type { LinksFunction, V2_MetaFunction } from '@remix-run/node';
+import { redirect, type LinksFunction, type LoaderArgs, type V2_MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -8,11 +8,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
+import { commitSession, destroySession, getSession } from '../utils/session.server';
+import { supabase } from '../utils/supabase';
+import { ILogObj, Logger } from 'tslog';
+import { createServerClient } from '@supabase/auth-helpers-remix';
 
 const links: LinksFunction = () => {
   return [
@@ -21,13 +26,62 @@ const links: LinksFunction = () => {
   ];
 };
 
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
+  const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
+
   const layout: LayoutProps = LayoutUtils.getLayout();
 
-  return typedjson({
-    layout,
-  });
+  console.log(request.headers.get("Cookie"))
+
+  let session = await getSession(request.headers.get("Cookie"));
+  console.log(session.has('access_token'));
+
+  // if there is no access token in the header then
+  // the user is not authenticated, go to login
+  if (!session.has("access_token")) {
+    return typedjson({
+      layout
+    });
+
+  } else {
+    // otherwise execute the query for the page, but first get token
+    const { data: user, error: sessionErr } = await supabase.auth.getUser(
+      session.get("access_token")
+    );
+
+    if (user && user.user?.id) {
+
+      const { data: profile } = await supabase.from('profiles')
+      .select()
+      .eq('id', user.user?.id)
+
+      console.log(profile, "aqui")
+
+      if (profile && profile.length > 0) {
+        const userProfile = profile[0];
+    
+        layout.header.user.isLoggedIn = true;
+        layout.header.user.name = `${userProfile.firstName ?? ''} ${userProfile.lastName ?? ''}`;
+        logger.debug(layout.header.user.name + ' is logged in');
+      }
+      
+    } else {
+      logger.debug('we are in anonymous session. Set isLoggedin flag = false');
+      layout.header.user.isLoggedIn = false;
+    }
+    if (!sessionErr) {
+      // activate the session with the auth_token
+      supabase.auth.signInWithOAuth(session.get("access_token"));
+
+
+      // return data and any potential errors alont with user
+      return typedjson({ layout: layout, user });
+    } else {
+      return typedjson({ layout, error: sessionErr });
+    }
+  }
 }
+
 const Head = () => {
   return (
     <head>

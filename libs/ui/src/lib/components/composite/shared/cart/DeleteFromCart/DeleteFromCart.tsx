@@ -1,11 +1,9 @@
 import { useState } from 'react';
 
 import { Button, Link, Loader, View } from '../../../../atomic';
-import { useTranslation } from '../../../../../hooks';
 import type { DeleteFromCartProps } from './DeleteFromCart.types';
 
 const DeleteFromCart = (props: DeleteFromCartProps) => {
-  const translate = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
   const deleteCartEntry = async () => {
@@ -25,11 +23,11 @@ const DeleteFromCart = (props: DeleteFromCartProps) => {
           size="medium"
           fullWidth
         >
-          {translate('actions.remove', 'layout')}
+          Remover
         </Button>
       ) : (
         <Link onClick={deleteCartEntry}>
-          {translate('actions.remove', 'layout')}
+          Remover
         </Link>
       )}
     </View>

@@ -1,5 +1,3 @@
-export * from './SessionContext';
-export { initialSessionContext } from './SessionContext';
 export { StoreContext } from './StoreContext';
 export { initialStoreContext } from './StoreContext';
 export { I18nContext } from './I18nContext';

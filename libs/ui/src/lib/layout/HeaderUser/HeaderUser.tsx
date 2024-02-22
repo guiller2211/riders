@@ -1,26 +1,38 @@
-import { Button, View, Text, Actionable, Icon } from '../../components/atomic';
-import type { HeaderUserProps } from './HeaderUser.types';
-import { IconChevronRight, IconHome, IconPerson} from '../../icons';
+import { Button, View, Text, Actionable, Icon, DropdownMenu } from '../../components/atomic';
+import type { UserProps } from './HeaderUser.types';
+import { IconChevronRight, IconHome, IconPerson } from '../../icons';
 import styles from './HeaderUser.module.css';
 
-export const HeaderUser = (props: HeaderUserProps) => {
-  const { isLoggedIn, name, onOpen, changeThema, isDark } = props;
+export const HeaderUser = (props: UserProps) => {
+  const { user } = props;
 
   return (
-    <View gap={1} direction="row" align="center" justify="center">
-      {isLoggedIn ? (
-        <View gap={1} direction="column" backgroundColor="white">
-          <Text variant="body-3">{name}</Text>
-          <View direction="row" align="center">
-            <Actionable onClick={onOpen}>
-              <Text variant="body-3">{name}</Text>
-            </Actionable>
-            <Icon svg={IconChevronRight} />
-          </View>
-        </View>
+    <View gap={1} direction="row" >
+      {user.isLoggedIn ? (
+        <DropdownMenu >
+          <DropdownMenu.Trigger>
+            {(attributes: any) => (
+              <Button
+                color="white"
+                rounded
+                endIcon={IconChevronRight}
+                attributes={attributes}
+              > <Text variant="body-3">{user.name}</Text></Button>
+            )}
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <Button
+              variant="ghost"
+              color="inherit"
+            > cerrar sesion</Button>
+          </DropdownMenu.Content>
+        </DropdownMenu>
       ) : (
-        <Button variant="ghost" color="inherit" size="xlarge">
-          <Icon svg={IconPerson} size={6}/>
+        <Button
+          color="white"
+          size="xlarge"
+          href='/login' rounded>
+          <Icon svg={IconPerson} size={6} />
         </Button>
       )}
     </View>

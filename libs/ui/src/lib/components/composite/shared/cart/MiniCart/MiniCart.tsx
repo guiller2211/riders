@@ -1,6 +1,5 @@
 import { AppRoutes, UIComposedProps } from '@ducati/types';
 
-import { useTranslation } from '../../../../../hooks';
 import type { CartData, CartEntryData } from '../../../../../types';
 
 import { View, Text } from '../../../../atomic';
@@ -21,12 +20,11 @@ function getEmptyCartData(): UIComposedProps {
 
 const MiniCartEmpty = (props: { open: boolean; onClose: VoidFunction }) => {
   const { open, onClose } = props;
-  const translate = useTranslation();
 
   return (
     <Drawer active={open} onClose={onClose}>
       <DrawerHeader
-        title={translate('miniCart.empty.countCart')}
+        title="Vacio"
         onClose={onClose}
       />
       <DrawerContent>
@@ -42,16 +40,13 @@ const ViewCart = (props: {
   onClose: VoidFunction;
 }) => {
   const { cart, open, onClose } = props;
-  const translate = useTranslation();
 
   return (
     <View>
       {cart?.entries.length > 0 ? (
         <Drawer active={open} onClose={onClose}>
           <DrawerHeader
-            title={translate('miniCart.countCart', 'layout', {
-              count: `${cart?.entries.length || 0}`,
-            })}
+            title="3"
             onClose={onClose}
           />
           <DrawerContent direction="column">
@@ -59,7 +54,7 @@ const ViewCart = (props: {
           </DrawerContent>
           <DrawerFooter gap={4} direction="row">
             <Text variant="body-1" weight="bold">
-              {translate('miniCart.subtotal', 'layout')}
+              subtotal
             </Text>
             <View.Item gapBefore="auto">
               <Text variant="body-1" weight="bold">
@@ -68,9 +63,9 @@ const ViewCart = (props: {
             </View.Item>
             <DrawerActionsButtons
               primaryHref={AppRoutes.CheckoutShipping}
-              primaryLabel={translate('miniCart.actions.checkout', 'layout')}
+              primaryLabel="Chekout"
               secondaryHref={AppRoutes.Cart}
-              secondaryLabel={translate('miniCart.actions.viewCart', 'layout')}
+              secondaryLabel="Ver carrito"
             />
           </DrawerFooter>
         </Drawer>
@@ -87,24 +82,23 @@ const AddCart = (props: {
   product: CartEntryData;
 }) => {
   const { open, product, onClose } = props;
-  const translate = useTranslation();
 
   return (
     <Drawer active={open} onClose={onClose}>
       <DrawerHeader
-        title={translate('miniCart.title', 'layout')}
+        title="Mini Cart"
         onClose={onClose}
       />
       <DrawerContent direction="column">
         <CartEntry entry={product} viewCart="RecentlyAdded" />
-        <Text variant="body-2">{translate('miniCart.edit', 'layout')}</Text>
+        <Text variant="body-2">Editar</Text>
       </DrawerContent>
       <DrawerFooter>
         <DrawerActionsButtons
           primaryHref={AppRoutes.CheckoutShipping}
-          primaryLabel={translate('miniCart.actions.checkout', 'layout')}
+          primaryLabel="Chekout"
           secondaryHref={AppRoutes.Cart}
-          secondaryLabel={translate('miniCart.actions.viewCart', 'layout')}
+          secondaryLabel="Ver carrito"
         />
       </DrawerFooter>
     </Drawer>

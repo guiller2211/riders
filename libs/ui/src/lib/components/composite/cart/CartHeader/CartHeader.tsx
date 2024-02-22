@@ -1,14 +1,12 @@
 import type { CartHeaderProps } from './CartHeader.types';
 import { Button, Text, View } from '../../../atomic';
-import { useTranslation } from '../../../../hooks';
 
 const CartHeader = (props: CartHeaderProps) => {
   const { totalItems } = props;
-  const translate = useTranslation();
   return (
     <View direction="row" gap={10}>
       <View.Item columns={{ s: 12, l: 8 }}>
-        <Text variant="featured-1">{translate('cart.title')}</Text>
+        <Text variant="featured-1">carrito</Text>
       </View.Item>
 
       {totalItems > 0 && (
@@ -19,7 +17,7 @@ const CartHeader = (props: CartHeaderProps) => {
             size="xlarge"
             href="/checkout/shipping"
           >
-            {translate('cart.actions.secureCheckout')}
+            seguir checkout
           </Button>
         </View.Item>
       )}

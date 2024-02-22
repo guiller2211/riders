@@ -2,7 +2,6 @@ import type { FocusEvent } from 'react';
 import { useState } from 'react';
 
 import { IconDash, IconPlus } from '../../../../../icons';
-import { useTranslation } from '../../../../../hooks';
 import { View, Icon, TextField, Link, Popover } from '../../../../atomic';
 import type { QuantityCounterProps } from './QuantityCounter.types';
 import type { TextFieldProps } from '../../../../atomic';
@@ -10,7 +9,6 @@ import type { TextFieldProps } from '../../../../atomic';
 const QuantityCounter = (props: QuantityCounterProps) => {
   const { min: minValue = 1, max: maxValue = 0, step = 1 } = props;
 
-  const translate = useTranslation();
 
   // TODO: useFormik
   const [quantity, setQuantity] = useState(props.qty ? props.qty : minValue);
@@ -23,12 +21,12 @@ const QuantityCounter = (props: QuantityCounterProps) => {
     }
     if (quantity <= minValue && minValue > 1) {
       setMessage(
-        translate('cart.alert.minimum', undefined, { count: `${minValue}` }),
+        "minimo",
       );
       setIsActive(true);
     } else if (quantity > maxValue) {
       setMessage(
-        translate('cart.alert.maximum', undefined, { count: `${maxValue}` }),
+        "maximo",
       );
       setIsActive(true);
     } else {

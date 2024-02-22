@@ -17,5 +17,4 @@ export * from './search';
 export * from './store';
 export * from './session';
 export * from './ui';
-export * from './user';
 export * from './shippingMethod';

@@ -2,10 +2,8 @@ import { Alert, Link } from '../../../../atomic';
 import { AlertNotificationColor, AlertNotificationProps } from './AlertNotification.types';
 import { AlertNotificationEnum } from './AlertNotificationEnum';
 import { IconCheckCircle, IconExclamationCircle, IconInfoCircle, IconXCircle } from '../../../../../icons';
-import { TranslationFunction, useTranslation } from '../../../../../hooks';
 
 const AlertNotification = (props: AlertNotificationProps) => {
-  const translate: TranslationFunction = useTranslation();
 
   let color: AlertNotificationColor;
   let icon;
@@ -37,10 +35,10 @@ const AlertNotification = (props: AlertNotificationProps) => {
       inline
       icon={icon}
       color={color}
-      title={props.message ? translate(props.message) : ''}
+      title={props.message ? props.message : ''}
       actionsSlot={
         <Link variant="plain" color="inherit" onClick={props.close}>
-          {translate('actions.close', 'layout')}
+          Cerrar
         </Link>
       }
     />

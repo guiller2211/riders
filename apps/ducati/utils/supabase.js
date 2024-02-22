@@ -1,4 +1,18 @@
-import { createClient } from '@supabase/supabase-js';
-const supabaseUrl = 'https://mygdufjetbyenygxcgiv.supabase.co';
-const supabaseKey = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im15Z2R1ZmpldGJ5ZW55Z3hjZ2l2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDc3Mzk1MTEsImV4cCI6MjAyMzMxNTUxMX0.6LzrqX3Yf6_BzOuzxMYTDhuCc5wVuEsiA9hOX5tR9Y4';
+import { createClient } from "@supabase/supabase-js";
+import { getSession } from "./session.server";
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
 export const supabase = createClient(supabaseUrl, supabaseKey);
+
+/**
+ *
+ * @param {*} request
+ * @returns
+ */
+export const hasAuthSession = async (request) => {
+  let session = await getSession(request.headers.get("Cookie"));
+  if (!session.has("access_token")) throw Error("No session");
+  supabaseClient.auth.setAuth(session.get("access_token"));
+};

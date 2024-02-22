@@ -5,9 +5,9 @@ import { useResponsiveClientValue } from 'reshaped';
 
 export const Layout = (props: LayoutProps) => {
   const { children, header } = props;
-
+  console.log(header)
   return (
-    <View gap={5}  backgroundColor='black'>
+    <View gap={5} backgroundColor='black'>
       <View.Item columns={12}>
         <Header {...header} />
       </View.Item>

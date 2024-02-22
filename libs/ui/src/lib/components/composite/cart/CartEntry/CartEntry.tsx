@@ -15,7 +15,6 @@ import {
 import type { CartEntryData } from '../../../../types';
 import { IconCheckCircle } from '../../../../icons';
 import { QuantityCounter } from '../../shared';
-import { useTranslation } from '../../../../hooks';
 import DeleteFromCart from '../../shared/cart/DeleteFromCart/DeleteFromCart';
 
 const CartEntry = (props: CartEntryProps) => {
@@ -53,7 +52,6 @@ const CartReadOnly = (props: { entry: CartEntryData }) => {
   );
 };
 const CartEntryCard = (props: { entry: CartEntryData }) => {
-  const translate = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
 
   const updateCartEntry = (value: number) => {
@@ -110,9 +108,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                   </Text>
 
                   <Text variant="body-3">
-                    {translate('product.sku', 'product', {
-                      sku: `${props.entry.product?.sku}`,
-                    })}
+                   sku: 123
                   </Text>
 
                   <View.Item>
@@ -128,9 +124,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} color="positive" />
                           </View.Item>
                           <View.Item>
-                            {translate('availability.available', undefined, {
-                              count: `${props.entry.product.stock}`,
-                            })}
+                           disponibles 4
                           </View.Item>
                         </View>
                       ) : (
@@ -144,13 +138,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} />
                           </View.Item>
                           <View.Item>
-                            {translate(
-                              'availability.dateAvailable',
-                              undefined,
-                              {
-                                message: `Backordered - Expected to ship by September 28`,
-                              },
-                            )}
+                           disponible en 2 febrero
                           </View.Item>
                         </View>
                       )}
@@ -220,9 +208,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} color="positive" />
                           </View.Item>
                           <View.Item>
-                            {translate('availability.available', undefined, {
-                              count: `${props.entry.product.stock}`,
-                            })}
+                            disponible 4
                           </View.Item>
                         </View>
                       ) : (
@@ -231,13 +217,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} />
                           </View.Item>
                           <View.Item>
-                            {translate(
-                              'availability.dateAvailable',
-                              undefined,
-                              {
-                                message: `Backordered - Expected to ship by September 28`,
-                              },
-                            )}
+                            disponible 2 febrero
                           </View.Item>
                         </View>
                       )}
@@ -317,7 +297,7 @@ const ProductImage = (props: { entry: CartEntryData }) => {
 };
 const ProductInfo = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  const translate = useTranslation();
+  
   return (
     <View direction="column">
       <View paddingBottom={1}>
@@ -332,14 +312,10 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
         </Text>
       </View>
       <Text variant="body-3">
-        {translate('miniCart.product.sku', 'layout', {
-          sku: `${entry.product?.sku}`,
-        })}
+       sku: 123
       </Text>
       <Text variant="body-3">
-        {translate('miniCart.product.qty', 'layout', {
-          qty: ` ${entry.quantity}`,
-        })}
+      canidad 5
       </Text>
     </View>
   );
@@ -347,7 +323,6 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
 
 const ProductPrice = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  const translate = useTranslation();
   const priceText: TextProps = {
     color: 'neutral',
     weight: 'bold',
@@ -366,7 +341,7 @@ const ProductPrice = (props: { entry: CartEntryData }) => {
         </View.Item>
         <View.Item>
           <Text variant="body-3">
-            {translate('miniCart.price.total', 'layout')}
+            total 
           </Text>
         </View.Item>
       </View>
@@ -376,7 +351,7 @@ const ProductPrice = (props: { entry: CartEntryData }) => {
         </View.Item>
         <View.Item>
           <Text variant="body-3">
-            {translate('miniCart.price.each', 'layout')}
+            precio 
           </Text>
         </View.Item>
       </View>

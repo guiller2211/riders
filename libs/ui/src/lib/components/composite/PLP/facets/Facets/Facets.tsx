@@ -1,16 +1,14 @@
 import { Facet } from '../index';
 import { IconSliders } from '../../../../../icons';
-import {  useTranslation } from '../../../../../hooks';
 import { View, Button } from '../../../../atomic';
 import type { FacetsProps } from './Facets.types';
 import styles from './Facets.module.css';
 
 const Facets = (props: FacetsProps) => {
   const { facets } = props;
-  const translate = useTranslation();
   return (
     <View>
-      
+
       <View className={styles['non-mobile-screen']}>
         <View direction="column" gap={8}>
           <View.Item columns={12}>

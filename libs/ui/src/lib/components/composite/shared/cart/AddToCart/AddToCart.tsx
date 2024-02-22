@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 
 import { Button, View } from '../../../../atomic';
-import { useOpenState, useTranslation } from '../../../../../hooks';
+import { useOpenState } from '../../../../../hooks';
 import MiniCart from '../MiniCart';
 import type { CartEntryData } from '../../../../../types';
 import type { AddToCartProps } from './AddToCart.types';
@@ -16,7 +16,6 @@ const AddToCart = (props: AddToCartProps) => {
     quantityValue = 1,
     showInPlp,
   } = props;
-  const translate = useTranslation();
   const [quantity, setQuantity] = useState(quantityValue);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,7 +56,7 @@ const AddToCart = (props: AddToCartProps) => {
             fullWidth
             loading={isLoading}
           >
-            {translate('shared.addToCart', 'layout')}
+            Agregar
           </Button>
           <MiniCart
             onClose={onCloseDrawerHandler}

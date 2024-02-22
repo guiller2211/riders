@@ -2,7 +2,6 @@ import { Button, Text, TextField, View } from '../../../../atomic';
 import { PaginationProps } from './Pagination.types';
 import { useState } from 'react';
 import { IconChevronLeft, IconChevronRight } from '../../../../../icons';
-import { TranslationFunction, useTranslation } from '../../../../../hooks';
 
 const Pagination = (props: PaginationProps) => {
   const [page, setPage] = useState(1);
@@ -10,7 +9,6 @@ const Pagination = (props: PaginationProps) => {
   const count = Math.ceil(props.totalItems / totalNumPage);
   const countArray = Array.from({ length: count }, (_, index) => index + 1);
 
-  const translate: TranslationFunction = useTranslation();
 
   const showing = page * props.itemPerPage;
   const fullDemo = showing > props.totalItems ? props.totalItems : showing;
@@ -28,10 +26,7 @@ const Pagination = (props: PaginationProps) => {
     <View direction="row" align="center">
       <View.Item columns={2}>
         <Text>
-          {translate('pagination.showing', 'layout', {
-            showing: fullDemo.toString(),
-            totalItems: props.totalItems.toString(),
-          })}
+        10 de 10
         </Text>
       </View.Item>
       <View.Item columns={7} gapBefore={props.showInput ? 0 : 'auto'}>
@@ -51,7 +46,7 @@ const Pagination = (props: PaginationProps) => {
         <View.Item columns={3}>
           <View direction="row" align="center" justify="end">
             <View.Item columns={5}>
-              <Text align="center"> {translate('pagination.goToPage', 'layout')}</Text>
+              <Text align="center"> siguiente</Text>
             </View.Item>
             <View.Item columns={2}>
               <TextField
@@ -62,7 +57,7 @@ const Pagination = (props: PaginationProps) => {
             </View.Item>
             <View.Item columns={2}>
               <Text color="primary" align="center" variant='body-3' weight='medium'>
-                {translate('pagination.go', 'layout')}
+                siguiente
               </Text>
             </View.Item>
           </View>

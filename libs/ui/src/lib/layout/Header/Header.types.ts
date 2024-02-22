@@ -11,7 +11,7 @@ export type HeaderProps = ViewProps & {
   open?: boolean;
   messageBar?: UIComposedProps;
   navigation: UIComposedProps[];
-  user?: HeaderUserProps;
+  user: HeaderUserProps;
   cart?: HeaderCartProps;
   isCheckoutRoute?: boolean;
   onOpen?: VoidFunction;

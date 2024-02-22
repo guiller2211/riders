@@ -1,7 +1,6 @@
 import ProductDetailPage from '../ui/pages/product.page';
 import { meta } from '../root';
 import { HeadersFunction, LoaderArgs } from '@remix-run/node';
-import { Registry } from '@ducati/core';
 import { typedjson } from 'remix-typedjson';
 import { CurrencySymbolPosition, Product } from '@ducati/types';
 import { supabase } from '../../utils/supabase';

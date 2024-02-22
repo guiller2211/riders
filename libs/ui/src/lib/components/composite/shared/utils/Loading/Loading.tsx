@@ -1,16 +1,14 @@
 import { Loader, Text, View } from '../../../../atomic';
 import { LoadingProps } from './Loading.types';
-import { TranslationFunction, useTranslation } from '../../../../../hooks';
 
 const Loading = (props: LoadingProps) => {
-  const translate: TranslationFunction = useTranslation();
 
   const size = getLoadingSize(props.size);
   return (
     <View {...props.view}>
       <Loader
         attributes={{
-          'aria-label': props.ariaLabel ? translate(props.ariaLabel) : '',
+          'aria-label': props.ariaLabel ? props.ariaLabel : '',
           style: {
             width: size,
             height: size,
@@ -19,7 +17,7 @@ const Loading = (props: LoadingProps) => {
       />
       {props.text && (
         <View paddingBlock={4} paddingInline={0}>
-          <Text {...props.text}>{translate(props.text.message)}</Text>
+          <Text {...props.text}>{props.text.message}</Text>
         </View>
       )}
     </View>

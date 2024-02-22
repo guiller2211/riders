@@ -1,4 +1,4 @@
-import { Accordion, Link, Text, Button } from "../../../atomic";
+import { Accordion, Link, Text, Button, View, Divider } from "../../../atomic";
 import { DrawerContent } from "../utils";
 import { MenuHeaderProps } from "./MenuHeader.types";
 
@@ -7,6 +7,31 @@ export const MenuHeader = (props: MenuHeaderProps) => {
     return (
 
         <DrawerContent direction="column" gap={6}>
+
+           <View direction="row" gap={4}>
+                <View.Item columns={{ s: 12, l: 6 }}>
+                  <Button
+                    href='/login'
+                    variant="solid"
+                    size="large"
+                    fullWidth
+                  >
+                    Ingresar
+                  </Button>
+                </View.Item>
+                <View.Item columns={{ s: 12, l: 6 }}>
+                  <Button
+                    href='/'
+                    variant="outline"
+                    size="large"
+                    fullWidth
+                  >
+                    Crear Cuenta
+                  </Button>
+                </View.Item>
+              </View>
+
+              <Divider />
             {navigation?.map((nav, i) => {
                 return nav.nodes && nav.nodes.length > 0 ? (
                     <Accordion key={i}>

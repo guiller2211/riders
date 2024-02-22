@@ -1,10 +1,8 @@
 import { IconPlusCircle } from '../../../../../icons';
 import { Card, Icon, Text, View } from '../../../../atomic';
 import { AddCardProps } from './AddCard.types';
-import { TranslationFunction, useTranslation } from '../../../../../hooks';
 
 const AddCard = (props: AddCardProps) => {
-  const translate: TranslationFunction = useTranslation();
 
   return (
     <Card padding={6}>
@@ -19,7 +17,7 @@ const AddCard = (props: AddCardProps) => {
             },
           }}
         />
-        <Text variant='body-2' weight='bold'>{translate(props.label)}</Text>
+        <Text variant='body-2' weight='bold'>{props.label}</Text>
       </View>
     </Card>
   );
