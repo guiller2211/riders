@@ -1,6 +1,6 @@
 import { action, loader } from '../../routes/login';
 import { useActionData, useLoaderData, useNavigation, useSubmit } from '@remix-run/react';
-import { CategoryCarousel, Herobanner, LoginView, ProductListForPLP, View, useResponsiveClientValue } from '@ducati/ui';
+import { LoginView, View, useResponsiveClientValue } from '@ducati/ui';
 import { FormEvent } from 'react';
 
 

@@ -1,11 +1,6 @@
 import {
-  Divider,
-  Hidden,
-  I18nContext,
   ImageGallery,
   View,
-  IconBoxSeam,
-  ProductUtils,
   useResponsiveClientValue,
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';

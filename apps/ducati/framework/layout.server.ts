@@ -2,7 +2,6 @@ import type {
   HeaderLogoProps,
   HeaderProps,
   LayoutProps,
-  ProductCardForPLPProps,
 } from '@ducati/ui';
 import p1 from '../public/assets/images/product/1.png';
 import p2 from '../public/assets/images/product/2.png';

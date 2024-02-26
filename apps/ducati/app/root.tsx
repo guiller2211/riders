@@ -72,21 +72,6 @@ export async function loader({ request }: LoaderArgs) {
   }
 }
 
-export async function signOutHandler() {
-  // Destroy the session to log out the user
-  destroySession();
-}
-
-
-export const action = async ({ request }: ActionArgs) => {
-  // get session
-  let session = await getSession(request.headers.get("Cookie"));
-
-  // destroy session and redirect to login page
-  return redirect("/login", {
-    headers: { "Set-Cookie": await destroySession(session) },
-  });
-};
 
 const Head = () => {
   return (

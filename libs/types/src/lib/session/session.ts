@@ -1,5 +1,3 @@
-import type { Country, Currency, Locale } from '../localization';
-
 export interface InnerSession {
   get<T>(name: string): T | undefined;
 

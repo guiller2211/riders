@@ -1,5 +1,4 @@
 import type { Resource } from '../resource';
-import type { SearchMetadata } from '../search';
 import type { Category } from '../category';
 import type { Enum } from '../primitive';
 import type { Price, PriceSummary } from '../price';
