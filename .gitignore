@@ -42,3 +42,8 @@ Thumbs.db
 # Local Netlify folder
 .netlify
 .vercel
+
+#cache
+.cache
+.nx
+app/.cache

@@ -2,24 +2,14 @@ import ProductDetailPage from '../ui/pages/product.page';
 import { meta } from '../root';
 import { HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
-import { supabase } from '../../utils/supabase';
-
-export const ROUTE_NAME = 'product';
-export const handle = { i18n: ['product', 'layout'] };
-
+import { getProductsBySku } from '../service/data.service';
 
 export async function loader({
     params,
 }: LoaderArgs) {
-    const { data: product, error } = await supabase
-        .from('products')
-        .select()
-        .eq('sku', params.skuId);
 
-    if (error) {
-        throw error;
-    }
-
+    const product = await getProductsBySku(params.skuId);
+    console.log(product)
     return typedjson({ product });
 }
 

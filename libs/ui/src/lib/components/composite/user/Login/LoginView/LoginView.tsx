@@ -11,8 +11,8 @@ const LoginView = (props: LoginViewProps) => {
   const [hideNotification, setHideNotification] = useState(false);
 
   return (
-    <View direction="column" gap={12} align="center"  paddingTop={useResponsiveClientValue({ l: 4 })}>
-      <View width={useResponsiveClientValue({s: undefined, l:100})} gap={6} direction="row">
+    <View direction="column" gap={12} align="center" paddingTop={useResponsiveClientValue({ l: 4 })}>
+      <View width={useResponsiveClientValue({ s: undefined, l: 100 })} gap={6} direction="row">
         {notification && !hideNotification && (
           <View.Item columns={12}>
             <AlertNotification
@@ -24,16 +24,16 @@ const LoginView = (props: LoginViewProps) => {
         )}
         <View backgroundColor='white' padding={6} borderRadius="large">
 
-        <View.Item columns={12}>
-          <View paddingBottom={useResponsiveClientValue({ l: 3, s: 6 })}>
-            <Text variant="featured-1">
-              Login
-            </Text>
-          </View>
-        </View.Item>
-        <View.Item columns={12}>
-          <LoginForm sendForm={sendForm} isLoading={isLoading} />
-        </View.Item>
+          <View.Item columns={12}>
+            <View paddingBottom={useResponsiveClientValue({ l: 3, s: 6 })}>
+              <Text variant="featured-1">
+                Login
+              </Text>
+            </View>
+          </View.Item>
+          <View.Item columns={12}>
+            <LoginForm sendForm={sendForm} isLoading={isLoading} />
+          </View.Item>
         </View>
       </View>
     </View>

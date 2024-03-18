@@ -47,8 +47,6 @@ directory = "apps/ducati/dist/netlify"
 external_node_modules = [
   "@remix-run/react",
   "@remix-run/node",
-  "@supabase/supabase-js",
-  "@supabase/auth-helpers-remix",
   "isbot",
   "remix-typedjson",
   "tslog",

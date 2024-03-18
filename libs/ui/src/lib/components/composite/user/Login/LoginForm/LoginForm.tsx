@@ -16,6 +16,7 @@ import { ValidationUtils } from '../../../../../utils';
 import type { LoginFormProps } from './LoginForm.types';
 
 const LoginForm = (props: LoginFormProps) => {
+  const { sendForm, isLoading } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [invalidCredentials, setInvalidCredentialsError] = useState(false);
@@ -31,7 +32,7 @@ const LoginForm = (props: LoginFormProps) => {
   const validateForm = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isEmailValid() && isPasswordValid()) {
-      props.sendForm(e);
+      sendForm(e);
     } else {
       setInvalidEmail(!isEmailValid());
       setInvalidPassword(!isPasswordValid());
@@ -55,7 +56,7 @@ const LoginForm = (props: LoginFormProps) => {
               name="email"
               placeholder="Ingrese su Email"
               size="xlarge"
-              disabled={props.isLoading}
+              disabled={isLoading}
               onChange={(e) => setEmail(e.value)}
               inputAttributes={{
                 autoComplete: 'email',
@@ -78,7 +79,7 @@ const LoginForm = (props: LoginFormProps) => {
                 name="password"
                 placeholder={"Ingrese su Contraseña"}
                 size="xlarge"
-                disabled={props.isLoading}
+                disabled={isLoading}
                 onChange={(e) => setPassword(e.value)}
                 inputAttributes={{
                   autoComplete: 'current-password',
@@ -108,7 +109,7 @@ const LoginForm = (props: LoginFormProps) => {
             <Link
               color="primary"
               href="/forgot-password"
-              disabled={props.isLoading}
+              disabled={isLoading}
             >
               Recuperar Clave
             </Link>
@@ -126,7 +127,7 @@ const LoginForm = (props: LoginFormProps) => {
               <View direction="row" justify="start">
                 <Checkbox
                   name="keepSignedIn"
-                  disabled={props.isLoading}
+                  disabled={isLoading}
                   inputAttributes={{
                     'aria-label': "Recordar Clave",
                     tabIndex: 3,
@@ -146,7 +147,7 @@ const LoginForm = (props: LoginFormProps) => {
                 <Button
                   color="black"
                   fullWidth={{ l: false, s: true }}
-                  loading={props.isLoading}
+                  loading={isLoading}
                   size="xlarge"
                   type="submit"
                   attributes={{
@@ -168,7 +169,7 @@ const LoginForm = (props: LoginFormProps) => {
             gap={{ l: 1, s: 0 }}
             paddingTop={{ l: 11 }}
           >
-            <Link color="primary" href="./sign-up" disabled={props.isLoading}>
+            <Link color="primary" href="./sign-up" disabled={isLoading}>
               <Text variant="body-2" weight="medium">
                 Crear Cuenta
               </Text>

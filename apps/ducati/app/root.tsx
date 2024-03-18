@@ -1,6 +1,6 @@
 import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
-import { redirect, type LinksFunction, type LoaderArgs, type V2_MetaFunction, ActionArgs } from '@remix-run/node';
+import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -8,16 +8,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
-import { commitSession, destroySession, getSession } from '../utils/session.server';
-import { supabase } from '../utils/supabase';
 import { ILogObj, Logger } from 'tslog';
-import { createServerClient } from '@supabase/auth-helpers-remix';
+import { getSession } from './utils/fb.sessions.server';
+import { getUser } from './service/data.service';
 
 const links: LinksFunction = () => {
   return [
@@ -28,48 +26,31 @@ const links: LinksFunction = () => {
 
 export async function loader({ request }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
-
   const layout: LayoutProps = LayoutUtils.getLayout();
+  const session = await getSession(request.headers.get("Cookie"));
 
-  let session = await getSession(request.headers.get("Cookie"));
+  if (session.has('__session')) {
+    const uid: string = session.get('user')['uid'];
 
-  if (!session.has("access_token")) {
-    return typedjson({
-      layout
-    });
+    if (uid) {
+      try {
+        const user = await getUser(uid);
 
-  } else {
-    const { data: user, error: sessionErr } = await supabase.auth.getUser(
-      session.get("access_token")
-    );
-
-    if (user && user.user?.id) {
-
-      const { data: profile } = await supabase.from('profiles')
-        .select()
-        .eq('id', user.user?.id)
-
-      if (profile && profile.length > 0) {
-        const userProfile = profile[0];
-
-        layout.header.user.isLoggedIn = true;
-        layout.header.user.name = `${userProfile.firstName ?? ''} ${userProfile.lastName ?? ''}`;
-        logger.debug(layout.header.user.name + ' is logged in');
+        if (user) {
+          layout.header.user.isLoggedIn = true;
+          layout.header.user.name = `${user.firstName ?? ''} ${user.lastName ?? ''}`;
+          logger.debug(layout.header.user.name + ' is logged in');
+          return typedjson({ layout, user });
+        }
+      } catch (error) {
+        logger.error('Error al obtener el usuario:', error);
       }
-
     } else {
-      logger.debug('we are in anonymous session. Set isLoggedin flag = false');
+      logger.debug('Estamos en una sesión anónima. Establecer la bandera isLoggedIn = false');
       layout.header.user.isLoggedIn = false;
     }
-
-    if (!sessionErr) {
-      commitSession(session);
-      
-      return typedjson({ layout: layout, user });
-    } else {
-      return typedjson({ layout, error: sessionErr });
-    }
   }
+  return typedjson({ layout });
 }
 
 

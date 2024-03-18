@@ -1,6 +1,6 @@
 import { redirect, LoaderArgs } from '@remix-run/node';
 import { ILogObj, Logger } from 'tslog';
-import { destroySession, getSession } from '../../utils/session.server';
+import { destroySession, getSession } from '../utils/fb.sessions.server';
 
 const logger: Logger<ILogObj> = new Logger({ name: 'logout.tsx' });
 

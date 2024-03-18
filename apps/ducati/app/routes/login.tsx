@@ -1,60 +1,19 @@
 import { LoginPage } from '../ui/pages/login.page';
-import { typedjson } from 'remix-typedjson';
-import { supabase } from '../../utils/supabase';
-import { LayoutUtils } from '../../framework/layout.server';
-import { redirect, type ActionArgs, type LoaderArgs } from '@remix-run/node';
-import { commitSession, getSession } from '../../utils/session.server';
+import type { ActionArgs } from '@remix-run/node';
+import { sessionLogin } from '../utils/fb.sessions.server';
 
-export async function loader({ }: LoaderArgs) {
-    const layout = LayoutUtils.getLayout();
-
-    const { data: products, error } = await supabase.from('products').select();
-
-    if (error) {
-        throw error;
-    }
-
-    return typedjson({
-        layout,
-        getProduct: products ?? [],
-    });
-}
 
 export async function action({ request, context: { registry } }: ActionArgs) {
-    const formData: FormData = await request.formData();
-    const email: FormDataEntryValue | null = formData.get('email');
-    const password: FormDataEntryValue | null = formData.get('password');
-
-    if (
-        !email ||
-        !password ||
-        typeof email !== 'string' ||
-        typeof password !== 'string'
-    ) {
-        return typedjson({ result: 'login.checkCredentials' });
-    }
-
-    let { data: user, error } = await supabase.auth.signInWithPassword({
-        email: email.toString(),
-        password: password.toString()
-    });
-
-    if (user) {
-        let session = await getSession(request.headers.get("Cookie"));
-        session.set("access_token", user.session?.access_token);
-
-        return redirect("/", {
-            headers: {
-                "Set-Cookie": await commitSession(session),
-            },
-        });
-    }
-
-    // else return the error
-    return typedjson({
-        result: (error as Error).message,
-      });
+  const formData: FormData = await request.formData();
+  const __session: FormDataEntryValue | null = formData.get('__session');
+  const uid: FormDataEntryValue | null = formData.get('uid');
+  try {
+    return await sessionLogin(request, __session as string, "/");
+  } catch (error: any) {
+    return { error: { message: error?.message } };
+  }
 }
+
 export default function Index() {
-    return <LoginPage />;
+  return <LoginPage />;
 }

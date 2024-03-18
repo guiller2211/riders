@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts", "utils/session.server.tsx", "service/data/data.service.tsx", "utils/db.server.tsx"],
   "compilerOptions": {
     "strict": true,
     "allowJs": true,
