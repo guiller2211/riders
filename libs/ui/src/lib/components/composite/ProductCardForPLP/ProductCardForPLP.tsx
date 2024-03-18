@@ -15,7 +15,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       backgroundColor="neutral"
       gap={5}
     >
-      <Link href={"/product/" + product.sku}>
+      <Link href={"/product/" + product.type + "/" + product.id}>
         <Image
           displayMode="contain"
           src={product.image?.url}
@@ -42,13 +42,13 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       <Text variant="body-3">SKU: {product.sku}</Text>
 
       <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
-        <View.Item columns={useResponsiveClientValue({s: 12, l: 6})}>
+        <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
           <Button size='xlarge' color="white" icon={IconCart} fullWidth>
             Agregar
           </Button>
         </View.Item>
 
-        <View.Item columns={useResponsiveClientValue({s: 12, l: 6})}>
+        <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
           <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
             Favorito
           </Button>

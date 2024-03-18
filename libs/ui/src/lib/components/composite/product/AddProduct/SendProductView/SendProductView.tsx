@@ -2,11 +2,10 @@ import { useState } from 'react';
 
 import { Text, View } from '../../../../atomic';
 import { AlertNotification, AlertNotificationEnum } from '../../../shared';
-import SignUpForm from '../SignUpForm';
-import type { SignUpViewProps } from './SignUpView.types';
-import { useResponsiveClientValue } from '@ducati/ui';
+import { SendProduct, useResponsiveClientValue } from '@ducati/ui';
+import { SendProductViewProps } from './SendProductView.types';
 
-const SignUpView = (props: SignUpViewProps) => {
+export const SendProductView = (props: SendProductViewProps) => {
   const { sendForm, isLoading, notification, success } = props;
   const [hideNotification, setHideNotification] = useState(false);
 
@@ -35,7 +34,7 @@ const SignUpView = (props: SignUpViewProps) => {
               </View>
             </View.Item>
             <View.Item columns={12}>
-              <SignUpForm
+              <SendProduct
                 sendForm={sendForm}
                 isLoading={isLoading}
               />
@@ -46,4 +45,3 @@ const SignUpView = (props: SignUpViewProps) => {
     </View>
   );
 };
-export default SignUpView;

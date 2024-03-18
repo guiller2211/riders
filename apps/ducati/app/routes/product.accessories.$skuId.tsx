@@ -2,14 +2,13 @@ import ProductDetailPage from '../ui/pages/product.page';
 import { meta } from '../root';
 import { HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
-import { getProductsBySku } from '../service/data.service';
+import { getAccessoriesBySku } from '../service/data.service';
 
 export async function loader({
     params,
 }: LoaderArgs) {
 
-    const product = await getProductsBySku(params.skuId);
-    console.log(product)
+    const product = await getAccessoriesBySku(params.skuId);
     return typedjson({ product });
 }
 

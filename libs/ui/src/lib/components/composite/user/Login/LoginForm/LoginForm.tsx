@@ -14,6 +14,7 @@ import {
 import { IconEyeFill, IconEyeSlashFill } from '../../../../../icons';
 import { ValidationUtils } from '../../../../../utils';
 import type { LoginFormProps } from './LoginForm.types';
+import { AppRoutes } from '@ducati/types';
 
 const LoginForm = (props: LoginFormProps) => {
   const { sendForm, isLoading } = props;
@@ -169,7 +170,7 @@ const LoginForm = (props: LoginFormProps) => {
             gap={{ l: 1, s: 0 }}
             paddingTop={{ l: 11 }}
           >
-            <Link color="primary" href="./sign-up" disabled={isLoading}>
+            <Link color="primary" href={AppRoutes.SignUp} disabled={isLoading}>
               <Text variant="body-2" weight="medium">
                 Crear Cuenta
               </Text>

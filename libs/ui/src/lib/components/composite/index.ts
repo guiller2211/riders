@@ -4,3 +4,4 @@ export * from './ProductListForPLP';
 export * from './PLP';
 export * from './cart';
 export * from './user';
+export * from './product';

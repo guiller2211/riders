@@ -96,7 +96,7 @@ export const sessionLogout = async (request: any) => {
       });
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       return { error: error?.message };
     });
 };

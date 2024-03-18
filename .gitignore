@@ -47,3 +47,4 @@ Thumbs.db
 .cache
 .nx
 app/.cache
+apps/ducati/.cache

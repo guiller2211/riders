@@ -8,8 +8,8 @@ export interface AbstractProduct extends Resource {
   name?: string;
   description?: string;
   sku?: string;
-  type?: ProductType;
-  categories?: Category[];
+  type?: string;
+  categories?: string;
 //  primaryCategoryId?: string;
   price?: Price;
   attributes?: ProductAttribute[];

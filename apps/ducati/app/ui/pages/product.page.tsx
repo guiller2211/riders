@@ -5,7 +5,7 @@ import {
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
-import type { loader } from '../../routes/product.$skuId';
+import type { loader } from '../../routes/product.motorcycles.$skuId';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();

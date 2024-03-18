@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
 
-export type SignUpFormProps = {
+export type SendProductProps = {
   isLoading?: boolean;
   sendForm: (form: FormEvent<HTMLFormElement>) => void;
 };

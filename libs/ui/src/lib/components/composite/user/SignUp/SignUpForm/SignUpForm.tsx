@@ -15,15 +15,14 @@ import {
 import { IconEyeFill, IconEyeSlashFill } from '../../../../../icons';
 import { ValidationUtils } from '../../../../../utils';
 import type { SignUpFormProps } from './SignUpForm.types';
+import { AppRoutes } from '@ducati/types';
 
 const SignUpForm = (props: SignUpFormProps) => {
-  const { sendForm, titles, isLoading } = props;
-
+  const { sendForm, isLoading } = props;
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [title, setTitle] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -31,7 +30,6 @@ const SignUpForm = (props: SignUpFormProps) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [acceptanceTerms, setAcceptanceTerms] = useState(false);
 
-  const [titleHasError, setTitleHasError] = useState(false);
   const [firstNameHasError, setFirstNameHasError] = useState(false);
   const [lastNameHasError, setLastNameHasError] = useState(false);
   const [emailHasError, setEmailHasError] = useState(false);
@@ -39,7 +37,6 @@ const SignUpForm = (props: SignUpFormProps) => {
   const [confirmPasswordHasError, setConfirmPasswordHasError] = useState(false);
   const [acceptanceTermsHasError, setAcceptanceTermsHasError] = useState(false);
 
-  const isTitleValid = () => ValidationUtils.isOptionSelected(title);
   const isFirstNameValid = () =>
     ValidationUtils.validateMinAndMaxLength(firstName, 3, 100) &&
     ValidationUtils.isFieldText(firstName);
@@ -56,7 +53,6 @@ const SignUpForm = (props: SignUpFormProps) => {
     password === confirmPassword;
   const isAcceptanceValid = () => acceptanceTerms;
 
-  const titleValidation = () => setTitleHasError(!isTitleValid());
   const firstNameValidation = () => setFirstNameHasError(!isFirstNameValid());
   const lastNameValidation = () => setLastNameHasError(!isLastNameValid());
   const emailValidation = () => setEmailHasError(!isEmailValid());
@@ -68,7 +64,6 @@ const SignUpForm = (props: SignUpFormProps) => {
 
   const isValidForm = () => {
     return !!(
-      isTitleValid() &&
       isFirstNameValid() &&
       isLastNameValid() &&
       isEmailValid() &&
@@ -83,7 +78,6 @@ const SignUpForm = (props: SignUpFormProps) => {
     if (isValidForm()) {
       sendForm(e);
     } else {
-      titleValidation();
       firstNameValidation();
       lastNameValidation();
       emailValidation();
@@ -94,47 +88,26 @@ const SignUpForm = (props: SignUpFormProps) => {
     }
   };
   return (
-   /*  <form method="POST" onSubmit={(e) => validateForm(e)}>
+    <form method="POST" onSubmit={(e) => validateForm(e)}>
       <View gap={6} direction="row">
-        <View.Item columns={12}>
-          <FormControl hasError={titleHasError}>
-            <Select
-              name="title"
-              placeholder={translate('signUp.placeholders.title')}
-              onChange={(e) => setTitle(e.value)}
-              size="xlarge"
-              disabled={isLoading}
-              options={titles}
-              onFocus={() => setTitleHasError(false)}
-              onBlur={() => titleValidation()}
-              inputAttributes={{
-                'aria-label': translate('login.placeholders.title'),
-                tabIndex: 1,
-              }}
-            />
-            <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
-            </FormControl.Error>
-          </FormControl>
-        </View.Item>
 
         <View.Item columns={12}>
           <FormControl hasError={firstNameHasError}>
             <TextField
               name="firstName"
-              placeholder={translate('signUp.placeholders.firstName')}
+              placeholder='Nombre'
               onChange={(e) => setFirstName(e.value)}
               disabled={isLoading}
               size="xlarge"
               inputAttributes={{
-                'aria-label': translate('signUp.placeholders.firstName'),
+                'aria-label': 'Nombre',
                 tabIndex: 2,
                 onFocus: () => setFirstNameHasError(false),
                 onBlur: () => firstNameValidation(),
               }}
             />
             <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
+              Este campo es obligatorio
             </FormControl.Error>
           </FormControl>
         </View.Item>
@@ -143,19 +116,19 @@ const SignUpForm = (props: SignUpFormProps) => {
           <FormControl hasError={lastNameHasError}>
             <TextField
               name="lastName"
-              placeholder={translate('signUp.placeholders.lastName')}
+              placeholder='Apellido'
               onChange={(e) => setLastName(e.value)}
               disabled={isLoading}
               size="xlarge"
               inputAttributes={{
-                'aria-label': translate('signUp.placeholders.email'),
+                'aria-label': 'Apellido',
                 tabIndex: 3,
                 onFocus: () => setLastNameHasError(false),
                 onBlur: () => lastNameValidation(),
               }}
             />
             <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
+              Este campo es obligatorio
             </FormControl.Error>
           </FormControl>
         </View.Item>
@@ -164,20 +137,20 @@ const SignUpForm = (props: SignUpFormProps) => {
           <FormControl hasError={emailHasError}>
             <TextField
               name="email"
-              placeholder={translate('signUp.placeholders.email')}
+              placeholder='Email'
               onChange={(e) => setEmail(e.value)}
               disabled={isLoading}
               size="xlarge"
               inputAttributes={{
                 type: 'email',
-                'aria-label': translate('signUp.placeholders.email'),
+                'aria-label': 'Email',
                 tabIndex: 4,
                 onFocus: () => setEmailHasError(false),
                 onBlur: () => emailValidation(),
               }}
             />
             <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
+              Este campo es obligatorio
             </FormControl.Error>
           </FormControl>
         </View.Item>
@@ -187,13 +160,13 @@ const SignUpForm = (props: SignUpFormProps) => {
             <View overflow="hidden">
               <TextField
                 name="password"
-                placeholder={translate('signUp.placeholders.password')}
+                placeholder='Contraseña'
                 onChange={(e) => setPassword(e.value)}
                 disabled={isLoading}
                 size="xlarge"
                 inputAttributes={{
                   type: showPassword ? 'text' : 'password',
-                  'aria-label': translate('login.placeholders.password'),
+                  'aria-label': 'Contraseña',
                   tabIndex: 5,
                   onFocus: () => setPasswordHasError(false),
                   onBlur: () => passwordValidation(),
@@ -212,7 +185,7 @@ const SignUpForm = (props: SignUpFormProps) => {
               </div>
             </View>
             <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
+              Este campo es obligatorio
             </FormControl.Error>
           </FormControl>
         </View.Item>
@@ -222,13 +195,13 @@ const SignUpForm = (props: SignUpFormProps) => {
             <View overflow="hidden">
               <TextField
                 name="confirmPassword"
-                placeholder={translate('signUp.placeholders.confirmPassword')}
+                placeholder='Confirme Contraseña'
                 onChange={(e) => setConfirmPassword(e.value)}
                 disabled={isLoading}
                 size="xlarge"
                 inputAttributes={{
                   type: showConfirmPassword ? 'text' : 'password',
-                  'aria-label': translate('signUp.placeholders.email'),
+                  'aria-label': 'Confirme Contraseña',
                   tabIndex: 6,
                   onFocus: () => setConfirmPasswordHasError(false),
                   onBlur: () => confirmPasswordValidation(),
@@ -247,27 +220,9 @@ const SignUpForm = (props: SignUpFormProps) => {
               </div>
             </View>
             <FormControl.Error>
-              {translate('forms.validations.required', 'layout')}
+              No coinciden las contraseñas
             </FormControl.Error>
           </FormControl>
-        </View.Item>
-
-        <View.Item columns={12}>
-          <View gap={2} direction="row" paddingTop={{ l: 6, s: 5 }}>
-            <View.Item columns={12}>
-              <Checkbox
-                name="marketingConsent"
-                disabled={isLoading}
-                inputAttributes={{ tabIndex: 7 }}
-              >
-                <View paddingStart={1}>
-                  <Text variant="body-2">
-                    {translate('signUp.marketingConsent')}
-                  </Text>
-                </View>
-              </Checkbox>
-            </View.Item>
-          </View>
         </View.Item>
 
         <View.Item columns={12}>
@@ -286,7 +241,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   <View gap={1} direction="row">
                     <View.Item>
                       <Text variant="body-2">
-                        {translate('signUp.termsConsent')}
+                        Terminos y condiciones
                       </Text>
                     </View.Item>
                     <View.Item>
@@ -296,7 +251,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         disabled={isLoading}
                       >
                         <Text variant="body-2" weight="medium">
-                          {translate('signUp.termsAndConditions')}
+                        Terminos y condiciones
                         </Text>
                       </Link>
                     </View.Item>
@@ -307,7 +262,7 @@ const SignUpForm = (props: SignUpFormProps) => {
             <View.Item columns={12}>
               <FormControl hasError={acceptanceTermsHasError}>
                 <FormControl.Error>
-                  {translate('forms.validations.required', 'layout')}
+                  Este campo es obligatorio
                 </FormControl.Error>
               </FormControl>
             </View.Item>
@@ -322,11 +277,11 @@ const SignUpForm = (props: SignUpFormProps) => {
             type="submit"
             fullWidth
             attributes={{
-              'aria-label': translate('signUp.registerButton'),
+              'aria-label': 'Registrar',
               tabIndex: 9,
             }}
           >
-            {translate('signUp.registerButton')}
+            Registrar
           </Button>
         </View.Item>
 
@@ -338,18 +293,17 @@ const SignUpForm = (props: SignUpFormProps) => {
             paddingTop={6}
           >
             <Text variant="body-2">
-              {translate('signUp.alreadyHaveAccount')}
+              Ya tengo una cuenta
             </Text>
-            <Link color="primary" href="./login" disabled={isLoading}>
+            <Link color="primary" href={AppRoutes.Login} disabled={isLoading}>
               <Text variant="body-2" weight="medium">
-                {translate('signUp.clickHereToSignIn')}
+                Ir al login
               </Text>
             </Link>
           </View>
         </View.Item>
       </View>
-    </form> */
-    <></>
+    </form>
   );
 };
 export default SignUpForm;

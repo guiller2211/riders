@@ -33,7 +33,7 @@ export const HeaderUser = (props: UserProps) => {
         <Button
           color="white"
           size="xlarge"
-          href='/login' rounded>
+          href={AppRoutes.Login} rounded>
           <Icon svg={IconPerson} size={6} />
         </Button>
       )}

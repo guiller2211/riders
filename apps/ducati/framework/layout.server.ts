@@ -51,40 +51,13 @@ function getHeaderNavigation() {
   return [
     { button: { message: 'HOME', props: { href: '/' } } },
     {
-      button: { message: 'MODELOS' },
-      nodes: [
-        { button: { message: 'Category 1', props: { href: '/category' } } },
-        { button: { message: 'Category 2', props: { href: '/category' } } },
-      ],
+      button: { message: 'MODELOS', props: { href: '/category' } },
     },
     {
-      button: { message: 'REPUESTOS' },
-      nodes: [
-        { button: { message: 'Category 1', props: { href: '/category' } } },
-        { button: { message: 'Category 2', props: { href: '/category' } } },
-      ],
+      button: { message: 'ACCESORIOS', props: { href: '/category' } },
     },
     {
-      button: { message: 'SERVICIO TECNICO' },
-      nodes: [
-        { button: { message: 'Category 1', props: { href: '/category' } } },
-        { button: { message: 'Category 2', props: { href: '/category' } } },
-        { button: { message: 'Category 3', props: { href: '/category' } } },
-      ],
-    },
-    {
-      button: { message: 'SEMINUEVOS' },
-      nodes: [
-        { button: { message: 'Category 6', props: { href: '/category' } } },
-      ],
-    },
-    {
-      button: { message: 'COTIZAR' },
-      nodes: [
-        { button: { message: 'Category 10', props: { href: '/category' } } },
-        { button: { message: 'Category 11', props: { href: '/category' } } },
-        { button: { message: 'Category 12', props: { href: '/category' } } },
-      ],
+      button: { message: 'SEMINUEVOS', props: { href: '/category' } },
     },
     {
       button: { message: 'CONTACTO' },
