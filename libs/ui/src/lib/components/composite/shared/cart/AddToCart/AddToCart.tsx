@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
 
-import { Button, View } from '../../../../atomic';
+import { Button, View, TextField, Hidden } from '../../../../atomic';
 import { useOpenState } from '../../../../../hooks';
 import MiniCart from '../MiniCart';
 import type { CartEntryData } from '../../../../../types';
@@ -15,9 +15,10 @@ const AddToCart = (props: AddToCartProps) => {
     min,
     quantityValue = 1,
     showInPlp,
+    sendForm,
+    isLoading
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [cartEntryData, setCartEntry] = useState<CartEntryData>();
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
@@ -25,31 +26,37 @@ const AddToCart = (props: AddToCartProps) => {
   const changedQuantity = (value: number) => {
     setQuantity(value);
   };
+
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    sendForm(e);
 
   };
 
   return (
-    <View gap={6} direction={showInPlp ? 'row' : 'column'}>
-      <View.Item>
-        <QuantityCounter
-          name="addToCartQuantity"
-          step={1}
-          min={min! >= 0 ? min! : 1}
-          max={stockAvailable}
-          size="large"
-          changed={changedQuantity}
-          sizeField={showInPlp ? 'xlarge' : 'large'}
-          showInPlp={showInPlp}
-          showIcon
-        />
-      </View.Item>
-      <View.Item grow>
-        <form onSubmit={sendAddProduct}>
+    <form onSubmit={sendAddProduct}>
+      <View gap={6} direction={showInPlp ? 'row' : 'column'}>
+        <View.Item>
+          <QuantityCounter
+            name="addToCartQuantity"
+            step={1}
+            min={min! >= 0 ? min! : 1}
+            max={stockAvailable}
+            size="large"
+            changed={changedQuantity}
+            sizeField={showInPlp ? 'xlarge' : 'large'}
+            showInPlp={showInPlp}
+            showIcon
+          />
+        </View.Item>
+        
+        <Hidden hide>
+          <TextField name="productCode" defaultValue={productCode} />
+        </Hidden>
+
+        <View.Item grow>
           <Button
-            size={showInPlp ? 'xlarge' : 'large'}
+            size='xlarge'
             color="primary"
             variant="solid"
             type="submit"
@@ -64,9 +71,9 @@ const AddToCart = (props: AddToCartProps) => {
             isAdd
             product={cartEntryData}
           />
-        </form>
-      </View.Item>
-    </View>
+        </View.Item>
+      </View>
+    </form>
   );
 };
 export default AddToCart;

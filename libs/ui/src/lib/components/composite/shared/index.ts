@@ -3,3 +3,4 @@ export * from './CategoryCarousel';
 export * from './utils';
 export * from './MenuHeader';
 export * from './cart';
+export * from './misc';

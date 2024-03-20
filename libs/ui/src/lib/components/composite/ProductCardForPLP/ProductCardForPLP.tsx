@@ -2,9 +2,10 @@ import { useResponsiveClientValue } from 'reshaped';
 import { IconCart, IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
+import { AddToCart } from '../shared';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
-  const { product } = props;
+  const { product, sendForm, isLoading} = props;
 
   return (
     <View
@@ -15,7 +16,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       backgroundColor="neutral"
       gap={5}
     >
-      <Link href={"/product/" + product.type + "/" + product.id}>
+      <Link href={"/" + product.type + "/" + product.id}>
         <Image
           displayMode="contain"
           src={product.image?.url}
@@ -40,24 +41,27 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       </Text>
 
       <Text variant="body-3">SKU: {product.sku}</Text>
+      
+      <Text variant="body-3">Precio:  {product.price && product.price.value && product.price.value.currency
+        ? product.price.value.currency.symbol
+        : ''}</Text>
+
 
       <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
-        <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
-          <Button size='xlarge' color="white" icon={IconCart} fullWidth>
-            Agregar
-          </Button>
-        </View.Item>
 
-        <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
-          <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
-            Favorito
-          </Button>
+        <View.Item columns={12}>
+
+          {product?.sku && (
+            <AddToCart productCode={product?.sku} stockAvailable={230} sendForm={sendForm} isLoading={isLoading}/>
+          )}
         </View.Item>
+        <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
+          Favorito
+        </Button>
+
       </View>
 
-      {product.price && product.price.value && product.price.value.currency
-        ? product.price.value.currency.symbol
-        : ''}
+
     </View>
   );
 };

@@ -6,7 +6,7 @@ import type { TaxData } from './TaxData.types';
 import type { UserData } from './UserData.types';
 
 export interface AbstractOrderData {
-  code: string;
+  code?: string;
   poNumber?: string;
   deliveryCost?: PriceData;
   user?: UserData;
@@ -24,7 +24,7 @@ export interface AbstractOrderData {
 }
 
 export interface AbstractOrderEntryData {
-  entryId: string;
+  entryId?: string;
   entryNumber: number;
   product?: ProductData;
   quantity: number;

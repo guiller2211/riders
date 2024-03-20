@@ -1,2 +1,2 @@
-export { default } from './Facet';
-export type { FacetProps } from './Facet.types';
+export * from './Facet';
+export type * from './Facet.types';

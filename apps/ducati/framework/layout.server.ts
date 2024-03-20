@@ -51,13 +51,13 @@ function getHeaderNavigation() {
   return [
     { button: { message: 'HOME', props: { href: '/' } } },
     {
-      button: { message: 'MODELOS', props: { href: '/category' } },
+      button: { message: 'MODELOS', props: { href: '/motorcycles' } },
     },
     {
-      button: { message: 'ACCESORIOS', props: { href: '/category' } },
+      button: { message: 'ACCESORIOS', props: { href: '/accessories' } },
     },
     {
-      button: { message: 'SEMINUEVOS', props: { href: '/category' } },
+      button: { message: 'SEMINUEVOS', props: { href: '/motorcycles' } },
     },
     {
       button: { message: 'CONTACTO' },
@@ -75,7 +75,6 @@ function getHeader(): HeaderProps {
     logo: getHeaderLogo(),
     navigation: getHeaderNavigation(),
     user: {},
-    cart: {},
   };
 }
 

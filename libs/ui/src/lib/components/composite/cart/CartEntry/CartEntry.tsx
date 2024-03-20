@@ -178,7 +178,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                   <View.Item columns={12}>
                     <Hidden hide={{ s: true, l: false }}>
                       <DeleteFromCart
-                        entryId={props.entry.entryId}
+                        entryId={props.entry.entryId!}
                         quantity={props.entry.quantity}
                         variant="ghost"
                         color="primary"
@@ -224,7 +224,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                     </View.Item>
                     <View.Item columns={12}>
                       <DeleteFromCart
-                        entryId={props.entry.entryId}
+                        entryId={props.entry.entryId!}
                         quantity={props.entry.quantity}
                         variant="ghost"
                         color="primary"
@@ -261,7 +261,7 @@ const ViewMiniCart = (props: { entry: CartEntryData }) => {
       <View.Item>
         <DeleteFromCart
           isMiniCart
-          entryId={entry.entryId}
+          entryId={entry.entryId!}
           quantity={quantity}
           variant="outline"
         />

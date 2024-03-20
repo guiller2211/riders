@@ -46,8 +46,6 @@ const QuantityCounter = (props: QuantityCounterProps) => {
   return (
     <View
       direction="row"
-      borderColor="neutral"
-      borderRadius="small"
       align="center"
       width={props.showInPlp ? (!props.showIcon ? 14 : 32) : undefined}
       height={

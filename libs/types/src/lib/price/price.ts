@@ -2,7 +2,6 @@ import type { BadgeProps } from 'reshaped';
 
 import type { Resource } from '../resource';
 import type { User, UserGroup } from '../user';
-import type { Channel } from '../channel';
 import type { Country, Currency, Money } from '../localization';
 
 export interface Price extends Resource {
@@ -12,7 +11,6 @@ export interface Price extends Resource {
   validFrom?: Date;
   validUntil?: Date;
   user?: User;
-  channel?: Channel;
   userGroup?: UserGroup;
   country?: Country;
   // discounted
@@ -29,7 +27,6 @@ export interface PriceContext {
   currency?: Currency;
   country?: Country;
   date?: Date;
-  channel?: Channel;
   user?: User;
   userGroup?: UserGroup;
 }

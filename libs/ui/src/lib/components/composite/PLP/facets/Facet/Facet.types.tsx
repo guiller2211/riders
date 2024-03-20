@@ -1,4 +1,4 @@
-import type { FacetValuesProps } from '../FacetValues';
+import { FacetValuesProps } from "../FacetValues";
 
 export type FacetProps = {
   name: string;

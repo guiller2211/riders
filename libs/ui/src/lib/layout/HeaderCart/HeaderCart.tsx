@@ -5,8 +5,9 @@ import { IconCart } from '../../icons';
 import type { HeaderCartProps } from './HeaderCart.types';
 
 export const HeaderCart = (props: HeaderCartProps) => {
-  const { isCheckout } = props;
+  const { isCheckout, cart } = props;
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
+  console.log(cart)
 
   return (
     <View
@@ -25,7 +26,7 @@ export const HeaderCart = (props: HeaderCartProps) => {
       )}
       <MiniCart open={open} onClose={onCloseDrawerHandler} />
       <Text variant="body-2" weight="medium">
-        0
+        {cart ? cart?.lineItems.length : 0}
       </Text>
     </View>
   );

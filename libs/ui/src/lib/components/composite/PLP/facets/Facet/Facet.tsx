@@ -2,11 +2,11 @@ import React from 'react';
 import { useState } from 'react';
 
 import { Accordion, View, Text, Divider, Button } from '../../../../atomic';
-import type { FacetProps } from './Facet.types';
-import FacetValues from '../FacetValues';
+import { FacetValues } from '../FacetValues';
 import { IconDashSquare, IconPlusSquare } from '../../../../../icons';
+import { FacetProps } from './Facet.types';
 
-const Facet = (props: FacetProps) => {
+export const Facet = (props: FacetProps) => {
   const visibleLimit = props.visibleLimit ? props.visibleLimit : 5;
   const [showAll, setShowAll] = useState(false);
 
@@ -56,4 +56,3 @@ const Facet = (props: FacetProps) => {
   );
 };
 
-export default Facet;

@@ -18,7 +18,9 @@ export const SignUpPage = () => {
     const password = formData.get('password');
     const firstName = formData.get('firstName');
     const lastName = formData.get('lastName');
+    
     const authResult = await createAccount(email as string, password as string, firstName as string, lastName as string);
+
     if (authResult && authResult.success) {
       setSuccess(authResult.success);
       await fetcher.submit({ __session: authResult.__session, "email-login": true }, { method: "post" });

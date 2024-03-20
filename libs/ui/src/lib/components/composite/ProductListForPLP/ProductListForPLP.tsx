@@ -4,16 +4,16 @@ import { ProductListForPLPProps } from './ProductListForPLP.types';
 import { useResponsiveClientValue } from '../../../hooks';
 
 export const ProductListForPLP = (props: ProductListForPLPProps) => {
-  const { products } = props;
+  const { products, sendForm, isLoading } = props;
 
   return (
     <View direction="row" gap={5}>
-      {products?.map((item, index) => ( 
+      {products?.map((item, index) => (
         <View.Item
           columns={useResponsiveClientValue({ s: 12, l: 4 })}
           key={index}
         >
-            <ProductCardForPLP product={item}/>         
+          <ProductCardForPLP product={item} sendForm={sendForm} isLoading={isLoading}/>
         </View.Item>
       ))}
     </View>

@@ -4,7 +4,6 @@ import type { CartAction } from '../cart';
 import type { Resource } from '../resource';
 import type { User } from '../user';
 import type { Address } from '../user/address';
-import type { TaxCategory, TaxRate } from '../tax';
 import type { Money } from '../localization/currency';
 import type { CartProductPrice, Price } from '../price';
 
@@ -55,7 +54,6 @@ export interface AbstractOrderSummary {
   totalDiscounts?: Price;
   totalItems?: number;
   subTotal?: Price;
-  taxRate?: TaxRate;
   totalTax?: Price;
   totalPriceWithTax?: Price;
   shippingTotal?: Price;
@@ -88,8 +86,6 @@ export interface OrderShippingInfo {
   shippingMethodName: string;
   price: Money;
   shippingRate: Money;
-  taxRate?: TaxRate;
-  taxCategory?: TaxCategory;
   shippingMethod?: CartShippingMethod;
   taxedPrice: CartShippingTaxedPrice;
   shippingMethodState: string;

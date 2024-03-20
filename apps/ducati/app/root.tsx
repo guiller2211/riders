@@ -1,4 +1,4 @@
-import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
+import { CartUtils, Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
@@ -15,7 +15,9 @@ import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './utils/fb.sessions.server';
-import { getUser } from './service/data.service';
+import { getCustomerByUid, getUserById } from './service/user.data.service';
+import { Cart, Customer, User } from '@ducati/types';
+import { getCartById } from './service/cart.data.service';
 
 const links: LinksFunction = () => {
   return [
@@ -27,32 +29,41 @@ const links: LinksFunction = () => {
 export async function loader({ request }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
   const layout: LayoutProps = LayoutUtils.getLayout();
+
   const session = await getSession(request.headers.get("Cookie"));
+  let user: Customer | undefined;
 
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
+    user = await getCustomerByUid(uid);
 
-    if (uid) {
-      try {
-        const user = await getUser(uid);
+    if (user) {
+      layout.header.user.isLoggedIn = true;
+      layout.header.user.name = `${user.firstName ?? ''} ${user.lastName ?? ''}`;
+      logger.debug(layout.header.user.name + ' is logged in');
+      //return typedjson({ layout, user });
+    }
 
-        if (user) {
-          layout.header.user.isLoggedIn = true;
-          layout.header.user.name = `${user.firstName ?? ''} ${user.lastName ?? ''}`;
-          logger.debug(layout.header.user.name + ' is logged in');
-          return typedjson({ layout, user });
-        }
-      } catch (error) {
-        logger.error('Error al obtener el usuario:', error);
-      }
-    } else {
-      logger.debug('Estamos en una sesión anónima. Establecer la bandera isLoggedIn = false');
-      layout.header.user.isLoggedIn = false;
+
+  } else {
+    logger.debug('Estamos en una sesión anónima. Establecer la bandera isLoggedIn = false');
+    layout.header.user.isLoggedIn = false;
+  }
+
+  // Cart
+  let cart: Cart | undefined | null = undefined;
+  const cartSessionID = user?.cartId == null ? null : user.cartId;
+  if (cartSessionID) {
+    if (user && user.id) {
+      cart = await getCartById(cartSessionID);
+      layout.header.cart = cart;
     }
   }
-  return typedjson({ layout });
-}
 
+  console.log("aqui:" , cart)
+
+  return typedjson({ layout, cart });
+}
 
 const Head = () => {
   return (
@@ -94,7 +105,7 @@ const Root = () => {
 
   return (
     <Document>
-      <Layout header={loaderData.layout.header}>
+      <Layout header={loaderData.layout.header} >
         <Outlet />
       </Layout>
     </Document>

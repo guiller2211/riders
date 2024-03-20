@@ -1,4 +1,4 @@
-import type { UIComposedProps } from '@ducati/types';
+import type { Cart, UIComposedProps } from '@ducati/types';
 
 import type { HeaderCartProps } from '../HeaderCart';
 import type { HeaderUserProps } from '../HeaderUser';
@@ -12,7 +12,7 @@ export type HeaderProps = ViewProps & {
   messageBar?: UIComposedProps;
   navigation: UIComposedProps[];
   user: HeaderUserProps;
-  cart?: HeaderCartProps;
+  cart?: Cart;
   isCheckoutRoute?: boolean;
   onOpen?: VoidFunction;
 };

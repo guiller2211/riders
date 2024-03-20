@@ -1,10 +1,28 @@
 import { loader } from '../../routes/_index';
-import { useLoaderData } from '@remix-run/react';
-import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue,Text } from '@ducati/ui';
+import { useFetcher, useLoaderData } from '@remix-run/react';
+import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text, CartEntryData } from '@ducati/ui';
+import { FormEvent, useState } from 'react';
+import { getCart } from '../../service/cart.data.service';
 
 
 export const HomePage = () => {
   const loaderData = useLoaderData<typeof loader>();
+  const [isLoading, setIsLoading] = useState(false);
+  const fetcher = useFetcher();
+
+
+  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
+    const productCode: string = formData.get('productCode') as string;
+
+    await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
+    setIsLoading(false)
+  };
+
   return (
     <View gap={10}>
       <Herobanner images={loaderData.layout.homeImage} />
@@ -12,10 +30,10 @@ export const HomePage = () => {
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
         <CategoryCarousel images={loaderData.layout.categoryImage} />
         <Text variant="title-3">Motos</Text>
-        <ProductListForPLP products={loaderData.getMotorcycles} />
+        <ProductListForPLP products={loaderData.getMotorcycles} sendForm={sendAddProduct} isLoading={isLoading}/>
 
         <Text variant="title-3">Accesorios</Text>
-        <ProductListForPLP products={loaderData.getAccessories} />
+        <ProductListForPLP products={loaderData.getAccessories} sendForm={sendAddProduct} isLoading={isLoading}/>
       </View>
 
     </View>

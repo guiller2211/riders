@@ -12,8 +12,6 @@ export { default as ImageThumbnail } from './ImageThumbnail';
 export type { ImageThumbnailProps } from './ImageThumbnail';
 export { default as ImageZoom } from './ImageZoom';
 export type { ImageZoomProps } from './ImageZoom';
-export { default as LanguageDetector } from './LanguageDetector';
-export type { LanguageDetectorProps } from './LanguageDetector';
 export { default as Loading } from './Loading';
 export { default as QuantityCounter } from './QuantityCounter';
 export type { QuantityCounterProps } from './QuantityCounter';

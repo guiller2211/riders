@@ -10,6 +10,7 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "paths": {
+      "@ducati/core": ["libs/core/src/index.ts"],
       "@ducati/types": ["libs/types/src/index.ts"],
       "@ducati/ui": ["libs/ui/src/index.ts"]
     },

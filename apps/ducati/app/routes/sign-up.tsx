@@ -3,15 +3,6 @@ import { SignUpPage } from '../ui/pages/sign-up.page';
 import { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { sessionLogin } from '../utils/fb.sessions.server';
 
-function getTitlesData() {
-  return [
-    { label: 'Mr.', value: '0' },
-    { label: 'Ms.', value: '1' },
-    { label: 'Mx.', value: '3' },
-    { label: 'Mrs.', value: '4' },
-    { label: 'Miss', value: '5' },
-  ];
-}
 
 export async function action({ request, context: { registry } }: ActionArgs) {
   const formData: FormData = await request.formData();

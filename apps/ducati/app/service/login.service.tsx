@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "../utils/firebase.service";
-import { setUser } from "./data.service";
+import { setCustomer } from "./user.data.service";
+import { Customer } from "@ducati/types";
 
 export const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
@@ -37,7 +38,16 @@ export const createAccount = async (email: string, password: string, firstName: 
         const authResp = await createUserWithEmailAndPassword(auth, email, password);
 
         if (authResp) {
-            await setUser(authResp.user.uid, firstName, lastName);
+            const customer: Customer = {
+                id: authResp.user.uid,
+                firstName,
+                lastName,
+                email,
+                anonymous: false,
+                lastModifiedAt: Date.now().toString() 
+            };
+
+            await setCustomer(customer);
            return await loginWithEmailAndPassword(email, password);
         }
     } catch (err: any) {

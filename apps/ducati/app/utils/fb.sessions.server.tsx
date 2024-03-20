@@ -102,4 +102,4 @@ export const sessionLogout = async (request: any) => {
 };
 
 
-export { getSession, destroySession, admin }
+export { getSession, destroySession, commitSession, admin }

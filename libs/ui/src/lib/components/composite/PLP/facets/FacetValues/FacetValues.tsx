@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, Checkbox, Link } from '../../../../atomic';
-import type { FacetValuesProps } from './FacetValues.types';
-import { FacetValueTypeEnum } from './FacetValues.types';
+import { FacetValueTypeEnum, FacetValuesProps } from './FacetValues.types';
 
-const FacetValues = (props: FacetValuesProps) => {
+export const FacetValues = (props: FacetValuesProps) => {
   return (
     props.visible && (
       <View.Item>
@@ -26,4 +25,3 @@ const FacetValues = (props: FacetValuesProps) => {
   );
 };
 
-export default FacetValues;

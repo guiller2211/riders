@@ -1,5 +1,3 @@
-export { StoreContext } from './StoreContext';
-export { initialStoreContext } from './StoreContext';
 export { I18nContext } from './I18nContext';
 export { initialI18nContext } from './I18nContext';
 export {
