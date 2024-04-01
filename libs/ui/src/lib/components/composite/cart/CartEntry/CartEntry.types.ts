@@ -1,8 +1,6 @@
-import { Cart, Session } from '@ducati/types';
-
-import type { CartEntryData } from '../../../../types';
+import { CartEntry } from "@ducati/types";
 
 export type CartEntryProps = {
-  entry: CartEntryData;
+  entry: CartEntry;
   viewCart: 'ReadOnly' | 'MiniCart' | 'RecentlyAdded' | undefined;
 };

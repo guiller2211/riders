@@ -3,13 +3,15 @@ import CartEntry from '../CartEntry';
 import type { CartEntriesProps } from './CartEntries.types';
 
 const CartEntries = (props: CartEntriesProps) => {
+  const { entries, viewCart } = props;
+  
   return (
     <View gap={6} divided>
-      {props.entries?.map((entry) => {
+      {entries?.map((entry) => {
         const { entryId } = entry;
         return (
           <View.Item columns={12} key={entryId}>
-            <CartEntry viewCart={props.viewCart} entry={entry} />
+            <CartEntry viewCart={viewCart} entry={entry} />
           </View.Item>
         );
       })}

@@ -4,7 +4,7 @@ import { Carousel, Hidden, Icon, Image, Link, View } from '../../../../atomic';
 import type { ImageThumbnailProps } from './ImageThumbnail.types';
 import { ThumbPoisitionEnum } from './ImageThumbnail.types';
 import { IconChevronDown, IconChevronUp } from '../../../../../icons';
-import { Image as imageProps } from '@ducati/types';
+import { ImageData as imageProps } from '@ducati/types';
 import styles from './ImageThumbnail.module.css';
 
 const ImageThumbnail = (props: ImageThumbnailProps) => {

@@ -31,7 +31,7 @@ export const CategoryPage = () => {
       direction={useResponsiveClientValue({ s: 'column', l: 'row' })}
       paddingTop={5}
       gap={6}
-      paddingInline={useResponsiveClientValue({ s: 10,l: 20 })}
+      paddingInline={useResponsiveClientValue({ s: 10, l: 20 })}
     >
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 3 })}>
         <Facets facets={loaderData.facets} />
@@ -40,7 +40,7 @@ export const CategoryPage = () => {
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
         {loaderData.getProduct && loaderData.getProduct.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
-            <ProductListForPLP products={loaderData.getProduct} sendForm={sendAddProduct} isLoading={isLoading}/>
+            <ProductListForPLP products={loaderData.getProduct} sendForm={sendAddProduct} isLoading={isLoading} />
           </View>
         ) : (
           <PlpEmpty />

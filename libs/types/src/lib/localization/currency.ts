@@ -1,4 +1,4 @@
-export interface Currency {
+export interface CurrencyData {
   isocode: string;
   name: string;
   symbol: string;
@@ -10,8 +10,7 @@ export enum CurrencySymbolPosition {
   BEFORE = 'BEFORE',
   AFTER = 'AFTER',
 }
-
 export interface Money {
   centsAmount: number;
-  currency: Currency;
+  currency: CurrencyData;
 }

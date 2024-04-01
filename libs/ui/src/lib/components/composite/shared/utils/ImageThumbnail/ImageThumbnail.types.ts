@@ -1,7 +1,7 @@
-import { Image } from "@ducati/types";
+import { ImageData } from "@ducati/types";
 
 export type ImageThumbnailProps = {
-  images?: Image[];
+  images?: ImageData[];
   visibleItems?: number;
   selectedIndex: (index: number) => void;
   position?: ThumbPoisitionEnum;

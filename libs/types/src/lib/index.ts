@@ -10,7 +10,6 @@ export * from './media';
 export * from './misc';
 export * from './product';
 export * from './price';
-export * from './search';
 export * from './session';
 export * from './ui';
 export * from './shippingMethod';

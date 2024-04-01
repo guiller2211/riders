@@ -1,13 +1,16 @@
+
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { CategoryPage } from '../ui/pages/category.page';
 import { FacetProps, FacetValueTypeEnum } from '@ducati/ui';
 import { LayoutUtils } from '../../framework/layout.server';
-import { getMotorcycles } from '../service/product.data.service';
+import { getProduct, getProductBySku } from '../service/product.data.service';
 import { getSession } from '../utils/fb.sessions.server';
-import { Cart, Customer } from '@ducati/types';
+import { CartData, CartEntry, Customer, ProductEnum } from '@ducati/types';
 import { getCustomerByUid } from '../service/user.data.service';
-import { addItemToCart } from '../service/cart.data.service';
+import { addItemToCart, getCart } from '../service/cart.data.service';
+import { meta } from '../root';
+import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 function getFacetData(): FacetProps[] {
   return [
@@ -42,14 +45,15 @@ function getFacetData(): FacetProps[] {
   ];
 }
 
-export async function loader({}: LoaderArgs) {
+export async function loader({ }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
-  const products = await getMotorcycles();
+  const products = await getProduct();
+  const motorcycles = products.filter(_product => _product.type === ProductEnum.MOTORCYCLES);
 
   return typedjson({
     layout,
     facets: getFacetData(),
-    getProduct: products ?? [],
+    getProduct: motorcycles ?? [],
   });
 }
 
@@ -60,18 +64,16 @@ export async function action({ request, context: { registry } }: ActionArgs) {
   const productCode: string = formData.get('productCode') as string;
 
   let customer: Customer | undefined;
-  let cart: Cart | undefined;
+  let cart: CartEntry | undefined;
 
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
 
     customer = await getCustomerByUid(uid);
 
-    console.log(customer, "aqui", uid)
-
-    if (customer.cartId) {
-      cart = await addItemToCart(customer.cartId, quantity, productCode);
-      console.log(cart, "pago")
+    if (customer) {
+      const getCartCustomer: CartData = await getCart(uid);
+      cart = await addItemToCart(getCartCustomer, quantity, productCode);
     }
 
     /* await updateCustomerCart(uid, cart); */
@@ -101,9 +103,12 @@ export async function action({ request, context: { registry } }: ActionArgs) {
   }
 
   return cart;  */
-  return cart;
+  return null;
 }
 
 export default function Index() {
   return <CategoryPage />;
 }
+
+export { meta };
+export { ErrorBoundary };

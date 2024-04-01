@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { TextProps } from 'reshaped';
+import { CartEntry as CartEntryData } from '@ducati/types';
 
 import type { CartEntryProps } from './CartEntry.types';
 import {
@@ -12,9 +13,8 @@ import {
   Text,
   View,
 } from '../../../atomic';
-import type { CartEntryData } from '../../../../types';
 import { IconCheckCircle } from '../../../../icons';
-import { QuantityCounter } from '../../shared';
+import { Price, QuantityCounter } from '../../shared';
 import DeleteFromCart from '../../shared/cart/DeleteFromCart/DeleteFromCart';
 
 const CartEntry = (props: CartEntryProps) => {
@@ -76,7 +76,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
           <View.Item columns={{ s: 12, l: 7 }}>
             <View direction="row">
               <View.Item columns={{ s: 12, l: 6 }}>
-                <Link href={props.entry.product?.productUrl}>
+                <Link href={"/" + props.entry.product?.type + "/" + props.entry.product?.id}>
                   <Image
                     {...props.entry.product?.image}
                     height={35}
@@ -89,17 +89,17 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                   <View paddingBlock={3} paddingInline={0}>
                     <Text variant="body-3">
                       <Link
-                        href={props.entry.product?.productUrl}
+                        href={"/" + props.entry.product?.type + "/" + props.entry.product?.id}
                         variant="underline"
                       >
-                        {props.entry.product?.brand}
+                        {props.entry.product?.sku}
                       </Link>
                     </Text>
                   </View>
 
                   <Text variant="body-2" weight="bold">
                     <Link
-                      href={props.entry.product?.productUrl}
+                      href={"/" + props.entry.product?.type + "/" + props.entry.product?.id}
                       variant="plain"
                       color="inherit"
                     >
@@ -108,7 +108,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                   </Text>
 
                   <Text variant="body-3">
-                   sku: 123
+                    sku: 123
                   </Text>
 
                   <View.Item>
@@ -124,7 +124,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} color="positive" />
                           </View.Item>
                           <View.Item>
-                           disponibles 4
+                            disponibles 4
                           </View.Item>
                         </View>
                       ) : (
@@ -138,7 +138,7 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                             <Icon svg={IconCheckCircle} />
                           </View.Item>
                           <View.Item>
-                           disponible en 2 febrero
+                            disponible en 2 febrero
                           </View.Item>
                         </View>
                       )}
@@ -165,8 +165,8 @@ const CartEntryCard = (props: { entry: CartEntryData }) => {
                       qty={props.entry.quantity}
                       min={1}
                       max={
-                        props.entry.product?.stock
-                          ? props.entry.product?.stock
+                        props.entry.product?.stock?.quantity
+                          ? props.entry.product?.stock.quantity
                           : MAX_QTY
                       }
                       step={1}
@@ -289,21 +289,27 @@ const MiniCartProductCard = (props: { entry: CartEntryData }) => {
 
 const ProductImage = (props: { entry: CartEntryData }) => {
   const { entry } = props;
+  const image = entry.product?.image?.find(_product => _product.default == true);
+
+  if (!image) {
+    return null; // O podrías devolver un marcador de posición o un mensaje de error
+  }
+
   return (
-    <Link href={entry.product?.productUrl}>
-      <Image {...entry.product?.image} height="auto" width="auto" />
+    <Link href={"/" + entry.product?.type + "/" + entry.product?.id}>
+      <Image src={image.url} height="auto" width="auto" />
     </Link>
   );
 };
 const ProductInfo = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  
+  console.log(entry)
   return (
     <View direction="column">
       <View paddingBottom={1}>
         <Text variant="body-2" weight="bold">
           <Link
-            href={entry.product?.productUrl}
+            href={"/" + entry.product?.type + "/" + entry?.id}
             variant="plain"
             color="inherit"
           >
@@ -312,10 +318,10 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
         </Text>
       </View>
       <Text variant="body-3">
-       sku: 123
+        sku: {entry.product?.sku}
       </Text>
       <Text variant="body-3">
-      canidad 5
+        canidad {entry.quantity}
       </Text>
     </View>
   );
@@ -337,21 +343,31 @@ const ProductPrice = (props: { entry: CartEntryData }) => {
     <View>
       <View gap={1} direction="row" align="center">
         <View.Item>
-          $1000.000
+          <Price
+            locale={entry.totalPrice?.value?.currency.isocode}
+            text={eachPriceText}
+            value={entry.product?.price?.value}
+            discount={entry.discounts?.value}
+          />
         </View.Item>
         <View.Item>
-          <Text variant="body-3">
-            total 
+          <Text variant="body-3" weight='medium' color='neutral'>
+            Precio
           </Text>
         </View.Item>
       </View>
       <View gap={1} direction="row" align="center">
         <View.Item>
-          $1000.000
+          <Price
+            locale={entry.totalPrice?.value?.currency.isocode}
+            text={priceText}
+            value={entry.totalPrice?.value}
+            discount={entry.discounts?.value}
+          />
         </View.Item>
         <View.Item>
-          <Text variant="body-3">
-            precio 
+          <Text variant="body-1" weight='bold' color='neutral'>
+            total
           </Text>
         </View.Item>
       </View>

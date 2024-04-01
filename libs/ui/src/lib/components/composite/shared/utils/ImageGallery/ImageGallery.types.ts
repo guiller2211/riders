@@ -1,7 +1,7 @@
-import { Image } from '@ducati/types';
+import { ImageData } from '@ducati/types';
 import type { ThumbPoisitionEnum } from '../ImageThumbnail';
 
 export type ImageGalleryProps = {
-  images?: Image[];
+  images?: ImageData[];
   thumbPosition?: ThumbPoisitionEnum;
 };

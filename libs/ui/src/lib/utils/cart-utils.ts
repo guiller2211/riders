@@ -1,4 +1,4 @@
-import type { Cart, CartSummary, Session } from '@ducati/types';
+/* import type { CartData } from '@ducati/types';
 import { CurrencySymbolPosition } from '@ducati/types';
 import type { ILogObj } from 'tslog';
 import { Logger } from 'tslog';
@@ -10,7 +10,7 @@ import type {
 import { getAddress } from './address-utils';
 
 export class CartUtils {
-  static getCart(cart: Cart): CartProps {
+  static getCart(cart: CartData): CartProps {
     const logger: Logger<ILogObj> = new Logger({ name: 'CartUtils.ts' });
     const cartEntryData: CartEntryData[] = [];
 
@@ -98,3 +98,4 @@ export class CartUtils {
   }
 
 }
+ */

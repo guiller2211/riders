@@ -5,7 +5,7 @@ import styles from './HeaderUser.module.css';
 import { AppRoutes } from '@ducati/types';
 
 export const HeaderUser = (props: UserProps) => {
-  const { user } = props;
+  const { user,navigation } = props;
 
   return (
     <View gap={1} direction="row" >
@@ -22,11 +22,15 @@ export const HeaderUser = (props: UserProps) => {
             )}
           </DropdownMenu.Trigger>
           <DropdownMenu.Content>
-            <Button
-              variant="ghost"
-              color="inherit"
-              href={AppRoutes.Logout}
-            > cerrar sesion</Button>
+            {navigation.map((node, i) => {
+              return (
+                <DropdownMenu.Item href={node.button?.props?.href} key={i}>
+                  <Text variant="body-3" weight="medium">
+                    {node.button?.message}
+                  </Text>
+                </DropdownMenu.Item>
+              );
+            })}
           </DropdownMenu.Content>
         </DropdownMenu>
       ) : (

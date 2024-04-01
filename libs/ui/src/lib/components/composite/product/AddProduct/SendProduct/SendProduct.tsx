@@ -14,16 +14,17 @@ import {
 import { ValidationUtils } from '../../../../../utils';
 import { SendProductProps } from './SendProduct.types';
 import { FileUpload } from 'reshaped';
+import { ProductEnum } from '@ducati/types';
 
 export const SendProduct = (props: SendProductProps) => {
   const { sendForm, isLoading } = props;
 
   const [type, setType] = useState('');
-  const [category, setCategory] = useState('');
+  const [sku, setsku] = useState('');
   const [image, setImage] = useState<File[]>([]);
-  const [images, setImages] = useState<File[]>([]);
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const [stock, setStock] = useState('');
   const [productName, setProductName] = useState('');
 
   const [typeHasError, setTypeHasError] = useState(false);
@@ -56,7 +57,10 @@ export const SendProduct = (props: SendProductProps) => {
       productNameValidation();
     }
   };
-
+  const optionsType = Object.values(ProductEnum).map(value => ({
+    label: value.charAt(0).toUpperCase() + value.slice(1),
+    value,
+  }));
 
   return (
     <form method="POST" onSubmit={(e) => validateForm(e)} encType="multipart/form-data">
@@ -83,6 +87,25 @@ export const SendProduct = (props: SendProductProps) => {
         </View.Item>
 
         <View.Item columns={12}>
+          <FormControl hasError={productNameHasError}>
+            <TextField
+              name="sku"
+              placeholder='SKU del producto'
+              onChange={(e) => setsku(e.value)}
+              disabled={isLoading}
+              size="xlarge"
+              inputAttributes={{
+                tabIndex: 2,
+                onBlur: () => productNameValidation(),
+              }}
+            />
+            <FormControl.Error>
+              error en el nombre
+            </FormControl.Error>
+          </FormControl>
+        </View.Item>
+
+        <View.Item columns={12}>
           <FormControl hasError={typeHasError}>
             <Select
               name="type"
@@ -90,11 +113,7 @@ export const SendProduct = (props: SendProductProps) => {
               onChange={(e) => setType(e.value)}
               size="xlarge"
               disabled={isLoading}
-              options={[
-                { label: 'Moto', value: 'motorcycles' },
-                { label: 'Accesorios', value: 'accessories' },
-
-              ]}
+              options={optionsType}
               onFocus={() => setTypeHasError(false)}
               onBlur={() => TypeValidation()}
               inputAttributes={{
@@ -108,7 +127,7 @@ export const SendProduct = (props: SendProductProps) => {
           </FormControl>
         </View.Item>
 
-        <View.Item columns={12}>
+     {/*    <View.Item columns={12}>
           <Select
             name="category"
             placeholder="categoria"
@@ -127,6 +146,22 @@ export const SendProduct = (props: SendProductProps) => {
               tabIndex: 1,
             }}
           />
+        </View.Item> */}
+
+        <View.Item columns={12}>
+          <TextField
+            name="stock"
+            placeholder='Stock'
+            onChange={(e) => setStock(e.value)}
+            disabled={isLoading}
+            size="xlarge"
+            inputAttributes={{
+              tabIndex: 4,
+              minLength: 0,
+              maxLength:100,
+              type: 'number',
+            }}
+          />
         </View.Item>
 
         <View.Item columns={12}>
@@ -137,9 +172,9 @@ export const SendProduct = (props: SendProductProps) => {
             disabled={isLoading}
             size="xlarge"
             inputAttributes={{
-              'aria-label': 'Email',
               tabIndex: 4,
             }}
+            
           />
         </View.Item>
 

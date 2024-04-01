@@ -1,6 +1,8 @@
 import { redirect, LoaderArgs } from '@remix-run/node';
 import { ILogObj, Logger } from 'tslog';
 import { destroySession, getSession } from '../utils/fb.sessions.server';
+import { meta } from '../root';
+import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 const logger: Logger<ILogObj> = new Logger({ name: 'logout.tsx' });
 
@@ -16,3 +18,6 @@ export const loader = async ({
      headers: { "Set-Cookie": await destroySession(session) },
    });
 };
+
+export { meta };
+export { ErrorBoundary };

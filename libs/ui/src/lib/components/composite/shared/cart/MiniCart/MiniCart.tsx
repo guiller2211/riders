@@ -1,12 +1,12 @@
-import { AppRoutes, UIComposedProps } from '@ducati/types';
+import { AppRoutes, CartData, CartEntry, UIComposedProps } from '@ducati/types';
 
-import type { CartData, CartEntryData } from '../../../../../types';
 
 import { View, Text } from '../../../../atomic';
 
 import type { MiniCartProps } from './MiniCart.types';
 import { Drawer, DrawerActionsButtons, DrawerContent, DrawerFooter, DrawerHeader } from '../../utils';
-import { CartEmpty, CartEntries, CartEntry } from '../../../cart';
+import { CartEmpty, CartEntries, CartEntry as CartEntryComponent } from '../../../cart';
+import { Price } from '../../price';
 
 function getEmptyCartData(): UIComposedProps {
   return {
@@ -46,7 +46,7 @@ const ViewCart = (props: {
       {cart?.entries.length > 0 ? (
         <Drawer active={open} onClose={onClose}>
           <DrawerHeader
-            title="3"
+            title="Mi carrito"
             onClose={onClose}
           />
           <DrawerContent direction="column">
@@ -58,7 +58,15 @@ const ViewCart = (props: {
             </Text>
             <View.Item gapBefore="auto">
               <Text variant="body-1" weight="bold">
-                $1000.000
+              <Price
+                  locale={cart.totalPrice?.value?.currency.isocode}
+                  text={{
+                    color: 'neutral',
+                    weight: 'bold',
+                    variant: 'body-1',
+                  }}
+                  value={cart.totalPrice?.value}
+                />
               </Text>
             </View.Item>
             <DrawerActionsButtons
@@ -79,7 +87,7 @@ const ViewCart = (props: {
 const AddCart = (props: {
   open: boolean;
   onClose: VoidFunction;
-  product: CartEntryData;
+  product: CartEntry;
 }) => {
   const { open, product, onClose } = props;
 
@@ -90,7 +98,7 @@ const AddCart = (props: {
         onClose={onClose}
       />
       <DrawerContent direction="column">
-        <CartEntry entry={product} viewCart="RecentlyAdded" />
+        <CartEntryComponent entry={product} viewCart="RecentlyAdded" />
         <Text variant="body-2">Editar</Text>
       </DrawerContent>
       <DrawerFooter>

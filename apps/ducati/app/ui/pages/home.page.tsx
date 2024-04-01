@@ -1,8 +1,7 @@
 import { loader } from '../../routes/_index';
 import { useFetcher, useLoaderData } from '@remix-run/react';
-import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text, CartEntryData } from '@ducati/ui';
+import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text } from '@ducati/ui';
 import { FormEvent, useState } from 'react';
-import { getCart } from '../../service/cart.data.service';
 
 
 export const HomePage = () => {
@@ -30,12 +29,15 @@ export const HomePage = () => {
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
         <CategoryCarousel images={loaderData.layout.categoryImage} />
         <Text variant="title-3">Motos</Text>
-        <ProductListForPLP products={loaderData.getMotorcycles} sendForm={sendAddProduct} isLoading={isLoading}/>
+        <ProductListForPLP products={loaderData.getMotorcycles} sendForm={sendAddProduct} isLoading={isLoading} />
 
         <Text variant="title-3">Accesorios</Text>
-        <ProductListForPLP products={loaderData.getAccessories} sendForm={sendAddProduct} isLoading={isLoading}/>
+        <ProductListForPLP products={loaderData.getAccessories} sendForm={sendAddProduct} isLoading={isLoading} />
+
       </View>
 
     </View>
   );
 };
+
+

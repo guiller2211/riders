@@ -12,6 +12,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
         const authResp: UserCredential = await signInWithEmailAndPassword(auth, email, password);
 
         if (authResp) {
+        
             const __session = await auth.currentUser?.getIdToken();
 
             return {
@@ -29,26 +30,19 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
     return null;
 };
 
-export const createAccount = async (email: string, password: string, firstName: string, lastName: string) => {
+export const createAccount = async (user: Customer, password: string) => {
     try {
-        if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+        if (!user.email || !password || typeof user.email !== 'string' || typeof password !== 'string') {
             throw new Error('Invalid email or password');
         }
 
-        const authResp = await createUserWithEmailAndPassword(auth, email, password);
-
+        const authResp = await createUserWithEmailAndPassword(auth, user.email, password);
+        
         if (authResp) {
-            const customer: Customer = {
-                id: authResp.user.uid,
-                firstName,
-                lastName,
-                email,
-                anonymous: false,
-                lastModifiedAt: Date.now().toString() 
-            };
+            const customer: Customer = { ...user, id: authResp.user.uid }
 
             await setCustomer(customer);
-           return await loginWithEmailAndPassword(email, password);
+            return await loginWithEmailAndPassword(user.email, password);
         }
     } catch (err: any) {
         console.error("signInWithEmailAndPassword Error:", err);

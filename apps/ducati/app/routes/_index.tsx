@@ -2,20 +2,24 @@ import { HomePage } from '../ui/pages/home.page';
 import { typedjson } from 'remix-typedjson';
 import { LayoutUtils } from '../../framework/layout.server';
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { generateRandomId, getAccessories, getMotorcycles } from '../service/product.data.service';
-import { commitSession, getSession } from '../utils/fb.sessions.server';
-import { addItemToCart, createAnonymousCart, createAnonymousCustomer, getCart, updateCustomerCart } from '../service/cart.data.service';
-import { Cart, Customer } from '@ducati/types';
-import { CartEntryData } from '@ducati/ui';
+import {  getProduct } from '../service/product.data.service';
+import { getSession } from '../utils/fb.sessions.server';
+import { addItemToCart, getCart } from '../service/cart.data.service';
+import { CartData, CartEntry, Customer, ProductEnum } from '@ducati/types';
 import { getCustomerByUid } from '../service/user.data.service';
+import { ErrorBoundary } from '../ui/pages/error-boundary.page';
+import { meta } from '../root';
 
 export async function loader({ request }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const session = await getSession(request.headers.get("Cookie"));
 
-  const motorcycles = await getMotorcycles();
-  const accessories = await getAccessories();
-  let cart: Cart | undefined;
+  const product = await getProduct();
+
+  const motorcycles = product.filter(_product => _product.type === ProductEnum.MOTORCYCLES);
+  const accessories = product.filter(_product => _product.type === ProductEnum.ACCESSORIES);
+
+  let cart: CartData | undefined;
 
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
@@ -38,20 +42,18 @@ export async function action({ request, context: { registry } }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const quantity: string = formData.get('addToCartQuantity') as string;
   const productCode: string = formData.get('productCode') as string;
-
+  
   let customer: Customer | undefined;
-  let cart: Cart | undefined;
+  let cart: CartEntry | undefined;
 
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
 
     customer = await getCustomerByUid(uid);
 
-    console.log(customer, "aqui", uid)
-
-    if (customer.cartId) {
-      cart = await addItemToCart(customer.cartId, quantity, productCode);
-      console.log(cart, "pago")
+    if (customer) {
+      const getCartCustomer: CartData = await getCart(uid);
+      cart = await addItemToCart(getCartCustomer, quantity, productCode);
     }
 
     /* await updateCustomerCart(uid, cart); */
@@ -89,3 +91,6 @@ export async function action({ request, context: { registry } }: ActionArgs) {
 export default function Index() {
   return <HomePage />;
 }
+
+export { meta };
+export { ErrorBoundary };

@@ -1,8 +1,8 @@
-import type { Cart } from '../cart';
+import type { CartData } from '../cart';
 import type { User } from './user';
 
 export interface Customer extends User {
-  cart?: Cart;
+  cart?: CartData;
   cartId?: string;
   lastModifiedAt?: string;
 }

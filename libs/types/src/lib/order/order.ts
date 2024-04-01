@@ -1,11 +1,10 @@
 import type { ImageProps } from 'reshaped';
 
-import type { CartAction } from '../cart';
 import type { Resource } from '../resource';
 import type { User } from '../user';
-import type { Address } from '../user/address';
-import type { Money } from '../localization/currency';
-import type { CartProductPrice, Price } from '../price';
+import type { AddressData } from '../user/address';
+import type {  DeliveryCostData, PriceData } from '../price';
+import { ProductData } from '@ducati/types';
 
 export enum DeliveryStatus {
   InProcess = 'In process',
@@ -20,19 +19,25 @@ export interface Order extends AbstractOrder {
 
 export interface AbstractOrder extends Resource {
   poNumber?: string; // new field
-  deliveryCost?: Price;
+  deliveryCost?: DeliveryCostData;
   email?: string;
   customer?: User;
-  shippingAddress?: Address; // Address type
-  billingAddress?: Address; // Address type
+  shippingAddress?: AddressData; // Address type
+  billingAddress?: AddressData; // Address type
   shippingMode?: string;
-  shippingInfo?: OrderShippingInfo;
+  /* shippingInfo?: OrderShippingInfo; */
   deliveryStatus?: DeliveryStatus;
   orderStatus?: string;
   state?: OrderState;
   paymentInfo?: CreditCardPaymentInfo;
-  summary?: OrderSummary;
   createdAt?: string;
+  deliveryMode?: string; // DeliveryMode type
+  totalDiscounts?: PriceData;
+  totalItems?: number;
+  subTotal?: PriceData;
+  totalPriceWithTax?: PriceData;
+  shippingTotal?: PriceData;
+  totalPrice?: PriceData;
 }
 
 export interface OrderState {
@@ -48,28 +53,20 @@ export interface CreditCardPaymentInfo {
   type: string;
 }
 
-export type OrderSummary = AbstractOrderSummary;
 
-export interface AbstractOrderSummary {
-  totalDiscounts?: Price;
-  totalItems?: number;
-  subTotal?: Price;
-  totalTax?: Price;
-  totalPriceWithTax?: Price;
-  shippingTotal?: Price;
-}
 
 export interface OrderEntry extends AbstractOrderEntry {
   readOnly?: boolean; // FE only
 }
 
 export interface AbstractOrderEntry extends Resource {
+  entryId?: string;
   entryNumber: number;
-  product?: OrderProduct;
+  product?: ProductData;
   quantity: number;
-  basePrice?: Price;
-  discounts?: Price;
-  totalPrice?: Price;
+  basePrice?: PriceData;
+  discounts?: PriceData;
+  totalPrice?: PriceData;
 }
 
 export interface OrderProduct {
@@ -78,34 +75,11 @@ export interface OrderProduct {
   name?: string;
   sku?: string;
   brand?: string;
-  price: CartProductPrice;
+  price: PriceData;
   stock?: number;
-}
-
-export interface OrderShippingInfo {
-  shippingMethodName: string;
-  price: Money;
-  shippingRate: Money;
-  shippingMethod?: CartShippingMethod;
-  taxedPrice: CartShippingTaxedPrice;
-  shippingMethodState: string;
 }
 
 export interface CartShippingMethod {
   typeId: string;
   id: string;
-}
-
-export interface CartShippingTaxedPrice {
-  totalNet?: Money;
-  totalGross?: Money;
-  totalTax?: Money;
-}
-
-export interface CreateFromCartAction extends CartAction {
-  createFromCart: CreateFromCartRequest;
-}
-
-export interface CreateFromCartRequest {
-  pONumber: string;
 }

@@ -1,6 +1,6 @@
-import type { OrderData } from '../../../../types';
+import { Order } from "@ducati/types";
 
 export type OrderProps = {
-  order: OrderData;
+  order: Order;
   //summary: OrderSummaryProps;
 };

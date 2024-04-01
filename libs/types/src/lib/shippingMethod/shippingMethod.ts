@@ -1,8 +1,8 @@
-import type { Price } from '../price';
+import type { PriceData } from '../price';
 
 export interface ShippingMethod {
   id: string;
   name: string;
-  price: Price;
+  price: PriceData;
   duration: string;
 }

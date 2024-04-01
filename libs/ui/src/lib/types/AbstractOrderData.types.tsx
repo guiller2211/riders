@@ -1,3 +1,4 @@
+import { Resource } from '@ducati/types';
 import type { AddressData } from './AddressData.types';
 import type { PriceData } from './PriceData.types';
 import type { ProductData } from './ProductData.types';
@@ -5,7 +6,7 @@ import type { ShippingInfo } from './ShippingInfo.types';
 import type { TaxData } from './TaxData.types';
 import type { UserData } from './UserData.types';
 
-export interface AbstractOrderData {
+export interface AbstractOrderData  extends Resource {
   code?: string;
   poNumber?: string;
   deliveryCost?: PriceData;

@@ -3,6 +3,7 @@ import { useFetcher, useNavigation, useSubmit } from '@remix-run/react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import { FormEvent, useState } from 'react';
 import { createAccount } from '../../service/login.service';
+import { Customer } from '@ducati/types';
 
 export const SignUpPage = () => {
   const navigation = useNavigation();
@@ -18,8 +19,17 @@ export const SignUpPage = () => {
     const password = formData.get('password');
     const firstName = formData.get('firstName');
     const lastName = formData.get('lastName');
-    
-    const authResult = await createAccount(email as string, password as string, firstName as string, lastName as string);
+
+    const user: Customer = {
+      id: '',
+      email: email as string,
+      firstName: firstName as string,
+      lastName: lastName as string,
+      anonymous: false,
+      lastModifiedAt: new Date().toISOString()
+    }
+
+    const authResult = await createAccount(user, password as string);
 
     if (authResult && authResult.success) {
       setSuccess(authResult.success);

@@ -1,8 +1,8 @@
-import type { Money } from '@ducati/types';
+import { CurrencyData } from "@ducati/types";
 
 export interface ShippingInfo {
   shippingMethodId?: string;
   shippingMethodTypeId?: string;
   shippingMethodName?: string;
-  shippingMethodPrice?: Money;
+  shippingMethodPrice?: CurrencyData;
 }

@@ -1,7 +1,8 @@
-import { typedjson } from 'remix-typedjson';
 import { SignUpPage } from '../ui/pages/sign-up.page';
-import { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { ActionArgs } from '@remix-run/node';
 import { sessionLogin } from '../utils/fb.sessions.server';
+import { meta } from '../root';
+import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 
 export async function action({ request, context: { registry } }: ActionArgs) {
@@ -18,6 +19,5 @@ export default function Index() {
   return <SignUpPage />;
 }
 
-
-
-
+export { meta };
+export { ErrorBoundary };

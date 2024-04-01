@@ -4,3 +4,4 @@ export * from './utils';
 export * from './MenuHeader';
 export * from './cart';
 export * from './misc';
+export * from './price';

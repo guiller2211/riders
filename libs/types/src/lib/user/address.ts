@@ -1,17 +1,16 @@
-import type { Country, Region, State } from '..';
+import type { CommunesData, Country, RegionData, State } from '..';
 
-export interface Address {
+export interface AddressData {
   id: string;
   key?: string;
-  title?: string;
   firstName?: string;
-  middleName?: string;
   lastName?: string;
   streetNumber?: string;
   streetName?: string;
   city?: string;
   state?: State;
-  region?: Region;
+  region?: RegionData;
+  communes?: CommunesData;
   postalCode?: string;
   country?: Country;
   phone?: string;

@@ -1,4 +1,4 @@
-import type { CartData } from '../../../../types';
+import { CartData } from "@ducati/types";
 
 export type CartProps = {
   cart: CartData;

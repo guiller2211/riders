@@ -1,7 +1,7 @@
-import type {
-  HeaderLogoProps,
-  HeaderProps,
-  LayoutProps,
+import {
+  type HeaderLogoProps,
+  type HeaderProps,
+  type LayoutProps,
 } from '@ducati/ui';
 import p1 from '../public/assets/images/product/1.png';
 import p2 from '../public/assets/images/product/2.png';
@@ -16,6 +16,7 @@ import c4 from '../public/assets/images/categories/Skidoo.png';
 import c5 from '../public/assets/images/categories/Surron.png';
 import c6 from '../public/assets/images/categories/Triumph.png';
 import logo from '../public/assets/images/logo/logo.png';
+import { AppRoutes } from '@ducati/types';
 
 const PRODUCT_IMAGE_1 = p1;
 const PRODUCT_IMAGE_2 = p2;
@@ -69,12 +70,35 @@ function getHeaderNavigation() {
     },
   ];
 }
+function getUserMenu() {
+  return [
+    {
+      button: { message: 'Mi Cuenta', props: { href: '/my-account' } }
+    },
+    {
+      button: { message: 'Datos Personales', props: { href: AppRoutes.PersonalDetails } },
+    },
+    {
+      button: { message: 'Mis Direcciones', props: { href: AppRoutes.AddressBook } },
+    },
+    {
+      button: { message: 'Metodos de Pago', props: { href: AppRoutes.PaymentMethods } },
+    },
+    {
+      button: { message: 'Mis Ordenes', props: { href: AppRoutes.Orders } },
+    },
+    {
+      button: { message: 'cerrar sesion', props: { href: AppRoutes.Logout } },
+    },
+  ];
+}
 
 function getHeader(): HeaderProps {
   return {
     logo: getHeaderLogo(),
     navigation: getHeaderNavigation(),
-    user: {},
+    userMenu: getUserMenu(),
+    user: {}
   };
 }
 
@@ -87,6 +111,7 @@ export class LayoutUtils {
       header,
       homeImage,
       categoryImage,
+
     };
   }
 }

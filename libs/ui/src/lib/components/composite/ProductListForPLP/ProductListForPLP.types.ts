@@ -1,8 +1,8 @@
-import { Product } from "@ducati/types";
+import { ProductData } from "@ducati/types";
 import { FormEvent } from "react";
 
 export type ProductListForPLPProps = {
-  products?: Product[];
+  products?: ProductData[];
   isLoading?: boolean;
   sendForm: (form: FormEvent<HTMLFormElement>) => void;
 };

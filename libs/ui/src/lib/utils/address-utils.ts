@@ -1,12 +1,11 @@
 
-import { Address } from '@ducati/types';
+import { AddressData } from '@ducati/types';
 import type { AddressData } from '../types';
 
-export const getAddress = (address: Address): AddressData => {
+export const getAddress = (address: AddressData): AddressData => {
   return {
     id: address?.id ?? '',
     key: address?.key,
-    title: address?.title,
     firstName: address?.firstName,
     lastName: address?.lastName,
     streetNumber: address?.streetNumber,

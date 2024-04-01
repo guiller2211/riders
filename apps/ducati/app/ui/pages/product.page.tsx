@@ -11,7 +11,7 @@ import {
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
-import type { loader } from '../../routes/motorcycles.$skuId';
+import type { loader } from '../../routes/motorcycles.$id';
 import { FormEvent, useState } from 'react';
 import { useFetcher } from '@remix-run/react';
 
@@ -31,7 +31,6 @@ const ProductDetailPage = () => {
     await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
     setIsLoading(false)
   };
-  console.log(loaderData.product)
   return (
     /*   <View
         direction="column"
@@ -86,15 +85,15 @@ const ProductDetailPage = () => {
         <View direction="row" gap={useResponsiveClientValue({ l: 6, s: 9 })}>
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 7 })}>
             <View direction="column" gap={useResponsiveClientValue({ l: 12, s: 9 })} backgroundColor='page' padding={8} borderRadius='large'>
-              {loaderData.product?.images && (
+              {loaderData.product?.image && (
                 <View.Item columns={12}>
-                  <ImageGallery images={loaderData.product.images} />
+                  <ImageGallery images={loaderData.product.image} />
                 </View.Item>
               )}
               {loaderData.product?.description && (
                 <View.Item columns={12}>
                   <Text variant="featured-3" weight="bold" color="neutral">
-                  Descripcion
+                    Descripcion
                   </Text>
                   <ProductOverview summary={loaderData.product?.description} />
                 </View.Item>
@@ -105,9 +104,13 @@ const ProductDetailPage = () => {
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 5 })} >
             <View direction="column" gap={8} backgroundColor='page' padding={8} borderRadius='large'>
 
+              <View.Item columns={12}>
+                <Text>SKU: {loaderData.product?.sku}</Text>
+              </View.Item>
+
               {loaderData.product?.price && (
                 <View.Item columns={12}>
-                  {loaderData.product?.price.value.centsAmount}
+                  <Text>Precio: ${loaderData.product?.price.value.centsAmount}</Text>
                 </View.Item>
               )}
               <View.Item columns={12}>

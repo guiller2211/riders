@@ -1,4 +1,4 @@
-import type { Country, Currency, Locale } from '../localization';
+import type { Country, CurrencyData, Locale } from '../localization';
 
 export interface InnerSession {
   get<T>(name: string): T | undefined;
@@ -16,7 +16,7 @@ export interface InnerSession {
 export interface Session {
   user: UserSession;
   cart?: CartSession;
-  currency: Currency;
+  currency: CurrencyData;
 }
 
 export interface UserSession {

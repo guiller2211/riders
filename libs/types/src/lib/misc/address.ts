@@ -1,5 +1,5 @@
 import type { BaseError } from './errors';
-import type { Address } from '../user/address';
+import type { AddressData } from '../user/address';
 
 export enum CountryType {
   BILLING = 'BILLING',
@@ -11,5 +11,5 @@ export interface AddressValidation {
   // TODO: Simplify with converter
 
   errors?: { errors: BaseError[] };
-  suggestedAddresses?: Address[];
+  suggestedAddresses?: AddressData[];
 }

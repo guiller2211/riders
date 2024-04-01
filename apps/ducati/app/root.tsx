@@ -1,4 +1,4 @@
-import { CartUtils, Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
+import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
@@ -16,8 +16,10 @@ import "reshaped/themes/reshaped/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './utils/fb.sessions.server';
 import { getCustomerByUid, getUserById } from './service/user.data.service';
-import { Cart, Customer, User } from '@ducati/types';
+import { CartData, Customer, User } from '@ducati/types';
 import { getCartById } from './service/cart.data.service';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './utils/firebase.service';
 
 const links: LinksFunction = () => {
   return [
@@ -36,12 +38,12 @@ export async function loader({ request }: LoaderArgs) {
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
     user = await getCustomerByUid(uid);
+    console.log(user)
 
     if (user) {
       layout.header.user.isLoggedIn = true;
       layout.header.user.name = `${user.firstName ?? ''} ${user.lastName ?? ''}`;
       logger.debug(layout.header.user.name + ' is logged in');
-      //return typedjson({ layout, user });
     }
 
 
@@ -51,7 +53,7 @@ export async function loader({ request }: LoaderArgs) {
   }
 
   // Cart
-  let cart: Cart | undefined | null = undefined;
+  let cart: CartData | undefined | null = undefined;
   const cartSessionID = user?.cartId == null ? null : user.cartId;
   if (cartSessionID) {
     if (user && user.id) {
@@ -59,8 +61,6 @@ export async function loader({ request }: LoaderArgs) {
       layout.header.cart = cart;
     }
   }
-
-  console.log("aqui:" , cart)
 
   return typedjson({ layout, cart });
 }

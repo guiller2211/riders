@@ -1,17 +1,16 @@
-import { AbstractOrder, AbstractOrderEntry, AbstractOrderSummary } from '../order';
+import { AbstractOrder, AbstractOrderEntry } from '../order';
 
-export interface Cart extends AbstractOrder {
-  lineItems: CartEntry[];
+export interface CartData extends AbstractOrder {
+  promotions?: string[];
+  entries: CartEntry[];
 }
-
-export type CartSummary = AbstractOrderSummary;
 
 export interface CartEntry extends AbstractOrderEntry {
   readOnly?: boolean; // FE only
 }
 
 export interface CartAction {
-  cart: Cart | string | null;
+  cart: CartData | string | null;
 }
 
 export interface AddToCartAction extends CartAction {

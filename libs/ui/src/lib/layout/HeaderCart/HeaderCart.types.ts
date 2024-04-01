@@ -1,8 +1,7 @@
-import { Cart } from '@ducati/types';
-import type { CartData } from '../../types';
+import { CartData } from '@ducati/types';
 
 export type HeaderCartProps = {
-  cart?: Cart;
+  cart?: CartData;
   isCheckout?: boolean;
   open?: VoidFunction;
 };

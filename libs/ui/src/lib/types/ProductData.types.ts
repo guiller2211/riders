@@ -1,4 +1,4 @@
-import { Money } from '@ducati/types';
+import { CurrencyData } from '@ducati/types';
 import type { ImageProps, TextProps, BadgeProps } from 'reshaped';
 
 
@@ -14,8 +14,7 @@ export type ProductData = {
 
 export type PriceProps = {
   locale?: string;
-  value?: Money;
-  discount?: Money;
+  value?: CurrencyData;
   badges?: BadgeProps[];
   badgesOnTop?: boolean;
   promotionMessage?: string;

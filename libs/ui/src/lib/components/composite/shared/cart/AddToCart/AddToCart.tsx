@@ -4,9 +4,9 @@ import type { FormEvent } from 'react';
 import { Button, View, TextField, Hidden } from '../../../../atomic';
 import { useOpenState } from '../../../../../hooks';
 import MiniCart from '../MiniCart';
-import type { CartEntryData } from '../../../../../types';
 import type { AddToCartProps } from './AddToCart.types';
 import { QuantityCounter } from '../../utils';
+import { CartEntry } from '@ducati/types';
 
 const AddToCart = (props: AddToCartProps) => {
   const {
@@ -20,7 +20,7 @@ const AddToCart = (props: AddToCartProps) => {
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
 
-  const [cartEntryData, setCartEntry] = useState<CartEntryData>();
+  const [cartEntryData, setCartEntry] = useState<CartEntry>();
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
 
   const changedQuantity = (value: number) => {

@@ -1,25 +1,32 @@
-import { getDocs, collection, doc, getDoc, addDoc } from "firebase/firestore";
+import { getDocs, collection, doc, getDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
 import { db, storage } from "../utils/firebase.service";
-import { StorageReference, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Product } from "@ducati/types";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ProductData } from "@ducati/types";
+import { getProduct as getProductUtil } from "@ducati/ui";
 
 
-export async function getMotorcycles() {
+export async function getProduct() {
     try {
-        const productsSnapshot = await getDocs(collection(db, "motorcycles"));
+        const productsSnapshot = await getDocs(collection(db, "product"));
 
-        const productsData: Product[] = await Promise.all(productsSnapshot.docs.map(async (doc) => {
-            const productData = doc.data() as Product;
-
+        const productsData: ProductData[] = await Promise.all(productsSnapshot.docs.map(async (doc) => {
+            const productData = doc.data() as ProductData;
             productData.id = doc.id;
-            if (productData.image) {
-                const imageRef = ref(storage, "/motorcycles/" + productData.image.url);
-                try {
-                    const imageUrl = await getDownloadURL(imageRef);
-                    productData.image.url = imageUrl;
-                } catch (error) {
-                    console.error('Error al obtener la URL de descarga de la imagen para el producto', productData.id, ':', error);
-                    delete productData.image;
+            if (productData.image && productData.image.length > 0) {
+                const defaultImage = productData.image.find(_image => _image.default);
+
+                if (defaultImage) {
+                    const imageRef = ref(storage, "/product/" + defaultImage.url);
+                    try {
+                        const imageUrl = await getDownloadURL(imageRef);
+                        defaultImage.url = imageUrl;
+
+                    } catch (error) {
+                        console.error('Error al obtener la URL de descarga de la imagen para el producto', productData.id, ':', error);
+                        productData.image = productData.image.filter(_image => !_image.default);
+                    }
+                } else {
+                    productData.image = [];
                 }
             }
             return productData;
@@ -32,37 +39,27 @@ export async function getMotorcycles() {
     }
 }
 
-export async function getMotorcyclesBySku(skuId?: string) {
+export async function getProductById(uid?: string) {
     try {
-        if (skuId) {
-            const productRef = doc(db, "motorcycles", skuId);
+        if (uid) {
+            const productRef = doc(db, "product", uid);
             const productSnapshot = await getDoc(productRef);
-            const productData = productSnapshot.data() as Product;
-            
+            const productData = productSnapshot.data() as ProductData;
+
             if (productData) {
                 productData.id = productSnapshot.id;
-                
-                if (productData.image) {
-                    const image = ref(storage, "/motorcycles/" + productData.image.url);
-                    try {
-                        const imageUrl = await getDownloadURL(image);
-                        productData.image.url = imageUrl;
-                    } catch (error) {
-                        console.error('Error al obtener la URL de descarga de la imagen principal para el producto', productData.id, ':', error);
-                        delete productData.image;
-                    }
 
-                    if (productData.images && productData.images?.length >= 0) {
-                        for (const img of productData.images) {
-                            const imagesRef = ref(storage, "/motorcycles/" + img.url);
-                            try {
-                                const imagesUrl = await getDownloadURL(imagesRef);
-                                img.url = imagesUrl;
-                            } catch (error) {
-                                console.error('Error al obtener la URL de descarga de las imágenes adicionales para el producto', productData.id, ':', error);
-                            }
-                        }
-                    }
+                if (productData.image && productData.image.length > 0) {
+                    const imagePromises = productData.image.map(async (image) => {
+                        const imageRef = ref(storage, "/product/" + image.url);
+                        const imageUrl = await getDownloadURL(imageRef);
+                        image.url = imageUrl;
+                        return image; // Retornamos la imagen modificada
+                    });
+
+                    const resolvedImages = await Promise.all(imagePromises);
+
+                    productData.image = resolvedImages.filter(image => image !== null);
                 }
 
                 return productData;
@@ -75,162 +72,97 @@ export async function getMotorcyclesBySku(skuId?: string) {
     }
 }
 
-
-export async function addProduct(type: string,
-    category: string,
-    image: File,
-    price: string,
-    description: string,
-    productName: string) {
-    const skuId = generateRandomId();
-    const formart = image.name.split('.').pop();
-    const imageFileName = `${productName}.${formart}`;
-
-    const product = {
-        name: productName,
-        description: description,
-        type: type,
-        categories: category,
-        price: {
-            value: {
-                currency: {
-                    name: "CHL",
-                    symbol: "$" + price,
-                    isocode: "CHL",
-                    decimalPlaces: 0,
-                    symbolPosition: "AFTER"
-                },
-                centsAmount: price
-            },
-            active: true,
-            productId: skuId
-        },
-        images: [
-            {
-                url: productName + "/images/" + imageFileName,
-                label: "productName",
-                dimensions: {
-                    width: 350,
-                    height: 350
-                }
-            }
-        ],
-        sku: skuId,
-        image: {
-            url: productName + "/" + imageFileName,
-            label: "productName",
-            dimensions: {
-                width: 350,
-                height: 350
-            }
-        }
-    };
-
-    try {
-        let imageRef: StorageReference | null = null;
-        let imagesRef: StorageReference | null = null;
-        let collectionName: string = "";
-
-        switch (type) {
-            case "MOTO":
-                collectionName = "motorcycles";
-                break;
-
-            case "ACCESORIOS":
-                collectionName = "accessories";
-                break;
-        }
-
-        if (collectionName) {
-            const produtcId = await addDoc(collection(db, collectionName), product);
-            imageRef = ref(storage, `${collectionName}/${productName}/${imageFileName}`);
-            imagesRef = ref(storage, `${collectionName}/${productName}/images/${imageFileName}`);
-
-            await Promise.all([
-                uploadBytes(imageRef, image),
-                uploadBytes(imagesRef, image)
-            ]);
-
-            return {
-                success: true,
-                message: `Documento '${produtcId.id}' escrito exitosamente`
-            };
-        } else {
-            throw new Error("No se proporcionó una categoría válida.");
-        }
-    } catch (error) {
-        return {
-            success: false,
-            message: 'Error al agregar productos:', error
-        };
-    }
-}
-
-
-export async function getAccessories() {
-    try {
-        const productsSnapshot = await getDocs(collection(db, "accessories"));
-
-        const productsData: Product[] = await Promise.all(productsSnapshot.docs.map(async (doc) => {
-            const productData = doc.data() as Product;
-
-            productData.id = doc.id;
-            if (productData.image) {
-                const imageRef = ref(storage, "/accessories/" + productData.image.url);
-                try {
-                    const imageUrl = await getDownloadURL(imageRef);
-                    productData.image.url = imageUrl;
-                } catch (error) {
-                    console.error('Error al obtener la URL de descarga de la imagen para el producto', productData.id, ':', error);
-                    delete productData.image;
-                }
-            }
-            return productData;
-        }));
-
-        return productsData;
-    } catch (error) {
-        console.error("Error al obtener productos:", error);
-        throw error;
-    }
-}
-
-export async function getAccessoriesBySku(skuId?: string) {
+export async function getProductBySku(skuId?: string) {
     try {
         if (skuId) {
-            const productRef = doc(db, "accessories", skuId);
-            const productSnapshot = await getDoc(productRef);
-            const productData = productSnapshot.data() as Product;
-            productData.id = productData.id;
-            if (productData.image) {
-                const image = ref(storage, "/accessories/" + productData.image.url);
-                try {
-                    const imageUrl = await getDownloadURL(image);
-                    productData.image.url = imageUrl;
-                    if (productData.images && productData.images?.length >= 0) {
-                        for (const img of productData.images) {
-                            const imagesRef = ref(storage, "/accessories/" + img.url);
-                            try {
-                                const imagesUrl = await getDownloadURL(imagesRef);
-                                img.url = imagesUrl;
-                            } catch (error) {
-                                console.error('Error al obtener la URL de descarga ', productData.id, ':', error);
-                            }
-                        }
-                    }
-                }
-                catch (error) {
-                    console.error('Error al obtener la URL de descarga de la imagen para el producto', productData.id, ':', error);
-                    // En caso de error, eliminar el campo de imagen
-                    delete productData.image;
-                }
+            const productQuery = query(collection(db, "product"), where("sku", "==", skuId));
+            const productSnapshot = await getDocs(productQuery);
+
+            if (productSnapshot.empty) return null; // Verificar si no hay documentos
+
+            const productData = productSnapshot.docs[0].data() as ProductData; // Obtener el primer documento
+            productData.id = productSnapshot.docs[0].id;
+
+
+            if (productData.image && productData.image.length > 0) {
+                const imagePromises = productData.image.map(async (image) => {
+                    const imageRef = ref(storage, "/product/" + image.url);
+                    const imageUrl = await getDownloadURL(imageRef);
+                    image.url = imageUrl;
+                    return image; // Retornamos la imagen modificada
+                });
+
+                const resolvedImages = await Promise.all(imagePromises);
+
+                productData.image = resolvedImages.filter(image => image !== null);
             }
+
             return productData;
         }
         return null;
     } catch (error) {
         console.error("Error al obtener productos:", error);
         throw error;
+    }
+}
+
+
+
+export async function addProduct(formData: FormData) {
+    try {
+        const product = getProductUtil.getAddProduct(formData);
+        const productName = formData.get('productName') as string;
+        const image = formData.get('image') as File;
+
+        const format = image.name.split('.').pop();
+        const nameImage = productName.replace(/\s+/g, ''); // Eliminar espacios en blanco
+        const imageFileName = `${nameImage}.${format}`;
+
+        const productDocRef = await addDoc(collection(db, 'product'), product);
+        const productId = productDocRef.id;
+
+        await Promise.all([
+            addDoc(collection(db, 'price'), {
+                ...product.price,
+                value: product.price,
+                productId: productId
+            }),
+            addDoc(collection(db, 'image'), {
+                id: productId,
+                url: `${nameImage}/${imageFileName}`,
+                label: productName,
+                dimensions: {
+                    width: 350,
+                    height: 350
+                },
+                default: false
+            }),
+            addDoc(collection(db, 'stock'), {
+                ...product.stock,
+                productId: productId
+            }),
+            updateDoc(doc(db, "product", productId), {
+                id: productId,
+                price: { ...product.price, id: productId },
+                categories: { ...product.categories, id: productId },
+                image: product.image?.map(image => ({ ...image, id: productId })),
+                stock: { ...product.stock, productId: productId }
+            })
+        ]);
+
+        const imageRef = ref(storage, `product/${nameImage}/${imageFileName}`);
+        await uploadBytes(imageRef, image);
+
+        return {
+            success: true,
+            message: `Documento '${productDocRef.id}' escrito exitosamente`
+        };
+    } catch (error) {
+        return {
+            success: false,
+            message: 'Error al agregar productos:',
+            error: error
+        };
     }
 }
 

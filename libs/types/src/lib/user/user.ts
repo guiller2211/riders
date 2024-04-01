@@ -1,16 +1,11 @@
 import type { Resource } from '../resource';
-import type { Address } from './address';
+import type { AddressData } from './address';
 
 export interface User extends Resource {
-  title?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
   isEmailVerified?: boolean;
-  addresses?: Address[];
+  addresses?: AddressData[];
   anonymous: boolean;
-}
-
-export interface UserGroup extends Resource {
-  name?: string;
 }

@@ -5,7 +5,9 @@ import type { ProductCardForPLPProps } from './index';
 import { AddToCart } from '../shared';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
-  const { product, sendForm, isLoading} = props;
+  const { product, sendForm, isLoading } = props;
+
+  const image = product.image?.find((_image) => _image.default)
 
   return (
     <View
@@ -19,7 +21,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       <Link href={"/" + product.type + "/" + product.id}>
         <Image
           displayMode="contain"
-          src={product.image?.url}
+          src={image?.url}
           height={70}
           width="100%"
         />
@@ -29,7 +31,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         <Popover triggerType="hover">
           <Popover.Trigger>
             {(attributes: any) => (
-              <Link href={"/product/" + product.sku} attributes={attributes} variant="plain" color="inherit">
+              <Link href={"/" + product.type + "/" + product.id} attributes={attributes} variant="plain" color="inherit">
                 {product.name}
               </Link>
             )}
@@ -41,9 +43,9 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       </Text>
 
       <Text variant="body-3">SKU: {product.sku}</Text>
-      
-      <Text variant="body-3">Precio:  {product.price && product.price.value && product.price.value.currency
-        ? product.price.value.currency.symbol
+
+      <Text variant="body-3">Precio:  {product.price && product.price.value
+        ? product.price.value.centsAmount
         : ''}</Text>
 
 
@@ -52,7 +54,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         <View.Item columns={12}>
 
           {product?.sku && (
-            <AddToCart productCode={product?.sku} stockAvailable={230} sendForm={sendForm} isLoading={isLoading}/>
+            <AddToCart productCode={product?.sku} stockAvailable={230} sendForm={sendForm} isLoading={isLoading} />
           )}
         </View.Item>
         <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>

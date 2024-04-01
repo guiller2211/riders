@@ -1,7 +1,6 @@
-import { getDocs, collection, doc, getDoc, setDoc, addDoc } from "firebase/firestore";
-import { db, storage } from "../utils/firebase.service";
-import { StorageReference, getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Cart, Customer, Product, User } from "@ducati/types";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../utils/firebase.service";
+import { Customer } from "@ducati/types";
 
 export async function getUserById(uid: string) {
   try {
@@ -29,18 +28,12 @@ export async function getCustomerByUid(uid: string) {
 
 export async function setCustomer(customer: Customer) {
   try {
-    const emptyCart: Cart = {
-      id: "", 
-      lineItems: []
-    };
 
-    const cartRef = await addDoc(collection(db, "cart"), emptyCart);
+    if (!customer.id) {
+      throw new Error("El ID del cliente no está definido");
+    }
 
-    await setDoc(doc(db, "customer", customer.id), {
-      ...customer,
-      cart: {},
-      cartId: cartRef.id 
-    });
+    await setDoc(doc(db, "customer", customer.id), { ...customer });
   } catch (error) {
     console.error('Error:', error);
     throw error;
