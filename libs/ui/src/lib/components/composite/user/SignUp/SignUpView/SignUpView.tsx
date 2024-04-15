@@ -4,7 +4,7 @@ import { Text, View } from '../../../../atomic';
 import { AlertNotification, AlertNotificationEnum } from '../../../shared';
 import SignUpForm from '../SignUpForm';
 import type { SignUpViewProps } from './SignUpView.types';
-import { useResponsiveClientValue } from '@backoffice/ui';
+import { useResponsiveClientValue } from '@ducati/ui';
 
 const SignUpView = (props: SignUpViewProps) => {
   const { sendForm, isLoading, notification, success } = props;

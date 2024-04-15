@@ -9,5 +9,3 @@ export * from './formatChekout-utils';
 export * from './filterListByProperty-utils';
 export * from './formatDate';
 export * from './getProduct-utils';
-export * from './displayedPerPage-utils';
-

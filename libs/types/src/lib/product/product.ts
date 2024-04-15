@@ -14,7 +14,7 @@ export interface AbstractProduct extends Resource {
   categories?: CategoryData;
   sku?: string;
   productId?: string;
-  value: Money;
+  value?: Money;
   active?: boolean;
   validFrom?: Date;
   validUntil?: Date;

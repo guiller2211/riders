@@ -1,4 +1,4 @@
-import { AddressData } from "@backoffice/types";
+import { AddressData } from "@ducati/types";
 
 export const getFormatAddressPrevious = (address: AddressData) => {
   const { streetNumber, streetName, state, postalCode } = address;

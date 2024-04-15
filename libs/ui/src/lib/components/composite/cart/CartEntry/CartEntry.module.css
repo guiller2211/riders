@@ -1,0 +1,25 @@
+.cart-price .price {
+  flex-basis: 100%;
+}
+
+@media (min-width: 900px) {
+  .cart-price {
+    text-align: right;
+  }
+
+  .cart-price .price-wrapper {
+    gap: 0;
+  }
+
+  .cart-price .price {
+    margin-bottom: 14px;
+  }
+
+  .cart-price .original-price {
+    flex-basis: 100%;
+  }
+
+  .cart-price .saving-price {
+    flex-basis: 100%;
+  }
+}

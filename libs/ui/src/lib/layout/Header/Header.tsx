@@ -1,8 +1,14 @@
-import { View } from '../../components/atomic';
+import { Button, Text, Divider, Hidden, Modal, Select, View, Link, Accordion } from '../../components/atomic';
 import { HeaderLogo } from '../HeaderLogo';
+import { HeaderUser } from '../HeaderUser';
+import { HeaderCart } from '../HeaderCart';
+import { HeaderAdditionalBar } from '../HeaderAdditionalBar';
+import { IconList } from '../../icons';
 import type { HeaderProps } from './Header.types';
-import { useOpenState } from '../../hooks';
+import { useOpenState, useToggle } from '../../hooks';
 import styles from './Header.module.css';
+import { Drawer, MenuHeader } from '../../components';
+import { DrawerHeader } from '../../components/composite/shared/utils/Drawer';
 
 export const Header = (props: HeaderProps) => {
   const { navigation, logo, user, cart, userMenu } = props;
@@ -19,13 +25,39 @@ export const Header = (props: HeaderProps) => {
       <View.Item columns={12}>
         <View align="center"
           justify="center" gap={10} direction="row">
+
           <HeaderLogo image={logo?.image} link={logo?.link} />
+          <View className={styles['mobile-screen']} align='center'>
+            <Button
+              color="primary"
+              variant="ghost"
+              size="xlarge"
+              endIcon={IconList}
+              onClick={onOpenDrawerHandler}
+            />
+            <Drawer padding={0} active={open} onClose={onCloseDrawerHandler}>
+              <DrawerHeader
+                backgroundColor="warning"
+                title='Menu'
+                onClose={onCloseDrawerHandler}
+                closeButtonOnTop={false}
+                closeButtonProps={{
+                  color: 'black',
+                  rounded: true,
+                  variant: 'outline',
+                }}
+              />
+              <MenuHeader navigation={navigation} user={user} />
+            </Drawer>
+          </View >
         </View>
       </View.Item>
 
       <View.Item>
         <View align="center" justify="center" className={styles['non-mobile-screen']} direction='row' gap={6} >
-
+          <HeaderAdditionalBar navigation={navigation} />
+          <HeaderUser user={user} navigation={userMenu}/>
+          <HeaderCart cart={cart} />
         </View>
       </View.Item>
 

@@ -10,7 +10,7 @@ export const role = () => (
   <Example>
     <Example.Item title="rendered as link">
       <Actionable
-        href="https://backoffice.com"
+        href="https://ducati.com"
         attributes={{ target: '_blank' }}
       >
         Actionable
@@ -27,7 +27,7 @@ export const role = () => (
     <Example.Item title="rendered as link with onClick">
       <Actionable
         onClick={() => console.log('Clicked')}
-        href="https://backoffice.com"
+        href="https://ducati.com"
       >
         Actionable
       </Actionable>
@@ -42,7 +42,7 @@ export const disabled = () => (
       </Actionable>
     </Example.Item>
     <Example.Item title="disabled, link">
-      <Actionable disabled href="https://backoffice.com">
+      <Actionable disabled href="https://ducati.com">
         Actionable
       </Actionable>
     </Example.Item>
@@ -51,7 +51,7 @@ export const disabled = () => (
 export const fullWidth = () => (
   <Example>
     <Example.Item title="fullWidth">
-      <Actionable fullWidth href="https://backoffice.com">
+      <Actionable fullWidth href="https://ducati.com">
         Actionable
       </Actionable>
     </Example.Item>

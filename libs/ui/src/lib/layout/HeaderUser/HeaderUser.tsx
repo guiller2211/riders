@@ -1,15 +1,15 @@
 import { Button, View, Text, Actionable, Icon, DropdownMenu } from '../../components/atomic';
-import type { UserHeaderProps } from './HeaderUser.types';
+import type { UserProps } from './HeaderUser.types';
 import { IconChevronRight, IconHome, IconPerson } from '../../icons';
 import styles from './HeaderUser.module.css';
-import { AppRoutes } from '@backoffice/types';
+import { AppRoutes } from '@ducati/types';
 
-export const HeaderUser = (props: UserHeaderProps) => {
+export const HeaderUser = (props: UserProps) => {
   const { user,navigation } = props;
 
   return (
     <View gap={1} direction="row" >
-      {user.isLoggedIn && (
+      {user.isLoggedIn ? (
         <DropdownMenu >
           <DropdownMenu.Trigger>
             {(attributes: any) => (
@@ -33,7 +33,14 @@ export const HeaderUser = (props: UserHeaderProps) => {
             })}
           </DropdownMenu.Content>
         </DropdownMenu>
-      ) }
+      ) : (
+        <Button
+          color="white"
+          size="xlarge"
+          href={AppRoutes.Login} rounded>
+          <Icon svg={IconPerson} size={6} />
+        </Button>
+      )}
     </View>
   );
 };

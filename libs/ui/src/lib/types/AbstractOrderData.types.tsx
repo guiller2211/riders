@@ -1,4 +1,4 @@
-import { Resource } from '@backoffice/types';
+import { Resource } from '@ducati/types';
 import type { AddressData } from './AddressData.types';
 import type { PriceData } from './PriceData.types';
 import type { ProductData } from './ProductData.types';

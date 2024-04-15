@@ -1,4 +1,4 @@
-import type { InnerSession } from '@backoffice/types';
+import type { InnerSession } from '@ducati/types';
 
 export interface SessionHandler {
   getSession(request: Request): Promise<InnerSession>;

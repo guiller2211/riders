@@ -15,7 +15,7 @@ import {
 import { IconEyeFill, IconEyeSlashFill } from '../../../../../icons';
 import { ValidationUtils } from '../../../../../utils';
 import type { SignUpFormProps } from './SignUpForm.types';
-import { AppRoutes } from '@backoffice/types';
+import { AppRoutes } from '@ducati/types';
 
 const SignUpForm = (props: SignUpFormProps) => {
   const { sendForm, isLoading } = props;

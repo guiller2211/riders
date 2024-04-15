@@ -1,6 +1,4 @@
 export * from './Drawer';
-export * from './Table';
-export * from './BoxLoader';
 export type * from './Drawer';
 export { default as AddCard } from './AddCard';
 export type { AddCardProps } from './AddCard';

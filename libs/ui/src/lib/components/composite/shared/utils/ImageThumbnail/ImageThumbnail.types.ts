@@ -1,4 +1,4 @@
-import { ImageData } from "@backoffice/types";
+import { ImageData } from "@ducati/types";
 
 export type ImageThumbnailProps = {
   images?: ImageData[];

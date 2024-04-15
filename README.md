@@ -49,7 +49,7 @@ yarn install
 <br>
 
 ```sh
-npx nx run backoffice:dev:development --skip-nx-cache
+npx nx run ducati:dev:development --skip-nx-cache
 
 ```
 

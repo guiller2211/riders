@@ -11,7 +11,7 @@ export default { title: 'Components/Link' };
 export const variant = () => (
   <Example>
     <Example.Item title="variant: underline">
-      <Link href="http://backoffice.com" attributes={{ target: '_blank' }}>
+      <Link href="http://ducati.com" attributes={{ target: '_blank' }}>
         Smith Commerce
       </Link>
     </Example.Item>

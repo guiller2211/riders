@@ -1,4 +1,4 @@
-import type { UIDeviceImageProps } from '@backoffice/types';
+import type { UIDeviceImageProps } from '@ducati/types';
 
 export type ErrorHandlerProps = {
   heading?: string;

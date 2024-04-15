@@ -1,13 +1,10 @@
-import type { ProductData, ProductVariant } from './product';
+import type { ProductData } from './product';
 import type { Results } from '../misc';
 
 export enum ProductEnum {
-  GUANTES = 'guantes',
-  POLERA = 'polera',
-  CASCOS = 'cascos',
-  ACCESORIOS = 'accesorios',
+  MOTORCYCLES = 'motorcycles',
+  ACCESSORIES = 'accessories',
 }
-
 export interface StockData {
   productId: string;
   quantity: number;
