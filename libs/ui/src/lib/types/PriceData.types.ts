@@ -1,4 +1,4 @@
-import { Money } from "@ducati/types";
+import { Money } from "@backoffice/types";
 
 export type PriceData = {
   locale?: string;

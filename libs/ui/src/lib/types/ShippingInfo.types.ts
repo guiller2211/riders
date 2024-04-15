@@ -1,4 +1,4 @@
-import { CurrencyData } from "@ducati/types";
+import { CurrencyData } from "@backoffice/types";
 
 export interface ShippingInfo {
   shippingMethodId?: string;

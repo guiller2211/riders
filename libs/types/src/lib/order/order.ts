@@ -4,7 +4,7 @@ import type { Resource } from '../resource';
 import type { User } from '../user';
 import type { AddressData } from '../user/address';
 import type {  DeliveryCostData, PriceData } from '../price';
-import { ProductData } from '@ducati/types';
+import { ProductData } from '@backoffice/types';
 
 export enum DeliveryStatus {
   InProcess = 'In process',

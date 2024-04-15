@@ -1,5 +1,5 @@
 
-import { AddressData } from '@ducati/types';
+import { AddressData } from '@backoffice/types';
 import type { AddressData } from '../types';
 
 export const getAddress = (address: AddressData): AddressData => {

@@ -1,8 +1,5 @@
 export * from './shared';
-export * from './ProductCardForPLP';
-export * from './ProductListForPLP';
-export * from './PLP';
-export * from './cart';
+/* export * from './Users'; */
+export * from './Customers';
+export * from './Product';
 export * from './user';
-export * from './product';
-export * from './PDP';

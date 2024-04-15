@@ -1,4 +1,4 @@
-import type { Money } from '@ducati/types';
+import type { Money } from '@backoffice/types';
 import type { TextProps } from 'reshaped';
 import { BadgeProps } from '../../utils';
 

@@ -5,14 +5,14 @@ export enum AppRoutes {
 
   Cart = '/cart',
 
-  Dashboard = '/my-account',
-  PersonalDetails = '/my-account/personal-details',
-  ChangePassword = '/my-account/change-password',
-  AddressBook = '/my-account/address-book',
-  PaymentMethods = '/my-account/payment-methods',
-  Quotes = '/my-account/quotes',
-  Orders = '/my-account/orders',
-  Logout = '/my-account/logout',
+  Dashboard = '/backoffice',
+  Customer = '/backoffice/customers',
+  Users = '/backoffice/users',
+  AddressBook = '/backoffice/address',
+  Media = '/backoffice/media',
+  Products = '/backoffice/products',
+  Orders = '/backoffice/orders',
+  Logout = '/backoffice/logout',
 
   Help = '/help-center',
 

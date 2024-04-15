@@ -1,4 +1,4 @@
-import { CommunesData, Country, RegionData, State } from "@ducati/types";
+import { CommunesData, Country, RegionData, State } from "@backoffice/types";
 
 export interface AddressData {
   id: string;

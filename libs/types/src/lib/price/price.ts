@@ -10,3 +10,8 @@ export interface DeliveryCostData extends Resource {
   regionId: RegionData;
   value: CurrencyData;
 }
+
+export interface PriceSummaryData {
+  min?: Money;
+  max?: Money;
+}

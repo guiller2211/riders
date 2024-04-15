@@ -1,4 +1,4 @@
-import { CurrencyData } from '@ducati/types';
+import { CurrencyData } from '@backoffice/types';
 import type { ImageProps, TextProps, BadgeProps } from 'reshaped';
 
 

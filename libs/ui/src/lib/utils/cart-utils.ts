@@ -1,5 +1,5 @@
-/* import type { CartData } from '@ducati/types';
-import { CurrencySymbolPosition } from '@ducati/types';
+/* import type { CartData } from '@backoffice/types';
+import { CurrencySymbolPosition } from '@backoffice/types';
 import type { ILogObj } from 'tslog';
 import { Logger } from 'tslog';
 

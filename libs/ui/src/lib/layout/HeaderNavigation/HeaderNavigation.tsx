@@ -1,59 +1,56 @@
-import type { UIComposedProps } from '@ducati/types';
+import { AppRoutes, type UIComposedProps } from '@backoffice/types';
 
 import {
+  Accordion,
   Button,
-  DropdownMenu,
-  Icon,
+  Divider,
+  Link,
   Text,
   View,
 } from '../../components/atomic';
-import { IconChevronDown, IconHome } from '../../icons';
+import { HeaderUserProps } from '../HeaderUser';
+import React from 'react';
 
-export const HeaderNavigation = (props: { nodes: UIComposedProps[] }) => {
+export const HeaderNavigation = (props: { nodes: UIComposedProps[], user: HeaderUserProps; }) => {
   const { nodes } = props;
   return (
-    <View gap={2} direction="row" >
-      {nodes?.map((nav,i) => {
+    <View gap={10} direction="column" padding={6}>
+      {nodes?.map((nav, index) => {
         return nav.nodes && nav.nodes.length > 0 ? (
-          <DropdownMenu key={i}>
-            <DropdownMenu.Trigger>
-              {(attributes: any) => (
-                <Button
-                  variant="ghost"
-                  color="inherit"
-                  endIcon={IconChevronDown}
-                  attributes={attributes}
-                >
-                  <Text color="warning" variant="body-3" weight="medium">
-                    {nav.button?.message}
-                  </Text>
-                </Button>
-              )}
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Content>
-              {nav.nodes?.map((node, i) => {
+          <Accordion key={`accordion-${index}`}>
+            <Accordion.Trigger>
+              <Text color='warning' variant="featured-3" weight="medium">
+                {nav.button?.message}
+              </Text>
+            </Accordion.Trigger>
+            <Accordion.Content>
+              {nav.nodes?.map((node, subIndex) => {
                 return (
-                  <DropdownMenu.Item href={node.button?.props?.href} key={i}>
-                    <Text variant="body-3" weight="medium">
+                  <Link key={`link-${subIndex}`} href={node.button?.props?.href} variant='plain' color='inherit'>
+                    <Text variant="featured-3" weight="medium">
                       {node.button?.message}
                     </Text>
-                  </DropdownMenu.Item>
+                  </Link>
                 );
               })}
-            </DropdownMenu.Content>
-          </DropdownMenu>
+            </Accordion.Content>
+          </Accordion>
         ) : (
-          <Button
-            variant="ghost"
-            color="inherit"
-            href={nav.button?.props?.href}
-            key={i}>
-            <Text color="warning" variant="body-3" weight="medium">
-              {nav.button?.message}
-            </Text>
-          </Button>
+          <React.Fragment key={`fragment-${index}`}>
+            <Divider key={`divider-${index}`} />
+            <Button
+              variant="ghost"
+              color="inherit"
+              href={nav.button?.props?.href}
+              key={`button-${index}`}>
+              <Text color="warning" variant="body-3" weight="medium">
+                {nav.button?.message}
+              </Text>
+            </Button>
+          </React.Fragment>
         );
       })}
     </View>
+
   );
 };

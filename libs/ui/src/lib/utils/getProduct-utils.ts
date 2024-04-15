@@ -1,59 +1,78 @@
-import { CurrencySymbolPosition, ProductData, ProductEnum } from "@ducati/types";
+import { CurrencySymbolPosition, ProductData, } from "@backoffice/types";
+import { CategoryData } from "@backoffice/types";
 
 export class getProduct {
     static getAddProduct(formData: FormData) {
-        const type = formData.get('type') as ProductEnum;
-        const image = formData.get('image') as File;
+        const category = formData.get('category') as string;
+        const color = formData.get('color') as string;
+        const size = formData.get('size') as string;
+        const imageEntries: FormDataEntryValue[] = formData.getAll('image');
+        const images: File[] = imageEntries.filter(entry => entry instanceof File) as File[]; 
         const price = formData.get('price') as unknown as number;
         const description = formData.get('description') as string;
         const productName = formData.get('productName') as string;
+        const available = formData.get('available') as string;
+        const active: boolean = available === "true";
         const stock = formData.get('stock') as unknown as number;
         const sku = formData.get('sku') as string;
         const id = generateRandomId();
-        const formart = image.name.split('.').pop();
         const nameImage = productName.split(' ').join('');
-        const imageFileName = `${nameImage}.${formart}`;
+
+        const imageArray = images
+            .filter((image: File) => image.name.trim() !== '') // Filtrar imágenes con nombres no vacíos
+            .map((image: File, index: number) => {
+                const format = image.name.split('.').pop();
+                const imageFileName = `${nameImage}-${index}.${format}`;
+
+                return {
+                    id: '',
+                    url: `${nameImage}/${imageFileName}`,
+                    label: productName,
+                    dimensions: {
+                        width: 350,
+                        height: 350
+                    },
+                    default: false
+                };
+            });
+
 
         const product: ProductData = {
             id: '',
             name: productName,
             description: description,
-            type: type,
             categories: {
-                id: '',
-                name: 'Naked',
-                description: 'Deportivas'
+                id: category,
+                name: category,
             },
-            price: {
-                id: '',
-                productId: id,
-                value: {
-                    centsAmount: price,
-                    currency: {
-                        isocode: 'CHL',
-                        name: 'CHL',
-                        symbol: 'CHL',
-                        symbolPosition: CurrencySymbolPosition.BEFORE,
-                        decimalPlaces: 2,
-                    }
+            variants: [
+                {
+                    id: '',
+                    name: color
                 },
+                {
+                    id: '',
+                    name: size
+                }
+            ],
+            value: {
+                centsAmount: price,
+                currency: {
+                    isocode: 'CHL',
+                    name: 'CHL',
+                    symbol: 'CHL',
+                    symbolPosition: CurrencySymbolPosition.BEFORE,
+                    decimalPlaces: 2,
+                }
             },
             sku: sku,
-            image: [{
-                id: '',
-                url: nameImage + "/" + imageFileName,
-                label: productName,
-                dimensions: {
-                    width: 350,
-                    height: 350
-                },
-                default: false
-            }],
+            image: imageArray,
             stock: {
                 productId: '',
                 available: true,
                 quantity: stock,
-            }
+            },
+            active: active
         };
 
         return product;

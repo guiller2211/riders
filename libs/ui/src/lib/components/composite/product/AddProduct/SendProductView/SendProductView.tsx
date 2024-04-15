@@ -2,17 +2,17 @@ import { useState } from 'react';
 
 import { Text, View } from '../../../../atomic';
 import { AlertNotification, AlertNotificationEnum } from '../../../shared';
-import { SendProduct, useResponsiveClientValue } from '@ducati/ui';
+import { SendProduct, useResponsiveClientValue } from '@backoffice/ui';
 import { SendProductViewProps } from './SendProductView.types';
 
 export const SendProductView = (props: SendProductViewProps) => {
-  const { sendForm, isLoading, notification, success } = props;
+  const { sendForm, isLoading, notification, success, categories } = props;
   const [hideNotification, setHideNotification] = useState(false);
 
   return (
     <View align="center" paddingTop={{ l: 4 }}>
       <View direction="column" gap={12} align="center" paddingTop={useResponsiveClientValue({ l: 4 })}>
-        <View width={useResponsiveClientValue({ s: undefined, l: 160 })} gap={6} direction="row">
+        <View gap={6} direction="row">
           {notification && !hideNotification && (
             <View.Item columns={12}>
               <AlertNotification
@@ -37,6 +37,7 @@ export const SendProductView = (props: SendProductViewProps) => {
               <SendProduct
                 sendForm={sendForm}
                 isLoading={isLoading}
+                categories={categories}
               />
             </View.Item>
           </View>
