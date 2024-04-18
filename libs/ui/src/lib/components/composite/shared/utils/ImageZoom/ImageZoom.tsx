@@ -3,6 +3,7 @@ import { IconArrowsAngleExpand } from "../../../../../icons";
 import { ImageZoomProps } from './ImageZoom.types';
 import { useState } from 'react';
 import { Icon } from 'reshaped';
+import { useResponsiveClientValue } from '../../../../../hooks';
 
 const ImageZoom = (props: ImageZoomProps) => {
   const [zoom, setZoom] = useState(false);
@@ -16,7 +17,7 @@ const ImageZoom = (props: ImageZoomProps) => {
       borderRadius='small' backgroundColor='white'>
       <View.Item columns={12}>
         <View borderRadius="medium" overflow="hidden" padding={2}>
-          <Image src={props.src} width={{l: 145, s: '100%'}} />
+          <Image src={props.src} width={useResponsiveClientValue({l: '50rem', s: '100%'})} />
           <div style={{ position: "absolute", top: 12, right: 12 }}>
             <View backgroundColor='white'
               borderRadius='circular'

@@ -14,23 +14,21 @@ export async function getProduct() {
                 const productData = doc.data() as ProductData;
                 productData.id = doc.id;
                 if (productData.image && productData.image.length > 0) {
-                    const defaultImage = productData.image.find(_image => _image.default);
-
-                    if (defaultImage) {
-                        const imageRef = ref(storage, "/product/" + defaultImage.url);
-                        try {
+                    const imagePromises = productData.image.map(async (image) => {
+                        if (!image.url.startsWith('http')) { // Verificar que la URL no comience con 'http'
+                            const imageRef = ref(storage, "/product/" + image.url);
                             const imageUrl = await getDownloadURL(imageRef);
-                            defaultImage.url = imageUrl;
-
-                        } catch (error) {
-                            console.error('Error al obtener la URL de descarga de la imagen para el producto', productData.id, ':', error);
-                            productData.image = productData.image.filter(_image => !_image.default);
+                            image.url = imageUrl;
                         }
-                    } else {
-                        productData.image = [];
-                    }
+                        return image; // Retornamos la imagen modificada
+                    });
+
+                    const resolvedImages = await Promise.all(imagePromises);
+
+                    productData.image = resolvedImages.filter(image => image !== null);
                 }
-                return productData;
+                const { id, name, categories, sku, active, ...rest } = productData;
+                return { id, name, categories, sku, active, ...rest };
             }));
 
         return productsData;
@@ -52,9 +50,11 @@ export async function getProductById(uid?: string) {
 
                 if (productData.image && productData.image.length > 0) {
                     const imagePromises = productData.image.map(async (image) => {
-                        const imageRef = ref(storage, "/product/" + image.url);
-                        const imageUrl = await getDownloadURL(imageRef);
-                        image.url = imageUrl;
+                        if (!image.url.startsWith('http')) { // Verificar que la URL no comience con 'http'
+                            const imageRef = ref(storage, "/product/" + image.url);
+                            const imageUrl = await getDownloadURL(imageRef);
+                            image.url = imageUrl;
+                        }
                         return image; // Retornamos la imagen modificada
                     });
 
