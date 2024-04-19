@@ -52,13 +52,7 @@ function getHeaderNavigation() {
   return [
     { button: { message: 'HOME', props: { href: '/' } } },
     {
-      button: { message: 'MODELOS', props: { href: '/motorcycles' } },
-    },
-    {
-      button: { message: 'ACCESORIOS', props: { href: '/accessories' } },
-    },
-    {
-      button: { message: 'SEMINUEVOS', props: { href: '/motorcycles' } },
+      button: { message: 'PRODUCTOS', props: { href: '/category' } },
     },
     {
       button: { message: 'CONTACTO' },

@@ -87,9 +87,11 @@ export async function getProductBySku(skuId?: string) {
 
             if (productData.image && productData.image.length > 0) {
                 const imagePromises = productData.image.map(async (image) => {
-                    const imageRef = ref(storage, "/product/" + image.url);
-                    const imageUrl = await getDownloadURL(imageRef);
-                    image.url = imageUrl;
+                    if (!image.url.startsWith('http')) { // Verificar que la URL no comience con 'http'
+                        const imageRef = ref(storage, "/product/" + image.url);
+                        const imageUrl = await getDownloadURL(imageRef);
+                        image.url = imageUrl;
+                    }
                     return image; // Retornamos la imagen modificada
                 });
 
