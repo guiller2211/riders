@@ -1,5 +1,2 @@
-export { default } from './CheckoutPaymentMethod';
-export type {
-  PaymentProps,
-  ChekcoutPaymentMethodProps,
-} from './CheckoutPaymentMethod.types';
+export * from './CheckoutPaymentMethod';
+export type * from './CheckoutPaymentMethod.types';

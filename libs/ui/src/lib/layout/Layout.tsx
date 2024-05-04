@@ -4,12 +4,12 @@ import { Footer, Header } from '.';
 import { useResponsiveClientValue } from 'reshaped';
 
 export const Layout = (props: LayoutProps) => {
-  const { children, header } = props;
+  const { children, header, handleAction, cart } = props;
 
   return (
     <View gap={5} backgroundColor='black'>
       <View.Item columns={12}>
-        <Header {...header} />
+        <Header {...header} handleAction={handleAction} cart={cart} />
       </View.Item>
 
       <View.Item columns={12}>

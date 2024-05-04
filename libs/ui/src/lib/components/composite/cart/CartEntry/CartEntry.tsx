@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { TextProps } from 'reshaped';
 import { CartEntry as CartEntryData } from '@ducati/types';
 
-import type { CartEntryProps } from './CartEntry.types';
+import type { CartEntryProps, CartActionsProps } from './CartEntry.types';
 import {
   Divider,
   Icon,
@@ -13,7 +13,7 @@ import {
   View,
 } from '../../../atomic';
 import { IconCheckCircle } from '../../../../icons';
-import { Price, QuantityCounter } from '../../shared';
+import { Loading, Price, QuantityCounter } from '../../shared';
 import DeleteFromCart from '../../shared/cart/DeleteFromCart/DeleteFromCart';
 import { useResponsiveClientValue } from '../../../../hooks';
 
@@ -23,7 +23,7 @@ const CartEntry = (props: CartEntryProps) => {
     case 'RecentlyAdded':
       return <AddMiniCart entry={entry} />;
     case 'MiniCart':
-      return <ViewMiniCart entry={entry} />;
+      return <ViewMiniCart entry={entry} handleAction={handleAction} />;
     case 'ReadOnly':
       return <CartReadOnly entry={entry} />;
     default:
@@ -52,10 +52,7 @@ const CartReadOnly = (props: { entry: CartEntryData }) => {
   );
 };
 
-const CartEntryCard = (props: {
-  entry: CartEntryData;
-  handleAction?: (action: 'update' | 'delete', entryId: string, quantity?: number) => Promise<CartEntryData | void>;
-}) => {
+const CartEntryCard = (props: CartActionsProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const { entry } = props;
   const [entryData, setEntryData] = useState(entry);
@@ -214,21 +211,38 @@ const AddMiniCart = (props: { entry: CartEntryData }) => {
     </View>
   );
 };
-const ViewMiniCart = (props: { entry: CartEntryData }) => {
+
+const ViewMiniCart = (props: CartActionsProps) => {
   const { entry } = props;
   const quantity = entry.quantity ?? 0;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const deleteCartEntry = async (entryId: string) => {
+    setIsLoading(true);
+    if (props.handleAction) {
+      await props.handleAction('delete', entryId)
+      setIsLoading(false);
+    }
+  };
+
   return (
     <View direction="row" paddingBlock={6} gap={6}>
       <View.Item grow>
         <MiniCartProductCard entry={entry} />
       </View.Item>
       <View.Item>
-        <DeleteFromCart
-          isMiniCart
-          entryId={entry.entryId!}
-          quantity={quantity}
-          variant="outline"
-        />
+        {
+          isLoading ?
+            <Loading />
+            :
+            <DeleteFromCart
+              isMiniCart
+              entryId={entry.entryId!}
+              quantity={quantity}
+              variant="outline"
+              onClick={() => deleteCartEntry(entry.product?.sku!)}
+            />
+        }
       </View.Item>
     </View>
   );
@@ -292,7 +306,7 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
 
 const ProductPrice = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  console.log(entry)
+  
   const priceText: TextProps = {
     color: 'neutral',
     weight: 'bold',

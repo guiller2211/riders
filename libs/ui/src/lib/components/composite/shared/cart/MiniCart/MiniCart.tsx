@@ -38,8 +38,9 @@ const ViewCart = (props: {
   open: boolean;
   cart: CartData;
   onClose: VoidFunction;
+  handleAction?: (action: 'update' | 'delete', entryId: string, quantity?: number) => Promise<CartEntry | void>;
 }) => {
-  const { cart, open, onClose } = props;
+  const { cart, open, onClose, handleAction } = props;
 
   return (
     <View>
@@ -50,7 +51,10 @@ const ViewCart = (props: {
             onClose={onClose}
           />
           <DrawerContent direction="column">
-            <CartEntries viewCart="MiniCart" entries={cart?.entries} />
+            <CartEntries 
+            viewCart="MiniCart" 
+            entries={cart?.entries} 
+            handleAction={handleAction}/>
           </DrawerContent>
           <DrawerFooter gap={4} direction="row">
             <Text variant="body-1" weight="bold">
@@ -114,7 +118,7 @@ const AddCart = (props: {
 };
 
 const MiniCart = (props: MiniCartProps) => {
-  const { cart, open, onClose, isAdd, product } = props;
+  const { cart, open, onClose, isAdd, product, handleAction } = props;
   const isViewingCart =
     !isAdd && cart && cart.entries && cart.entries.length > 0;
   const isCartEmpty =
@@ -125,7 +129,7 @@ const MiniCart = (props: MiniCartProps) => {
       {isAdd && product && (
         <AddCart product={product} open={open} onClose={onClose} />
       )}
-      {isViewingCart && <ViewCart cart={cart} open={open} onClose={onClose} />}
+      {isViewingCart && <ViewCart cart={cart} open={open} onClose={onClose} handleAction={handleAction}/>}
       {isCartEmpty && <MiniCartEmpty open={open} onClose={onClose} />}
     </View>
   );

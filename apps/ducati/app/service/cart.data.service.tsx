@@ -115,7 +115,7 @@ export async function addItemToCart(cartCustomer: CartData, quantity: number, pr
       update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
 
       if (existingItem.totalPrice && existingItem.product?.value) {
-        existingItem.totalPrice.value.centsAmount = parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity;
+        existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
       }
       cartItem.totalPrice = existingItem.totalPrice;
     } else {
@@ -135,7 +135,7 @@ export async function addItemToCart(cartCustomer: CartData, quantity: number, pr
 
     await setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice });
     const cartUpdate = await getCartById(cartCustomer.id!);
-   
+
     return { cartItem: cartItem, cartUpdate: cartUpdate };
   } catch (error) {
     console.error("Error al agregar el artículo al carrito:", error);

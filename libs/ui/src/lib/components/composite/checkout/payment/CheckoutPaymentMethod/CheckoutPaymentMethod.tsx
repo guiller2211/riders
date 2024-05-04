@@ -21,10 +21,8 @@ import type {
   PaymentProps,
 } from './CheckoutPaymentMethod.types';
 import { CreditCardIcon } from '../../../shared';
-import { useTranslation } from '../../../../../hooks';
 
-const CheckoutPaymentMethod = (props: ChekcoutPaymentMethodProps) => {
-  const translate = useTranslation();
+export const CheckoutPaymentMethod = (props: ChekcoutPaymentMethodProps) => {
 
   const carouselRef = useRef<InstanceRef>();
   const [value, setValue] = React.useState('0');
@@ -54,77 +52,65 @@ const CheckoutPaymentMethod = (props: ChekcoutPaymentMethodProps) => {
   return (
     <View direction="row" paddingStart={6} width="100%">
       <View.Item columns={12}>
-        <View width="100%">
-          <Carousel instanceRef={carouselRef} navigationDisplay="hidden">
-            <Tabs value={value} onChange={({ value }) => setValue(value)}>
-              <Tabs.List>
-                {props.methods?.map(
-                  (paymentMethod: PaymentProps, index: number) => (
-                    <Tabs.Item value={`${index}`} key={index}>
-                      <View paddingStart={1}>
-                        <Card padding={0} selected={value === `${index}`}>
-                          <View
-                            paddingBlock={2}
-                            paddingInline={6}
-                            backgroundColor={
-                              value === `${index}` ? 'primary-faded' : 'white'
-                            }
-                          >
-                            <View direction="row" paddingBottom={10}>
-                              <CreditCardIcon type={paymentMethod.type} />
-                              <View.Item gapBefore="auto">
-                                <Button icon={IconPencil} variant="ghost" />
-                              </View.Item>
-                            </View>
-                            <View direction="row">
-                              <Text variant="featured-3" weight="bold">
-                                {paymentMethod.name}
-                              </Text>
-                            </View>
-                            <View direction="row">
-                              <View.Item>
-                                <Text variant="body-3">
-                                  {translate(
-                                    'payment.endingIn',
-                                    'checkoutPayment',
-                                    { num: paymentMethod.ending },
-                                  )}
-                                </Text>
-                              </View.Item>
-                              <View.Item>
-                                <Text variant="body-3">
-                                  &ndash;{' '}
-                                  {translate(
-                                    'payment.expires',
-                                    'checkoutPayment',
-                                    {
-                                      month: paymentMethod.month,
-                                      year: paymentMethod.year,
-                                    },
-                                  )}
-                                </Text>
-                              </View.Item>
-                            </View>
+        <Carousel instanceRef={carouselRef} navigationDisplay="hidden">
+          <Tabs value={value} onChange={({ value }) => setValue(value)}>
+            <Tabs.List>
+              {props.methods?.map(
+                (paymentMethod: PaymentProps, index: number) => (
+                  <Tabs.Item value={`${index}`} key={index}>
+                    <View paddingStart={1}>
+                      <Card padding={0} selected={value === `${index}`}>
+                        <View
+                          paddingBlock={2}
+                          paddingInline={6}
+                          backgroundColor={
+                            value === `${index}` ? 'primary-faded' : 'white'
+                          }
+                        >
+                          <View direction="row" paddingBottom={10}>
+                            <CreditCardIcon type={paymentMethod.type} />
+                            <View.Item gapBefore="auto">
+                              <Button icon={IconPencil} variant="ghost" />
+                            </View.Item>
                           </View>
-                        </Card>
-                      </View>
-                    </Tabs.Item>
-                  ),
-                )}
-              </Tabs.List>
-              <View.Item columns={12}>
-                <Button
-                  icon={IconSquareFill}
-                  variant="ghost"
-                  color="primary"
-                  onClick={() => props.isPayment(isPayment)}
-                >
-                  {translate('payment.paymentMethod.button', 'checkoutPayment')}
-                </Button>
-              </View.Item>
-            </Tabs>
-          </Carousel>
-        </View>
+                          <View direction="row">
+                            <Text variant="featured-3" weight="bold">
+                              {paymentMethod.name}
+                            </Text>
+                          </View>
+                          <View direction="row">
+                            <View.Item>
+                              <Text variant="body-3">
+                                Temrinado en {paymentMethod.ending}
+                              </Text>
+                            </View.Item>
+                            <View.Item>
+                              <Text variant="body-3">
+                                &ndash;{' '}
+                                Expirado en {paymentMethod.month} {paymentMethod.year}
+                              </Text>
+                            </View.Item>
+                          </View>
+                        </View>
+                      </Card>
+                    </View>
+                  </Tabs.Item>
+                ),
+              )}
+            </Tabs.List>
+            <View.Item columns={12}>
+              <Button
+                icon={IconSquareFill}
+                variant="ghost"
+                color="primary"
+                onClick={() => props.isPayment(isPayment)}
+              >
+                Agregar Nueva Direccion
+              </Button>
+            </View.Item>
+          </Tabs>
+        </Carousel>
+
         <View
           gap={3}
           align="end"
@@ -156,4 +142,3 @@ const CheckoutPaymentMethod = (props: ChekcoutPaymentMethodProps) => {
     </View>
   );
 };
-export default CheckoutPaymentMethod;

@@ -1,3 +1,4 @@
+import { useResponsiveClientValue } from '../../../../../hooks';
 import { Button, Card, Hidden, Image, Text, View } from '../../../../atomic';
 import type { ErrorHandlerProps } from './ErrorHandler.types';
 
@@ -6,98 +7,75 @@ const ErrorHandler = (props: ErrorHandlerProps) => {
     props;
 
   return (
-    <View align="center">
-      <View width={{ l: 324, s: '100%' }}>
-        <View
-          direction={{ s: 'column', l: 'row' }}
-          gap={{ s: 6, m: 34 }}
-          paddingTop={12}
-          paddingStart={{ l: 0, s: 6 }}
-          paddingEnd={{ l: 0, s: 6 }}
-        >
-          <View.Item columns={{ s: 12, l: 6 }}>
-            <View align={{ s: 'center', m: 'start' }}>
-              <Hidden hide={{ s: true, l: false }}>
-                <Image src={image?.desktop?.src} />
-              </Hidden>
-              <Hidden hide={{ s: false, l: true }}>
-                <Image src={image?.mobile?.src} />
-              </Hidden>
-            </View>
-          </View.Item>
+    <View
+      direction={useResponsiveClientValue({ s: 'column', l: 'row' })}
+      gap={useResponsiveClientValue({ s: 6, l: 5 })}
+      padding={6}
+    >
+      <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
+        <View align={useResponsiveClientValue({ s: 'center', m: 'start' })}>
+          <Image borderRadius='large' src={image?.desktop?.src} />
+        </View>
+      </View.Item>
 
-          <View.Item columns={{ s: 12, l: 6 }}>
-            <View
-              direction="row"
-              gap={1}
-              paddingTop={{ s: 0, m: 36 }}
-              align={{ s: 'center', m: 'start' }}
+      <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
+        <View
+          direction="column"
+          gap={5}
+          backgroundColor='white'
+          paddingInline={20}
+          paddingBlock={10}
+          borderRadius='large'
+        >
+          {heading && (
+            <Text
+              variant="featured-1"
+              weight="bold"
+              align={useResponsiveClientValue({ s: 'center', m: 'start' })}
             >
-              {heading && (
+              {heading}
+            </Text>
+          )}
+          {description && (
+            <Text
+              variant="featured-3"
+              align={useResponsiveClientValue({ s: 'center', m: 'start' })}
+            >
+              {description}
+            </Text>
+          )}
+          {showTechnicalError && error?.message && (
+            <Card>
+              <View gap={1} direction="row">
                 <View.Item columns={12}>
                   <Text
-                    variant="featured-1"
-                    weight="bold"
-                    align={{ s: 'center', m: 'start' }}
+                    variant="body-3"
+                    align="start"
+                    attributes={{
+                      style: {
+                        fontWeight: 'var(--rs-font-weight-bold)',
+                      },
+                    }}
                   >
-                    heading
+                    {error?.status?.toString()}
                   </Text>
                 </View.Item>
-              )}
-              {description && (
-                <View.Item columns={12}>
-                  <View>
-                    <Text
-                      variant="featured-3"
-                      align={{ s: 'center', m: 'start' }}
-                    >
-                      {description}
-                    </Text>
-                  </View>
-                </View.Item>
-              )}
-              {showTechnicalError && error?.message && (
-                <View.Item columns={12}>
-                  <View paddingTop={{ s: 7, l: 2 }}>
-                    <Card>
-                      <View gap={1} direction="row">
-                        <View.Item columns={12}>
-                          <Text
-                            variant="body-3"
-                            align="start"
-                            attributes={{
-                              style: {
-                                fontWeight: 'var(--rs-font-weight-bold)',
-                              },
-                            }}
-                          >
-                            {error?.status?.toString()}
-                          </Text>
-                        </View.Item>
 
-                        <View.Item columns={12}>
-                          <Text variant="body-3" align="start">
-                            {error.message}
-                          </Text>
-                        </View.Item>
-                      </View>
-                    </Card>
-                  </View>
-                </View.Item>
-              )}
-              {button && (
                 <View.Item columns={12}>
-                  <View paddingTop={7} align={{ s: 'center', m: 'start' }}>
-                    <Button size="large" color="primary" href="/">
-                      {button}
-                    </Button>
-                  </View>
+                  <Text variant="body-3" align="start">
+                    {error.message}
+                  </Text>
                 </View.Item>
-              )}
-            </View>
-          </View.Item>
+              </View>
+            </Card>
+          )}
+          {button && (
+            <Button size="large" color="primary" href="/">
+              {button}
+            </Button>
+          )}
         </View>
-      </View>
+      </View.Item>
     </View>
   );
 };

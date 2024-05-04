@@ -1,4 +1,4 @@
-import type { CartData, UIComposedProps } from '@ducati/types';
+import type { CartData, UIComposedProps, CartEntry } from '@ducati/types';
 
 import type { HeaderCartProps } from '../HeaderCart';
 import type { HeaderUserProps } from '../HeaderUser';
@@ -16,4 +16,5 @@ export type HeaderProps = ViewProps & {
   cart?: CartData;
   isCheckoutRoute?: boolean;
   onOpen?: VoidFunction;
+  handleAction?: (action: 'update' | 'delete', entryId: string, quantity?: number) => Promise<CartEntry | void>;
 };

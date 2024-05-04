@@ -11,7 +11,7 @@ import { Drawer, MenuHeader } from '../../components';
 import { DrawerHeader } from '../../components/composite/shared/utils/Drawer';
 
 export const Header = (props: HeaderProps) => {
-  const { navigation, logo, user, cart, userMenu } = props;
+  const { navigation, logo, user, cart, userMenu, handleAction } = props;
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
 
   return (
@@ -57,7 +57,7 @@ export const Header = (props: HeaderProps) => {
         <View align="center" justify="center" className={styles['non-mobile-screen']} direction='row' gap={6} >
           <HeaderAdditionalBar navigation={navigation} />
           <HeaderUser user={user} navigation={userMenu}/>
-          <HeaderCart cart={cart} />
+          <HeaderCart cart={cart} handleAction={handleAction}/>
         </View>
       </View.Item>
 

@@ -6,4 +6,5 @@ export type MiniCartProps = {
   isAdd?: boolean;
   cart?: CartData;
   product?: CartEntry;
+  handleAction?: (action: 'update' | 'delete', entryId: string, quantity?: number) => Promise<CartEntry | void>;
 };

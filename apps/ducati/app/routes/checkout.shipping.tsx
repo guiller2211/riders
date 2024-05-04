@@ -20,11 +20,6 @@ export async function action() {
 
 }
 
-enum Namespaces {
-  checkoutShipping = 'checkoutShipping',
-  address = 'address',
-  addresses = 'addresses',
-}
 export async function loader({ request, context: { registry } }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'checkout.shipping.tsx' });
 

@@ -1,2 +1,2 @@
-export { default } from './CheckoutPayment';
-export type { CheckoutPaymentProps } from './CheckoutPayment.types';
+export * from './CheckoutPayment';
+export type * from './CheckoutPayment.types';

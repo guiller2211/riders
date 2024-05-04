@@ -10,16 +10,16 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './utils/fb.sessions.server';
-import { getCustomerByUid, getUserById } from './service/user.data.service';
-import { CartData, Customer, User } from '@ducati/types';
-import { getCartById } from './service/cart.data.service';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './utils/firebase.service';
+import { getCustomerByUid } from './service/user.data.service';
+import { CartData, CartEntry, Customer } from '@ducati/types';
+import { addItemToCart, deleteEntryBySku, getCartById } from './service/cart.data.service';
+import { ErrorBoundary as ErrorBoundaryPage } from './ui/pages/error-boundary.page';
+
 
 const links: LinksFunction = () => {
   return [
@@ -56,7 +56,7 @@ export async function loader({ request }: LoaderArgs) {
   if (cartSessionID) {
     if (user && user.id) {
       cart = await getCartById(cartSessionID);
-      layout.header.cart = cart;
+      /* layout.header.cart = cart; */
     }
   }
 
@@ -99,11 +99,39 @@ const Document = (props: { children: ReactNode }) => {
 
 const Root = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
+  const [getCart, setCart] = useState(loaderData.cart);
 
+  useEffect(() => {
+    setCart(loaderData.cart);
+  }, [loaderData.cart]);
+
+  const handleAction = async (action: 'update' | 'delete', entryId: string, quantity?: number): Promise<CartEntry | void> => {
+    try {
+      if (loaderData.cart) {
+        switch (action) {
+          case 'update':
+            const { cartItem, cartUpdate } = await addItemToCart(loaderData.cart!, quantity!, entryId, true);
+            setCart(cartUpdate);
+            return cartItem;
+          case 'delete':
+            const cartUpdateDelete = await deleteEntryBySku(loaderData.cart!, entryId);
+            setCart(cartUpdateDelete);
+
+            break;
+          default:
+            break;
+        }
+      } else {
+        throw new Error("El carrito no está disponible");
+      }
+    } catch (error) {
+      console.error("Error al ejecutar la acción:", error);
+    }
+  };
 
   return (
     <Document>
-      <Layout header={loaderData.layout.header} >
+      <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
         <Outlet />
       </Layout>
     </Document>
@@ -128,7 +156,33 @@ const meta: V2_MetaFunction = ({ data }) => {
     },
   ];
 };
+const ErrorBoundary = () => {
+  const [errorType, setErrorType] = useState('');
 
+  useEffect(() => {
+    // Aquí podrías manejar cualquier tipo de error que ocurra en tu aplicación
+    // Por ejemplo, podrías usar un try-catch para capturar errores en alguna parte de tu aplicación
+    try {
+      // Código que podría lanzar errores
+    } catch (error: any) {
+      // Dependiendo del tipo de error, establece el tipo de error
+      if (error.response && error.response.status === 404) {
+        setErrorType('pageNotFound');
+      } else if (error.response && error.response.status === 503) {
+        setErrorType('serviceUnavailable');
+      } else {
+        // Otros tipos de errores
+        setErrorType('default');
+      }
+    }
+  }, []);
+  return (
+    <Document>
+      <ErrorBoundaryPage errorType={errorType} />
+    </Document>
+  );
+};
 export default Root;
 export { meta };
 export { links };
+export { ErrorBoundary };
