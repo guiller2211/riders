@@ -1,30 +1,46 @@
 import { View } from 'reshaped';
-import { loader } from '../../routes/category';
+import { action, loader } from '../../routes/category';
 import {
   Facets,
   PlpEmpty,
   ProductListForPLP,
   useResponsiveClientValue,
 } from '@ducati/ui';
-import { useFetcher, useLoaderData } from '@remix-run/react';
-import { FormEvent, useState } from 'react';
+import { useActionData, useFetcher, useLoaderData, useSubmit } from '@remix-run/react';
+import { FormEvent, useEffect, useState } from 'react';
+
 
 export const CategoryPage = () => {
   const loaderData = useLoaderData<typeof loader>();
+  const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
+  const [cart, setCart] = useState(result);
   const fetcher = useFetcher();
+  const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-    const productCode: string = formData.get('productCode') as string;
+    try {
+      setIsLoading(true);
+      const formData = new FormData(e.currentTarget);
+      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
+      const productCode: string = formData.get('productCode') as string;
 
-    await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-    setIsLoading(false)
+      await submit({ addToCartQuantity, productCode }, { method: "post" });
+
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    if (result) {
+      setCart(result);
+    }
+  }, [result]);
 
   return (
     <View
@@ -40,7 +56,11 @@ export const CategoryPage = () => {
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
         {loaderData.getProduct && loaderData.getProduct.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
-            <ProductListForPLP products={loaderData.getProduct} sendForm={sendAddProduct} isLoading={isLoading} />
+            <ProductListForPLP
+              products={loaderData.getProduct}
+              sendForm={sendAddProduct}
+              isLoading={isLoading}
+              result={cart} />
           </View>
         ) : (
           <PlpEmpty />
@@ -49,3 +69,4 @@ export const CategoryPage = () => {
     </View>
   );
 };
+

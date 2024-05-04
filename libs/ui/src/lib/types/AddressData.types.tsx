@@ -7,6 +7,8 @@ export interface AddressData {
   lastName?: string;
   streetNumber?: string;
   streetName?: string;
+  line1?: string;
+  line2?: string;
   city?: string;
   state?: State;
   region?: RegionData;

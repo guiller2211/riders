@@ -1,3 +1,4 @@
+import { CartEntry } from "@ducati/types";
 import { FormEvent } from "react";
 
 export type AddToCartProps = {
@@ -8,4 +9,5 @@ export type AddToCartProps = {
   showInPlp?: boolean;
   isLoading?: boolean;
   sendForm: (form: FormEvent<HTMLFormElement>) => void;
+  result?: CartEntry;
 };

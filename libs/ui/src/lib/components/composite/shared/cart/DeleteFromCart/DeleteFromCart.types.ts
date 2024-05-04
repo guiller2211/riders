@@ -1,3 +1,5 @@
+import { ButtonProps } from "reshaped";
+
 export type DeleteFromCartProps = {
   entryId: string;
   quantity: number;
@@ -12,4 +14,5 @@ export type DeleteFromCartProps = {
     | 'neutral'
     | 'inherit';
   isButtom?: boolean;
+  onClick?: ButtonProps['onClick']
 };

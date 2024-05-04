@@ -1,12 +1,13 @@
-import { CurrencySymbolPosition, ProductData, } from "@ducati/types";
+import { CurrencySymbolPosition, ProductData, ProductVariant, } from "@ducati/types";
 
 export class getProduct {
     static getAddProduct(formData: FormData) {
         const category = formData.get('category') as string;
-        const color = formData.get('color') as string;
-        const size = formData.get('size') as string;
+        const imgDefault = formData.get('imgDefault') as unknown as number;
+        const colors = formData.getAll('color') as string[];
+        const sizes = formData.getAll('size') as string[];
         const imageEntries: FormDataEntryValue[] = formData.getAll('image');
-        const images: File[] = imageEntries.filter(entry => entry instanceof File) as File[]; 
+        const images: File[] = imageEntries.filter(entry => entry instanceof File) as File[];
         const price = formData.get('price') as unknown as number;
         const description = formData.get('description') as string;
         const productName = formData.get('productName') as string;
@@ -18,11 +19,11 @@ export class getProduct {
         const nameImage = productName.split(' ').join('');
 
         const imageArray = images
-            .filter((image: File) => image.name.trim() !== '') // Filtrar imágenes con nombres no vacíos
+            .filter((image: File) => image.name.trim() !== '')
             .map((image: File, index: number) => {
                 const format = image.name.split('.').pop();
                 const imageFileName = `${nameImage}-${index}.${format}`;
-
+                const defaultImg = imgDefault == index;
                 return {
                     id: '',
                     url: `${nameImage}/${imageFileName}`,
@@ -31,10 +32,25 @@ export class getProduct {
                         width: 350,
                         height: 350
                     },
-                    default: false
+                    default: defaultImg
                 };
             });
+        const variants: ProductVariant[] = [];
 
+        colors.forEach(color => {
+            variants.push({
+                id: color, 
+                name: ''
+            });
+        });
+
+        
+        sizes.forEach(size => {
+            variants.push({
+                id: size, 
+                name: ''
+            });
+        });
 
         const product: ProductData = {
             id: '',
@@ -44,16 +60,7 @@ export class getProduct {
                 id: category,
                 name: category,
             },
-            variants: [
-                {
-                    id: '',
-                    name: color
-                },
-                {
-                    id: '',
-                    name: size
-                }
-            ],
+            variants: variants,
             value: {
                 centsAmount: price,
                 currency: {
@@ -67,7 +74,7 @@ export class getProduct {
             sku: sku,
             image: imageArray,
             stock: {
-                productId: '',
+                id: '',
                 available: true,
                 quantity: stock,
             },
@@ -80,5 +87,5 @@ export class getProduct {
 }
 
 export function generateRandomId() {
-    return Math.random().toString(36).substring(2); // Este es un ejemplo básico de generación de IDs aleatorios
+    return Math.random().toString(36).substring(2); 
 }

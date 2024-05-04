@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 
 import { Button, View, TextField, Hidden } from '../../../../atomic';
@@ -16,22 +16,31 @@ const AddToCart = (props: AddToCartProps) => {
     quantityValue = 1,
     showInPlp,
     sendForm,
-    isLoading
+    isLoading,
+    result
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
 
   const [cartEntryData, setCartEntry] = useState<CartEntry>();
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
-
+  const [state, setEstate] = useState(false);
   const changedQuantity = (value: number) => {
     setQuantity(value);
   };
 
+  useEffect(() => {
+    if (result) {
+      onOpenDrawerHandler();
+      setCartEntry(result);
+    }
+  }, [result]);
+
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendForm(e);
-
+    const p = await sendForm(e);
   };
+
+
 
   return (
     <form onSubmit={sendAddProduct}>
@@ -49,7 +58,7 @@ const AddToCart = (props: AddToCartProps) => {
             showIcon
           />
         </View.Item>
-        
+
         <Hidden hide>
           <TextField name="productCode" defaultValue={productCode} />
         </Hidden>

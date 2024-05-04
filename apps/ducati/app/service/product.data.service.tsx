@@ -1,7 +1,7 @@
 import { getDocs, collection, doc, getDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
 import { db, storage } from "../utils/firebase.service";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ProductData } from "@ducati/types";
+import { ProductData, TypeVariamEnum } from "@ducati/types";
 import { getProduct as getProductUtil } from "@ducati/ui";
 
 
@@ -31,11 +31,39 @@ export async function getProduct() {
                 return { id, name, categories, sku, active, ...rest };
             }));
 
-        return productsData;
+        return productsData.filter((_p) => _p.active);
     } catch (error) {
         console.error("Error al obtener productos:", error);
         throw error;
     }
+}
+
+async function getProductColors() {
+    const colorSnapshot = await getDocs(collection(db, "color"));
+    return colorSnapshot.docs.reduce((acc: any, doc) => {
+        acc[doc.id] = doc.data().color;
+        return acc;
+    }, {});
+}
+
+async function getProductSizes() {
+    const sizeSnapshot = await getDocs(collection(db, "size"));
+    return sizeSnapshot.docs.reduce((acc: any, doc) => {
+        acc[doc.id] = doc.data().size;
+        return acc;
+    }, {});
+}
+
+async function getProductImages(images: any[]) {
+    const imagePromises = images.map(async (image) => {
+        if (!image.url.startsWith('http')) {
+            const imageRef = ref(storage, "/product/" + image.url);
+            const imageUrl = await getDownloadURL(imageRef);
+            return { ...image, url: imageUrl };
+        }
+        return image;
+    });
+    return await Promise.all(imagePromises);
 }
 
 export async function getProductById(uid?: string) {
@@ -48,19 +76,22 @@ export async function getProductById(uid?: string) {
             if (productData) {
                 productData.id = productSnapshot.id;
 
+                const colors = await getProductColors();
+                const sizes = await getProductSizes();
+
+                productData.variants?.forEach((variant) => {
+                    if (colors.hasOwnProperty(variant.id)) {
+                        variant.name = colors[variant.id];
+                        variant.type = TypeVariamEnum.Color
+                    }
+                    if (sizes.hasOwnProperty(variant.id)) {
+                        variant.name = sizes[variant.id];
+                        variant.type = TypeVariamEnum.Size
+                    }
+                });
+
                 if (productData.image && productData.image.length > 0) {
-                    const imagePromises = productData.image.map(async (image) => {
-                        if (!image.url.startsWith('http')) { // Verificar que la URL no comience con 'http'
-                            const imageRef = ref(storage, "/product/" + image.url);
-                            const imageUrl = await getDownloadURL(imageRef);
-                            image.url = imageUrl;
-                        }
-                        return image; // Retornamos la imagen modificada
-                    });
-
-                    const resolvedImages = await Promise.all(imagePromises);
-
-                    productData.image = resolvedImages.filter(image => image !== null);
+                    productData.image = await getProductImages(productData.image);
                 }
 
                 return productData;

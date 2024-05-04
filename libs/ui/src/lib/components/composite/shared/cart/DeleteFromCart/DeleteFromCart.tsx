@@ -4,20 +4,16 @@ import { Button, Link, Loader, View } from '../../../../atomic';
 import type { DeleteFromCartProps } from './DeleteFromCart.types';
 
 const DeleteFromCart = (props: DeleteFromCartProps) => {
+  const { isButtom, onClick } = props;
   const [isLoading, setIsLoading] = useState(false);
-
-  const deleteCartEntry = async () => {
-    setIsLoading(true);
-
-  };
 
   return (
     <View>
       {isLoading ? (
         <Loader />
-      ) : props.isButtom ? (
+      ) : isButtom ? (
         <Button
-          onClick={deleteCartEntry}
+          onClick={onClick}
           color="primary"
           variant="outline"
           size="medium"
@@ -26,7 +22,7 @@ const DeleteFromCart = (props: DeleteFromCartProps) => {
           Remover
         </Button>
       ) : (
-        <Link onClick={deleteCartEntry}>
+        <Link onClick={onClick}>
           Remover
         </Link>
       )}

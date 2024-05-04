@@ -58,7 +58,7 @@ const ViewCart = (props: {
             </Text>
             <View.Item gapBefore="auto">
               <Text variant="body-1" weight="bold">
-              <Price
+                <Price
                   locale={cart.totalPrice?.value?.currency.isocode}
                   text={{
                     color: 'neutral',

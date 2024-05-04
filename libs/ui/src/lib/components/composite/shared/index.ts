@@ -5,3 +5,4 @@ export * from './MenuHeader';
 export * from './cart';
 export * from './misc';
 export * from './price';
+export * from './address';

@@ -1,37 +1,50 @@
 import { loader } from '../../routes/_index';
 import { useFetcher, useLoaderData } from '@remix-run/react';
-import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text } from '@ducati/ui';
+import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text, useOpenState, MiniCart } from '@ducati/ui';
 import { FormEvent, useState } from 'react';
+import { ProductData, CartEntry } from '@ducati/types';
 
 
 export const HomePage = () => {
-  const loaderData = useLoaderData<typeof loader>();
-  const [isLoading, setIsLoading] = useState(false);
+  const { layout, product } = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
+  const [isLoading, setIsLoading] = useState(false);
 
-
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
+  const sendAddProduct = async (e: FormEvent<HTMLFormElement>): Promise<CartEntry | null> => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-    const productCode: string = formData.get('productCode') as string;
-
-    await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-    setIsLoading(false)
+  
+    try {
+      setIsLoading(true);
+      const formData = new FormData(e.currentTarget);
+      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
+      const productCode: string = formData.get('productCode') as string;
+  
+      const product = await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
+  
+      return product!;
+  
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      return null;
+    } finally {
+      setIsLoading(false);
+      return null;
+    }
   };
+  
+  
 
   return (
     <View gap={10}>
-      <Herobanner images={loaderData.layout.homeImage} />
+      <Herobanner images={layout.homeImage} />
 
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
-        <CategoryCarousel images={loaderData.layout.categoryImage} />
-        <ProductListForPLP products={loaderData.product} sendForm={sendAddProduct} isLoading={isLoading} />
-
+        <CategoryCarousel images={layout.categoryImage} />
+        <ProductListForPLP
+          products={product}
+          sendForm={sendAddProduct}
+          isLoading={isLoading} />
       </View>
-
     </View>
   );
 };

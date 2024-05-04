@@ -1,19 +1,24 @@
-import { addDoc, collection, doc, getDoc, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/firebase.service";
 import { CartData, CartEntry, Customer, PriceData, User } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
 
 export async function getCartById(cartId: string) {
+  const docRef = doc(db, 'cart', cartId);
+  const cartSnapshot = await getDoc(docRef);
   try {
-    const docRef = doc(db, "cart", cartId);
-    const cartSnapshot = await getDoc(docRef); // Limitar la consulta a un resultado
-
-    return cartSnapshot.data() as CartData;
-
+    if (cartSnapshot.exists()) {
+      const cartData = cartSnapshot.data() as CartData;
+      const cart = { ...cartData, id: cartSnapshot.id };
+      return cart;
+    } else {
+      throw new Error(`El carrito con ID '${cartId}' no existe.`);
+    }
   } catch (error) {
     throw new Error(`Error al obtener el carrito con ID '${cartId}': ${error}`);
   }
 }
+
 export async function getCart(uid: string): Promise<CartData> {
   try {
     const cartRef = doc(db, "customer", uid);
@@ -71,7 +76,7 @@ export async function createAnonymousCart(quantity: string, productCode: string,
   }
 }
 
-export async function addItemToCart(cartCustomer: CartData, quantity: string, productCode: string): Promise<CartEntry> {
+export async function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
   try {
     const product = await getProductBySku(productCode);
 
@@ -82,14 +87,14 @@ export async function addItemToCart(cartCustomer: CartData, quantity: string, pr
         description: product?.description,
         stock: product?.stock,
         categories: product?.categories,
-        value: product?.value,
+        value: product?.value!,
         sku: product?.sku,
       },
       id: product?.id,
       entryNumber: 0,
-      quantity: parseInt(quantity),
+      quantity: quantity,
       totalPrice: product?.value ?
-        { value: { ...product.value, centsAmount: parseFloat(product.value.centsAmount.toString()) }, }
+        { value: { ...product.value, centsAmount: (parseFloat(`${product.value.centsAmount}`) * quantity) }, }
         : undefined,
     };
 
@@ -107,18 +112,18 @@ export async function addItemToCart(cartCustomer: CartData, quantity: string, pr
     );
 
     if (existingItem) {
-      existingItem.quantity += cartItem.quantity;
-      if (existingItem.totalPrice && existingItem.product?.value) {
+      update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
 
-        existingItem.totalPrice.value.centsAmount = parseFloat(existingItem.product.value.centsAmount.toString()) * existingItem.quantity;
+      if (existingItem.totalPrice && existingItem.product?.value) {
+        existingItem.totalPrice.value.centsAmount = parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity;
       }
+      cartItem.totalPrice = existingItem.totalPrice;
     } else {
       cartData.entries.push(cartItem);
     }
 
-    const totalCentsAmount = parseFloat(
-      cartData.entries.reduce((total, entry) =>
-        total + (entry.totalPrice?.value.centsAmount || 0), 0).toString()
+    const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
+      total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
     );
 
     const updatedTotalPrice: PriceData = {
@@ -129,17 +134,62 @@ export async function addItemToCart(cartCustomer: CartData, quantity: string, pr
     };
 
     await setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice });
-
-    return cartItem;
-
+    const cartUpdate = await getCartById(cartCustomer.id!);
+   
+    return { cartItem: cartItem, cartUpdate: cartUpdate };
   } catch (error) {
     console.error("Error al agregar el artículo al carrito:", error);
     throw error;
   }
 }
 
+export async function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
+  try {
+    if (!cartCustomer.id || !productCode) {
+      throw new Error("Invalid input parameters");
+    }
 
+    const docRef = doc(db, "cart", cartCustomer.id);
+    const cartSnapshot = await getDoc(docRef);
 
+    if (!cartSnapshot.exists()) {
+      throw new Error("Cart data not found");
+    }
+
+    const cartData = cartSnapshot.data() as CartData;
+
+    if (!cartData || !cartData.entries) {
+      throw new Error("Invalid or incomplete cart data");
+    }
+
+    const updatedEntries = cartData.entries.filter(entry =>
+      entry.product?.sku !== productCode
+    );
+
+    let totalCentsAmount = 0;
+    updatedEntries.forEach(entry => {
+      const entryPrice = parseFloat(`${entry.product?.value?.centsAmount}`);
+      totalCentsAmount += entry.quantity * entryPrice;
+    });
+
+    const updatedTotalPrice: PriceData = {
+      value: {
+        ...cartData.totalPrice!.value!,
+        centsAmount: totalCentsAmount,
+      }
+    };
+
+    await updateDoc(docRef, {
+      entries: updatedEntries,
+      totalPrice: updatedTotalPrice
+    });
+
+    return getCartById(cartCustomer.id);
+  } catch (error) {
+    console.error("Error deleting entry:", error);
+    throw error; // Re-throw the error for the caller to handle
+  }
+}
 
 
 

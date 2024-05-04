@@ -107,7 +107,6 @@ const QuantityCounter = (props: QuantityCounterProps) => {
                         props.size === 'large'
                           ? 'var(--rs-font-size-body-2)'
                           : 'var(--rs-font-size-body-3)',
-                      border: 0,
                       padding: 0,
                       boxShadow: 'none',
                     },

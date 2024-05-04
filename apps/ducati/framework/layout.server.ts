@@ -50,7 +50,7 @@ function getCategoryCarousel() {
 
 function getHeaderNavigation() {
   return [
-    { button: { message: 'HOME', props: { href: '/' } } },
+    { button: { message: 'INICIO', props: { href: '/' } } },
     {
       button: { message: 'PRODUCTOS', props: { href: '/category' } },
     },

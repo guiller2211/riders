@@ -1,8 +1,8 @@
 import type { Resource } from '../resource';
 import type { CategoryData } from '../category';
-import type { PriceData, PriceSummaryData } from '../price';
+import type { PriceSummaryData } from '../price';
 import type { ImageData } from '../media';
-import { ProductEnum, StockData } from './product-query';
+import { StockData } from './product-query';
 import { User } from '../user';
 import { Money } from '../localization';
 
@@ -14,7 +14,7 @@ export interface AbstractProduct extends Resource {
   categories?: CategoryData;
   sku?: string;
   productId?: string;
-  value?: Money;
+  value: Money;
   active?: boolean;
   validFrom?: Date;
   validUntil?: Date;
@@ -26,10 +26,18 @@ export interface ProductData extends AbstractProduct {
   priceSummary?: PriceSummaryData;
 }
 
-export interface ProductVariant  {
+export interface ProductVariant {
   id: string
   name?: string;
+  type?: TypeVariamEnum;
 }
-export interface ProductVariantData  {
+export interface ProductVariantData {
   [key: string]: string[];
 }
+
+export const enum TypeVariamEnum {
+  Color = 'Color',
+  Size = 'Size',
+}
+
+

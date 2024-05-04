@@ -8,13 +8,15 @@ import { CartData, CartEntry, Customer } from '@ducati/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
+import { getCategories } from '../service/category.data.service';
 
 export async function loader({
   params,
 }: LoaderArgs) {
 
   const product = await getProductById(params.id);
-  return typedjson({ product });
+  const categories = await getCategories();
+  return typedjson({ product, categories });
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {
@@ -37,7 +39,8 @@ export async function action({ request, context: { registry } }: ActionArgs) {
 
     if (customer) {
       const getCartCustomer: CartData = await getCart(uid);
-      cart = await addItemToCart(getCartCustomer, quantity, productCode);
+      const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
+      cart = cartItem
     }
 
     /* await updateCustomerCart(uid, cart); */

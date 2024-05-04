@@ -1,7 +1,8 @@
-import { Button, Hidden, Icon, Image, Text, View } from '../../../atomic';
+import { Button, Icon, Text, View } from '../../../atomic';
 import { useResponsiveClientValue } from '../../../../hooks';
-import { IconCart } from '../../../../icons';
+import { IconCart, IconFilter } from '../../../../icons';
 import type { CartEmptyProps } from './CartEmpty.types';
+import { AppRoutes } from '@ducati/types';
 
 const CartEmpty = (props: CartEmptyProps) => {
   const { data, isMiniCart } = props;
@@ -9,37 +10,33 @@ const CartEmpty = (props: CartEmptyProps) => {
   return (
     <View>
       {!isMiniCart ? (
-        <View
-          direction={useResponsiveClientValue({ s: 'column', l: 'row' })}
-          gap={useResponsiveClientValue({ s: 6, m: 34 })}
-          paddingTop={12}
-        >
-          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
-            <View
-              paddingTop={useResponsiveClientValue({ m: 0, l: 36 })}
-              align={useResponsiveClientValue({ m: 'center', l: 'start' })}
-            >
-              <View paddingBottom={1}>
-                <Text variant="featured-1" weight="bold">
-                  carrito
-                </Text>
+        <View align='center'>
+          <View
+            direction='column'
+            gap={5}
+            borderRadius="small"
+            backgroundColor='white'
+            align='center'
+            padding={10}
+            width={useResponsiveClientValue({ s: undefined, l: 100 })}
+          >
+            <Text variant="featured-1" weight="bold">
+              Vacio
+            </Text>
+            <Icon svg={IconFilter} size={10} />
+
+            {data.link?.props && (
+              <View paddingTop={8}>
+                <Button
+                  size="xlarge"
+                  color="black"
+                  href={AppRoutes.Category}
+                >
+                  volver
+                </Button>
               </View>
-              <Text variant="featured-3" align={useResponsiveClientValue({ s: 'center', m: 'start' })}>
-              carrito
-              </Text>
-              {data.link?.props && (
-                <View paddingTop={8}>
-                  <Button
-                    size="xlarge"
-                    color="black"
-                    href={data.link.props.href}
-                  >
-                    volver
-                  </Button>
-                </View>
-              )}
-            </View>
-          </View.Item>
+            )}
+          </View>
         </View>
       ) : (
         <View direction="column" gap={6} paddingTop={useResponsiveClientValue({ l: 12 })}>

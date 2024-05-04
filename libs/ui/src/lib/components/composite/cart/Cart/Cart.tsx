@@ -1,39 +1,31 @@
+import { useResponsiveClientValue } from '../../../../hooks';
 import { IconWarning } from '../../../../icons';
 import { View, Text, Alert } from '../../../atomic';
 import CartEntries from '../CartEntries';
 import type { CartProps } from './Cart.types';
 
 const Cart = (props: CartProps) => {
-  const { cart } = props;
+  const { cart, handleAction} = props;
   return (
-    <View direction={{ s: 'column', l: 'row' }} gap={{ s: 12, l: 2 }}>
-      <View.Item columns={12}>
-        <View
-          divided
-          borderColor="neutral"
-          padding={2}
-          direction="column"
-          borderRadius="small"
-          width="auto"
-        >
-          <View.Item>
-            <View direction="row" padding={3}>
-              <Text variant="body-1" weight="bold">
-                Items 2
-              </Text>
-            </View>
-          </View.Item>
-          <View.Item>
-            <View padding={6}>
-              <CartEntries viewCart={undefined} entries={cart.entries} />
-            </View>
-          </View.Item>
-        </View>
-        <Alert icon={IconWarning} color="critical" bleed={0}>
-            alerta
-        </Alert>
-      </View.Item>
+
+    <View
+      divided
+      padding={6}
+      borderRadius="small"
+      direction='column'
+      gap={useResponsiveClientValue({ s: 12, l: 2 })}
+      backgroundColor='white'
+    >
+      <Text variant="body-1" weight="bold">
+        Items {cart.entries.length}
+      </Text>
+      <CartEntries
+        viewCart={undefined}
+        entries={cart.entries}
+        handleAction={handleAction}/>
     </View>
+
+
   );
 };
 export default Cart;

@@ -2,7 +2,7 @@ import { HomePage } from '../ui/pages/home.page';
 import { typedjson } from 'remix-typedjson';
 import { LayoutUtils } from '../../framework/layout.server';
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import {  getProduct } from '../service/product.data.service';
+import { getProduct } from '../service/product.data.service';
 import { getSession } from '../utils/fb.sessions.server';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { CartData, CartEntry, Customer, ProductEnum } from '@ducati/types';
@@ -39,7 +39,7 @@ export async function action({ request, context: { registry } }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const quantity: string = formData.get('addToCartQuantity') as string;
   const productCode: string = formData.get('productCode') as string;
-  
+
   let customer: Customer | undefined;
   let cart: CartEntry | undefined;
 
@@ -50,7 +50,8 @@ export async function action({ request, context: { registry } }: ActionArgs) {
 
     if (customer) {
       const getCartCustomer: CartData = await getCart(uid);
-      cart = await addItemToCart(getCartCustomer, quantity, productCode);
+      const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
+      cart = cartItem
     }
 
     /* await updateCustomerCart(uid, cart); */

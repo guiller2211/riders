@@ -9,5 +9,5 @@ export { default as CartEmpty } from './CartEmpty';
 export type { CartEmptyProps } from './CartEmpty';
 export { default as CartHeader } from './CartHeader';
 export type { CartHeaderProps } from './CartHeader';
-
+export * from './OrderSummary'
 // export { default as OrderSummaryItem } from './OrderSummary';

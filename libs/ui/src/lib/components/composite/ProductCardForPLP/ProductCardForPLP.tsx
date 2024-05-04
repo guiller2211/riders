@@ -5,7 +5,7 @@ import type { ProductCardForPLPProps } from './index';
 import { AddToCart } from '../shared';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
-  const { product, sendForm, isLoading } = props;
+  const { product, sendForm, isLoading, result } = props;
 
   const image = product.image?.find((_image) => _image.default)
 
@@ -44,17 +44,20 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
 
       <Text variant="body-3">SKU: {product.sku}</Text>
 
-      <Text variant="body-3">Precio:  {product.value 
+      <Text variant="body-3">Precio:  {product.value
         ? product.value.centsAmount
         : ''}</Text>
 
 
       <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
-
         <View.Item columns={12}>
-
           {product?.sku && (
-            <AddToCart productCode={product?.sku} stockAvailable={230} sendForm={sendForm} isLoading={isLoading} />
+            <AddToCart 
+            productCode={product?.sku} 
+            stockAvailable={230} 
+            sendForm={sendForm} 
+            isLoading={isLoading} 
+            result={result}/>
           )}
         </View.Item>
         <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
@@ -62,8 +65,6 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         </Button>
 
       </View>
-
-
     </View>
   );
 };

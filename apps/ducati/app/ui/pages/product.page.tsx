@@ -7,76 +7,61 @@ import {
   ProductOverview,
   Divider,
   useResponsiveClientValue,
-  Text
+  Text,
+  Button,
+  IconHeart,
+  RadioGroup,
+  Radio,
+  Card
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { FormEvent, useState } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { loader } from '../../routes/product.$id';
+import { CartEntry, TypeVariamEnum } from '@ducati/types';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
   const [isLoading, setIsLoading] = useState(false);
   const fetcher = useFetcher();
 
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
+  const sendAddProduct = async (e: FormEvent<HTMLFormElement>): Promise<CartEntry | null> => {
     e.preventDefault();
-    setIsLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-    const productCode: string = formData.get('productCode') as string;
-
-    await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-    setIsLoading(false)
+  
+    try {
+      setIsLoading(true);
+      const formData = new FormData(e.currentTarget);
+      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
+      const productCode: string = formData.get('productCode') as string;
+  
+      const product = await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
+  
+      return product!;
+  
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      return null;
+    } finally {
+      setIsLoading(false);
+      return null;
+    }
   };
+
+
+
   return (
-    /*   <View
-        direction="column"
-        gap={useResponsiveClientValue({ l: 8, s: 0 })}
-        paddingInline={useResponsiveClientValue({ s: 10, l: 20 })}
-      >
-        <View direction="row" gap={useResponsiveClientValue({ l: 6, s: 9 })}>
-          <View.Item columns={useResponsiveClientValue({ s: 12, l: 7 })}>
-            <View direction="column" gap={useResponsiveClientValue({ l: 12, s: 9 })}>
-              {loaderData.product && loaderData.product.images && (
-                <ImageGallery images={loaderData.product.images} />
-              )}
-            </View>
-          </View.Item>
-          
-          <View.Item>
-  
-          <Text>
-            {loaderData.product?.description}
-          </Text>
-          {
-            loaderData.product?.sku
-            &&
-            <AddToCart
-              productCode={loaderData.product?.sku}
-              stockAvailable={230}
-              sendForm={sendAddProduct}
-              isLoading={isLoading} />
-          }
-          </View.Item>
-        </View>
-  
-  
-      </View> */
     <View
       direction="column"
-      gap={{ l: 8, s: 0 }}
-      paddingInline={{ l: 0, s: 6 }}
+      gap={useResponsiveClientValue({ l: 8, s: 0 })}
+      paddingInline={useResponsiveClientValue({ l: 0, s: 6 })}
     >
       <View.Item columns={12}>
         <View direction="row" align="center">
 
-          <View.Item columns={{ l: 1 }}>
+          <View.Item columns={useResponsiveClientValue({ l: 1 })}>
             <View direction="row" gap={4} justify="end">
               <Print />
-              <Share />
             </View>
           </View.Item>
         </View>
@@ -102,21 +87,66 @@ const ProductDetailPage = () => {
           </View.Item>
 
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 5 })} >
-            <View direction="column" gap={8} backgroundColor='page' padding={8} borderRadius='large'>
+            <View direction="column" gap={5} backgroundColor='page' padding={8} borderRadius='large'>
 
-              <View.Item columns={12}>
-                <Text>SKU: {loaderData.product?.sku}</Text>
-              </View.Item>
+              <Text variant='body-2' weight='bold'>
+                SKU: {loaderData.product?.sku}
+              </Text>
+
+              <Text variant='body-2' weight='bold'>
+                Categoria: {loaderData.product?.categories?.name}
+              </Text>
+
+              <RadioGroup name="color" >
+                <View gap={1} direction='column'>
+                  <Text variant='body-1' weight='bold'>
+                    Color:
+                  </Text>
+                  <View gap={4} direction='row'>
+                    {loaderData.product?.variants
+                    ?.filter(_c => _c.type === TypeVariamEnum.Color)
+                    ?.map((_c) => (
+                      <Card >
+                        <View gap={3} direction="row" align="center">
+                          <Radio value={_c.name!}>{_c.name}</Radio>
+                        </View>
+                      </Card>
+                    ))}
+                  </View>
+                </View>
+              </RadioGroup>
+
+              <RadioGroup name="size" >
+                <View gap={1} direction='column'>
+                  <Text variant='body-1' weight='bold'>
+                    Talla:
+                  </Text>
+                  <View gap={4} direction='row'>
+                    {loaderData.product?.variants
+                      ?.filter(_s => _s.type === TypeVariamEnum.Size)
+                      ?.sort((a, b) => (a.name! > b.name! ? 1 : -1))
+                      ?.reverse()
+                      ?.map((_s) => (
+                        <Card key={_s.id}>
+                          <View gap={3} direction="row" align="center">
+                            <Radio value={_s.name!}>{_s.name}</Radio>
+                          </View>
+                        </Card>
+                      ))}
+                  </View>
+                </View>
+              </RadioGroup>
+
 
               {loaderData.product?.value && (
-                <View.Item columns={12}>
-                  <Text>Precio: ${loaderData.product?.value.centsAmount}</Text>
-                </View.Item>
+                <Text variant='body-2' weight='bold'>
+                  Precio: ${loaderData.product?.value.centsAmount}
+                </Text>
               )}
+
               <View.Item columns={12}>
                 <Divider />
               </View.Item>
-
 
               {loaderData.product?.id && (
                 <View.Item columns={12}>
@@ -129,6 +159,11 @@ const ProductDetailPage = () => {
                   />
                 </View.Item>
               )}
+
+              <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
+                Favorito
+              </Button>
+
             </View>
           </View.Item>
         </View>

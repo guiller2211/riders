@@ -4,6 +4,7 @@ export enum AppRoutes {
   CheckoutPayment = '/checkout/payment',
 
   Cart = '/cart',
+  Category = '/category',
 
   Dashboard = '/my-account',
   PersonalDetails = '/my-account/personal-details',

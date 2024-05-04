@@ -5,7 +5,6 @@ import { CartEntry as CartEntryData } from '@ducati/types';
 import type { CartEntryProps } from './CartEntry.types';
 import {
   Divider,
-  Hidden,
   Icon,
   Image,
   Link,
@@ -16,9 +15,10 @@ import {
 import { IconCheckCircle } from '../../../../icons';
 import { Price, QuantityCounter } from '../../shared';
 import DeleteFromCart from '../../shared/cart/DeleteFromCart/DeleteFromCart';
+import { useResponsiveClientValue } from '../../../../hooks';
 
 const CartEntry = (props: CartEntryProps) => {
-  const { entry } = props;
+  const { entry, handleAction } = props;
   switch (props.viewCart) {
     case 'RecentlyAdded':
       return <AddMiniCart entry={entry} />;
@@ -27,7 +27,7 @@ const CartEntry = (props: CartEntryProps) => {
     case 'ReadOnly':
       return <CartReadOnly entry={entry} />;
     default:
-      return <CartEntryCard entry={entry} />;
+      return <CartEntryCard entry={entry} handleAction={handleAction} />;
   }
 };
 
@@ -51,194 +51,158 @@ const CartReadOnly = (props: { entry: CartEntryData }) => {
     </View>
   );
 };
-const CartEntryCard = (props: { entry: CartEntryData }) => {
+
+const CartEntryCard = (props: {
+  entry: CartEntryData;
+  handleAction?: (action: 'update' | 'delete', entryId: string, quantity?: number) => Promise<CartEntryData | void>;
+}) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { entry } = props;
+  const [entryData, setEntryData] = useState(entry);
 
-  const updateCartEntry = (value: number) => {
+  const updateCartEntry = async (entryId: string, quantity: number) => {
     setIsLoading(true);
+
+    if (props.handleAction) {
+      if (quantity != 0) {
+        const data = await props.handleAction('update', entryId, quantity)
+        data && setEntryData(data);
+      } else {
+        deleteCartEntry(entryId)
+      }
+      setIsLoading(false);
+    }
   };
 
-  const priceText: TextProps = {
-    color: 'neutral',
-    weight: 'bold',
-    variant: 'featured-2',
+  const deleteCartEntry = async (entryId: string) => {
+    setIsLoading(true);
+    if (props.handleAction) {
+      await props.handleAction('delete', entryId)
+      setIsLoading(false);
+    }
   };
+
+  const image = entry.product?.image?.find((_i) => _i.default)
   const MAX_QTY = 1000;
+
   return (
-    <View direction="column">
-      <View.Item>
-        <View
-          direction="row"
-          gap={{ s: 4, l: 12 }}
-          paddingBlock={5}
-          paddingInline={0}
-        >
-          <View.Item columns={{ s: 12, l: 7 }}>
-            <View direction="row">
-              <View.Item columns={{ s: 12, l: 6 }}>
-                <Link href={"/product/" + props.entry.product?.id}>
-                  <Image
-                    {...props.entry.product?.image}
-                    height={35}
-                    width="auto"
-                  />
-                </Link>
-              </View.Item>
-              <View.Item columns={{ s: 12, l: 6 }}>
-                <View direction="column">
-                  <View paddingBlock={3} paddingInline={0}>
-                    <Text variant="body-3">
-                      <Link
-                        href={"/product/" + props.entry.product?.id}
-                        variant="underline"
-                      >
-                        {props.entry.product?.sku}
-                      </Link>
-                    </Text>
-                  </View>
-
-                  <Text variant="body-2" weight="bold">
-                    <Link
-                      href={"/product/" + props.entry.product?.id}
-                      variant="plain"
-                      color="inherit"
-                    >
-                      {props.entry.product?.name}
-                    </Link>
-                  </Text>
-
-                  <Text variant="body-3">
-                    sku: 123
-                  </Text>
-
-                  <View.Item>
-                    <Hidden hide={{ s: true, l: false }}>
-                      {props.entry.product?.stock ? (
-                        <View
-                          direction="row"
-                          gap={3}
-                          paddingTop={15}
-                          align="center"
-                        >
-                          <View.Item>
-                            <Icon svg={IconCheckCircle} color="positive" />
-                          </View.Item>
-                          <View.Item>
-                            disponibles 4
-                          </View.Item>
-                        </View>
-                      ) : (
-                        <View
-                          direction="row"
-                          gap={2}
-                          paddingTop={15}
-                          align="center"
-                        >
-                          <View.Item>
-                            <Icon svg={IconCheckCircle} />
-                          </View.Item>
-                          <View.Item>
-                            disponible en 2 febrero
-                          </View.Item>
-                        </View>
-                      )}
-                    </Hidden>
-                  </View.Item>
-                </View>
-              </View.Item>
-            </View>
+    <View
+      direction="row"
+      gap={useResponsiveClientValue({ s: 4, l: 12 })}
+      paddingBlock={5}
+      paddingInline={0}
+    >
+      <View.Item columns={useResponsiveClientValue({ s: 12, l: 7 })}>
+        <View direction="row">
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
+            <Link href={"/product/" + entry?.id}>
+              <Image
+                src={image?.url}
+                height={35}
+                width="auto"
+              />
+            </Link>
           </View.Item>
-
-          <View.Item columns={{ s: 12, l: 5 }}>
-            <View direction="row">
-              <View.Item columns={{ s: 4, l: 6 }}>
-                <View
-                  direction="column"
-                  paddingBlock={3}
-                  paddingInline={0}
-                  maxWidth={{ s: '31.25rem', l: '6.25rem' }}
-                  gap={3}
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
+            <View direction="column">
+              <Text variant="body-3">
+                <Link
+                  href={"/product/" + entry.product?.id}
+                  variant="underline"
                 >
-                  <View.Item>
-                    <QuantityCounter
-                      name="quantity"
-                      qty={props.entry.quantity}
-                      min={1}
-                      max={
-                        props.entry.product?.stock?.quantity
-                          ? props.entry.product?.stock.quantity
-                          : MAX_QTY
-                      }
-                      step={1}
-                      changed={(value) => updateCartEntry(value)}
-                      showInPlp
-                    />
-                  </View.Item>
+                  {entry.product?.sku}
+                </Link>
+              </Text>
 
-                  <View.Item columns={12}>
-                    <Hidden hide={{ s: true, l: false }}>
-                      <DeleteFromCart
-                        entryId={props.entry.entryId!}
-                        quantity={props.entry.quantity}
-                        variant="ghost"
-                        color="primary"
-                      />
-                    </Hidden>
-                  </View.Item>
-                </View>
-              </View.Item>
+              <Text variant="body-2" weight="bold">
+                <Link
+                  href={"/product/" + entry.id}
+                  variant="plain"
+                  color="inherit"
+                >
+                  {entry.product?.name}
+                </Link>
+              </Text>
 
-              <View.Item columns={{ s: 8, l: 6 }}>
-                <View paddingBlock={3} paddingInline={0}>
-                  {isLoading ? (
-                    <Loader />
-                  ) : (
-                    <ProductPrice entry={props.entry} />
-                  )}
-                </View>
-              </View.Item>
+              <Text variant="body-3">
+                sku: {entry.product?.sku}
+              </Text>
 
-              <View.Item columns={12}>
-                <Hidden hide={{ s: false, l: true }}>
-                  <View direction="row" gap={4}>
-                    <View.Item columns={12}>
-                      {props.entry.product?.stock ? (
-                        <View direction="row" gap={3} align="center">
-                          <View.Item>
-                            <Icon svg={IconCheckCircle} color="positive" />
-                          </View.Item>
-                          <View.Item>
-                            disponible 4
-                          </View.Item>
-                        </View>
-                      ) : (
-                        <View direction="row" gap={2} align="center">
-                          <View.Item>
-                            <Icon svg={IconCheckCircle} />
-                          </View.Item>
-                          <View.Item>
-                            disponible 2 febrero
-                          </View.Item>
-                        </View>
-                      )}
+              <View.Item>
+                {entry.product?.stock && (
+                  <View
+                    direction="row"
+                    gap={3}
+                    paddingTop={15}
+                    align="center"
+                  >
+                    <View.Item>
+                      <Icon svg={IconCheckCircle} color="positive" />
                     </View.Item>
-                    <View.Item columns={12}>
-                      <DeleteFromCart
-                        entryId={props.entry.entryId!}
-                        quantity={props.entry.quantity}
-                        variant="ghost"
-                        color="primary"
-                        isButtom
-                      />
+                    <View.Item>
+                      disponibles {entry.product?.stock?.quantity}
                     </View.Item>
                   </View>
-                </Hidden>
+                )}
               </View.Item>
             </View>
           </View.Item>
         </View>
       </View.Item>
+
+      <View.Item columns={useResponsiveClientValue({ s: 12, l: 5 })}>
+        <View direction="row">
+          <View.Item columns={useResponsiveClientValue({ s: 4, l: 6 })}>
+            <View
+              direction="column"
+              paddingBlock={3}
+              paddingInline={0}
+              maxWidth={useResponsiveClientValue({ s: '31.25rem', l: '6.25rem' })}
+              gap={3}
+            >
+              <View.Item>
+                <QuantityCounter
+                  name="quantity"
+                  qty={entry.quantity}
+                  min={1}
+                  max={
+                    entry.product?.stock?.quantity
+                      ? entry.product?.stock.quantity
+                      : MAX_QTY
+                  }
+                  step={1}
+                  changed={(value) => updateCartEntry(entry.product?.sku!, value)}
+                  showInPlp
+                />
+              </View.Item>
+
+              <View.Item columns={12}>
+                <DeleteFromCart
+                  entryId={entry.entryId!}
+                  quantity={entry.quantity}
+                  variant="ghost"
+                  color="primary"
+                  isButtom
+                  onClick={() => deleteCartEntry(entry.product?.sku!)}
+                />
+              </View.Item>
+            </View>
+          </View.Item>
+
+          <View.Item columns={useResponsiveClientValue({ s: 8, l: 6 })}>
+            <View paddingBlock={3} paddingInline={0}>
+              {isLoading ? (
+                <Loader />
+              ) : (
+                <ProductPrice entry={entryData} />
+              )}
+            </View>
+          </View.Item>
+
+        </View>
+      </View.Item>
     </View>
+
   );
 };
 const AddMiniCart = (props: { entry: CartEntryData }) => {
@@ -292,7 +256,7 @@ const ProductImage = (props: { entry: CartEntryData }) => {
   const image = entry.product?.image?.find(_product => _product.default == true);
 
   if (!image) {
-    return null; // O podrías devolver un marcador de posición o un mensaje de error
+    return null;
   }
 
   return (
@@ -303,7 +267,6 @@ const ProductImage = (props: { entry: CartEntryData }) => {
 };
 const ProductInfo = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  console.log(entry)
   return (
     <View direction="column">
       <View paddingBottom={1}>
@@ -329,6 +292,7 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
 
 const ProductPrice = (props: { entry: CartEntryData }) => {
   const { entry } = props;
+  console.log(entry)
   const priceText: TextProps = {
     color: 'neutral',
     weight: 'bold',

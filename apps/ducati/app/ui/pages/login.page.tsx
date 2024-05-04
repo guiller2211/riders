@@ -16,7 +16,6 @@ export const LoginPage = () => {
         const formData = new FormData(e.currentTarget);
         const email: string = formData.get('email') as string;
         const password: string = formData.get('password') as string;
-        console.log(e)
 
         const authResult = await loginWithEmailAndPassword(email, password);
 
