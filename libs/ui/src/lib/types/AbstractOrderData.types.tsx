@@ -1,4 +1,4 @@
-import { Resource } from '@ducati/types';
+import { CreditCardPaymentInfo, Resource } from '@ducati/types';
 import type { AddressData } from './AddressData.types';
 import type { PriceData } from './PriceData.types';
 import type { ProductData } from './ProductData.types';
@@ -22,6 +22,7 @@ export interface AbstractOrderData  extends Resource {
   totalTax?: TaxData;
   totalPriceWithTax?: PriceData;
   shippingTotal?: PriceData;
+  paymentInfo?: CreditCardPaymentInfo;
 }
 
 export interface AbstractOrderEntryData {

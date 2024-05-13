@@ -2,8 +2,6 @@ export * from './Actionable';
 export * from './Tabs';
 export * from './TextField';
 export * from './View';
-export * from './Image';
-export * from './DropdownMenu';
 
 // TODO: update exports
 export { default as Accordion } from './Accordion';
@@ -20,12 +18,13 @@ export { default as CheckboxGroup } from './CheckboxGroup';
 export { default as Container } from './Container';
 export { default as Dismissible } from './Dismissible';
 export { default as Divider } from './Divider';
-
+export * from './DropdownMenu';
 export { default as FormControl } from './FormControl';
 export { default as Hidden } from './Hidden';
 export { default as HiddenVisually } from './HiddenVisually';
 export { default as Hotkey } from './Hotkey';
 export { default as Icon } from './Icon';
+export * from './Image';
 export { default as Link } from './Link';
 export { default as Loader } from './Loader';
 export { default as MenuItem } from './MenuItem';

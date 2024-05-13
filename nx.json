@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "$schema": "./  ",
   "npmScope": "ducati",
   "tasksRunnerOptions": {
     "default": {
@@ -7,18 +7,16 @@
       "options": {
         "cacheableOperations": [
           "build",
-          "build:storybook",
-          "lint",
-          "server:express",
-          "server:netlify",
-          "test"
+          "server:netlify"
         ],
         "cacheDirectory": "./.cache/nx"
       }
     }
   },
   "namedInputs": {
-    "default": ["{projectRoot}/**/*"],
+    "default": [
+      "{projectRoot}/**/*"
+    ],
     "build": [
       "default",
       "!{projectRoot}/.eslintrc.json",
@@ -28,12 +26,22 @@
   },
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["build", "^build"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "build",
+        "^build"
+      ]
     },
     "dev": {
-      "dependsOn": ["^build"],
-      "inputs": ["build", "^build"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "build",
+        "^build"
+      ]
     },
     "test": {
       "inputs": [
@@ -57,5 +65,7 @@
         "unitTestRunner": "vitest"
       }
     }
-  }
+  },
+  "nxCloudAccessToken": "ZTU0OGQ5MTMtYWViNS00NTE3LWIxYmYtMDVkNGQ3MjExZDJkfHJlYWQtd3JpdGU=",
+  "useInferencePlugins": false
 }

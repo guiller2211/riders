@@ -13,7 +13,7 @@ import {
   findById,
 } from '../../../../../../utils';
 
-const CheckoutAddresses = ({ addresses, onChangeAddress, ...rest }: CheckoutAddressesProps) => {
+const CheckoutAddresses = ({ addresses, onChangeAddress, sendForm, ...rest }: CheckoutAddressesProps) => {
   const defaultShippingAddress = useMemo(() => getDefault('defaultShippingAddress', addresses), [addresses]);
   const [shippingAddress, setShippingAddress] = useState(defaultShippingAddress);
 
@@ -35,11 +35,12 @@ const CheckoutAddresses = ({ addresses, onChangeAddress, ...rest }: CheckoutAddr
       onChange={onChangeHandler}
       {...rest}
     >
-      {filteredShippingAddresses.map((address) => (
+      {addresses.map((address) => (
         <CarouselItem key={address.id} value={address}>
           <CheckoutAddressCard
             address={address}
             isSelected={shippingAddress?.id === address.id}
+            sendForm={sendForm}
           />
         </CarouselItem>
       ))}

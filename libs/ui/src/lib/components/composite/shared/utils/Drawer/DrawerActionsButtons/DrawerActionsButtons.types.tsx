@@ -1,4 +1,4 @@
-import type { ViewProps } from 'reshaped';
+import type { ButtonProps, ViewProps } from 'reshaped';
 
 export type DrawerActionsButtonsProps = ViewProps & {
   fullWidth?: boolean;
@@ -6,4 +6,6 @@ export type DrawerActionsButtonsProps = ViewProps & {
   primaryLabel?: string;
   secondaryHref?: string;
   secondaryLabel?: string;
+  onClick?: ButtonProps['onClick'] 
+  type?: ButtonProps['type'] 
 };

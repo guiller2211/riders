@@ -11,16 +11,23 @@ import type { AddressData, ShippingInfo } from '../../../../../types';
 import type { CartProps } from '../../../cart';
 import type { CheckoutShippingProps } from './CheckoutShipping.types';
 import type { ShippingMethod } from '../CheckoutShippingMethod';
+import { useResponsiveClientValue } from 'libs/ui/src/lib/hooks';
 
 const CheckoutShipping = (props: CheckoutShippingProps) => {
-  const { addresses, checkoutShippingMethods } = props;
+  const { addresses,
+    checkoutShippingMethods,
+    sendForm,
+    cart,
+    sendAddress,
+    sendShippingMethod,
+    isLoading } = props;
 
   const navigate = useNavigate();
 
   const [activeValue, setActiveValue] = useState(false);
   const [agreed, toggleAgreed] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(addresses?.length > 0);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [addressProcessed, setAddressProcessed] = useState(false);
   const [shippingMethod, setLocalShippingMethod] = useState<ShippingMethod[]>(
     checkoutShippingMethods?.methods || [],
@@ -29,16 +36,24 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
   const [selectedShippingMethod, setSelectedShippingMethod] =
     useState<CartProps>();
 
-  const onChangeAddress = async (value: AddressData) => {
-    
+  const onChangeAddress =  (value: AddressData) => {
+    if (sendAddress) {
+       sendAddress(value)
+    };
   };
-/* 
+
+  const onChangeShippingMethod =  (value: ShippingMethod) => {
+    if (sendShippingMethod) {
+       sendShippingMethod(value);
+    };
+  };
+
   useEffect(() => {
     const defaultAddress = getDefault('defaultShippingAddress', addresses);
 
     if (
       cart.shippingAddress &&
-      cart.shippingInfo?.shippingMethodId &&
+      cart.shippingMethod &&
       !addressProcessed
     ) {
       setSelectedAddress(cart.shippingAddress);
@@ -49,17 +64,14 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
 
     if (defaultAddress && !addressProcessed) {
       onChangeAddress(defaultAddress);
-      setAddressProcessed(true);
     }
-  }, [cart, addresses, onChangeAddress]); */
+  }, [cart, addresses, onChangeAddress]);
 
-  const onChangeShippingMethod = (value: ShippingMethod) => {
-   
-  };
 
-  const validateForm = (e: FormEvent<HTMLFormElement>) => {
+
+  const validateForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+  
     if (selectedAddress && selectedShippingMethod) {
       navigate('/checkout/payment');
     }
@@ -90,7 +102,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
 
           <Accordion.Content>
             <form method="POST" onSubmit={(e) => validateForm(e)}>
-              <View padding={{ s: 0, m: 8 }}>
+              <View padding={useResponsiveClientValue({ s: 0, m: 8 })}>
                 <View direction="row">
                   <View.Item columns={12}>
                     {showAddressForm ? (
@@ -98,20 +110,19 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                         onChangedToForm={onChangedToForm}
                         onChangeAddress={onChangeAddress}
                         addresses={addresses}
+                        sendForm={sendForm}
                       />
                     ) : (
                       <GenericActionCard
                         cardLabel='Agregar Direccion'
                         drawerTitle='Agregar Direccion'
                       >
-                        <AddressForm />
+                        <AddressForm sendForm={sendForm} />
                       </GenericActionCard>
                     )}
                   </View.Item>
 
-                  {isLoading ? (
-                    <Loader />
-                  ) : (
+                  {
                     checkoutShippingMethods && (
                       <>
                         <View.Item columns={12}>
@@ -128,6 +139,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                               color="primary"
                               type="submit"
                               disabled={!agreed}
+                              loading={isLoading}
                             >
                               Continuar al pago
                             </Button>
@@ -135,7 +147,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                         </View.Item>
                       </>
                     )
-                  )}
+                  }
                 </View>
               </View>
             </form>

@@ -3,8 +3,10 @@ export enum Fields {
   LastName = 'lastName',
   Address = 'address',
   City = 'city',
+  Region = 'region',
   State = 'state',
   ZipCode = 'zipCode',
   PhoneNumber = 'phoneNumber',
-  SetDefaultShippingAddress = 'setDefaultShippingAddress',
+  Email = 'email',
+  DefaultAddress = 'defaultAddress',
 }

@@ -12,10 +12,10 @@ export const DrawerActionsButtons = (props: DrawerActionsButtonsProps) => {
     primaryLabel,
     primaryHref,
     fullWidth = true,
-    // TODO: add prop layout = 'vertical' | 'horizontal'
+    onClick,
+    type = 'button',
     ...rest
   } = props;
-
   const columns = secondaryHref && primaryHref ? 6 : 12;
 
   return (
@@ -31,17 +31,21 @@ export const DrawerActionsButtons = (props: DrawerActionsButtonsProps) => {
             color="black"
             size="xlarge"
             variant="outline"
-            fullWidth
             href={secondaryHref}
-          >
+            fullWidth>
             {secondaryLabel}
           </Button>
         </View.Item>
       )}
 
-      {primaryHref && (
+      {(primaryHref || primaryLabel) && (
         <View.Item columns={columns}>
-          <Button color="primary" size="xlarge" fullWidth href={primaryHref}>
+          <Button
+            color="primary"
+            size="xlarge"
+            type={type}
+            href={primaryHref}
+            fullWidth>
             {primaryLabel}
           </Button>
         </View.Item>
@@ -49,3 +53,4 @@ export const DrawerActionsButtons = (props: DrawerActionsButtonsProps) => {
     </View>
   );
 };
+

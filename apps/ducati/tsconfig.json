@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server/express.server.ts", "utils/session.server.tsx", "service/data/data.service.tsx", "utils/db.server.tsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "strict": true,
     "allowJs": true,
@@ -14,12 +14,7 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "types": ["vitest"],
-    "noEmit": true,
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "lib": ["dom", "esnext"],
+    "noEmit": true
   },
-  "files": [],
-  "exclude": ["node_modules"]
+  "files": []
 }

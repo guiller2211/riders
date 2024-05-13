@@ -7,5 +7,6 @@ export interface User extends Resource {
   email?: string;
   isEmailVerified?: boolean;
   addresses?: AddressData[];
+  addressID? : string;
   anonymous: boolean;
 }

@@ -4,6 +4,7 @@
 module.exports = {
   appDirectory: 'app',
   assetsBuildDirectory: 'dist/public/build/',
+  serverBuildTarget: '@remix-run/node',
   future: {
     v2_headers: true,
     v2_routeConvention: true,
@@ -16,7 +17,7 @@ module.exports = {
   // postcss: true,
   // publicPath: '/build',
   serverBuildPath: 'dist/index.js',
-  serverDependenciesToBundle: ['reshaped', '@coveo/headless'],
+  serverDependenciesToBundle: ['reshaped'],
   serverMinify: true,
   serverModuleFormat: 'cjs',
   // tailwind: true,

@@ -1,3 +1,4 @@
+import { FormEvent } from 'react';
 import type { AddressData } from '../../../../../../types';
 import type { GenericCarouselProps } from '../../../../shared';
 
@@ -9,4 +10,5 @@ export type CheckoutAddressesProps = Omit<
   onChangedToForm: VoidFunction;
   cart?:any;
   onChangeAddress: (AddressData: AddressData) => void;
+  sendForm?: (form: FormEvent<HTMLFormElement>) => void;
 };

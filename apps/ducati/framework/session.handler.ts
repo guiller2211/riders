@@ -3,7 +3,6 @@ import type {
   SessionData as RemixSessionData,
   SessionStorage as RemixSessionStorage,
 } from '@remix-run/node';
-import type { SessionHandler } from '@ducati/core';
 import type { InnerSession } from '@ducati/types';
 import { getSession } from '../app/utils/fb.sessions.server';
 

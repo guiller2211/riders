@@ -1,21 +1,41 @@
+import { AddressData } from "../types";
+import { generateRandomId } from "./generateRandomId-utils";
 
-import { AddressData } from '@ducati/types';
-import type { AddressData } from '../types';
+/* address: AddressData */
 
-export const getAddress = (address: AddressData): AddressData => {
+export const getAddress = (formData: FormData): AddressData => {
+  const firstName = formData.get('firstName') as string;
+  const lastName = formData.get('lastName') as string;
+  const address = formData.get('address') as string;
+  const region = formData.get('region') as string;
+  const state = formData.get('state') as string;
+  const zipCode = formData.get('zipCode') as string;
+  const phoneNumber = formData.get('phoneNumber') as string;
+  const email = formData.get('email') as string;
+  const defaultAddress = formData.get('defaultAddress') as string;
+  const defaultShippingAddress: boolean = defaultAddress !== null;
+  const id = generateRandomId();
+
+
   return {
-    id: address?.id ?? '',
-    key: address?.key,
-    firstName: address?.firstName,
-    lastName: address?.lastName,
-    streetNumber: address?.streetNumber,
-    streetName: address?.streetName,
-    city: address?.city,
-    state: address?.state,
-    region: address?.region,
-    postalCode: address?.postalCode,
-    country: address.country,
-    phone: address?.phone,
-    email: address?.email,
+    id: id,
+    firstName: firstName,
+    lastName: lastName,
+    streetName: address,
+    state: {
+      countryIso: 'CHL',
+      isocode: 'CHL',
+      isocodeShort: 'CHL',
+      name: state
+    },
+    region: {
+      uid: id,
+      isocode: 'CHL',
+      name: region,
+    },
+    postalCode: zipCode,
+    phone: phoneNumber,
+    email: email,
+    defaultShippingAddress: defaultShippingAddress
   };
 };

@@ -1,1 +1,8 @@
+.cache
+.nx
+.vscode
+coverage
+dist
 node_modules
+vendor
+tmp

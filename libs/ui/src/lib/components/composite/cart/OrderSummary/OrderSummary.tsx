@@ -8,7 +8,6 @@ import type { OrderSummaryProps } from './OrderSummary.types';
 export const OrderSummary = (props: OrderSummaryProps) => {
   const { showTitle, showPromotion, total, subTotal, shippingTotal } =
     props;
-    console.log(subTotal)
 
   const priceText: TextProps = {
     color: 'neutral',

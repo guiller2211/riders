@@ -10,3 +10,7 @@ export * from './filterListByProperty-utils';
 export * from './formatDate';
 export * from './getProduct-utils';
 export * from './findById-utils';
+export * from './address-utils';
+export * from './order.utils';
+export * from './showPaymentInformation-utils';
+export * from './showShippingInformation-utils';

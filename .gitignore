@@ -1,9 +1,8 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 dist
 tmp
 /out-tsc
+/libs/ui/storybook/libs
 
 # dependencies
 node_modules
@@ -33,18 +32,10 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+.cache
+*.todo
+.nx
 
 # System Files
 .DS_Store
 Thumbs.db
-
-.nx/cache
-# Local Netlify folder
-.netlify
-.vercel
-
-#cache
-.cache
-.nx
-app/.cache
-apps/ducati/.cache

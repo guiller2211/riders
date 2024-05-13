@@ -4,7 +4,8 @@ import type { Resource } from '../resource';
 import type { User } from '../user';
 import type { AddressData } from '../user/address';
 import type {  DeliveryCostData, PriceData } from '../price';
-import { ProductData } from '@ducati/types';
+import { Money, ProductData } from '@ducati/types';
+import { CreditCardEnum } from '@ducati/ui';
 
 export enum DeliveryStatus {
   InProcess = 'In process',
@@ -25,7 +26,7 @@ export interface AbstractOrder extends Resource {
   shippingAddress?: AddressData; // Address type
   billingAddress?: AddressData; // Address type
   shippingMode?: string;
-  /* shippingInfo?: OrderShippingInfo; */
+  shippingMethod?: OrderShippingInfo;
   deliveryStatus?: DeliveryStatus;
   orderStatus?: string;
   state?: OrderState;
@@ -40,6 +41,13 @@ export interface AbstractOrder extends Resource {
   totalPrice?: PriceData;
 }
 
+export interface OrderShippingInfo {
+  id: string;
+  name: string;
+  price: PriceData;
+  duration: string;
+}
+
 export interface OrderState {
   typeId: string;
   id: string;
@@ -50,7 +58,7 @@ export interface CreditCardPaymentInfo {
   ccNoEnding: string;
   expMonth: string;
   expYear: string;
-  type: string;
+  type: CreditCardEnum;
 }
 
 

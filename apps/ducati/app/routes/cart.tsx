@@ -13,7 +13,7 @@ import { CartData, Customer } from '@ducati/types';
 import { getCartById } from '../service/cart.data.service';
 
 export async function loader({ request }: LoaderArgs) {
-  const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
+  const logger: Logger<ILogObj> = new Logger({ name: 'CartPage.tsx' });
 
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;

@@ -8,3 +8,4 @@ export { default as IconLockFill } from './IconLockFill';
 export { default as IconSearch } from './IconSearch';
 export { default as IconThreeDots } from './IconThreeDots';
 export { default as IconTrash } from './IconTrash';
+export * from './IconThreeDotsVertical';

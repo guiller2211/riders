@@ -1,47 +1,79 @@
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../utils/firebase.service";
-import { CartData, CartEntry, Customer, PriceData, User } from "@ducati/types";
+import { AddressData, CartData, CartEntry, Customer, PriceData, ShippingMethod } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
 
-export async function getCartById(cartId: string) {
+export function getCartById(cartId: string): Promise<CartData> {
   const docRef = doc(db, 'cart', cartId);
-  const cartSnapshot = await getDoc(docRef);
-  try {
-    if (cartSnapshot.exists()) {
+  return getDoc(docRef)
+    .then(cartSnapshot => {
+      if (!cartSnapshot.exists()) {
+        throw new Error(`El carrito con ID '${cartId}' no existe.`);
+      }
       const cartData = cartSnapshot.data() as CartData;
-      const cart = { ...cartData, id: cartSnapshot.id };
-      return cart;
-    } else {
-      throw new Error(`El carrito con ID '${cartId}' no existe.`);
-    }
-  } catch (error) {
-    throw new Error(`Error al obtener el carrito con ID '${cartId}': ${error}`);
-  }
+      return { ...cartData, id: cartSnapshot.id };
+    })
+    .catch(error => {
+      console.error(`Error al obtener el carrito con ID '${cartId}':`, error);
+      throw error;
+    });
 }
 
-export async function getCart(uid: string): Promise<CartData> {
-  try {
-    const cartRef = doc(db, "customer", uid);
-    const cartSnapshot = await getDoc(cartRef);
 
-    if (cartSnapshot.exists() && cartSnapshot.data()?.cartId) {
-      const cartId = cartSnapshot.data()?.cartId;
+export function getCart(uid: string): Promise<CartData> {
+  const cartRef = doc(db, "customer", uid);
+  return getDoc(cartRef)
+    .then(cartSnapshot => {
+      if (cartSnapshot.exists() && cartSnapshot.data()?.cartId) {
+        const cartId = cartSnapshot.data()?.cartId;
+        return { id: cartId, entries: [] };
+      } else {
+        return addDoc(collection(db, "cart"), { entries: [] })
+          .then(newCartRef => {
+            return updateDoc(cartRef, { cartId: newCartRef.id })
+              .then(() => {
+                return { id: newCartRef.id, entries: [] };
+              });
+          });
+      }
+    })
+    .catch(error => {
+      console.error("Error al obtener o crear el carrito:", error);
+      throw error;
+    });
+}
+
+export function getOrCreateCart(uid: string): Promise<CartData> {
+  const customerRef = doc(db, "customer", uid);
+  return getDoc(customerRef)
+    .then(customerSnapshot => {
+      let cartId: string;
+
+      if (customerSnapshot.exists() && customerSnapshot.data()?.cartId) {
+        cartId = customerSnapshot.data()?.cartId;
+      } else {
+        return addDoc(collection(db, "cart"), { entries: [] })
+          .then(newCartRef => {
+            return updateDoc(customerRef, { cartId: newCartRef.id })
+              .then(() => {
+                cartId = newCartRef.id;
+                return { id: cartId, entries: [] };
+              });
+          });
+      }
+
       return { id: cartId, entries: [] };
-    } else {
-      const newCartRef = await addDoc(collection(db, "cart"), { entries: [] });
-      await updateDoc(cartRef, { cartId: newCartRef.id });
-      return { id: newCartRef.id, entries: [] };
-    }
-  } catch (error) {
-    console.error("Error al obtener o crear el carrito:", error);
-    throw error;
-  }
+    })
+    .catch(error => {
+      console.error("Error al obtener o crear el carrito:", error);
+      throw error;
+    });
 }
 
 
 export async function createAnonymousCustomer(uid?: string): Promise<Customer> {
   try {
-    const customerData: User = {
+    const customerData: Customer = {
       id: uid || '',
       anonymous: true,
     };
@@ -57,29 +89,23 @@ export async function createAnonymousCart(quantity: string, productCode: string,
   try {
     const cartItem = {
       id: "",
-      entryNumber: parseInt(generateRandomId()), // Asignar un número de entrada (ajústalo según tu lógica)
-      quantity: parseInt(quantity), // Convertir la cantidad a un número entero
-      productCode: productCode // Asignar el código del producto
+      entryNumber: parseInt(generateRandomId()),
+      quantity: parseInt(quantity),
+      productCode: productCode,
     };
 
-    const cartDocRef = await addDoc(collection(db, "cart"), cartItem)
-
-    const newCart: CartData = {
-      id: uidAnonymous, // Utilizar la ID del documento como ID del carrito
-      entries: [cartItem]
-    };
-
-    return newCart;
+    const cartDocRef = await addDoc(collection(db, "cart"), cartItem);
+    return { id: uidAnonymous, entries: [cartItem] };
   } catch (error) {
     console.error("Error al crear el carrito anónimo:", error);
     throw error;
   }
 }
 
-export async function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
-  try {
-    const product = await getProductBySku(productCode);
+export function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
+  const productPromise = getProductBySku(productCode);
 
+  return productPromise.then(product => {
     const cartItem: CartEntry = {
       product: {
         image: product?.image,
@@ -99,59 +125,58 @@ export async function addItemToCart(cartCustomer: CartData, quantity: number, pr
     };
 
     const docRef = doc(db, "cart", cartCustomer.id!);
-    const cartSnapshot = await getDoc(docRef);
+    return getDoc(docRef).then(cartSnapshot => {
+      const cartData = cartSnapshot.data() as CartData;
 
-    const cartData = cartSnapshot.data() as CartData;
-
-    if (!cartData || !cartData.entries) {
-      throw new Error("Los datos del carrito no son válidos o están incompletos");
-    }
-
-    const existingItem = cartData.entries.find(entry =>
-      entry.product?.sku === cartItem.product?.sku
-    );
-
-    if (existingItem) {
-      update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
-
-      if (existingItem.totalPrice && existingItem.product?.value) {
-        existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
+      if (!cartData || !cartData.entries) {
+        throw new Error("Los datos del carrito no son válidos o están incompletos");
       }
-      cartItem.totalPrice = existingItem.totalPrice;
-    } else {
-      cartData.entries.push(cartItem);
-    }
 
-    const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
-      total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
-    );
+      const existingItem = cartData.entries.find(entry =>
+        entry.product?.sku === cartItem.product?.sku
+      );
 
-    const updatedTotalPrice: PriceData = {
-      value: {
-        ...cartItem.totalPrice!.value!,
-        centsAmount: totalCentsAmount,
+      if (existingItem) {
+        update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
+
+        if (existingItem.totalPrice && existingItem.product?.value) {
+          existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
+        }
+        cartItem.totalPrice = existingItem.totalPrice;
+      } else {
+        cartData.entries.push(cartItem);
       }
-    };
 
-    await setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice });
-    const cartUpdate = await getCartById(cartCustomer.id!);
+      const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
+        total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
+      );
 
-    return { cartItem: cartItem, cartUpdate: cartUpdate };
-  } catch (error) {
+      const updatedTotalPrice: PriceData = {
+        value: {
+          ...cartItem.totalPrice!.value!,
+          centsAmount: totalCentsAmount,
+        }
+      };
+
+      return setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice }).then(() => {
+        return getCartById(cartCustomer.id!).then(cartUpdate => {
+          return { cartItem: cartItem, cartUpdate: cartUpdate };
+        });
+      });
+    });
+  }).catch(error => {
     console.error("Error al agregar el artículo al carrito:", error);
     throw error;
-  }
+  });
 }
 
-export async function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
-  try {
-    if (!cartCustomer.id || !productCode) {
-      throw new Error("Invalid input parameters");
-    }
+export function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
+  if (!cartCustomer.id || !productCode) {
+    throw new Error("Invalid input parameters");
+  }
 
-    const docRef = doc(db, "cart", cartCustomer.id);
-    const cartSnapshot = await getDoc(docRef);
-
+  const docRef = doc(db, "cart", cartCustomer.id);
+  return getDoc(docRef).then(cartSnapshot => {
     if (!cartSnapshot.exists()) {
       throw new Error("Cart data not found");
     }
@@ -179,19 +204,17 @@ export async function deleteEntryBySku(cartCustomer: CartData, productCode: stri
       }
     };
 
-    await updateDoc(docRef, {
+    return updateDoc(docRef, {
       entries: updatedEntries,
       totalPrice: updatedTotalPrice
+    }).then(() => {
+      return getCartById(cartCustomer.id!);
     });
-
-    return getCartById(cartCustomer.id);
-  } catch (error) {
+  }).catch(error => {
     console.error("Error deleting entry:", error);
     throw error; // Re-throw the error for the caller to handle
-  }
+  });
 }
-
-
 
 export async function updateCustomerCart(uid: string, cart: CartData): Promise<void> {
   try {
@@ -202,3 +225,73 @@ export async function updateCustomerCart(uid: string, cart: CartData): Promise<v
     throw error;
   }
 }
+
+export async function getAvailableShippingMethods() {
+  const shippingMethodSnapshot = await getDoc(doc(db, "shippingMethods", 'ljKZTpYzZWx9zQQjZgSr'));
+
+  try {
+    if (shippingMethodSnapshot.exists()) {
+      const shippingMethodData = shippingMethodSnapshot.data();
+      if (shippingMethodData) {
+        const shippingMethods = shippingMethodData.shippingMethods as ShippingMethod[];
+        return shippingMethods;
+      }
+      return [];
+
+    } else {
+      return [];
+    }
+  } catch (error) {
+    throw new Error(`Error al obtener las direcciones: ${error}`);
+  }
+
+}
+
+export function setShippingAddress(value: AddressData, uid: string) {
+  return getCart(uid)
+    .then(cart => {
+      if (!cart) {
+        throw new Error("El carrito del usuario no existe.");
+      }
+
+      const cartDocRef = doc(db, "cart", cart.id!);
+      return getDoc(cartDocRef)
+        .then(cartSnapshot => {
+          if (cartSnapshot.exists()) {
+            return updateDoc(cartDocRef, { shippingAddress: value })
+              .then(() => getCartById(cart.id!));
+          } else {
+            throw new Error("El carrito del usuario no existe.");
+          }
+        });
+    })
+    .catch(error => {
+      console.error("Error al establecer la dirección de envío:", error);
+      throw error;
+    });
+}
+
+export function setShippingMethod(value: ShippingMethod, uid: string) {
+  return getCart(uid)
+    .then(cart => {
+      if (!cart) {
+        throw new Error("El carrito del usuario no existe.");
+      }
+
+      const cartDocRef = doc(db, "cart", cart.id!);
+      return getDoc(cartDocRef)
+        .then(cartSnapshot => {
+          if (cartSnapshot.exists()) {
+            return updateDoc(cartDocRef, { shippingMethod: value })
+              .then(() => getCartById(cart.id!));
+          } else {
+            throw new Error("El carrito del usuario no existe.");
+          }
+        });
+    })
+    .catch(error => {
+      console.error("Error al establecer la dirección de envío:", error);
+      throw error;
+    });
+}
+

@@ -1,3 +1,4 @@
+import { PriceData } from '@ducati/types';
 import type { GenericCarouselProps, PriceProps } from '../../../shared';
 
 export type ShippingMethodsProps = Omit<
@@ -11,8 +12,6 @@ export type ShippingMethodsProps = Omit<
 export type ShippingMethod = {
   id: string;
   name: string;
-  price: PriceProps;
-  daysRange?: string;
-  estimatedArrival?: string;
-  requirePhysicalAddress?: boolean;
+  price: PriceData;
+  duration: string;
 };

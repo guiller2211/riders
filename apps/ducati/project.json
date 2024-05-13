@@ -18,8 +18,7 @@
         "commands": [
           "remix dev -c \"node --inspect ./dist/express/server.cjs\""
         ],
-        "cwd": "apps/ducati",
-        "runBuildTargetDependencies": true
+        "cwd": "apps/ducati"
       }
     }, 
     "server:express": {
