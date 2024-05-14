@@ -6,7 +6,7 @@ import { AddressForm } from '../AddressForm';
 import type { AddressesProps } from './Addresses.types';
 
 export const Addresses = (props: AddressesProps) => {
-  const { addresses } = props;
+  const { addresses, deleteAddress, sendForm } = props;
 
   const addCardMessage = addresses?.length > 0
     ? 'Agregar Nueva Direccion'
@@ -28,6 +28,8 @@ export const Addresses = (props: AddressesProps) => {
             <Address
               address={address}
               isDefault={address.defaultShippingAddress}
+              sendForm={sendForm}
+              deleteAddress={deleteAddress}
               canModify
             />
           </View.Item>

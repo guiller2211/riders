@@ -11,4 +11,5 @@ export type CheckoutAddressesProps = Omit<
   cart?:any;
   onChangeAddress: (AddressData: AddressData) => void;
   sendForm?: (form: FormEvent<HTMLFormElement>) => void;
+  deleteAddress?: (uid: string) => void;
 };

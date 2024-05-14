@@ -23,7 +23,7 @@ import { Drawer, DrawerContent, DrawerHeader } from '../../utils';
 import { AddressForm } from '../AddressForm';
 
 export const Address = (props: AddressProps) => {
-  const { address, canModify, isSelected, sendForm } = props;
+  const { address, canModify, isSelected, sendForm, deleteAddress } = props;
   const isDefaultShippingAddress = address.defaultShippingAddress;
   const firstNameInitial = (address?.firstName ?? '').charAt(0);
   const lastNameInitial = (address?.lastName ?? '').charAt(0);
@@ -48,11 +48,12 @@ export const Address = (props: AddressProps) => {
     setIsLoading(true);
 
     try {
-      console.log("paso")
+      deleteAddress && deleteAddress(address.id!);
     } catch (error) {
-      console.error('Error deleting address:', error);
+      console.error('Error al eliminar la direccion:', error);
     } finally {
       setIsLoading(false);
+      deactivate();
     }
   };
   return (

@@ -1,5 +1,5 @@
 import {
-  I18nContext,
+  AccountOverview,
   Text,
   View,
 } from '@ducati/ui';
@@ -15,17 +15,17 @@ export default function AccountOverviewPage() {
   const user = userProps;
 
   return (
-      <View direction="row" gap={12}>
-        <View.Item columns={12}>
-          {user && (
-            <Text variant="featured-1">
-              {`${user.firstName} ${user?.lastName}`}
-            </Text>
-          )}
-        </View.Item>
-        <View.Item columns={12}>
-          {/* <AccountOverview /> */}
-        </View.Item>
-      </View>
+    <View direction="row" gap={12}>
+      <View.Item columns={12}>
+        {user && (
+          <Text variant="featured-1">
+            {user.firstName} {user?.lastName}
+          </Text>
+        )}
+      </View.Item>
+      <View.Item columns={12}>
+        <AccountOverview />
+      </View.Item>
+    </View>
   );
 }

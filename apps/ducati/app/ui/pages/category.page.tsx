@@ -15,7 +15,6 @@ export const CategoryPage = () => {
   const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
   const [cart, setCart] = useState(result);
-  const fetcher = useFetcher();
   const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {

@@ -102,10 +102,10 @@ export async function createAnonymousCart(quantity: string, productCode: string,
   }
 }
 
-export function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
-  const productPromise = getProductBySku(productCode);
+export async function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
+  try {
+    const product = await getProductBySku(productCode);
 
-  return productPromise.then(product => {
     const cartItem: CartEntry = {
       product: {
         image: product?.image,
@@ -125,58 +125,59 @@ export function addItemToCart(cartCustomer: CartData, quantity: number, productC
     };
 
     const docRef = doc(db, "cart", cartCustomer.id!);
-    return getDoc(docRef).then(cartSnapshot => {
-      const cartData = cartSnapshot.data() as CartData;
+    const cartSnapshot = await getDoc(docRef);
 
-      if (!cartData || !cartData.entries) {
-        throw new Error("Los datos del carrito no son válidos o están incompletos");
+    const cartData = cartSnapshot.data() as CartData;
+
+    if (!cartData || !cartData.entries) {
+      throw new Error("Los datos del carrito no son válidos o están incompletos");
+    }
+
+    const existingItem = cartData.entries.find(entry =>
+      entry.product?.sku === cartItem.product?.sku
+    );
+
+    if (existingItem) {
+      update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
+
+      if (existingItem.totalPrice && existingItem.product?.value) {
+        existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
       }
+      cartItem.totalPrice = existingItem.totalPrice;
+    } else {
+      cartData.entries.push(cartItem);
+    }
 
-      const existingItem = cartData.entries.find(entry =>
-        entry.product?.sku === cartItem.product?.sku
-      );
+    const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
+      total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
+    );
 
-      if (existingItem) {
-        update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
-
-        if (existingItem.totalPrice && existingItem.product?.value) {
-          existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
-        }
-        cartItem.totalPrice = existingItem.totalPrice;
-      } else {
-        cartData.entries.push(cartItem);
+    const updatedTotalPrice: PriceData = {
+      value: {
+        ...cartItem.totalPrice!.value!,
+        centsAmount: totalCentsAmount,
       }
+    };
 
-      const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
-        total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
-      );
+    await setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice });
+    const cartUpdate = await getCartById(cartCustomer.id!);
 
-      const updatedTotalPrice: PriceData = {
-        value: {
-          ...cartItem.totalPrice!.value!,
-          centsAmount: totalCentsAmount,
-        }
-      };
-
-      return setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice }).then(() => {
-        return getCartById(cartCustomer.id!).then(cartUpdate => {
-          return { cartItem: cartItem, cartUpdate: cartUpdate };
-        });
-      });
-    });
-  }).catch(error => {
+    return { cartItem: cartItem, cartUpdate: cartUpdate };
+  } catch (error) {
     console.error("Error al agregar el artículo al carrito:", error);
     throw error;
-  });
+  }
 }
 
-export function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
-  if (!cartCustomer.id || !productCode) {
-    throw new Error("Invalid input parameters");
-  }
+export async function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
+  try {
+    if (!cartCustomer.id || !productCode) {
+      throw new Error("Invalid input parameters");
+    }
 
-  const docRef = doc(db, "cart", cartCustomer.id);
-  return getDoc(docRef).then(cartSnapshot => {
+    const docRef = doc(db, "cart", cartCustomer.id);
+    const cartSnapshot = await getDoc(docRef);
+
     if (!cartSnapshot.exists()) {
       throw new Error("Cart data not found");
     }
@@ -204,16 +205,16 @@ export function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
       }
     };
 
-    return updateDoc(docRef, {
+    await updateDoc(docRef, {
       entries: updatedEntries,
       totalPrice: updatedTotalPrice
-    }).then(() => {
-      return getCartById(cartCustomer.id!);
     });
-  }).catch(error => {
+
+    return getCartById(cartCustomer.id);
+  } catch (error) {
     console.error("Error deleting entry:", error);
     throw error; // Re-throw the error for the caller to handle
-  });
+  }
 }
 
 export async function updateCustomerCart(uid: string, cart: CartData): Promise<void> {

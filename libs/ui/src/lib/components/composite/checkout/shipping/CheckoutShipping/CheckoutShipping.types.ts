@@ -6,9 +6,10 @@ import { CartData } from '@ducati/types';
 export type CheckoutShippingProps = {
   checkoutShippingMethods?: ShippingMethodsProps;
   addresses: AddressData[];
+  cart: CartData;
+  isLoading?: boolean;
   sendForm?: (form: FormEvent<HTMLFormElement>) => void;
   sendAddress?: (form: AddressData) => void;
   sendShippingMethod?: (form: ShippingMethod) => void;
-  cart: CartData;
-  isLoading?: boolean;
+  deleteAddress?: (uid: string) => void;
 };

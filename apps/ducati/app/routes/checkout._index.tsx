@@ -16,7 +16,7 @@ export async function loader({
   request,
   context
 }: LoaderArgs) {
-  const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
+  const logger: Logger<ILogObj> = new Logger({ name: 'checkout.tsx' });
 
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;

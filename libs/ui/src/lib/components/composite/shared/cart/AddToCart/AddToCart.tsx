@@ -17,7 +17,8 @@ const AddToCart = (props: AddToCartProps) => {
     showInPlp,
     sendForm,
     isLoading,
-    result
+    result,
+    variant
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
 
@@ -40,7 +41,7 @@ const AddToCart = (props: AddToCartProps) => {
     const p = await sendForm(e);
   };
 
-
+  console.log(variant)
 
   return (
     <form onSubmit={sendAddProduct}>
@@ -61,6 +62,14 @@ const AddToCart = (props: AddToCartProps) => {
 
         <Hidden hide>
           <TextField name="productCode" defaultValue={productCode} />
+          {variant?.map((_v) => (
+            _v && (
+              <>
+                <TextField name="type" defaultValue={_v.type} />
+                <TextField name="variant" defaultValue={_v.name} />
+              </>
+            )
+          ))}
         </Hidden>
 
         <View.Item grow>

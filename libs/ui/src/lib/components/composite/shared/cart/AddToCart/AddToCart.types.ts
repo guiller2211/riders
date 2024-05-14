@@ -1,4 +1,4 @@
-import { CartEntry } from "@ducati/types";
+import { CartEntry, TypeVariamEnum } from "@ducati/types";
 import { FormEvent } from "react";
 
 export type AddToCartProps = {
@@ -10,4 +10,10 @@ export type AddToCartProps = {
   isLoading?: boolean;
   sendForm: (form: FormEvent<HTMLFormElement>) => void;
   result?: CartEntry;
+  variant?: Variant[];
 };
+
+export type Variant = {
+  type: TypeVariamEnum;
+  name: string;
+}

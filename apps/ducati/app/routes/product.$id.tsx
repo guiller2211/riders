@@ -28,7 +28,8 @@ export async function action({ request, context: { registry } }: ActionArgs) {
   const session = await getSession(request.headers.get("Cookie"));
   const quantity: string = formData.get('addToCartQuantity') as string;
   const productCode: string = formData.get('productCode') as string;
-
+  const variant: FormDataEntryValue[] = formData.getAll('variant');
+  console.log(variant)
   let customer: Customer | undefined;
   let cart: CartEntry | undefined;
 

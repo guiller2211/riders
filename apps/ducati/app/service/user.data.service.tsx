@@ -116,3 +116,36 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
     };
   }
 }
+
+
+export async function deleteShippingAddress(uid: string, customerUID: string) {
+  try {
+    const customerRef = doc(db, "customer", customerUID);
+    const customerSnapshot = await getDoc(customerRef);
+    let addressID: string;
+
+    if (customerSnapshot.exists()) {
+      addressID = customerSnapshot.data()?.addressID;
+
+      const docRef = doc(db, "address", addressID);
+      const addressesSnapshot = await getDoc(docRef);
+      const addressesData = addressesSnapshot.data();
+      if (!addressesData || !addressesData.addresses) {
+        throw new Error("Los datos de la dirección no son válidos o están incompletos");
+      }
+
+      const addressIndex = addressesData.addresses.findIndex((address: any) => address.id === uid);
+      if (addressIndex === -1) {
+        throw new Error("No se encontró la dirección con el ID proporcionado");
+      }
+
+      addressesData.addresses.splice(addressIndex, 1);
+
+      await updateDoc(docRef, { addresses: addressesData.addresses });
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+}
+

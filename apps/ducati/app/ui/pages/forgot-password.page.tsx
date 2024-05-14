@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 import { action } from '../../routes/forgot-password';
 import type { loader } from '../../routes/forgot-password';
+import { forgotPassword } from '../../service/login.service';
 
 const ForgotPasswordPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
@@ -21,19 +22,16 @@ const ForgotPasswordPage = () => {
   const [featuredProducts, setFeaturedProducts] =
     useState<any>();
 
-  const request = async (value: boolean) => {
+  const request = async (value: string) => {
     setIsLoading(true);
     try {
-      const response = await action(value);
+      const response = await forgotPassword(value);
+      console.log(response);
       setResult(response.result);
-
-      if (response.result) {
-        setFeaturedProducts(response.featuredProducts);
-      }
-
+      setMessage(response.message)
       setIsLoading(false);
     } catch (error) {
-      console.error('Error:', error); // eslint-disable-line no-console
+      console.error('Error:', error);
       setMessage(`${error}`);
       setResult(false);
       setShowAlert(true);
@@ -42,7 +40,7 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <View>
+    <View paddingInline={20}>
       {!result && showAlert && (
         <View.Item columns={12}>
           <AlertNotification
@@ -66,13 +64,16 @@ const ForgotPasswordPage = () => {
         />
       ) : (
         <View>
-          {result ? (
-            <View>
-
-            </View>
-          ) : (
-            <ForgotPasswordForm sendForm={request} />
+          {result && (
+            <View.Item columns={12}>
+              <AlertNotification
+                type={AlertNotificationEnum.Success}
+                message={message}
+                close={() => setShowAlert(false)}
+              />
+            </View.Item>
           )}
+          <ForgotPasswordForm sendForm={request} />
         </View>
       )}
     </View>

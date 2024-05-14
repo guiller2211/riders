@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from '@remix-run/react';
 import {
+  AccountQuickLinks,
   I18nContext,
   Loading,
   View,
@@ -7,7 +8,7 @@ import {
 import { useState } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 
-import type { loader } from '../../../routes/my-account.address-book';
+import type { loader } from '../../../routes/my-account';
 
 const MyAccountPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +23,10 @@ const MyAccountPage = () => {
         paddingInline={{ s: 6, l: 6 }}
       >
         <View.Item columns={12}>
-        {/*   <AccountQuickLinks
+          <AccountQuickLinks
             selected={location.pathname}
             isLoading={setIsLoading}
-          /> */}
+          />
         </View.Item>
         <View.Item columns={12}>
           {!isLoading ? (

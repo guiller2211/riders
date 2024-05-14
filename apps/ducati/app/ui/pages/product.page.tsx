@@ -1,5 +1,5 @@
 import {
-  AddToCart,
+AddToCart,
   ImageGallery,
   View,
   Print,
@@ -24,21 +24,24 @@ import { CartEntry, TypeVariamEnum } from '@ducati/types';
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
   const [isLoading, setIsLoading] = useState(false);
+  const [size, setSize] = useState<{ type: TypeVariamEnum, name: string }>();
+  const [color, setColor] = useState<{ type: TypeVariamEnum, name: string }>();
   const fetcher = useFetcher();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>): Promise<CartEntry | null> => {
     e.preventDefault();
-  
+
     try {
       setIsLoading(true);
       const formData = new FormData(e.currentTarget);
-      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-      const productCode: string = formData.get('productCode') as string;
-  
+      const addToCartQuantity = formData.get('addToCartQuantity') as string;
+      const productCode = formData.get('productCode') as string;
+
+
       const product = await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-  
+
       return product!;
-  
+
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       return null;
@@ -47,8 +50,6 @@ const ProductDetailPage = () => {
       return null;
     }
   };
-
-
 
   return (
     <View
@@ -104,14 +105,18 @@ const ProductDetailPage = () => {
                   </Text>
                   <View gap={4} direction='row'>
                     {loaderData.product?.variants
-                    ?.filter(_c => _c.type === TypeVariamEnum.Color)
-                    ?.map((_c) => (
-                      <Card >
-                        <View gap={3} direction="row" align="center">
-                          <Radio value={_c.name!}>{_c.name}</Radio>
-                        </View>
-                      </Card>
-                    ))}
+                      ?.filter(_c => _c.type === TypeVariamEnum.Color)
+                      ?.map((_c) => (
+                        <Card >
+                          <View gap={3} direction="row" align="center">
+                            <Radio
+                              value={_c.name!}
+                              onChange={(e) => setSize({ type: TypeVariamEnum.Color, name: _c.name! })}>
+                              {_c.name}
+                            </Radio>
+                          </View>
+                        </Card>
+                      ))}
                   </View>
                 </View>
               </RadioGroup>
@@ -129,7 +134,11 @@ const ProductDetailPage = () => {
                       ?.map((_s) => (
                         <Card key={_s.id}>
                           <View gap={3} direction="row" align="center">
-                            <Radio value={_s.name!}>{_s.name}</Radio>
+                            <Radio
+                              value={_s.name!}
+                              onChange={(e) => setColor({ type: TypeVariamEnum.Color, name: _s.name! })}>
+                              {_s.name}
+                            </Radio>
                           </View>
                         </Card>
                       ))}
@@ -151,11 +160,12 @@ const ProductDetailPage = () => {
               {loaderData.product?.id && (
                 <View.Item columns={12}>
                   <AddToCart
-                    productCode={loaderData.product?.id}
+                    productCode={loaderData.product?.sku ?? ''}
                     showInPlp
                     stockAvailable={230}
                     sendForm={sendAddProduct}
                     isLoading={isLoading}
+                    variant={[size!, color!]}
                   />
                 </View.Item>
               )}

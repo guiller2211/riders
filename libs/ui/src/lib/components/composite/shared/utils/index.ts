@@ -1,6 +1,9 @@
 export * from './GenericActionCard';
 export * from './GenericCarousel';
 export * from './Drawer';
+export * from './PasswordField';
+export * from './Table';
+export * from './TableHeader';
 export type * from './Drawer';
 export { default as AddCard } from './AddCard';
 export type { AddCardProps } from './AddCard';

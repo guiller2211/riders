@@ -1,0 +1,6 @@
+.quickLinks {
+  margin: 0;
+  [role='tablist'] {
+    gap: var(--rs-unit-x4);
+  }
+}

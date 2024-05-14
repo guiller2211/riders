@@ -31,7 +31,7 @@ const SignUpView = (props: SignUpViewProps) => {
 
             <View.Item columns={12}>
               <View paddingBottom={{ l: 3, s: 6 }}>
-                <Text variant="featured-1">crear</Text>
+                <Text variant="featured-1">Registrar</Text>
               </View>
             </View.Item>
             <View.Item columns={12}>

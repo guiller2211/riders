@@ -1,4 +1,4 @@
-import { OrderData } from "../../../../types/OrderData.types";
+import { OrderData } from "../../../../types";
 
 export type OrderConfirmationListProps = {
   showTitle?: boolean;

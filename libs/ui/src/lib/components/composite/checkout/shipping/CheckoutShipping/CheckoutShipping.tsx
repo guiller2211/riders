@@ -20,7 +20,8 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     cart,
     sendAddress,
     sendShippingMethod,
-    isLoading } = props;
+    isLoading,
+    deleteAddress } = props;
 
   const navigate = useNavigate();
 
@@ -36,15 +37,15 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
   const [selectedShippingMethod, setSelectedShippingMethod] =
     useState<CartProps>();
 
-  const onChangeAddress =  (value: AddressData) => {
+  const onChangeAddress = (value: AddressData) => {
     if (sendAddress) {
-       sendAddress(value)
+      sendAddress(value)
     };
   };
 
-  const onChangeShippingMethod =  (value: ShippingMethod) => {
+  const onChangeShippingMethod = (value: ShippingMethod) => {
     if (sendShippingMethod) {
-       sendShippingMethod(value);
+      sendShippingMethod(value);
     };
   };
 
@@ -71,7 +72,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
 
   const validateForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     if (selectedAddress && selectedShippingMethod) {
       navigate('/checkout/payment');
     }
@@ -105,13 +106,28 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
               <View padding={useResponsiveClientValue({ s: 0, m: 8 })}>
                 <View direction="row">
                   <View.Item columns={12}>
-                    {showAddressForm ? (
-                      <CheckoutAddresses
-                        onChangedToForm={onChangedToForm}
-                        onChangeAddress={onChangeAddress}
-                        addresses={addresses}
-                        sendForm={sendForm}
-                      />
+                    {addresses.length > 0 ? (
+                      <>
+                        <View width="100%">
+                          <View.Item columns="auto">
+                            <View width={80} paddingStart={1}>
+                              <GenericActionCard
+                                cardLabel='Agregar Direccion'
+                                drawerTitle='Agregar Direccion'
+                              >
+                                <AddressForm sendForm={sendForm} />
+                              </GenericActionCard>
+                            </View>
+                          </View.Item>
+                        </View>
+                        <CheckoutAddresses
+                          onChangedToForm={onChangedToForm}
+                          onChangeAddress={onChangeAddress}
+                          addresses={addresses}
+                          sendForm={sendForm}
+                          deleteAddress={deleteAddress}
+                        />
+                      </>
                     ) : (
                       <GenericActionCard
                         cardLabel='Agregar Direccion'

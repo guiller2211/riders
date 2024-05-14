@@ -7,3 +7,4 @@ export * from './user';
 export * from './product';
 export * from './PDP';
 export * from './checkout';
+export * from './my-account';

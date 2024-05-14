@@ -3,6 +3,7 @@ import { IconCart, IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
 import { AddToCart } from '../shared';
+import { AppRoutes } from '@ducati/types';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
   const { product, sendForm, isLoading, result } = props;
@@ -18,7 +19,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       backgroundColor="neutral"
       gap={5}
     >
-      <Link href={"/product/" + product.id}>
+      <Link href={`${AppRoutes.Product}/${product.id}`}>
         <Image
           displayMode="contain"
           src={image?.url}
@@ -48,18 +49,8 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         ? product.value.centsAmount
         : ''}</Text>
 
-
       <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
-        <View.Item columns={12}>
-          {product?.sku && (
-            <AddToCart 
-            productCode={product?.sku} 
-            stockAvailable={230} 
-            sendForm={sendForm} 
-            isLoading={isLoading} 
-            result={result}/>
-          )}
-        </View.Item>
+
         <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
           Favorito
         </Button>

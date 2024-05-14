@@ -11,6 +11,8 @@ import {
 } from '../../../atomic';
 import { ValidationUtils } from '../../../../utils';
 import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
+import { useResponsiveClientValue } from '../../../../hooks';
+import { AppRoutes } from '@ducati/types';
 
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
   const { sendForm } = props;
@@ -35,68 +37,70 @@ const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
       emailValidation();
       e.preventDefault();
     } else {
-      sendForm(true);
+      sendForm(email);
     }
   };
   return (
     <form method="POST" onSubmit={validateForm}>
-      <View align="center" paddingTop={{ l: 4 }}>
-        <View width={{ l: 160 }}>
-          <View gap={6} direction="row">
-            <View.Item columns={12}>
-              <View paddingBottom={{ l: 3, s: 4 }}>
-                <Text variant="featured-1">
-                  Recuperar clave
-                </Text>
-              </View>
-            </View.Item>
+      <View
+        align="center"
+        paddingTop={4}>
+        <View
+          gap={6}
+          direction="row"
+          backgroundColor='white'
+          padding={10}
+          borderRadius='large'>
+          <View.Item columns={12}>
+            <View paddingBottom={useResponsiveClientValue({ l: 3, s: 4 })}>
+              <Text variant="featured-1">
+                Recuperar clave
+              </Text>
+            </View>
+          </View.Item>
 
-            <View.Item columns={12}>
-              <FormControl hasError={emailHasError}>
-                <TextField
-                  onChange={(e) => setEmail(e.value)}
-                  name="email"
-                  placeholder="Ingrese email"
-                  size="xlarge"
-                />
-                <FormControl.Error>
-                  email invalido
-                </FormControl.Error>
-              </FormControl>
-            </View.Item>
+          <View.Item columns={12}>
+            <FormControl hasError={emailHasError}>
+              <TextField
+                onChange={(e) => setEmail(e.value)}
+                name="email"
+                placeholder="Ingrese email"
+                size="xlarge"
+              />
+              <FormControl.Error>
+                email invalido
+              </FormControl.Error>
+            </FormControl>
+          </View.Item>
 
-            <View.Item columns={12}>
-              <View paddingTop={5}>
-                <Button
-                  fullWidth
-                  color="primary"
-                  size="xlarge"
-                  loading={isLoading}
-                  type="submit"
-                >
-                  reiniciar
-                </Button>
-              </View>
-            </View.Item>
-
-            <View.Item columns={12}>
-              <View
-                direction={{ l: 'row', s: 'column' }}
-                align={{ l: 'start', s: 'center' }}
-                gap={{ l: 1, s: 0 }}
-                paddingTop={5}
+          <View.Item columns={12}>
+            <View paddingTop={5}>
+              <Button
+                fullWidth
+                color="primary"
+                size="xlarge"
+                loading={isLoading}
+                type="submit"
               >
-                <Text variant="body-3">
-                  click
+                Recuperar
+              </Button>
+            </View>
+          </View.Item>
+
+          <View.Item columns={12}>
+            <View
+              direction='column'
+              align='center'
+              gap={1}
+              paddingTop={5}
+            >
+              <Link color="primary" href={AppRoutes.Login}>
+                <Text variant="body-2" weight="medium">
+                  Ir al Login
                 </Text>
-                <Link color="primary" href="./login">
-                  <Text variant="body-2" weight="medium">
-                    click
-                  </Text>
-                </Link>
-              </View>
-            </View.Item>
-          </View>
+              </Link>
+            </View>
+          </View.Item>
         </View>
       </View>
     </form>

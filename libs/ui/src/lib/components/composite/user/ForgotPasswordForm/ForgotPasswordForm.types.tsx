@@ -1,3 +1,3 @@
 export type ForgotPasswordFormProps = {
-  sendForm: (value: boolean) => void;
+  sendForm: (value: string) => void;
 };

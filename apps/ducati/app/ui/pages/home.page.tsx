@@ -1,38 +1,41 @@
-import { loader } from '../../routes/_index';
-import { useFetcher, useLoaderData } from '@remix-run/react';
+import { action, loader } from '../../routes/_index';
+import { useActionData, useFetcher, useLoaderData, useSubmit } from '@remix-run/react';
 import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue, Text, useOpenState, MiniCart } from '@ducati/ui';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { ProductData, CartEntry } from '@ducati/types';
 
 
 export const HomePage = () => {
   const { layout, product } = useLoaderData<typeof loader>();
-  const fetcher = useFetcher();
+  const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
+  const [cart, setCart] = useState(result);
 
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>): Promise<CartEntry | null> => {
+  const submit = useSubmit();
+
+  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  
+
     try {
       setIsLoading(true);
       const formData = new FormData(e.currentTarget);
       const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
       const productCode: string = formData.get('productCode') as string;
-  
-      const product = await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-  
-      return product!;
-  
+
+      await submit({ addToCartQuantity, productCode }, { method: "post" });
+
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-      return null;
     } finally {
       setIsLoading(false);
-      return null;
     }
   };
-  
-  
+
+  useEffect(() => {
+    if (result) {
+      setCart(result);
+    }
+  }, [result]);
 
   return (
     <View gap={10}>
@@ -43,7 +46,8 @@ export const HomePage = () => {
         <ProductListForPLP
           products={product}
           sendForm={sendAddProduct}
-          isLoading={isLoading} />
+          isLoading={isLoading}
+          result={cart} />
       </View>
     </View>
   );

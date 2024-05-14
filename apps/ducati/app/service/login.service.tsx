@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { auth } from "../utils/firebase.service";
 import { setCustomer } from "./user.data.service";
 import { Customer } from "@ducati/types";
@@ -12,7 +12,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
         const authResp: UserCredential = await signInWithEmailAndPassword(auth, email, password);
 
         if (authResp) {
-        
+
             const __session = await auth.currentUser?.getIdToken();
 
             return {
@@ -37,7 +37,7 @@ export const createAccount = async (user: Customer, password: string) => {
         }
 
         const authResp = await createUserWithEmailAndPassword(auth, user.email, password);
-        
+
         if (authResp) {
             const customer: Customer = { ...user, id: authResp.user.uid }
 
@@ -52,3 +52,20 @@ export const createAccount = async (user: Customer, password: string) => {
     }
     return null;
 };
+
+export async function forgotPassword(email: string) {
+    try {
+        const request = await sendPasswordResetEmail(auth, email);
+        return {
+            result: true,
+            message: 'Correo Enviado'
+        }
+    } catch (error) {
+        console.error("sendPasswordResetEmail Error:", error);
+        return {
+            result: false,
+            message: `${error}`
+        }
+    }
+
+}

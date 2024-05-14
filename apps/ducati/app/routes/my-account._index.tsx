@@ -1,13 +1,33 @@
+import AccountOverviewPage from '../ui/pages/my-account/account-overview.page';
 import { LoaderArgs } from '@remix-run/node';
 
-import AccountOverviewPage from '../ui/pages/my-account/account-overview.page';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
-export async function loader({
-  params,
-}: LoaderArgs) {
+import { typedjson } from 'remix-typedjson';
+import { ILogObj, Logger } from 'tslog';
+import { getSession } from '../utils/fb.sessions.server';
+import { getCustomerByUid } from '../service/user.data.service';
+import { Customer } from '@ducati/types';
+import { meta } from '../root';
 
+export async function loader({
+  request,
+  context
+}: LoaderArgs) {
+  const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
+
+  const session = await getSession(request.headers.get("Cookie"));
+  let user: Customer | undefined;
+  if (session.has('__session')) {
+    const uid: string = session.get('user')['uid'];
+    user = await getCustomerByUid(uid);
+
+  }
+  return typedjson({
+    user
+  });
 }
 
 export default AccountOverviewPage;
 export { ErrorBoundary };
+export { meta };

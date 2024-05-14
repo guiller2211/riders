@@ -1,72 +1,64 @@
 import {
   CheckoutShipping,
-  getCheckoutOverview,
-  /* getCheckoutOverview, */
   Icon,
   IconPencil,
   Link,
   Loading,
-  showPaymentInformation,
   Text,
   useResponsiveClientValue,
   View,
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
-import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { AddressData, AppRoutes, CartData, ShippingMethod } from '@ducati/types';
 
 import type { loader } from '../../routes/checkout.shipping';
-import { setAddressCustomer } from '../../service/user.data.service';
+import { deleteShippingAddress, setAddressCustomer } from '../../service/user.data.service';
 import { setShippingAddress, setShippingMethod } from '../../service/cart.data.service';
 
 export default function CheckoutShippingPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { cart, uid, shippingProps } = loaderData;
-  const [addressProcessed, setAddressProcessed] = useState(false);
   const [linkPayment, setLinkPayment] = useState('');
   const [reviewOrder, setLinkReviewOrder] = useState('');
   const [isLoading, setIsloading] = useState(false)
   const [isLoadingAddress, setIsloadingAddress] = useState(false)
   const [currentCart, setCurrentCart] = useState<CartData>(cart!);
 
+  const handleOperation = async (
+    operation: (value: any, uid: string) => Promise<any>,
+    value: any,
+    setLoading: (loading: boolean) => void
+  ) => {
+    setLoading(true);
+    try {
+      const result = await operation(value, uid);
+      setCurrentCart(result);
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsloading(true);
     const formData = new FormData(e.currentTarget);
-    try {
-      const address = await setAddressCustomer(formData, uid);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsloading(false);
-
-    }
+    await handleOperation(setAddressCustomer, formData, setIsloading);
   };
+
   const sendAddress = async (value: AddressData) => {
-    setIsloadingAddress(true);
-    try {
-      const updatedCart = await setShippingAddress(value, uid);
-      setCurrentCart(updatedCart)
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    } finally {
-      setIsloadingAddress(false);
-
-    }
+    await handleOperation(setShippingAddress, value, setIsloadingAddress);
   };
-  const sendShippingMethod = async (value: ShippingMethod) => {
-    setIsloadingAddress(true);
-    try {
-      const updatedCart = await setShippingMethod(value, uid);
-      setCurrentCart(updatedCart)
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    } finally {
-      setIsloadingAddress(false);
 
-    }
+  const sendShippingMethod = async (value: ShippingMethod) => {
+    await handleOperation(setShippingMethod, value, setIsloadingAddress);
+  };
+
+  const deleteAddress = async (value: string) => {
+    console.log(value)
+    await handleOperation(deleteShippingAddress, value, setIsloadingAddress);
   };
 
   useEffect(() => {
@@ -87,7 +79,8 @@ export default function CheckoutShippingPage() {
               cart={currentCart}
               sendAddress={sendAddress}
               sendShippingMethod={sendShippingMethod}
-              isLoading={isLoadingAddress} />
+              isLoading={isLoadingAddress}
+              deleteAddress={deleteAddress} />
         }
       </View>
       <View paddingBottom={2}>
@@ -104,7 +97,7 @@ export default function CheckoutShippingPage() {
                 <Text variant="featured-3">
                   Pago
                 </Text>
-                {/* {showPaymentInfo} */}
+                {/* {cart?.paymentInfo ?? ''} */}
                 <View.Item gapBefore="auto">
                   <Icon svg={IconPencil} />
                 </View.Item>

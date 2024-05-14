@@ -35,55 +35,37 @@ export async function loader({ request }: LoaderArgs) {
 
 
 export async function action({ request, context: { registry } }: ActionArgs) {
-  const formData: FormData = await request.formData();
-  const session = await getSession(request.headers.get("Cookie"));
-  const quantity: string = formData.get('addToCartQuantity') as string;
-  const productCode: string = formData.get('productCode') as string;
+  try {
+    const formData: FormData = await request.formData();
+    const session = await getSession(request.headers.get("Cookie"));
+    const quantity: string = formData.get('addToCartQuantity') as string;
+    const productCode: string = formData.get('productCode') as string;
 
-  let customer: Customer | undefined;
-  let cart: CartEntry | undefined;
+    let customer: Customer | undefined;
+    let cart: CartEntry | undefined;
 
-  if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
+    if (session.has('__session')) {
+      const uid: string = session.get('user')['uid'];
+      customer = await getCustomerByUid(uid);
 
-    customer = await getCustomerByUid(uid);
+      if (customer) {
+        const getCartCustomer: CartData = await getCart(uid);
+        const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
+        cart = cartItem
 
-    if (customer) {
-      const getCartCustomer: CartData = await getCart(uid);
-      const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
-      cart = cartItem
-    }
-
-    /* await updateCustomerCart(uid, cart); */
-
-  } /* else {
-    if (session.has('anonymous')) {
-      const anonymousId = session.get('anonymous');
-      
-      customer = await getCustomerByUid(anonymousId);
-      if (!customer) {
-        customer = await createAnonymousCustomer(anonymousId);
-        cart = await createAnonymousCart(quantity, productCode, anonymousId);
-      } else {
-        cart = await getCart(anonymousId);
-        if (cart) {
-          cart = await addItemToCart(anonymousId, quantity, productCode, cart);
-          await updateCustomerCart(anonymousId, cart);
-        }
+        return typedjson({
+          result: cart
+        });
       }
-    } else {
-      const anonymousId = generateRandomId();
-      session.set("anonymous", anonymousId);
-      await commitSession(session);
-      customer = await createAnonymousCustomer(anonymousId);
-      cart = await createAnonymousCart(quantity, productCode, anonymousId);
     }
+  } catch (error) {
+    console.error("Error al procesar la acción:", error);
   }
 
-  return cart;  */
-  return cart;
+  return typedjson({
+    result: null
+  });
 }
-
 
 
 export default function Index() {

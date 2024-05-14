@@ -25,6 +25,15 @@ export interface AbstractOrderData  extends Resource {
   paymentInfo?: CreditCardPaymentInfo;
 }
 
+export interface OrderStatus {
+  name: string;
+  data: OrderStatusData;
+}
+
+export interface OrderStatusData {
+  badgeColor: 'primary' | 'positive' | 'critical' | undefined;
+}
+
 export interface AbstractOrderEntryData {
   entryId?: string;
   entryNumber: number;

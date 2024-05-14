@@ -1,17 +1,30 @@
-import type { LoaderArgs } from '@remix-run/node';
+import PersonalDetailsPage from '../ui/pages/my-account/personal-details.page';
+import { LoaderArgs } from '@remix-run/node';
+
+import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 import { typedjson } from 'remix-typedjson';
-
-import PersonalDetailsPage from '../ui/pages/my-account/personal-details.page';
-import { ErrorBoundary } from '../ui/pages/error-boundary.page';
+import { ILogObj, Logger } from 'tslog';
+import { getSession } from '../utils/fb.sessions.server';
+import { getCustomerByUid } from '../service/user.data.service';
+import { Customer } from '@ducati/types';
 import { meta } from '../root';
 
-export async function loader({ request, context: { registry } }: LoaderArgs) {
+export async function loader({
+  request,
+  context
+}: LoaderArgs) {
+  const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
 
+  const session = await getSession(request.headers.get("Cookie"));
+  let user: Customer | undefined;
+  if (session.has('__session')) {
+    const uid: string = session.get('user')['uid'];
+    user = await getCustomerByUid(uid);
 
+  }
   return typedjson({
-    user: null,
-  
+    user
   });
 }
 

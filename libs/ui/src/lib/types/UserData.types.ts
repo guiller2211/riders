@@ -10,6 +10,7 @@ export type UserData = {
   userType?: string;
   division?: string;
   status?: UserStatus;
+  lastModifiedAt?: string;
 };
 
 export type UserStatus = {
