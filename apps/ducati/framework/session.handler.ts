@@ -4,7 +4,7 @@ import type {
   SessionStorage as RemixSessionStorage,
 } from '@remix-run/node';
 import type { InnerSession } from '@ducati/types';
-import { getSession } from '../app/utils/fb.sessions.server';
+import { getSession } from '../app/server/fb.sessions.server';
 
 export async function getSessionDucati(request: Request): Promise<InnerSession> {
   const session: RemixSession<RemixSessionData, RemixSessionData> =

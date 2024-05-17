@@ -1,6 +1,6 @@
 import { redirect, LoaderArgs } from '@remix-run/node';
 import { ILogObj, Logger } from 'tslog';
-import { destroySession, getSession } from '../utils/fb.sessions.server';
+import { destroySession, getSession } from '../server/fb.sessions.server';
 import { meta } from '../root';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 

@@ -1,5 +1,5 @@
 import { getDocs, collection, doc, getDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
-import { db, storage } from "../utils/firebase.service";
+import { db, storage } from "../server/firebase.service";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { ProductData, TypeVariamEnum } from "@ducati/types";
 import { getProduct as getProductUtil } from "@ducati/ui";

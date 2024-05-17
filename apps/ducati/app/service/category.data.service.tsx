@@ -1,5 +1,5 @@
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../utils/firebase.service";
+import { db } from "../server/firebase.service";
 import { CategoryData,  ProductVariant } from "@ducati/types";
 
 export async function getCategories() {

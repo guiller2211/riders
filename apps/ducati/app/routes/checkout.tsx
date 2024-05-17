@@ -6,7 +6,7 @@ import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
-import { getSession } from '../utils/fb.sessions.server';
+import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
 import { CartData, Customer } from '@ducati/types';
 import { getCartById } from '../service/cart.data.service';

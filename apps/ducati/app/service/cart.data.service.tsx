@@ -1,5 +1,5 @@
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../utils/firebase.service";
+import { db } from "../server/firebase.service";
 import { AddressData, CartData, CartEntry, Customer, PriceData, ShippingMethod } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
 

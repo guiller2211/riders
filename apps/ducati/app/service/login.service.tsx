@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { auth } from "../utils/firebase.service";
+import { auth } from "../server/firebase.service";
 import { setCustomer } from "./user.data.service";
 import { Customer } from "@ducati/types";
 

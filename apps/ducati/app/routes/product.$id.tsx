@@ -3,7 +3,7 @@ import { meta } from '../root';
 import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
-import { getSession } from '../utils/fb.sessions.server';
+import { getSession } from '../server/fb.sessions.server';
 import { CartData, CartEntry, Customer } from '@ducati/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';

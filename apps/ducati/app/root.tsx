@@ -14,7 +14,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
 import { ILogObj, Logger } from 'tslog';
-import { getSession } from './utils/fb.sessions.server';
+import { getSession } from './server/fb.sessions.server';
 import { getCustomerByUid } from './service/user.data.service';
 import { CartData, CartEntry, Customer } from '@ducati/types';
 import { addItemToCart, deleteEntryBySku, getCartById } from './service/cart.data.service';
