@@ -44,6 +44,7 @@ app.use((request, response, next) => {
   next();
 });
 
+
 // Compress Response Bodies
 // https://github.com/expressjs/compression
 app.use(compression());
@@ -75,6 +76,7 @@ app.all(
     mode: MODE,
   }),
 );
+
 
 // Start Server
 app.listen(PORT, () => {
