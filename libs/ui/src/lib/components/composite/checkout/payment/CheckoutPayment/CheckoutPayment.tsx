@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
 import { Accordion, Button, Icon, Tabs, Text, View } from '../../../../atomic';
-import { CheckoutPaymentForm, CheckoutPaymentMethod } from '../..';
+import { CheckoutPaymentMethod } from '../..';
 import { IconLockFill } from '../../../../../icons';
 import type { CheckoutPaymentProps } from './CheckoutPayment.types';
 import { useResponsiveClientValue } from '../../../../../hooks'
 import { AppRoutes } from '@ducati/types';
+import { Payment } from '@mercadopago/sdk-react';
+
 export const CheckoutPayment = (props: CheckoutPaymentProps) => {
-  const { payments, isDefaultCheck, isShippingAddress } = props;
+  const { payments, totalAmount, preferenceId } = props;
   const [activeValue, setActiveValue] = useState(false);
 
   const [isPayment, setIsPayment] = useState(payments?.length > 0);
@@ -77,9 +79,23 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
                     isPayment={isPaymentClick}
                     methods={payments}
                   />
-                ) : (
-                  <CheckoutPaymentForm isDefaultCheck={isDefaultCheck}/>
-                )}
+
+                )
+                  :
+                  <>
+                    <Payment
+                      initialization={{
+                        amount: totalAmount!,
+                        preferenceId: preferenceId,
+                      }}
+                      onSubmit={async (param, res) => {
+                        console.log('Parametros:', param);
+                        console.log('Respuesta:', res);
+                      }}
+                      customization={{ paymentMethods: { creditCard: 'all', debitCard: 'all' } }}
+                    />
+                  </>
+                }
               </Tabs.Panel>
 
               <View.Item columns={12}>

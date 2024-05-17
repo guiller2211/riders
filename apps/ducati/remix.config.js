@@ -17,7 +17,7 @@ module.exports = {
   // postcss: true,
   // publicPath: '/build',
   serverBuildPath: 'dist/index.js',
-  serverDependenciesToBundle: ['reshaped'],
+  serverDependenciesToBundle: ['reshaped', '@mercadopago/sdk-react'],
   serverMinify: true,
   serverModuleFormat: 'cjs',
   // tailwind: true,

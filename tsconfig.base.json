@@ -18,7 +18,8 @@
     "skipDefaultLibCheck": true,
     "sourceMap": true,
     "target": "ES2021",
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "tmp"]
 }
