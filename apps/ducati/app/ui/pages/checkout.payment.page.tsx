@@ -10,22 +10,10 @@ import {
 import { useTypedLoaderData } from 'remix-typedjson';
 import { AppRoutes } from '@ducati/types';
 
-import { loader } from '../../routes/checkout.payment';
-import { useEffect, useState } from 'react';
-import { initMercadoPago } from '@mercadopago/sdk-react';
-
+import type { loader } from '../../routes/checkout.payment';
 
 export default function CheckoutPaymentPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-  const [preferenceId, setPreferenceId] = useState<string | null | undefined>(loaderData.page?.id);
-  /*  const showInfo = showShippingInformation(
-     shippingAddress,
-     shippingInfo,
-   ); */
-  useEffect(() => {
-    initMercadoPago('TEST-2d94e83a-e3de-4416-847e-4c0e3499aa5c', { locale: 'es-CL' });
-    setPreferenceId(loaderData.page?.id)
-  }, [loaderData.page?.id]);
 
   return (
     <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
@@ -63,8 +51,6 @@ export default function CheckoutPaymentPage() {
           isDefaultCheck
           isShippingAddress
           payments={loaderData.payment}
-          preferenceId={preferenceId!}
-          totalAmount={loaderData.cart?.totalPrice?.value.centsAmount}
         />
       </View>
       <View paddingBottom={2}>
