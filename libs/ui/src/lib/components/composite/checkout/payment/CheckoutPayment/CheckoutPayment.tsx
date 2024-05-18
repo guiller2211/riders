@@ -20,7 +20,7 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
   return (
     <View
       borderRadius="small"
-      borderColor="neutral"
+      borderColor="neutral" 
       padding={8}
       backgroundColor={!activeValue ? 'white' : 'disabled'}
     >

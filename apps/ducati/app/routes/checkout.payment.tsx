@@ -11,7 +11,6 @@ import { CartData, Customer, ShippingMethod } from '@ducati/types';
 import { getCartById } from '../service/cart.data.service';
 import CheckoutPaymentPage from '../ui/pages/checkout.payment.page';
 import { CreditCardEnum, PaymentProps } from '@ducati/ui';
-import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { getMercadoPago } from '../ui/pages/api/mercadopago';
 
 export default CheckoutPaymentPage;
