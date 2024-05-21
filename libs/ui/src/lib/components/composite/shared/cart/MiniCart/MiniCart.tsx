@@ -98,12 +98,11 @@ const AddCart = (props: {
   return (
     <Drawer active={open} onClose={onClose}>
       <DrawerHeader
-        title="Mini Cart"
+        title="Agregar al Carrito"
         onClose={onClose}
       />
       <DrawerContent direction="column">
         <CartEntryComponent entry={product} viewCart="RecentlyAdded" />
-        <Text variant="body-2">Editar</Text>
       </DrawerContent>
       <DrawerFooter>
         <DrawerActionsButtons

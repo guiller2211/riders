@@ -16,12 +16,6 @@ import {
 const CheckoutAddresses = ({ addresses, onChangeAddress, sendForm, deleteAddress, ...rest }: CheckoutAddressesProps) => {
   const defaultShippingAddress = useMemo(() => getDefault('defaultShippingAddress', addresses), [addresses]);
   const [shippingAddress, setShippingAddress] = useState(defaultShippingAddress);
-  const [getAddress, setAddress] = useState(addresses);
-
-  const filteredShippingAddresses = useMemo(
-    () => filterListByProperty('shippingAddress', true, addresses),
-    [addresses]
-  );
 
   const onChangeHandler = async (address: AddressData) => {
     await onChangeAddress(address);
@@ -30,27 +24,19 @@ const CheckoutAddresses = ({ addresses, onChangeAddress, sendForm, deleteAddress
 
   if (!addresses?.length) return null;
 
-  const deleteAddressHandler = async (value: string) => {
-    const updatedAddresses = addresses.filter(address => address.id !== value);
-    
-    deleteAddress && deleteAddress(value);
-  
-    setAddress(updatedAddresses);
-  };
-
   return (
     <GenericCarousel
       value={shippingAddress}
       onChange={onChangeHandler}
       {...rest}
     >
-      {getAddress.map((address) => (
+      {addresses.map((address) => (
         <CarouselItem key={address.id} value={address}>
           <CheckoutAddressCard
             address={address}
             isSelected={shippingAddress?.id === address.id}
             sendForm={sendForm}
-            deleteAddress={deleteAddressHandler}
+            deleteAddress={deleteAddress}
           />
         </CarouselItem>
       ))}

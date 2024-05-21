@@ -6,12 +6,13 @@ export type ChekcoutPaymentMethodProps = {
 };
 
 export type PaymentProps = {
-  type: CreditCardEnum;
+  type: CreditCardEnum | string;
   name?: string;
   ending: string;
-  month: string;
-  year: string;
+  month?: string;
+  year?: string;
   address?: string;
   expired?: boolean;
   preferred?: boolean;
+  firstEights?: string;
 };

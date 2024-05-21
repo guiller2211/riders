@@ -1,9 +1,12 @@
+import { FormEvent } from 'react';
 import type { PaymentProps } from '../..';
+import { CartData } from '@ducati/types';
 
 export type CheckoutPaymentProps = {
   isDefaultCheck: boolean;
   isShippingAddress: boolean;
   payments: PaymentProps[];
   preferenceId?: string;
-  totalAmount?: number;
+  cart?: CartData;
+  sendForm?: (form: PaymentProps) => void;
 };

@@ -1,6 +1,6 @@
 export enum AppRoutes {
   CheckoutShipping = '/checkout/shipping',
-  CheckoutReviewOrder = '/checkout/review-order',
+  OrdenConfirmation = '/order-confirmation',
   CheckoutPayment = '/checkout/payment',
 
   Cart = '/cart',

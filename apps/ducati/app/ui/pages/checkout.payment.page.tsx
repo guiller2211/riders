@@ -3,6 +3,7 @@ import {
   Icon,
   IconPencil,
   Link,
+  PaymentProps,
   Text,
   View,
   useResponsiveClientValue
@@ -11,18 +12,34 @@ import { useTypedLoaderData } from 'remix-typedjson';
 import { AppRoutes } from '@ducati/types';
 
 import { loader } from '../../routes/checkout.payment';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { initMercadoPago } from '@mercadopago/sdk-react';
+import { setPayment } from '../../service/cart.data.service';
+import { useNavigate } from '@remix-run/react';
 
 
 export default function CheckoutPaymentPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-  const [preferenceId, setPreferenceId] = useState<string | null | undefined>(loaderData.page?.id);
- 
+  const { uid, page, cart, payment } = loaderData;
+  const [preferenceId, setPreferenceId] = useState<string | null | undefined>(page?.id);
+  const navigate = useNavigate();
+
   useEffect(() => {
     initMercadoPago('TEST-2d94e83a-e3de-4416-847e-4c0e3499aa5c', { locale: 'es-CL' });
-    setPreferenceId(loaderData.page?.id)
-  }, [loaderData.page?.id]);
+    setPreferenceId(page?.id)
+  }, [page?.id]);
+
+  const sendPayment = async (form: PaymentProps) => {
+    try {
+      await setPayment(form, uid)
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    } finally {
+
+    }
+  };
+
 
   return (
     <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
@@ -59,33 +76,11 @@ export default function CheckoutPaymentPage() {
         <CheckoutPayment
           isDefaultCheck
           isShippingAddress
-          payments={loaderData.payment}
+          payments={payment}
           preferenceId={preferenceId!}
-          totalAmount={loaderData.cart?.totalPrice?.value.centsAmount}
+          cart={cart}
+          sendForm={sendPayment}
         />
-      </View>
-      <View paddingBottom={2}>
-        <Link
-          href={AppRoutes.CheckoutReviewOrder}
-          color="inherit"
-          variant="plain"
-        >
-          <View
-            borderRadius="small"
-            borderColor="neutral"
-            padding={8}
-            backgroundColor="disabled"
-          >
-            <View.Item>
-              <View direction="row" gap={4}>
-                <Text variant="featured-3">3</Text>
-                <Text variant="featured-3">
-                  Revision Pedido
-                </Text>
-              </View>
-            </View.Item>
-          </View>
-        </Link>
       </View>
     </View.Item>
   );

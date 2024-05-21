@@ -4,7 +4,7 @@ import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
 import { getSession } from '../server/fb.sessions.server';
-import { CartData, CartEntry, Customer } from '@ducati/types';
+import { CartData, CartEntry, Customer, ProductVariant, TypeVariamEnum } from '@ducati/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
@@ -24,54 +24,51 @@ export const headers: HeadersFunction = ({ loaderHeaders }) => {
 };
 
 export async function action({ request, context: { registry } }: ActionArgs) {
-  const formData: FormData = await request.formData();
-  const session = await getSession(request.headers.get("Cookie"));
-  const quantity: string = formData.get('addToCartQuantity') as string;
-  const productCode: string = formData.get('productCode') as string;
-  const variant: FormDataEntryValue[] = formData.getAll('variant');
-  console.log(variant)
-  let customer: Customer | undefined;
-  let cart: CartEntry | undefined;
+  try {
+    const formData: FormData = await request.formData();
+    const session = await getSession(request.headers.get("Cookie"));
+    const quantity: string = formData.get('addToCartQuantity') as string;
+    const productCode: string = formData.get('productCode') as string;
 
-  if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
-
-    customer = await getCustomerByUid(uid);
-
-    if (customer) {
-      const getCartCustomer: CartData = await getCart(uid);
-      const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
-      cart = cartItem
-    }
-
-    /* await updateCustomerCart(uid, cart); */
-
-  } /* else {
-      if (session.has('anonymous')) {
-        const anonymousId = session.get('anonymous');
-        
-        customer = await getCustomerByUid(anonymousId);
-        if (!customer) {
-          customer = await createAnonymousCustomer(anonymousId);
-          cart = await createAnonymousCart(quantity, productCode, anonymousId);
-        } else {
-          cart = await getCart(anonymousId);
-          if (cart) {
-            cart = await addItemToCart(anonymousId, quantity, productCode, cart);
-            await updateCustomerCart(anonymousId, cart);
-          }
+    const variants: ProductVariant[] = [];
+    formData.forEach((value, key) => {
+      const match = key.match(/^type-(\d+)$/);
+      if (match) {
+        const index = match[1];
+        const type = `${value}` === TypeVariamEnum.Color ? TypeVariamEnum.Color : TypeVariamEnum.Size;
+        const name = formData.get(`variant-${index}`);
+        if (name) {
+          variants.push({ type, name: name.toString() });
         }
-      } else {
-        const anonymousId = generateRandomId();
-        session.set("anonymous", anonymousId);
-        await commitSession(session);
-        customer = await createAnonymousCustomer(anonymousId);
-        cart = await createAnonymousCart(quantity, productCode, anonymousId);
       }
+    });
+
+    if (!session.has('__session')) {
+      // Manejar el caso en el que no hay una sesión
+      throw new Error('No hay sesión');
     }
-  
-    return cart;  */
-  return cart;
+
+    const uid: string = session.get('user')['uid'];
+    const customer = await getCustomerByUid(uid);
+
+    if (!customer) {
+      // Manejar el caso en el que no se encuentra el cliente
+      throw new Error('Cliente no encontrado');
+    }
+
+    const getCartCustomer: CartData = await getCart(uid);
+    const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode, false, variants);
+
+    return typedjson({
+      result: cartItem
+    });
+  } catch (error) {
+    console.error("Error en la acción:", error);
+    // Manejar errores y devolver una respuesta adecuada
+    return typedjson({
+      result: error
+    });
+  }
 }
 
 export default function Index() {

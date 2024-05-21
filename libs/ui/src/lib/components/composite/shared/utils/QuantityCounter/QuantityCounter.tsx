@@ -21,12 +21,12 @@ const QuantityCounter = (props: QuantityCounterProps) => {
     }
     if (quantity <= minValue && minValue > 1) {
       setMessage(
-        "minimo",
+        "Supera el Minimo",
       );
       setIsActive(true);
     } else if (quantity > maxValue) {
       setMessage(
-        "maximo",
+        "Supera el Maximo",
       );
       setIsActive(true);
     } else {
@@ -94,7 +94,6 @@ const QuantityCounter = (props: QuantityCounterProps) => {
             size={props.sizeField}
           />
         ) : (
-          /* On cart page, use defaultValue with onBlue to only send update cart request when user is done editing qty */
           <Popover position="top" active={isActive}>
             <Popover.Trigger>
               {(attributes) => (

@@ -9,18 +9,17 @@ import { Fields } from './AddressForm.enums';
 import { IconSquareFill } from '../../../../../icons';
 import styles from './AddressForm.module.css';
 import type { AddressFormProps } from './AddressForm.types';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { communes, regions } from '@ducati/types';
 
 export const AddressForm = (props: AddressFormProps) => {
   const { className, isBilling = false, sendForm, initialValues, ...rest } = props;
-  console.log(initialValues)
   const [uid, setUid] = useState(initialValues?.id ?? '');
   const [firstName, setFirstName] = useState(initialValues?.firstName ?? '');
   const [lastName, setLastName] = useState(initialValues?.lastName ?? '');
   const [address, setAddress] = useState(initialValues?.streetName ?? '');
-  const [city, setCity] = useState(initialValues?.city ?? '');
-  const [state, setState] = useState(initialValues?.state ?? '');
+  const [city, setCity] = useState(initialValues?.region?.name ?? '');
+  const [commune, setCommune] = useState(initialValues?.communes?.name ?? '');
   const [email, setEmail] = useState(initialValues?.email ?? '');
   const [zipCode, setZipCode] = useState(initialValues?.postalCode ?? '');
   const [phoneNumber, setPhoneNumber] = useState(initialValues?.phone ?? '');
@@ -31,29 +30,30 @@ export const AddressForm = (props: AddressFormProps) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const defaultAddress = formData.get('defaultAddress') as string;
-    console.log(defaultAddress)
     sendForm && sendForm(e);
   };
 
-  const filterCommunesByRegion = (region: any) => {
+  const filterCommunesByRegion = (region: string) => {
     setCity(region);
-    console.log(city, "aqui");
-  
+
     const filteredCommunes = communes.filter(commune => commune.idRegion === region);
-  
+
     const options = filteredCommunes.map(commune => ({
       label: commune.name,
       value: commune.uid
     }));
-  
+
     setGetCommunes(options);
   };
-  
-  
+
   const optionRegion = regions.map(region => ({
     label: region.name,
     value: region.uid
   }));
+
+  useEffect(() => {
+    city != '' && filterCommunesByRegion(city)
+  }, []);
 
   return (
     <form method="POST" onSubmit={(e) => validateForm(e)}>
@@ -106,7 +106,8 @@ export const AddressForm = (props: AddressFormProps) => {
 
           <Select
             name={Fields.State}
-            onChange={(e: any) => setState(e.value)}
+            onChange={(e: any) => setCommune(e.value)}
+            value={commune}
             placeholder='Comuna'
             size="xlarge"
             options={getCommunes}

@@ -7,11 +7,11 @@ const CartEntries = (props: CartEntriesProps) => {
 
   return (
     <View gap={6} divided>
-      {entries?.map((entry) => {
+      {entries?.map((entry, index) => {
         const { entryId } = entry;
         return (
           <CartEntry
-            key={entryId}
+            key={`${entryId}-${index}`}
             viewCart={viewCart}
             entry={entry}
             handleAction={handleAction} />

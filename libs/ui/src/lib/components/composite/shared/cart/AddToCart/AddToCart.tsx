@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import type { FormEvent } from 'react';
 
 import { Button, View, TextField, Hidden } from '../../../../atomic';
 import { useOpenState } from '../../../../../hooks';
@@ -7,6 +6,7 @@ import MiniCart from '../MiniCart';
 import type { AddToCartProps } from './AddToCart.types';
 import { QuantityCounter } from '../../utils';
 import { CartEntry } from '@ducati/types';
+import { useNavigation } from '@remix-run/react';
 
 const AddToCart = (props: AddToCartProps) => {
   const {
@@ -16,15 +16,14 @@ const AddToCart = (props: AddToCartProps) => {
     quantityValue = 1,
     showInPlp,
     sendForm,
-    isLoading,
     result,
     variant
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
-
+  const navigation = useNavigation();
   const [cartEntryData, setCartEntry] = useState<CartEntry>();
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
-  const [state, setEstate] = useState(false);
+  const [available, setAvailable] = useState(true);
   const changedQuantity = (value: number) => {
     setQuantity(value);
   };
@@ -34,17 +33,14 @@ const AddToCart = (props: AddToCartProps) => {
       onOpenDrawerHandler();
       setCartEntry(result);
     }
-  }, [result]);
-
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const p = await sendForm(e);
-  };
-
-  console.log(variant)
-
+  
+    if (variant && variant.every(v => v !== undefined)) {
+      setAvailable(false);
+    }
+  }, [result, variant]);
+  
   return (
-    <form onSubmit={sendAddProduct}>
+    <form onSubmit={sendForm}>
       <View gap={6} direction={showInPlp ? 'row' : 'column'}>
         <View.Item>
           <QuantityCounter
@@ -62,16 +58,16 @@ const AddToCart = (props: AddToCartProps) => {
 
         <Hidden hide>
           <TextField name="productCode" defaultValue={productCode} />
-          {variant?.map((_v) => (
+          {variant?.map((_v, index) => (
             _v && (
-              <>
-                <TextField name="type" defaultValue={_v.type} />
-                <TextField name="variant" defaultValue={_v.name} />
-              </>
+              <div key={index}>
+                <TextField name={`type-${index}`} defaultValue={_v.type} />
+                <TextField name={`variant-${index}`} defaultValue={_v.name} />
+              </div>
             )
           ))}
+          
         </Hidden>
-
         <View.Item grow>
           <Button
             size='xlarge'
@@ -79,7 +75,8 @@ const AddToCart = (props: AddToCartProps) => {
             variant="solid"
             type="submit"
             fullWidth
-            loading={isLoading}
+            disabled={available}
+            loading={navigation.state === 'idle' ? false : true}
           >
             Agregar
           </Button>

@@ -12,6 +12,7 @@ import type { CartProps } from '../../../cart';
 import type { CheckoutShippingProps } from './CheckoutShipping.types';
 import type { ShippingMethod } from '../CheckoutShippingMethod';
 import { useResponsiveClientValue } from 'libs/ui/src/lib/hooks';
+import { AppRoutes } from '@ducati/types';
 
 const CheckoutShipping = (props: CheckoutShippingProps) => {
   const { addresses,
@@ -53,11 +54,11 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     const defaultAddress = getDefault('defaultShippingAddress', addresses);
 
     if (
-      cart.shippingAddress &&
+      cart?.shippingAddress &&
       cart.shippingMethod &&
       !addressProcessed
     ) {
-      setSelectedAddress(cart.shippingAddress);
+      setSelectedAddress(cart?.shippingAddress);
       setSelectedShippingMethod(cart as unknown as CartProps);
       setAddressProcessed(true);
       toggleAgreed(true);
@@ -74,7 +75,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     e.preventDefault();
 
     if (selectedAddress && selectedShippingMethod) {
-      navigate('/checkout/payment');
+      navigate(AppRoutes.CheckoutPayment);
     }
   };
 
@@ -102,7 +103,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
           </Accordion.Trigger>
 
           <Accordion.Content>
-            <form method="POST" onSubmit={(e) => validateForm(e)}>
               <View padding={useResponsiveClientValue({ s: 0, m: 8 })}>
                 <View direction="row">
                   <View.Item columns={12}>
@@ -156,6 +156,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                               type="submit"
                               disabled={!agreed}
                               loading={isLoading}
+                              href={AppRoutes.CheckoutPayment}
                             >
                               Continuar al pago
                             </Button>
@@ -166,7 +167,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                   }
                 </View>
               </View>
-            </form>
           </Accordion.Content>
         </Accordion>
       </View.Item>

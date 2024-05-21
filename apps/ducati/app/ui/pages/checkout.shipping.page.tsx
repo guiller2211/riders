@@ -19,10 +19,9 @@ import { setShippingAddress, setShippingMethod } from '../../service/cart.data.s
 export default function CheckoutShippingPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { cart, uid, shippingProps } = loaderData;
-  const [linkPayment, setLinkPayment] = useState('');
-  const [reviewOrder, setLinkReviewOrder] = useState('');
   const [isLoading, setIsloading] = useState(false)
   const [isLoadingAddress, setIsloadingAddress] = useState(false)
+  const [addresses, setAddresses] = useState(shippingProps.addresses)
   const [currentCart, setCurrentCart] = useState<CartData>(cart!);
 
   const handleOperation = async (
@@ -34,6 +33,9 @@ export default function CheckoutShippingPage() {
     try {
       const result = await operation(value, uid);
       setCurrentCart(result);
+      if(result && result.addressesData){
+        setAddresses(result.addressesData)
+      }
     } catch (error) {
       console.error('Error:', error);
       throw error;
@@ -57,13 +59,13 @@ export default function CheckoutShippingPage() {
   };
 
   const deleteAddress = async (value: string) => {
-    console.log(value)
     await handleOperation(deleteShippingAddress, value, setIsloadingAddress);
   };
 
   useEffect(() => {
     setCurrentCart(cart!);
-  }, [cart]);
+    setAddresses(shippingProps.addresses);
+  }, [cart, shippingProps.addresses]);
 
   return (
     <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
@@ -73,7 +75,7 @@ export default function CheckoutShippingPage() {
             <Loading />
             :
             <CheckoutShipping
-              addresses={shippingProps.addresses}
+              addresses={addresses}
               checkoutShippingMethods={shippingProps.checkoutShippingMethods}
               sendForm={submitForm}
               cart={currentCart}
@@ -93,33 +95,11 @@ export default function CheckoutShippingPage() {
           >
             <View.Item>
               <View direction="row" gap={4}>
-                <Text variant="featured-3">1</Text>
+                <Text variant="featured-3">2</Text>
                 <Text variant="featured-3">
                   Pago
                 </Text>
                 {/* {cart?.paymentInfo ?? ''} */}
-                <View.Item gapBefore="auto">
-                  <Icon svg={IconPencil} />
-                </View.Item>
-              </View>
-            </View.Item>
-          </View>
-        </Link>
-      </View>
-      <View paddingBottom={2}>
-        <Link href={AppRoutes.CheckoutReviewOrder} color="inherit" variant="plain">
-          <View
-            borderRadius="small"
-            borderColor="neutral"
-            padding={8}
-            backgroundColor="disabled"
-          >
-            <View.Item>
-              <View direction="row" gap={4}>
-                <Text variant="featured-3">1</Text>
-                <Text variant="featured-3">
-                  Revision Pedido
-                </Text>
                 <View.Item gapBefore="auto">
                   <Icon svg={IconPencil} />
                 </View.Item>

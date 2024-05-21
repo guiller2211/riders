@@ -1,4 +1,4 @@
-import { AddressData, AppRoutes } from '@ducati/types';
+import { AddressData, AppRoutes, communes, regions } from '@ducati/types';
 
 import { IconPencil, IconThreeDotsVertical } from '../../../../../icons';
 import {
@@ -30,6 +30,8 @@ export const Address = (props: AddressProps) => {
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
   const [isLoading, setIsLoading] = useState(false);
   const { active, activate, deactivate } = useToggle(false);
+  const [city, setCity] = useState(regions.find(_r => _r.uid === address.region?.name)?.name);
+  const [getCommunes, setGetCommunes] = useState(communes.find(_c => _c.uid === address.communes?.name)?.name);
 
   const addressFormData: AddressData = {
     id: address.id!,
@@ -42,6 +44,7 @@ export const Address = (props: AddressProps) => {
     region: address.region,
     postalCode: address.postalCode,
     email: address.email,
+    communes: address.communes,
     defaultShippingAddress: address.defaultShippingAddress ?? false,
   };
   const removeAddress = async () => {
@@ -135,8 +138,9 @@ export const Address = (props: AddressProps) => {
                                 {address?.line1} {address?.line2}
                               </Text>
                               <Text variant="body-3">
-                                {address.city}, {address.state?.isocode}{' '}
-                                {address.postalCode}
+                                {city},{' '}
+                                {getCommunes},{' '}
+                                {address.state?.isocode} {address.postalCode}
                               </Text>
                             </View>
                             <View
@@ -188,7 +192,11 @@ export const Address = (props: AddressProps) => {
                         {address?.line1} {address?.line2}
                       </Text>
                       <Text variant="body-3">
-                        {address.city}, {address.state?.isocode}{' '}
+                        {city},{' '}
+                      </Text>
+                      <Text variant="body-3">
+                        {getCommunes},{' '}
+                        {address.state?.isocode}{' '}
                         {address.postalCode}
                       </Text>
                     </View>

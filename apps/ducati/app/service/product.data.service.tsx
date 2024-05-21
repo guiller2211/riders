@@ -89,11 +89,11 @@ export function getProductById(uid?: string): Promise<ProductData | null> {
 
                     productData.variants?.forEach((variant) => {
                         if (colors.hasOwnProperty(variant.id)) {
-                            variant.name = colors[variant.id];
+                            variant.name = colors[variant.id!];
                             variant.type = TypeVariamEnum.Color
                         }
                         if (sizes.hasOwnProperty(variant.id)) {
-                            variant.name = sizes[variant.id];
+                            variant.name = sizes[variant.id!];
                             variant.type = TypeVariamEnum.Size
                         }
                     });

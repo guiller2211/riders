@@ -1,7 +1,9 @@
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../server/firebase.service";
-import { AddressData, CartData, CartEntry, Customer, PriceData, ShippingMethod } from "@ducati/types";
+import { AddressData, AppRoutes, CartData, CartEntry, Customer, PriceData, ProductVariant, ShippingMethod } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
+import { PaymentProps, OrderData } from "@ducati/ui";
+import { useNavigate } from "@remix-run/react";
 
 export function getCartById(cartId: string): Promise<CartData> {
   const docRef = doc(db, 'cart', cartId);
@@ -20,27 +22,31 @@ export function getCartById(cartId: string): Promise<CartData> {
 }
 
 
-export function getCart(uid: string): Promise<CartData> {
+export async function getCart(uid: string): Promise<CartData> {
   const cartRef = doc(db, "customer", uid);
-  return getDoc(cartRef)
-    .then(cartSnapshot => {
-      if (cartSnapshot.exists() && cartSnapshot.data()?.cartId) {
-        const cartId = cartSnapshot.data()?.cartId;
-        return { id: cartId, entries: [] };
+
+  try {
+    const cartSnapshot = await getDoc(cartRef);
+
+    if (cartSnapshot.exists()) {
+      const cartData = cartSnapshot.data();
+
+      if (cartData?.cartId && cartData.cartId !== '') {
+        return { id: cartData.cartId, entries: [] };
       } else {
-        return addDoc(collection(db, "cart"), { entries: [] })
-          .then(newCartRef => {
-            return updateDoc(cartRef, { cartId: newCartRef.id })
-              .then(() => {
-                return { id: newCartRef.id, entries: [] };
-              });
-          });
+        const newCartRef = await addDoc(collection(db, "cart"), { entries: [] });
+        await updateDoc(cartRef, { cartId: newCartRef.id });
+        return { id: newCartRef.id, entries: [] };
       }
-    })
-    .catch(error => {
-      console.error("Error al obtener o crear el carrito:", error);
-      throw error;
-    });
+    } else {
+      const newCartRef = await addDoc(collection(db, "cart"), { entries: [] });
+      await updateDoc(cartRef, { cartId: newCartRef.id });
+      return { id: newCartRef.id, entries: [] };
+    }
+  } catch (error) {
+    console.error("Error al obtener o crear el carrito:", error);
+    throw error;
+  }
 }
 
 export function getOrCreateCart(uid: string): Promise<CartData> {
@@ -102,19 +108,26 @@ export async function createAnonymousCart(quantity: string, productCode: string,
   }
 }
 
-export async function addItemToCart(cartCustomer: CartData, quantity: number, productCode: string, update?: boolean) {
+export async function addItemToCart(
+  cartCustomer: CartData,
+  quantity: number,
+  productCode: string,
+  update?: boolean,
+  variants?: ProductVariant[],
+  ) {
   try {
     const product = await getProductBySku(productCode);
 
     const cartItem: CartEntry = {
       product: {
-        image: product?.image,
+        image: product?.image?.filter((_i) => _i.default),
         name: product?.name,
         description: product?.description,
         stock: product?.stock,
         categories: product?.categories,
         value: product?.value!,
         sku: product?.sku,
+        ...(variants ? { variants } : {}), 
       },
       id: product?.id,
       entryNumber: 0,
@@ -141,9 +154,10 @@ export async function addItemToCart(cartCustomer: CartData, quantity: number, pr
       update ? existingItem.quantity = cartItem.quantity : existingItem.quantity += cartItem.quantity;
 
       if (existingItem.totalPrice && existingItem.product?.value) {
-        existingItem.totalPrice.value.centsAmount = !update ? parseFloat(`${existingItem.product.value.centsAmount}`) * cartItem.quantity : parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
+        existingItem.totalPrice.value.centsAmount = parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity
       }
       cartItem.totalPrice = existingItem.totalPrice;
+      cartItem.quantity = existingItem.quantity;
     } else {
       cartData.entries.push(cartItem);
     }
@@ -295,4 +309,62 @@ export function setShippingMethod(value: ShippingMethod, uid: string) {
       throw error;
     });
 }
+
+export const setPayment = async (value: PaymentProps, uid: string) => {
+  const navigate = useNavigate();
+
+  await getCart(uid).then(cart => {
+    if (!cart) {
+      throw new Error("El carrito del usuario no existe.");
+    }
+
+    const cartDocRef = doc(db, "cart", cart.id!);
+    getDoc(cartDocRef)
+      .then(cartSnapshot => {
+        if (cartSnapshot.exists()) {
+          return updateDoc(cartDocRef, { paymentMethod: value })
+            .then(() => getCartById(cart.id!));
+        } else {
+          throw new Error("El carrito del usuario no existe.");
+        }
+      });
+      navigate(AppRoutes.OrdenConfirmation);
+
+  }).catch(error => {
+    console.error("Error al establecer la dirección de envío:", error);
+    throw error;
+  });
+
+  return await getCart(uid).then(newCart => {
+    const cartDocRef = doc(db, "cart", newCart.id!);
+    getDoc(cartDocRef)
+      .then(cartSnapshot => {
+        if (cartSnapshot.exists()) {
+          const order = cartSnapshot.data() as OrderData;
+          return addDoc(collection(db, "orders"), { order })
+            .then(async (order) => {
+              getCartById(newCart.id!)
+              const customerRef = doc(db, "customer", uid);
+              const customerSnapshot = await getDoc(customerRef);
+              let orderID;
+
+              if (customerSnapshot.exists()) {
+                orderID = customerSnapshot.data()?.orderID as string[];
+                if (!orderID) {
+                  await updateDoc(doc(db, 'customer', uid), { orderID: [order.id], cartId: '' });
+                } else {
+                  updateDoc(doc(db, "customer", uid), { orderID: [...orderID, order.id], cartId: '' })
+                }
+              }
+
+            });
+        } else {
+          throw new Error("El carrito del usuario no existe.");
+        }
+      });
+
+  })
+}
+
+
 

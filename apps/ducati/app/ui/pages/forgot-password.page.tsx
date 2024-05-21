@@ -26,7 +26,6 @@ const ForgotPasswordPage = () => {
     setIsLoading(true);
     try {
       const response = await forgotPassword(value);
-      console.log(response);
       setResult(response.result);
       setMessage(response.message)
       setIsLoading(false);

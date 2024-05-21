@@ -1,26 +1,38 @@
 import { useState } from 'react';
 
 import { Accordion, Button, Icon, Tabs, Text, View } from '../../../../atomic';
-import { CheckoutPaymentMethod } from '../..';
+import { CheckoutPaymentMethod, PaymentProps } from '../..';
 import { IconLockFill } from '../../../../../icons';
 import type { CheckoutPaymentProps } from './CheckoutPayment.types';
 import { useResponsiveClientValue } from '../../../../../hooks'
 import { AppRoutes } from '@ducati/types';
 import { Payment } from '@mercadopago/sdk-react';
+import { CreditCardEnum } from '../../../shared';
 
 export const CheckoutPayment = (props: CheckoutPaymentProps) => {
-  const { payments, totalAmount, preferenceId } = props;
+  const { payments, cart, preferenceId, sendForm } = props;
   const [activeValue, setActiveValue] = useState(false);
 
   const [isPayment, setIsPayment] = useState(payments?.length > 0);
   const isPaymentClick = (value: boolean) => {
     setIsPayment(!value);
   };
+  const sendPayment = (param: any, res: any) => {
+    const savePay: PaymentProps = {
+      type: param.formData.payment_method_id,
+      name: res.cardholderName,
+      firstEights: res.bin,
+      ending: res.lastFourDigits,
+    }
+    
+    sendForm && sendForm(savePay)
+
+  }
 
   return (
     <View
       borderRadius="small"
-      borderColor="neutral" 
+      borderColor="neutral"
       padding={8}
       backgroundColor={!activeValue ? 'white' : 'disabled'}
     >
@@ -74,7 +86,7 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
               </View>
 
               <Tabs.Panel value="1">
-                {isPayment ? (
+                {/*  {isPayment ? (
                   <CheckoutPaymentMethod
                     isPayment={isPaymentClick}
                     methods={payments}
@@ -83,31 +95,20 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
                 )
                   :
                   <>
-                    <Payment
-                      initialization={{
-                        amount: totalAmount!,
-                        preferenceId: preferenceId,
-                      }}
-                      onSubmit={async (param, res) => {
-                        console.log('Parametros:', param);
-                        console.log('Respuesta:', res);
-                      }}
-                      customization={{ paymentMethods: { creditCard: 'all', debitCard: 'all' } }}
-                    />
+                 
                   </>
-                }
+                } */}
+                <Payment
+                  initialization={{
+                    preferenceId: preferenceId,
+                    amount: cart?.totalPrice?.value.centsAmount!,
+                    payer: { email: cart?.shippingAddress?.email }
+                  }}
+                  onSubmit={async (param, res) => sendPayment(param, res)}
+                  customization={{ paymentMethods: { creditCard: 'all', debitCard: 'all' } }}
+                />
               </Tabs.Panel>
 
-              <View.Item columns={12}>
-                <Button
-                  href={AppRoutes.CheckoutReviewOrder}
-                  color="primary"
-                  size="xlarge"
-                  fullWidth
-                >
-                  Continuar a Revision de Orden
-                </Button>
-              </View.Item>
             </Tabs>
           </View>
         </Accordion.Content>

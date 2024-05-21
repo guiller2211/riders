@@ -7,6 +7,7 @@ import OrderConfirmationContact from '../OrderConfirmationContact';
 import OrderConfirmationPaid from '../OrderConfirmationPaid';
 import OrderConfirmationBillToShipTo from '../OrderConfirmationBillToShipTo';
 import OrderConfirmationShippingMethod from '../OrderConfirmationShippingMethod';
+import { useResponsiveClientValue } from '../../../../hooks';
 
 const CheckoutOverview = (props: CheckoutOverviewProps) => {
   const { overview, isOrderConfirmationPage } = props;
@@ -14,8 +15,8 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
   return (
     <View>
       {isOrderConfirmationPage ? (
-        <View direction="row" align="center" gap={{ s: 3, l: 8 }}>
-          <View.Item columns={{ s: 12, l: 6 }}>
+        <View direction="row" align="center" gap={useResponsiveClientValue({ s: 3, l: 8 })}>
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
             <View
               paddingBlock={6}
               paddingInline={8}
@@ -27,15 +28,15 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                 Contacto:
               </Text>
               <OrderConfirmationContact
-                firstName={overview.contact.firstName}
-                lastName={overview.contact.lastName}
-                email={overview.contact.email}
-                phone={overview.contact.phone}
-                addresses={overview.contact.addresses}
+                firstName={overview?.contact.firstName}
+                lastName={overview?.contact.lastName}
+                email={overview?.contact.email}
+                phone={overview?.contact.phone}
+                addresses={overview?.contact.addresses}
               />
             </View>
           </View.Item>
-          <View.Item columns={{ s: 12, l: 6 }}>
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
             <View
               paddingBlock={6}
               paddingInline={8}
@@ -47,16 +48,14 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                 Pagado con:
               </Text>
               <OrderConfirmationPaid
-                name={overview.paid.name}
-                ending={overview.paid.ending}
-                month={overview.paid.month}
-                year={overview.paid.year}
-                type={overview.paid.type}
+                name={overview?.paid.name}
+                ending={overview?.paid.ending}
+                type={overview?.paid.type}
               />
             </View>
           </View.Item>
 
-          <View.Item columns={{ s: 12, l: 6 }}>
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
             <View
               paddingBlock={6}
               paddingInline={8}
@@ -70,14 +69,14 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               <View direction="row">
                 <View.Item>
                   <OrderConfirmationBillToShipTo
-                    address={overview.shipping.address}
-                    address2={overview.shipping.address2}
+                    address={overview?.shipping.address}
+                    address2={overview?.shipping.address2}
                   />
                 </View.Item>
               </View>
             </View>
           </View.Item>
-          <View.Item columns={{ s: 12, l: 6 }}>
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
             <View
               paddingBlock={6}
               paddingInline={8}
@@ -91,7 +90,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               <View direction="row">
                 <View.Item>
                   <OrderConfirmationShippingMethod
-                    method={overview.method.method}
+                    method={overview?.method.method}
                   />
                 </View.Item>
               </View>
@@ -116,12 +115,12 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                   <View.Item>
                     <View paddingEnd={2}>
                       <Text variant="body-2" weight="bold">
-                        {overview.contact.firstName} {overview.contact.lastName}
+                        {overview?.contact.firstName} {overview?.contact.lastName}
                       </Text>
                     </View>
                   </View.Item>
                   <View.Item>
-                    <Text variant="body-1"> {overview.contact.email}</Text>
+                    <Text variant="body-1"> {overview?.contact.email}</Text>
                   </View.Item>
                 </View>
               </View.Item>
@@ -143,7 +142,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                 <View direction="row">
                   <View.Item>
                     <Text variant="body-1">
-                      {overview.shipping.address} {overview.shipping.address2}
+                      {overview?.shipping.address} {overview?.shipping.address2}
                     </Text>
                   </View.Item>
                 </View>
@@ -170,7 +169,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               <View.Item columns={{ s: 12, l: 8 }}>
                 <View direction="row">
                   <View.Item>
-                    <Text variant="body-1">{overview.method.method} </Text>
+                    <Text variant="body-1">{overview?.method.method} </Text>
                   </View.Item>
                 </View>
               </View.Item>
@@ -199,8 +198,8 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                   <View.Item>
                     <View paddingEnd={2}>
                       <Text variant="body-2" weight="bold">
-                        {overview.paid.type
-                          ? overview.paid.type
+                        {overview?.paid.type
+                          ? overview?.paid.type
                           : 'Cuenta'
                         }
                       </Text>
@@ -208,12 +207,12 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                   </View.Item>
                   {/* <View.Item>
                     <Text
-                      variant='body-1'>{translate('overview.endingIn', 'checkoutReviewOrder', { num: overview.paid.ending })} </Text>
+                      variant='body-1'>{translate('overview?.endingIn', 'checkoutReviewOrder', { num: overview?.paid.ending })} </Text>
                   </View.Item>
                   <View.Item>
-                    <Text variant='body-1'>{translate('overview.expires', 'checkoutReviewOrder', {
-                      month: overview.paid.month,
-                      year: overview.paid.year
+                    <Text variant='body-1'>{translate('overview?.expires', 'checkoutReviewOrder', {
+                      month: overview?.paid.month,
+                      year: overview?.paid.year
                     })}
                     </Text>
                   </View.Item> */}

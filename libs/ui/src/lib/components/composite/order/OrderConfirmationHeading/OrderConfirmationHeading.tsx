@@ -1,5 +1,6 @@
 import { Text, View } from 'reshaped';
 import type { OrderConfirmationHeadingProps } from './OrderConfirmationHeading.types';
+import { useResponsiveClientValue } from '../../../../hooks';
 
 const OrderConfirmationHeading = (props: OrderConfirmationHeadingProps) => {
   const { user } = props;
@@ -7,14 +8,14 @@ const OrderConfirmationHeading = (props: OrderConfirmationHeadingProps) => {
     <View
       gap={8}
       direction="column"
-      paddingTop={{ s: 6, l: 16 }}
+      paddingTop={useResponsiveClientValue({ s: 6, l: 16 })}
       paddingBottom={8}
       maxWidth={200}
       textAlign="center"
       justify="center"
     >
       <Text variant="featured-1" weight="bold">
-        Gracias `${user.firstName} ${user.lastName}`
+        Gracias {user.firstName} {user.lastName}
       </Text>
 
       <View>

@@ -43,7 +43,6 @@ export default function AddressBookPage() {
     await handleOperation(setAddressCustomer, formData, setIsloading);
   };
   const deleteAddress = async (value: string) => {
-    console.log(value)
     await handleOperation(deleteShippingAddress, value, setIsloadingAddress);
   };
 

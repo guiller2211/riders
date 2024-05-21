@@ -1,9 +1,8 @@
 import {
-AddToCart,
+  AddToCart,
   ImageGallery,
   View,
   Print,
-  Share,
   ProductOverview,
   Divider,
   useResponsiveClientValue,
@@ -12,44 +11,37 @@ AddToCart,
   IconHeart,
   RadioGroup,
   Radio,
-  Card
+  Card,
+  Loading
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { FormEvent, useState } from 'react';
-import { useFetcher } from '@remix-run/react';
-import { loader } from '../../routes/product.$id';
-import { CartEntry, TypeVariamEnum } from '@ducati/types';
+import { useActionData, useSubmit } from '@remix-run/react';
+import { action, loader } from '../../routes/product.$id';
+import { TypeVariamEnum } from '@ducati/types';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
+  const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
   const [size, setSize] = useState<{ type: TypeVariamEnum, name: string }>();
   const [color, setColor] = useState<{ type: TypeVariamEnum, name: string }>();
-  const fetcher = useFetcher();
+  const submit = useSubmit();
 
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>): Promise<CartEntry | null> => {
+  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
-      setIsLoading(true);
-      const formData = new FormData(e.currentTarget);
-      const addToCartQuantity = formData.get('addToCartQuantity') as string;
-      const productCode = formData.get('productCode') as string;
-
-
-      const product = await fetcher.submit({ addToCartQuantity, productCode }, { method: "post" });
-
-      return product!;
-
+       await submit(e.currentTarget, { method: 'post' });
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-      return null;
     } finally {
       setIsLoading(false);
-      return null;
     }
   };
+
 
   return (
     <View
@@ -107,7 +99,7 @@ const ProductDetailPage = () => {
                     {loaderData.product?.variants
                       ?.filter(_c => _c.type === TypeVariamEnum.Color)
                       ?.map((_c) => (
-                        <Card >
+                        <Card key={`${_c.id}`}>
                           <View gap={3} direction="row" align="center">
                             <Radio
                               value={_c.name!}
@@ -136,7 +128,7 @@ const ProductDetailPage = () => {
                           <View gap={3} direction="row" align="center">
                             <Radio
                               value={_s.name!}
-                              onChange={(e) => setColor({ type: TypeVariamEnum.Color, name: _s.name! })}>
+                              onChange={(e) => setColor({ type: TypeVariamEnum.Size, name: _s.name! })}>
                               {_s.name}
                             </Radio>
                           </View>
@@ -164,8 +156,8 @@ const ProductDetailPage = () => {
                     showInPlp
                     stockAvailable={230}
                     sendForm={sendAddProduct}
-                    isLoading={isLoading}
                     variant={[size!, color!]}
+                    result={result}
                   />
                 </View.Item>
               )}

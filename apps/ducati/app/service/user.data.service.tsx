@@ -65,48 +65,48 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
     const customerRef = doc(db, "customer", customerUID);
     const customerSnapshot = await getDoc(customerRef);
     let addressID: string;
+    let addressesData;
+    if (!customerSnapshot.exists()) {
+      throw new Error("No se encontró el cliente con el ID proporcionado.");
+    }
 
-    if (customerSnapshot.exists()) {
-      addressID = customerSnapshot.data()?.addressID;
+    addressID = customerSnapshot.data()?.addressID;
 
-      if (!addressID) {
-        const addressDocRef = await addDoc(collection(db, 'address'), { addresses: [address] });
-        addressID = addressDocRef.id;
-        await updateDoc(doc(db, 'customer', customerUID), { addressID });
-      } else {
-        const uid = formData.get('addressUid') as string;
-        const docRef = doc(db, "address", addressID);
-        const addressesSnapshot = await getDoc(docRef);
-        const addressesData = addressesSnapshot.data();
+    if (!addressID) {
+      const addressDocRef = await addDoc(collection(db, 'address'), { addresses: [address] });
+      addressID = addressDocRef.id;
+      await updateDoc(doc(db, 'customer', customerUID), { addressID });
+    } else {
+      const uid = formData.get('addressUid') as string;
+      const docRef = doc(db, "address", addressID);
+      const addressesSnapshot = await getDoc(docRef);
+      addressesData = addressesSnapshot.data();
 
-        if (!addressesData || !addressesData.addresses) {
-          throw new Error("Los datos de la dirección no son válidos o están incompletos");
-        }
-
-        const addressIndex = addressesData.addresses.findIndex((address: any) => address.id === uid);
-        if (address.defaultShippingAddress) {
-          const existingDefaultAddressIndex = addressesData.addresses.findIndex((address: any) => address.defaultShippingAddress);
-
-          if (existingDefaultAddressIndex !== -1) {
-            addressesData.addresses[existingDefaultAddressIndex].defaultShippingAddress = false;
-          }
-        }
-        if (addressIndex !== -1) {
-          addressesData.addresses[addressIndex] = address;
-          await setDoc(docRef, addressesData);
-        } else {
-          addressesData.addresses.push(address);
-          await setDoc(docRef, addressesData);
-        }
+      if (!addressesData || !addressesData.addresses) {
+        throw new Error("Los datos de la dirección no son válidos o están incompletos");
       }
 
-    } else {
-      throw new Error("No se encontró el cliente con el ID proporcionado.");
+      const addressIndex = addressesData.addresses.findIndex((address: any) => address.id === uid);
+      if (address.defaultShippingAddress) {
+        const existingDefaultAddressIndex = addressesData.addresses.findIndex((address: any) => address.defaultShippingAddress);
+
+        if (existingDefaultAddressIndex !== -1) {
+          addressesData.addresses[existingDefaultAddressIndex].defaultShippingAddress = false;
+        }
+      }
+      if (addressIndex !== -1) {
+        addressesData.addresses[addressIndex] = address;
+        await setDoc(docRef, addressesData);
+      } else {
+        addressesData.addresses.push(address);
+        await setDoc(docRef, addressesData);
+      }
     }
 
     return {
       success: true,
-      message: `Documento escrito exitosamente`
+      message: `Documento escrito exitosamente`,
+      addressesData: addressesData?.addresses
     };
   } catch (error) {
     return {
@@ -118,18 +118,20 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
 }
 
 
+
 export async function deleteShippingAddress(uid: string, customerUID: string) {
   try {
     const customerRef = doc(db, "customer", customerUID);
     const customerSnapshot = await getDoc(customerRef);
     let addressID: string;
+    let addressesData;
 
     if (customerSnapshot.exists()) {
       addressID = customerSnapshot.data()?.addressID;
 
       const docRef = doc(db, "address", addressID);
       const addressesSnapshot = await getDoc(docRef);
-      const addressesData = addressesSnapshot.data();
+      addressesData = addressesSnapshot.data();
       if (!addressesData || !addressesData.addresses) {
         throw new Error("Los datos de la dirección no son válidos o están incompletos");
       }
@@ -143,9 +145,17 @@ export async function deleteShippingAddress(uid: string, customerUID: string) {
 
       await updateDoc(docRef, { addresses: addressesData.addresses });
     }
+    return {
+      success: true,
+      message: `Documento escrito exitosamente`,
+      addressesData: addressesData?.addresses
+    };
   } catch (error) {
-    console.error('Error:', error);
-    throw error;
+    return {
+      success: false,
+      message: 'Error al agregar dirección:',
+      error: error
+    };
   }
 }
 

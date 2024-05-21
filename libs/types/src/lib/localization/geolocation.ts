@@ -9,7 +9,7 @@ export interface RegionData {
   name: string;
 }
 export interface CommunesData {
-  uid: string;
+  uid?: string;
   idRegion?: string;
   isocode: string;
   name: string;

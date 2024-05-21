@@ -25,7 +25,7 @@ export const CreditCardIcon = (props: CreditCardIconProps) => {
   );
 };
 
-export const CreditCardSVG = (type: CreditCardEnum) => {
+export const CreditCardSVG = (type: CreditCardEnum | string) => {
   switch (type) {
     case CreditCardEnum.Amex:
       return IconAmexLight;

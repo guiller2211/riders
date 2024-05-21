@@ -16,16 +16,14 @@ export const getAddress = (formData: FormData): AddressData => {
   const defaultShippingAddress: boolean = defaultAddress !== null;
   const id = generateRandomId();
 
-
   return {
     id: id,
     firstName: firstName,
     lastName: lastName,
     streetName: address,
-    state: {
-      countryIso: 'CHL',
+    communes: {
+      idRegion: region,
       isocode: 'CHL',
-      isocodeShort: 'CHL',
       name: state
     },
     region: {

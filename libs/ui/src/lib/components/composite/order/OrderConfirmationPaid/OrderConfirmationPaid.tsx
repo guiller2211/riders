@@ -1,5 +1,5 @@
+import { View, Text } from '../../../atomic';
 import { CreditCardIcon } from '../../shared';
-import { View } from 'reshaped';
 import type { OrderConfirmationPaidProps } from './OrderConfirmationPaid.types';
 
 const OrderConfirmationPaid = (props: OrderConfirmationPaidProps) => {
@@ -19,17 +19,12 @@ const OrderConfirmationPaid = (props: OrderConfirmationPaidProps) => {
           </View>
         </View.Item>
       )}
-      {/*
-      <View.Item>
-        <View paddingEnd={1}>
-          <Text variant="body-3">{props.endingIn ? props.endingIn:translate('overview.endingIn', 'checkoutReviewOrder', { num: props.ending })}</Text>
-        </View>
-      </View.Item>
-      <View.Item>
+      <View direction='column' gap={1}>
+        <Text variant="body-3">Temrina en  {props.ending}</Text>
         <Text variant="body-3">
-          &ndash; {props.expiresIn ? props.expiresIn : translate('overview.expires', 'checkoutReviewOrder', { month: props.month, year: props.year })}
+          A nombre de {props.name}
         </Text>
-       </View.Item> */}
+      </View>
     </View>
   );
 };

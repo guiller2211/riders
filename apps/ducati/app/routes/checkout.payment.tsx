@@ -12,6 +12,7 @@ import { getCartById } from '../service/cart.data.service';
 import CheckoutPaymentPage from '../ui/pages/checkout.payment.page';
 import { CreditCardEnum, PaymentProps } from '@ducati/ui';
 import { getMercadoPago } from '../ui/pages/api/mercadopago';
+import { PreferenceResponse } from 'mercadopago/dist/clients/preference/commonTypes';
 
 export default CheckoutPaymentPage;
 export { meta };
@@ -71,9 +72,10 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
 
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;
+  let uid: string = '';
 
   if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
+    uid = session.get('user')['uid'];
     user = await getCustomerByUid(uid);
 
   }
@@ -85,14 +87,18 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
     if (user && user.id) {
       cart = await getCartById(cartSessionID);
 
-     
+
     }
   }
-  const response = await getMercadoPago();
+  let response: PreferenceResponse | null = null;
+  if (cart) {
+
+    response = await getMercadoPago(cart);
+  }
   const payment = getPaymentMethods();
 
-  
-  return typedjson({ cart, payment , page: response });
+
+  return typedjson({ cart, payment, page: response, uid });
 }
 
 

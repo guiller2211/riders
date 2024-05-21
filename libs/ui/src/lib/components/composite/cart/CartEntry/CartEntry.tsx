@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { TextProps } from 'reshaped';
-import { CartEntry as CartEntryData } from '@ducati/types';
+import { CartEntry as CartEntryData, TypeVariamEnum } from '@ducati/types';
 
 import type { CartEntryProps, CartActionsProps } from './CartEntry.types';
 import {
@@ -216,7 +216,6 @@ const ViewMiniCart = (props: CartActionsProps) => {
   const { entry } = props;
   const quantity = entry.quantity ?? 0;
   const [isLoading, setIsLoading] = useState(false);
-
   const deleteCartEntry = async (entryId: string) => {
     setIsLoading(true);
     if (props.handleAction) {
@@ -274,7 +273,7 @@ const ProductImage = (props: { entry: CartEntryData }) => {
   }
 
   return (
-    <Link href={"/product/" + entry.product?.id}>
+    <Link href={"/product/" + entry.id}>
       <Image src={image.url} height="auto" width="auto" />
     </Link>
   );
@@ -300,13 +299,26 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
       <Text variant="body-3">
         canidad {entry.quantity}
       </Text>
+      {entry.product?.variants
+        ?.filter(_c => _c.type === TypeVariamEnum.Color)
+        .map((_c, index) => (
+          <Text key={index} variant="body-3">
+            Color {_c.name}
+          </Text>
+        ))}
+      {entry.product?.variants?.filter(_s => _s.type === TypeVariamEnum.Size)
+        .map((_s, index) => (
+          <Text key={index} variant="body-3">
+            Talla {_s.name}
+          </Text>
+        ))}
     </View>
   );
 };
 
 const ProductPrice = (props: { entry: CartEntryData }) => {
   const { entry } = props;
-  
+
   const priceText: TextProps = {
     color: 'neutral',
     weight: 'bold',

@@ -3,7 +3,7 @@
 }
 @media (max-width: 768px) {
   .mobile-screen {
-    display: block;
+    display: flex;
   }
 
   .non-mobile-screen {

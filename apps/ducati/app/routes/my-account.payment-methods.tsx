@@ -41,7 +41,6 @@ export async function action(args: ActionArgs) {
 }
 
 async function add({ request }: ActionArgs) {
-  console.log('addPaymentMethod');
   const formData = await request.formData();
   const success = true;
   return typedjson({
@@ -53,7 +52,6 @@ async function add({ request }: ActionArgs) {
 }
 
 async function update({ request }: ActionArgs) {
-  console.log('updatePaymentMethod');
   const formData = await request.formData();
   const success = true;
   return typedjson({
@@ -67,7 +65,6 @@ async function update({ request }: ActionArgs) {
 async function setAsDefault({ request }: ActionArgs) {
   const formData = await request.formData();
   const code = formData.get('code');
-  console.log('setAsDefault: ' + code);
   const success = true;
   return typedjson({
     result: {
@@ -80,7 +77,6 @@ async function setAsDefault({ request }: ActionArgs) {
 async function remove({ request }: ActionArgs) {
   const formData = await request.formData();
   const code = formData.get('code');
-  console.log('removePaymentMethod: ' + code);
   const success = true;
   return typedjson({
     result: {

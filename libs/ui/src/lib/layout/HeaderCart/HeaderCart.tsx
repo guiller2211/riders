@@ -7,7 +7,6 @@ import type { HeaderCartProps } from './HeaderCart.types';
 export const HeaderCart = (props: HeaderCartProps) => {
   const { isCheckout, cart, handleAction } = props;
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
-
   return (
     <View
       direction="row"
@@ -16,13 +15,14 @@ export const HeaderCart = (props: HeaderCartProps) => {
       width={18}
       align="center"
     >
-      {isCheckout ? (
-        <Button variant="solid" color="inherit" size="large" onClick={onOpenDrawerHandler}
-          icon={IconCart} />
-      ) : (
-        <Button variant="solid" color="inherit" size="large" onClick={onOpenDrawerHandler}
-          icon={IconCart} />
-      )}
+      {isCheckout
+        ? (
+          <Button variant="solid" color="inherit" size="large" href="/cart"
+            icon={IconCart} />
+        ) : (
+          <Button variant="solid" color="inherit" size="large" onClick={onOpenDrawerHandler}
+            icon={IconCart} />
+        )}
       <MiniCart
         open={open}
         onClose={onCloseDrawerHandler}

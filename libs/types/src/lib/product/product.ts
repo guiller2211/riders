@@ -27,7 +27,7 @@ export interface ProductData extends AbstractProduct {
 }
 
 export interface ProductVariant {
-  id: string
+  id?: string
   name?: string;
   type?: TypeVariamEnum;
 }
