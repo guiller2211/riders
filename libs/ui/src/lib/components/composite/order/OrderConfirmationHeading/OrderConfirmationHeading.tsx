@@ -3,7 +3,7 @@ import type { OrderConfirmationHeadingProps } from './OrderConfirmationHeading.t
 import { useResponsiveClientValue } from '../../../../hooks';
 
 const OrderConfirmationHeading = (props: OrderConfirmationHeadingProps) => {
-  const { user } = props;
+  const { user, numOrder } = props;
   return (
     <View
       gap={8}
@@ -14,6 +14,10 @@ const OrderConfirmationHeading = (props: OrderConfirmationHeadingProps) => {
       textAlign="center"
       justify="center"
     >
+      <Text variant="featured-1" weight="bold">
+        Nº Pedido: {numOrder}
+      </Text>
+
       <Text variant="featured-1" weight="bold">
         Gracias {user.firstName} {user.lastName}
       </Text>

@@ -9,8 +9,6 @@ export { default as AddCard } from './AddCard';
 export type { AddCardProps } from './AddCard';
 export { default as AlertNotification, AlertNotificationEnum } from './AlertNotification';
 export type { AlertNotificationProps } from './AlertNotification';
-export { default as Badges } from './Badges';
-export type { BadgesProps, BadgeProps } from './Badges';
 export { default as ImageGallery } from './ImageGallery';
 export type { ImageGalleryProps } from './ImageGallery';
 export { default as ImageThumbnail } from './ImageThumbnail';

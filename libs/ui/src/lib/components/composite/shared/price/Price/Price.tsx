@@ -1,12 +1,9 @@
 import type { PriceProps } from './Price.types';
 import { View, Text } from '../../../../atomic';
 import { FormatUtils } from '../../../../../utils';
-import { Badges } from '../../utils';
 
 const Price = (props: PriceProps) => {
   const {
-    badges,
-    badgesOnTop,
     discount,
     locale,
     promotionMessage,
@@ -44,11 +41,6 @@ const Price = (props: PriceProps) => {
 
   return (
     <View gap={2} direction="row">
-      {badges && badgesOnTop && (
-        <View.Item columns={12}>
-          <Badges badges={badges} />
-        </View.Item>
-      )}
       <View.Item columns={12}>
         <View gap={2} direction="row" align="center">
           {newFormmatedValue && (
@@ -79,11 +71,6 @@ const Price = (props: PriceProps) => {
           )}
         </View>
       </View.Item>
-      {badges && !badgesOnTop && (
-        <View.Item columns={12}>
-          <Badges badges={badges} />
-        </View.Item>
-      )}
     </View>
   );
 };

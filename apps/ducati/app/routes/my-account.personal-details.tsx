@@ -1,14 +1,15 @@
 import PersonalDetailsPage from '../ui/pages/my-account/personal-details.page';
-import { LoaderArgs } from '@remix-run/node';
+import { ActionArgs, LoaderArgs, json } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
-import { getCustomerByUid } from '../service/user.data.service';
+import { getCustomerByUid, updateCustomer } from '../service/user.data.service';
 import { Customer } from '@ducati/types';
 import { meta } from '../root';
+import { Auth, User } from 'firebase/auth';
 
 export async function loader({
   request,
@@ -20,13 +21,16 @@ export async function loader({
   let user: Customer | undefined;
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
-    user = await getCustomerByUid(uid);
+    const useContext: string = session.get('useContext');
 
+    user = await getCustomerByUid(uid);
   }
+
   return typedjson({
-    user
+    customer: user
   });
 }
+
 
 export default PersonalDetailsPage;
 export { meta };

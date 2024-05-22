@@ -12,19 +12,24 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
         const authResp: UserCredential = await signInWithEmailAndPassword(auth, email, password);
 
         if (authResp) {
+            const currentUser = auth.currentUser;
+            if (!currentUser) {
+                throw new Error('User not authenticated');
+            }
 
-            const __session = await auth.currentUser?.getIdToken();
-
+            const __session = await currentUser.getIdToken();
+            
             return {
-                __session: __session || '', // Manejar el caso en que __session sea undefined
+                __session: __session,
                 uid: authResp.user.uid,
+                useContext: currentUser,
                 success: true
             };
         }
     } catch (err: any) {
         console.error("signInWithEmailAndPassword Error:", err);
         return {
-            error: err.message // Retorna el mensaje de error en caso de fallo
+            error: err.message
         };
     }
     return null;

@@ -35,7 +35,7 @@ const MyAccountPage = () => {
             <Loading
               ariaLabel="layout:loader.ariaLabel"
               size="xlarge"
-              text={{ message: 'layout:loader.message' }}
+              text={{ message: 'Cargando' }}
               view={{
                 align: 'center',
                 justify: 'center',

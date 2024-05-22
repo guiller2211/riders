@@ -3,6 +3,7 @@ import {
   Divider,
   I18nContext,
   IconCart2,
+  OrdersHistory,
   Pagination,
   Text,
   View,
@@ -37,39 +38,50 @@ const Empty = () => {
 
 export default function OrdersPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-
+  const { orders } = loaderData;
   const [page, setPage] = useState(1);
 
-
+  const ordersPerPage = 10;
+  const startIndex = (page - 1) * ordersPerPage;
+  const endIndex = startIndex + ordersPerPage;
+  const pageOrders = orders?.slice(startIndex, endIndex);
+  const displayedOrders = pageOrders;
 
   const numPage = (num: number) => {
     setPage(num);
   };
+
   return (
-      <View direction="row" gap={9}>
+    <View direction="row" gap={9}>
+      <View.Item columns={12}>
+        <Text variant="featured-1">
+          Ordenes
+        </Text>
+      </View.Item>
+      {orders && orders.length > 0 ? (
         <View.Item columns={12}>
-          <Text variant="featured-1">
-            Ordenes
-          </Text>
+          <View direction="row" gap={9}>
+            <View.Item columns={12}>
+              <OrdersHistory orders={displayedOrders} />
+            </View.Item>
+            <View.Item columns={12}>
+              <View paddingTop={4}>
+                <Pagination
+                  hideSearch
+                  numPage={numPage}
+                  itemsPerPage={ordersPerPage}
+                  totalItems={orders.length ? orders.length : 0}
+                />
+              </View>
+            </View.Item>
+          </View>
         </View.Item>
-          <View.Item columns={12}>
-            <View direction="row" gap={9}>
-              <View.Item columns={12}>
-                {/* <OrdersHistory orders={displayedOrders} /> */}
-              </View.Item>
-              <View.Item columns={12}>
-                <View>
-                  <Divider />
-                </View>
-                <View paddingTop={4}>
-                  {/* <Pagination /> */}
-                </View>
-              </View.Item>
-            </View>
-          </View.Item>
-    {/*       <View.Item columns={12}>
-            <Empty />
-          </View.Item> */}
-      </View>
+      )
+        :
+        <View.Item columns={12}>
+          <Empty />
+        </View.Item>
+      }
+    </View>
   );
 }

@@ -5,7 +5,7 @@ import { MenuHeaderProps } from "./MenuHeader.types";
 import { AppRoutes } from "@ducati/types";
 
 export const MenuHeader = (props: MenuHeaderProps) => {
-    const { navigation, user } = props;
+    const { navigation, user, userMenu } = props;
 
 
     return (
@@ -18,32 +18,20 @@ export const MenuHeader = (props: MenuHeaderProps) => {
                         </Accordion.Trigger>
                         <Accordion.Content>
                             <View direction="column" align="start">
-                                <Button
-                                    variant="ghost"
-                                    color="inherit"
-                                    href="/">
-                                    <Text color="warning" variant="body-3" weight="medium">
-                                        Mi Perfil
-                                    </Text>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    color="inherit"
-                                    href="/">
-                                    <Text color="warning" variant="body-3" weight="medium">
-                                        Mis Compras
-                                    </Text>
-                                </Button>
-                                <Button variant="ghost" href={AppRoutes.Logout}>
-                                    <Text color="warning" variant="body-3" weight="medium">
-                                        Cerrar Sesion
-                                    </Text>
-                                </Button>
+                                {userMenu?.map((node, i) => {
+                                    return (
+                                        <Button
+                                            variant="ghost"
+                                            color="inherit" href={node.button?.props?.href} key={i}>
+                                            <Text variant="body-3" weight="medium">
+                                                {node.button?.message}
+                                            </Text>
+                                        </Button>
+                                    );
+                                })}
                             </View>
                         </Accordion.Content>
                     </Accordion>
-
-
                 </View>
                 )
 

@@ -4,7 +4,6 @@ import { useResponsiveClientValue } from '../../../../hooks';
 import {
   AddressBookTile,
   OrdersTile,
-  PaymentMethodsTile,
   PersonalDetailsTile,
 } from '../..';
 
@@ -17,9 +16,9 @@ const AccountOverview = () => {
       <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
         <AddressBookTile />
       </View.Item>
-      <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
+     {/*  <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
         <PaymentMethodsTile />
-      </View.Item>
+      </View.Item> */}
       <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
         <OrdersTile />
       </View.Item>

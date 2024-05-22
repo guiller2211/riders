@@ -1,20 +1,18 @@
 
-import type { DeliveryStatus } from '@ducati/types';
+import type { CreditCardPaymentInfo, OrderStatus, ShippingMethod } from '@ducati/types';
 
-import type { PaymentProps, ShippingMethod } from '../../../checkout';
+
 import { OrderEntryData } from '../../../../../types/OrderData.types';
-import { OrderStatus } from '../../../../../types/AbstractOrderData.types';
+import { ShippingInfo } from '../../../../../types';
 
 export type OrderPlacedProps = {
   code?: string;
-  placeDate: PlaceDateProps;
+  createdDate: Date;
   entries?: OrderEntryData[];
-  billed: BilledProps;
-  shipping: ShippingProps;
+  shippingInfo: ShippingInfo;
   shippingMethod: ShippingMethod;
-  payment: PaymentProps;
-  shippingOn: string;
-  deliveryStatus?: DeliveryStatus;
+  payment: CreditCardPaymentInfo;
+  OrderStatus?: OrderStatus;
   orderStatus?: OrderStatus;
 };
 

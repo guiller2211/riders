@@ -2,6 +2,6 @@ export type OrderConfirmationContactProps = {
   firstName: string;
   lastName: string;
   email: string;
-  phone?: number;
+  phone?: string;
   addresses?: string;
 };

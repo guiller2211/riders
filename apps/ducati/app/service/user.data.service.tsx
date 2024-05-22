@@ -2,6 +2,7 @@ import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/fir
 import { db } from "../server/firebase.service";
 import { AddressData, Customer } from "@ducati/types";
 import { getAddress } from "@ducati/ui";
+import { EmailAuthProvider, User, reauthenticateWithCredential, updateEmail, updatePassword } from "firebase/auth";
 
 export async function getUserById(uid: string) {
   try {
@@ -117,8 +118,6 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
   }
 }
 
-
-
 export async function deleteShippingAddress(uid: string, customerUID: string) {
   try {
     const customerRef = doc(db, "customer", customerUID);
@@ -159,3 +158,37 @@ export async function deleteShippingAddress(uid: string, customerUID: string) {
   }
 }
 
+export async function updateCustomer(customerData: Customer, user: User) {
+  try {
+    const customer = {
+      anonymous: false,
+      email: customerData.email,
+      lastName: customerData.lastName,
+      lastModifiedAt: new Date(),
+      firstName: customerData.firstName,
+      phoneNumber: customerData.phoneNumber,
+    };
+
+    if (customerData.newPassword) {
+      await updatePassword(user, customerData.newPassword);
+    }
+
+    const customerRef = doc(db, 'customer', customerData.id!);
+    await updateDoc(customerRef, customer);
+
+    const updatedCustomer = await getCustomerByUid(customerData.id!);
+
+    return {
+      success: true,
+      data: updatedCustomer,
+      message: 'Actualización Exitosa',
+    };
+  } catch (error) {
+    console.error("Error updating customer data: ", error);
+    return {
+      success: false,
+      data: null,
+      message: (error as Error).message,
+    };
+  }
+}

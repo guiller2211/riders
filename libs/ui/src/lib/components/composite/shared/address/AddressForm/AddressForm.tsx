@@ -1,9 +1,10 @@
 import cn from 'classnames';
-import { Checkbox, Select, TextField, View } from '../../../../atomic';
+import { Checkbox, Select, TextField, View} from '../../../../atomic';
 import {
   DrawerActionsButtons,
   DrawerContent,
   DrawerFooter,
+  Loading,
 } from '../../utils';
 import { Fields } from './AddressForm.enums';
 import { IconSquareFill } from '../../../../../icons';
@@ -25,12 +26,15 @@ export const AddressForm = (props: AddressFormProps) => {
   const [phoneNumber, setPhoneNumber] = useState(initialValues?.phone ?? '');
   const [defaultShippingAddress, setDefaultShippingAddress] = useState(initialValues?.defaultShippingAddress ?? false);
   const [getCommunes, setGetCommunes] = useState<any>();
+  const [isloading, setIsloading] = useState(false);
 
-  const validateForm = (e: FormEvent<HTMLFormElement>) => {
+  const validateForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const defaultAddress = formData.get('defaultAddress') as string;
-    sendForm && sendForm(e);
+    setIsloading(true);
+    sendForm && await sendForm(e);
+    setIsloading(false)
   };
 
   const filterCommunesByRegion = (region: string) => {
@@ -138,10 +142,15 @@ export const AddressForm = (props: AddressFormProps) => {
         </DrawerContent>
 
         <DrawerFooter>
-          <DrawerActionsButtons
-            primaryLabel='Guardar'
-            type='submit'
-          />
+          {
+            isloading ?
+              <Loading />
+              :
+              <DrawerActionsButtons
+                primaryLabel='Guardar'
+                type='submit'
+              />
+          }
         </DrawerFooter>
       </View>
     </form>

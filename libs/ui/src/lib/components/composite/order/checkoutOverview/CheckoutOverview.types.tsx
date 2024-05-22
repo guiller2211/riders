@@ -9,6 +9,7 @@ export type CheckoutOverviewProps = {
 };
 
 export type CheckoutOverviewProp = {
+  numOrder?: string;
   contact: OrderConfirmationContactProps;
   shipping: OrderConfirmationBillToShipToProps;
   method: OrderConfirmationShippingMethodProps;

@@ -9,6 +9,7 @@ import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
 import { Customer } from '@ducati/types';
 import { meta } from '../root';
+import { getOrders } from '../service/order.data.service';
 
 export async function loader({
   request,
@@ -18,13 +19,15 @@ export async function loader({
 
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;
+  let orders;
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
     user = await getCustomerByUid(uid);
-
+    orders = await getOrders(uid)
   }
   return typedjson({
-    user
+    user,
+    orders
   });
 }
 

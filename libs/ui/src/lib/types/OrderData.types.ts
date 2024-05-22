@@ -1,3 +1,4 @@
+import { OrderStatus } from '@ducati/types';
 import type {
   AbstractOrderData,
   AbstractOrderEntryData,
@@ -8,7 +9,7 @@ export interface OrderData extends AbstractOrderData {
   guestCustomer?: boolean;
   appliedPromotions?: string[];
   entries?: OrderEntryData[];
-  status?: string;
+  status?: OrderStatus;
 }
 
 export type OrderEntryData = AbstractOrderEntryData;

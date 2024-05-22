@@ -1,8 +1,14 @@
-import { CurrencyData } from "@ducati/types";
+import { CommunesData, CurrencyData, RegionData } from "@ducati/types";
 
 export interface ShippingInfo {
-  shippingMethodId?: string;
-  shippingMethodTypeId?: string;
-  shippingMethodName?: string;
-  shippingMethodPrice?: CurrencyData;
+  id?: string;
+  firstName?: string;
+  lastName?: string
+  region?: RegionData;
+  email?: string;
+  postalCode?: string;
+  communes?: CommunesData;
+  phone?: string;
+  streetName?: string;
+  defaultShippingAddress?: boolean;
 }

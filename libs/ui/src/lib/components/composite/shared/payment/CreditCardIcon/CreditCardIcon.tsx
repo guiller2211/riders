@@ -34,10 +34,13 @@ export const CreditCardSVG = (type: CreditCardEnum | string) => {
     case CreditCardEnum.Discover:
       return IconDiscoverLight;
     case CreditCardEnum.Mastercard:
+    case CreditCardEnum.Mastercard:
+    case CreditCardEnum.DebMaster:
       return IconMastercardLight;
     case CreditCardEnum.Paypal:
       return IconPaypalLight;
     case CreditCardEnum.Visa:
+    case CreditCardEnum.DebVisa:
       return IconVisaLight;
     default:
       return IconCreditCard;

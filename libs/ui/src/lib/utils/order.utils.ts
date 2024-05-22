@@ -1,4 +1,4 @@
-import { CartData } from '../types/CartData.types';
+/* import { CartData } from '../types/CartData.types';
 import type { OrderData } from '../types/OrderData.types';
 import { AddressData } from '../types';
 import { CheckoutOverviewProp } from '../components/composite/order';
@@ -39,3 +39,4 @@ export const getCheckoutOverview = <T extends CartData | OrderData>(
     },
   };
 };
+ */

@@ -19,7 +19,7 @@ export const Addresses = (props: AddressesProps) => {
           drawerTitle='Agregar Direccion'
           cardLabel={addCardMessage}
         >
-          <AddressForm />
+          <AddressForm sendForm={sendForm}/>
         </GenericActionCard>
       </View.Item>
       {addresses?.map((address) => {

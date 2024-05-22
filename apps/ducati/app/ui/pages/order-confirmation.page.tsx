@@ -12,7 +12,8 @@ import {
 
 export default function CheckoutConfirmationPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-  const { cart, overview, order } = loaderData;
+  const { overview, order } = loaderData;
+  
   return (
     <View paddingInline={10}>
       <View
@@ -27,7 +28,7 @@ export default function CheckoutConfirmationPage() {
         borderRadius='large'
       >
         <View maxWidth={200} textAlign="center">
-          <OrderConfirmationHeading user={overview.contact} />
+          <OrderConfirmationHeading user={overview.contact} numOrder={overview.numOrder} />
         </View>
         <CheckoutOverview overview={overview} isOrderConfirmationPage />
       </View>

@@ -3,6 +3,7 @@ import {
   Icon,
   IconPencil,
   Link,
+  Loading,
   PaymentProps,
   Text,
   View,
@@ -12,16 +13,16 @@ import { useTypedLoaderData } from 'remix-typedjson';
 import { AppRoutes } from '@ducati/types';
 
 import { loader } from '../../routes/checkout.payment';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { initMercadoPago } from '@mercadopago/sdk-react';
 import { setPayment } from '../../service/cart.data.service';
 import { useNavigate } from '@remix-run/react';
-
 
 export default function CheckoutPaymentPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { uid, page, cart, payment } = loaderData;
   const [preferenceId, setPreferenceId] = useState<string | null | undefined>(page?.id);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,13 +31,16 @@ export default function CheckoutPaymentPage() {
   }, [page?.id]);
 
   const sendPayment = async (form: PaymentProps) => {
+    setIsLoading(true);
     try {
-      await setPayment(form, uid)
+      const result = await setPayment(form, uid);
+      result.success && navigate(AppRoutes.OrdenConfirmation);
+
     } catch (error) {
       console.error('Error:', error);
       throw error;
     } finally {
-
+      setIsLoading(false);
     }
   };
 
@@ -72,16 +76,21 @@ export default function CheckoutPaymentPage() {
           </View>
         </Link>
       </View>
-      <View paddingBottom={2}>
-        <CheckoutPayment
-          isDefaultCheck
-          isShippingAddress
-          payments={payment}
-          preferenceId={preferenceId!}
-          cart={cart}
-          sendForm={sendPayment}
-        />
-      </View>
+      {
+        isLoading ?
+          <Loading />
+          :
+          <View paddingBottom={2}>
+            <CheckoutPayment
+              isDefaultCheck
+              isShippingAddress
+              payments={payment}
+              preferenceId={preferenceId!}
+              cart={cart}
+              sendForm={sendPayment}
+            />
+          </View>
+      }
     </View.Item>
   );
 }

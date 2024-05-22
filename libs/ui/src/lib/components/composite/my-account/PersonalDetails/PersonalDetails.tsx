@@ -1,25 +1,32 @@
 import { EditPersonalDetailsForm } from '../EditPersonalDetailsForm';
-import { formatDate } from '../../../../utils';
+import { FormatDate } from '../../../../utils';
 import { Text, View, Actionable } from '../../../atomic';
 import { useOpenState } from '../../../../hooks';
 import type { PersonalDetailsProps } from './PersonalDetails.types';
 import type { PersonalDetailsFormState } from '../EditPersonalDetailsForm';
 import { Drawer, DrawerHeader } from '../../shared';
+import { Timestamp } from 'firebase/firestore';
 
 const PersonalDetails = (props: PersonalDetailsProps) => {
-  const { user } = props;
-  
+  const { user, onSubmitHandler } = props;
+
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
 
-  const date = formatDate(user.lastModifiedAt ?? '');
-
-  const onSubmitHandler = () => {
-    // TODO: api call
-  };
-
+  const formattedDate = FormatDate.format(user.lastModifiedAt);
+  
   return (
     <>
-      <View direction="column" gap={8}  divided>
+      <View direction="column" gap={8} divided>
+
+        <View direction="row">
+          <View direction="column">
+            <Text variant="body-2" weight="bold">
+              Email
+            </Text>
+            <Text variant="body-3">{user.email}</Text>
+          </View>
+        </View>
+
         <View direction="row">
           <View direction="column">
             <Text variant="body-2" weight="bold">
@@ -44,9 +51,9 @@ const PersonalDetails = (props: PersonalDetailsProps) => {
         <View direction="row">
           <View direction="column">
             <Text variant="body-2" weight="bold">
-              Email
+              Numero
             </Text>
-            <Text variant="body-3">{user.email}</Text>
+            <Text variant="body-3">{user.phoneNumber}</Text>
           </View>
           <View.Item gapBefore="auto">
             <View align="end">
@@ -55,7 +62,7 @@ const PersonalDetails = (props: PersonalDetailsProps) => {
                   attributes={{ style: { textDecoration: 'underline' } }}
                   onClick={onOpenDrawerHandler}
                 >
-                  Cambiar Email
+                  Editar Numero
                 </Actionable>
               </Text>
             </View>
@@ -65,11 +72,11 @@ const PersonalDetails = (props: PersonalDetailsProps) => {
         <View direction="row">
           <View direction="column">
             <Text variant="body-2" weight="bold">
-            Contraseña de cuenta
+              Contraseña de cuenta
             </Text>
 
             <Text variant="body-3">
-              Ultima Actualizacion {date}
+              Ultima Actualizacion {formattedDate}
             </Text>
           </View>
           <View.Item gapBefore="auto">

@@ -214,5 +214,5 @@ export function addProduct(formData: FormData): Promise<{ success: boolean, mess
 
 
 export function generateRandomId() {
-    return Math.random().toString(36).substring(2); // Este es un ejemplo básico de generación de IDs aleatorios
+    return Math.random().toString(36).substring(2); 
 }

@@ -30,30 +30,6 @@ export const Header = (props: HeaderProps) => {
         <View.Item columns={12}>
           <View align="center" justify="center" gap={10} direction="row">
             <HeaderLogo image={logo?.image} link={logo?.link} />
-
-            <View className={styles['mobile-screen']} align='center'>
-              <Button
-                color="primary"
-                variant="ghost"
-                size="xlarge"
-                endIcon={IconList}
-                onClick={onOpenDrawerHandler}
-              />
-              <Drawer padding={0} active={open} onClose={onCloseDrawerHandler}>
-                <DrawerHeader
-                  backgroundColor="warning"
-                  title='Menu'
-                  onClose={onCloseDrawerHandler}
-                  closeButtonOnTop={false}
-                  closeButtonProps={{
-                    color: 'black',
-                    rounded: true,
-                    variant: 'outline',
-                  }}
-                />
-                <MenuHeader navigation={navigation} user={user} />
-              </Drawer>
-            </View >
           </View>
         </View.Item>
 
@@ -74,7 +50,7 @@ export const Header = (props: HeaderProps) => {
           endIcon={IconList}
           onClick={onOpenDrawerHandler}
         />
-        <Drawer padding={0} active={open} onClose={onCloseDrawerHandler}>
+        <Drawer padding={0} active={open} onClose={onCloseDrawerHandler} position='start' size='100%'>
           <DrawerHeader
             backgroundColor="warning"
             title='Menu'
@@ -86,7 +62,7 @@ export const Header = (props: HeaderProps) => {
               variant: 'outline',
             }}
           />
-          <MenuHeader navigation={navigation} user={user} />
+          <MenuHeader navigation={navigation} userMenu={userMenu} user={user} />
         </Drawer>
 
         <HeaderLogo image={logo?.image} link={logo?.link} />

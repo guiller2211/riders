@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "**/*.jsx"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "**/*.jsx", "../../libs/ui/src/lib/context/AuthContext.tsx"],
   "compilerOptions": {
     "strict": true,
     "allowJs": true,

@@ -24,7 +24,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               borderRadius="small"
               borderColor="neutral"
             >
-              <Text variant="body-3">
+              <Text variant="body-3" weight="bold">
                 Contacto:
               </Text>
               <OrderConfirmationContact
@@ -33,24 +33,6 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                 email={overview?.contact.email}
                 phone={overview?.contact.phone}
                 addresses={overview?.contact.addresses}
-              />
-            </View>
-          </View.Item>
-          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
-            <View
-              paddingBlock={6}
-              paddingInline={8}
-              gap={3}
-              borderRadius="small"
-              borderColor="neutral"
-            >
-              <Text variant="body-3">
-                Pagado con:
-              </Text>
-              <OrderConfirmationPaid
-                name={overview?.paid.name}
-                ending={overview?.paid.ending}
-                type={overview?.paid.type}
               />
             </View>
           </View.Item>
@@ -63,7 +45,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               borderRadius="small"
               borderColor="neutral"
             >
-              <Text variant="body-3">
+              <Text variant="body-3" weight="bold">
                 Envio a:
               </Text>
               <View direction="row">
@@ -71,11 +53,14 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
                   <OrderConfirmationBillToShipTo
                     address={overview?.shipping.address}
                     address2={overview?.shipping.address2}
+                    region={overview?.shipping.region}
+                    commune={overview?.shipping.commune}
                   />
                 </View.Item>
               </View>
             </View>
           </View.Item>
+
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
             <View
               paddingBlock={6}
@@ -84,7 +69,28 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               borderRadius="small"
               borderColor="neutral"
             >
-              <Text variant="body-3">
+              <Text variant="body-3" weight="bold">
+                Pagado con:
+              </Text>
+              <OrderConfirmationPaid
+                name={overview?.paid.name}
+                ending={overview?.paid.ending}
+                type={overview?.paid.type}
+              />
+            </View>
+          </View.Item>
+
+
+
+          <View.Item columns={useResponsiveClientValue({ s: 12, l: 6 })}>
+            <View
+              paddingBlock={6}
+              paddingInline={8}
+              gap={3}
+              borderRadius="small"
+              borderColor="neutral"
+            >
+              <Text variant="body-3" weight="bold">
                 Metodo de Envio
               </Text>
               <View direction="row">

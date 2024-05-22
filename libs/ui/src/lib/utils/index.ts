@@ -1,4 +1,4 @@
-export type { BackgroundColors } from './colors-utils';
+export type * from './colors-utils';
 export { ColorUtils } from './colors-utils';
 export { FormatUtils } from './format-utils';
 export { ValidationUtils } from './validation-utils';
@@ -11,6 +11,6 @@ export * from './formatDate';
 export * from './getProduct-utils';
 export * from './findById-utils';
 export * from './address-utils';
-export * from './order.utils';
+/* export * from './order.utils'; */
 export * from './showPaymentInformation-utils';
 export * from './showShippingInformation-utils';

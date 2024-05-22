@@ -8,10 +8,12 @@ import { useResponsiveClientValue } from '../../../../../hooks'
 import { AppRoutes } from '@ducati/types';
 import { Payment } from '@mercadopago/sdk-react';
 import { CreditCardEnum } from '../../../shared';
+import { useNavigate } from '@remix-run/react';
 
 export const CheckoutPayment = (props: CheckoutPaymentProps) => {
   const { payments, cart, preferenceId, sendForm } = props;
   const [activeValue, setActiveValue] = useState(false);
+  const navigate = useNavigate();
 
   const [isPayment, setIsPayment] = useState(payments?.length > 0);
   const isPaymentClick = (value: boolean) => {
@@ -24,7 +26,7 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
       firstEights: res.bin,
       ending: res.lastFourDigits,
     }
-    
+
     sendForm && sendForm(savePay)
 
   }

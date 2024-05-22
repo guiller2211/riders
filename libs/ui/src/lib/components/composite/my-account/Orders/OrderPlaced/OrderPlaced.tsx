@@ -1,18 +1,25 @@
+import { FormatDate } from '../../../../../utils';
 import { useResponsiveClientValue } from '../../../../../hooks';
 import { Card, Text, View } from '../../../../atomic';
 import { CreditCardIcon } from '../../../shared';
 import type { OrderPlacedProps } from './OrderPlaced.types';
+import { useState } from 'react';
+import { communes, regions } from '@ducati/types';
 
 const OrderPlaced = (props: OrderPlacedProps) => {
-  const { billed, payment, placeDate, shipping, shippingMethod, shippingOn } =
+  const { payment, createdDate, shippingInfo, shippingMethod } =
     props;
 
+  const [region, setRegion] = useState(regions.find(_r => _r.uid === shippingInfo.region?.name)?.name);
+  const [commune, setCommunes] = useState(communes.find(_c => _c.uid === shippingInfo.communes?.name)?.name);
 
+
+  const formatDate = FormatDate.format(createdDate)
   return (
     <View direction="column" gap={6}>
       <View.Item columns={12}>
         <Text variant="featured-3">
-          Colocado en {placeDate.day}/{placeDate.month}/{placeDate.year}
+          Creado {formatDate}
         </Text>
       </View.Item>
       <View.Item columns={12}>
@@ -42,7 +49,7 @@ const OrderPlaced = (props: OrderPlacedProps) => {
                     </View.Item>
                     <View.Item>
                       <Text variant="body-3">
-                        Exp. {payment.month} {payment.year}
+                        A nombre de {payment.name}
                       </Text>
                     </View.Item>
                   </View>
@@ -63,19 +70,19 @@ const OrderPlaced = (props: OrderPlacedProps) => {
                   <View direction="column" gap={1}>
                     <View.Item>
                       <Text variant="body-2" weight="bold">
-                        {shipping.firstName} {shipping.lastName}
+                        {shippingInfo.firstName} {shippingInfo.lastName}
                       </Text>
                     </View.Item>
                     <View.Item>
-                      <Text variant="body-3">{shipping.line1}</Text>
+                      <Text variant="body-3">{shippingInfo.streetName}</Text>
                     </View.Item>
                     <View.Item>
                       <Text variant="body-3">
-                        {shipping.city},{shipping.state} {shipping.zipCode}
+                        {region},{commune} {shippingInfo.postalCode}
                       </Text>
                     </View.Item>
                     <View.Item>
-                      <Text variant="body-3">{shipping.phone}</Text>
+                      <Text variant="body-3">{shippingInfo.phone}</Text>
                     </View.Item>
                   </View>
                 </View.Item>
@@ -99,16 +106,10 @@ const OrderPlaced = (props: OrderPlacedProps) => {
                           {shippingMethod.price.value.centsAmount > 0
                             ? shippingMethod.price.value.centsAmount
                             : 'Envio Gratis'}{' '}
-                          -{shippingMethod.duration}{' '}
-                          Días hábiles
+                          {shippingMethod.duration}{' '}
                         </Text>
                       </View.Item>
                     )}
-                    <View.Item>
-                      <Text variant="body-3">
-                        Envío en {shippingOn}
-                      </Text>
-                    </View.Item>
                   </View>
                 </View.Item>
               </View>

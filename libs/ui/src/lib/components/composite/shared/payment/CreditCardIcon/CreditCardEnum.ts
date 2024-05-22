@@ -3,6 +3,9 @@ export const enum CreditCardEnum {
   Diners = 'Diners',
   Discover = 'Discover',
   Mastercard = 'Mastercard',
-  Visa = 'Visa',
+  Master = 'master',
+  Visa = 'visa',
   Paypal = 'Paypal',
+  DebMaster = 'debmaster',
+  DebVisa = 'debvisa',
 }

@@ -1,25 +1,14 @@
-import {
-  Addresses,
-  AlertNotification,
-  AlertNotificationEnum,
-  I18nContext,
-  Text,
-  View,
-} from '@ducati/ui';
-import { FormEvent, useState } from 'react';
-import { useTypedActionData, useTypedLoaderData } from 'remix-typedjson';
+import { Addresses, Loading, Text, View } from '@ducati/ui';
+import { FormEvent, useEffect, useState } from 'react';
+import { useTypedLoaderData } from 'remix-typedjson';
 import { deleteShippingAddress, setAddressCustomer } from '../../../service/user.data.service';
-import type { action, loader } from '../../../routes/my-account.address-book';
+import type { loader } from '../../../routes/my-account.address-book';
 
 export default function AddressBookPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-  const { uid } = loaderData;
-  const { result } = useTypedActionData<typeof action>() ?? {};
-  const [showAlert, setShowAlert] = useState(true);
-  const [linkPayment, setLinkPayment] = useState('');
-  const [reviewOrder, setLinkReviewOrder] = useState('');
+  const { uid, addresses } = loaderData;
+  const [address, setAddress] = useState(addresses)
   const [isLoading, setIsloading] = useState(false)
-  const [isLoadingAddress, setIsloadingAddress] = useState(false)
 
   const handleOperation = async (
     operation: (value: any, uid: string) => Promise<any>,
@@ -28,7 +17,10 @@ export default function AddressBookPage() {
   ) => {
     setLoading(true);
     try {
-      await operation(value, uid);
+      const result = await operation(value, uid);
+      if (result && result.addressesData) {
+        setAddress(result.addressesData)
+      }
     } catch (error) {
       console.error('Error:', error);
       throw error;
@@ -43,36 +35,32 @@ export default function AddressBookPage() {
     await handleOperation(setAddressCustomer, formData, setIsloading);
   };
   const deleteAddress = async (value: string) => {
-    await handleOperation(deleteShippingAddress, value, setIsloadingAddress);
+    await handleOperation(deleteShippingAddress, value, setIsloading);
   };
 
+  useEffect(() => {
+    setAddress(loaderData.addresses);
+  }, [loaderData.addresses]);
 
   return (
-    <View direction="row" gap={12}  backgroundColor='white'
-    padding={10}
-    borderRadius='large'>
+    <View direction="row" gap={12} backgroundColor='white'
+      padding={10}
+      borderRadius='large'>
       <View.Item columns={12}>
         <Text variant="featured-1">Direcciones</Text>
       </View.Item>
-      {result && showAlert && (
-        <View.Item columns={12}>
-          <AlertNotification
-            type={
-              result.success
-                ? AlertNotificationEnum.Success
-                : AlertNotificationEnum.Error
-            }
-            message={result.message}
-            close={() => setShowAlert(false)}
-          />
-        </View.Item>
-      )}
       <View.Item columns={12}>
-        <Addresses
-          addresses={loaderData.addresses}
-          sendForm={submitForm}
-          deleteAddress={deleteAddress}
-        />
+        {
+          isLoading ?
+            <Loading />
+            :
+            <Addresses
+              addresses={address}
+              sendForm={submitForm}
+              deleteAddress={deleteAddress}
+
+            />
+        }
       </View.Item>
     </View>
   );

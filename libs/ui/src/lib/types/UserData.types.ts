@@ -7,6 +7,7 @@ export type UserData = {
   titleCode?: string;
   code?: string;
   email?: string;
+  phoneNumber?: string;
   userType?: string;
   division?: string;
   status?: UserStatus;

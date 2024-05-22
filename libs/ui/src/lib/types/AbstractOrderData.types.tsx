@@ -10,13 +10,14 @@ import { PaymentProps } from '../components';
 export interface AbstractOrderData  extends Resource {
   code?: string;
   poNumber?: string;
+  numOrder?: string;
   deliveryCost?: PriceData;
   user?: UserData;
   shippingAddress?: AddressData;
   billingAddress?: AddressData;
   shippingInfo?: ShippingInfo;
   deliveryMode?: string; // DeliveryMode type
-  deliveryStatus?: string; // DeliveryStatus type
+  OrderStatus?: string; // OrderStatus type
   totalDiscounts?: PriceData;
   totalItems?: number;
   subTotal?: PriceData;

@@ -5,4 +5,6 @@ export interface Customer extends User {
   cart?: CartData;
   cartId?: string;
   lastModifiedAt?: string;
+  currentPassword?: string;
+  newPassword?: string;
 }

@@ -1,12 +1,9 @@
-// Import the functions you need from the SDKs you need
-import { getApp, initializeApp } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-
 const firebaseConfig = {
-
   apiKey: "AIzaSyDnZy59C0vgf8iu54wg4NRAKVkozB9BD0Y",
   authDomain: "ducat-3ea24.firebaseapp.com",
   projectId: "ducat-3ea24",
@@ -17,9 +14,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-const firebaseApp = getApp();
-export const storage = getStorage(app, "gs://ducat-3ea24.appspot.com");
-
+const appFirebase = initializeApp(firebaseConfig);
+export const auth = getAuth(appFirebase);
+export const db = getFirestore(appFirebase);
+export const storage = getStorage(appFirebase, "gs://ducat-3ea24.appspot.com");
+export default appFirebase;

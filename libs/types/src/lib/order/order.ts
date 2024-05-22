@@ -5,13 +5,14 @@ import type { User } from '../user';
 import type { AddressData } from '../user/address';
 import type {  DeliveryCostData, PriceData } from '../price';
 import { Money, ProductData } from '@ducati/types';
-import { CreditCardEnum } from '@ducati/ui';
+import { CreditCardEnum, PaymentProps } from '@ducati/ui';
 
-export enum DeliveryStatus {
-  InProcess = 'In process',
-  Approved = 'Approved',
-  Shipped = 'Shipped',
-  Delivered = 'Delivered',
+export enum OrderStatus {
+  InProcess = 'Procesando',
+  Approved = 'Aprobado',
+  Shipped = 'Enviado',
+  Delivered = 'Entregado',
+  Declined = 'Declinado',
 }
 
 export interface Order extends AbstractOrder {
@@ -27,10 +28,10 @@ export interface AbstractOrder extends Resource {
   billingAddress?: AddressData; // Address type
   shippingMode?: string;
   shippingMethod?: OrderShippingInfo;
-  deliveryStatus?: DeliveryStatus;
-  orderStatus?: string;
+  OrderStatus?: OrderStatus;
   state?: OrderState;
   paymentInfo?: CreditCardPaymentInfo;
+  paymentMethod?: PaymentProps
   createdAt?: string;
   deliveryMode?: string; // DeliveryMode type
   totalDiscounts?: PriceData;
@@ -54,11 +55,15 @@ export interface OrderState {
 }
 
 export interface CreditCardPaymentInfo {
-  billingName: string;
-  ccNoEnding: string;
-  expMonth: string;
-  expYear: string;
   type: CreditCardEnum;
+  name?: string;
+  ending: string;
+  month?: string;
+  year?: string;
+  address?: string;
+  expired?: boolean;
+  preferred?: boolean;
+  firstEights?: string;
 }
 
 

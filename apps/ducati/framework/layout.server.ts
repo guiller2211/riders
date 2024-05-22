@@ -76,9 +76,6 @@ function getUserMenu() {
       button: { message: 'Mis Direcciones', props: { href: AppRoutes.AddressBook } },
     },
     {
-      button: { message: 'Metodos de Pago', props: { href: AppRoutes.PaymentMethods } },
-    },
-    {
       button: { message: 'Mis Ordenes', props: { href: AppRoutes.Orders } },
     },
     {

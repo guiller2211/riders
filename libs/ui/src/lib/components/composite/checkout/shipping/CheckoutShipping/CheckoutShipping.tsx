@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { FormEvent } from 'react';
-
-import { Accordion, Button, Loader, Text, View } from '../../../../atomic';
+import { Accordion, Button, Text, View } from '../../../../atomic';
 import { AddressForm, GenericActionCard } from '../../../shared';
 import { getDefault } from '../../../../../utils';
 import CheckoutAddresses from './CheckoutAddresses';
 import CheckoutShippingMethod from '../CheckoutShippingMethod';
-import type { AddressData, ShippingInfo } from '../../../../../types';
+import type { AddressData } from '../../../../../types';
 import type { CartProps } from '../../../cart';
 import type { CheckoutShippingProps } from './CheckoutShipping.types';
 import type { ShippingMethod } from '../CheckoutShippingMethod';
@@ -24,8 +22,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     isLoading,
     deleteAddress } = props;
 
-  const navigate = useNavigate();
-
   const [activeValue, setActiveValue] = useState(false);
   const [agreed, toggleAgreed] = useState(false);
   const [showAddressForm, setShowAddressForm] = useState(addresses?.length > 0);
@@ -34,9 +30,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
   const [shippingMethod, setLocalShippingMethod] = useState<ShippingMethod[]>(
     checkoutShippingMethods?.methods || [],
   );
-  const [selectedAddress, setSelectedAddress] = useState<AddressData>();
-  const [selectedShippingMethod, setSelectedShippingMethod] =
-    useState<CartProps>();
 
   const onChangeAddress = (value: AddressData) => {
     if (sendAddress) {
@@ -58,8 +51,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
       cart.shippingMethod &&
       !addressProcessed
     ) {
-      setSelectedAddress(cart?.shippingAddress);
-      setSelectedShippingMethod(cart as unknown as CartProps);
       setAddressProcessed(true);
       toggleAgreed(true);
     }
@@ -68,16 +59,6 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
       onChangeAddress(defaultAddress);
     }
   }, [cart, addresses, onChangeAddress]);
-
-
-
-  const validateForm = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (selectedAddress && selectedShippingMethod) {
-      navigate(AppRoutes.CheckoutPayment);
-    }
-  };
 
   const onChangedToForm = () => setShowAddressForm(!showAddressForm);
 
@@ -103,70 +84,70 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
           </Accordion.Trigger>
 
           <Accordion.Content>
-              <View padding={useResponsiveClientValue({ s: 0, m: 8 })}>
-                <View direction="row">
-                  <View.Item columns={12}>
-                    {addresses.length > 0 ? (
-                      <>
-                        <View width="100%">
-                          <View.Item columns="auto">
-                            <View width={80} paddingStart={1}>
-                              <GenericActionCard
-                                cardLabel='Agregar Direccion'
-                                drawerTitle='Agregar Direccion'
-                              >
-                                <AddressForm sendForm={sendForm} />
-                              </GenericActionCard>
-                            </View>
-                          </View.Item>
-                        </View>
-                        <CheckoutAddresses
-                          onChangedToForm={onChangedToForm}
-                          onChangeAddress={onChangeAddress}
-                          addresses={addresses}
-                          sendForm={sendForm}
-                          deleteAddress={deleteAddress}
-                        />
-                      </>
-                    ) : (
-                      <GenericActionCard
-                        cardLabel='Agregar Direccion'
-                        drawerTitle='Agregar Direccion'
-                      >
-                        <AddressForm sendForm={sendForm} />
-                      </GenericActionCard>
-                    )}
-                  </View.Item>
-
-                  {
-                    checkoutShippingMethods && (
-                      <>
-                        <View.Item columns={12}>
-                          <CheckoutShippingMethod
-                            methods={shippingMethod}
-                            onChangeShippingMethod={onChangeShippingMethod}
-                          />
-                        </View.Item>
-                        <View.Item columns={12}>
-                          <View paddingTop={11}>
-                            <Button
-                              fullWidth
-                              size="xlarge"
-                              color="primary"
-                              type="submit"
-                              disabled={!agreed}
-                              loading={isLoading}
-                              href={AppRoutes.CheckoutPayment}
+            <View padding={useResponsiveClientValue({ s: 0, m: 8 })}>
+              <View direction="row">
+                <View.Item columns={12}>
+                  {addresses.length > 0 ? (
+                    <>
+                      <View width="100%">
+                        <View.Item columns="auto">
+                          <View width={80} paddingStart={1}>
+                            <GenericActionCard
+                              cardLabel='Agregar Direccion'
+                              drawerTitle='Agregar Direccion'
                             >
-                              Continuar al pago
-                            </Button>
+                              <AddressForm sendForm={sendForm} />
+                            </GenericActionCard>
                           </View>
                         </View.Item>
-                      </>
-                    )
-                  }
-                </View>
+                      </View>
+                      <CheckoutAddresses
+                        onChangedToForm={onChangedToForm}
+                        onChangeAddress={onChangeAddress}
+                        addresses={addresses}
+                        sendForm={sendForm}
+                        deleteAddress={deleteAddress}
+                      />
+                    </>
+                  ) : (
+                    <GenericActionCard
+                      cardLabel='Agregar Direccion'
+                      drawerTitle='Agregar Direccion'
+                    >
+                      <AddressForm sendForm={sendForm} />
+                    </GenericActionCard>
+                  )}
+                </View.Item>
+
+                {
+                  checkoutShippingMethods && (
+                    <>
+                      <View.Item columns={12}>
+                        <CheckoutShippingMethod
+                          methods={shippingMethod}
+                          onChangeShippingMethod={onChangeShippingMethod}
+                        />
+                      </View.Item>
+                      <View.Item columns={12}>
+                        <View paddingTop={11}>
+                          <Button
+                            fullWidth
+                            size="xlarge"
+                            color="primary"
+                            type="submit"
+                            disabled={!agreed}
+                            loading={isLoading}
+                            href={AppRoutes.CheckoutPayment}
+                          >
+                            Continuar al pago
+                          </Button>
+                        </View>
+                      </View.Item>
+                    </>
+                  )
+                }
               </View>
+            </View>
           </Accordion.Content>
         </Accordion>
       </View.Item>

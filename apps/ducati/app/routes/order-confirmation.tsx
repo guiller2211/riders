@@ -21,7 +21,6 @@ export async function action() {
 
 }
 
-
 export async function loader({ request, context: { registry } }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'checkout.shipping.tsx' });
 
@@ -45,23 +44,27 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   }
 
   const order = await getOrder(uid);
-
+  console.log(order)
   overview = {
+    numOrder: order.numOrder,
     contact: {
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
       email: user?.email ?? '',
+      phone: order.shippingInfo?.phone ?? ''
     },
     shipping: {
-      address: order.shippingAddress?.streetName ?? ''
+      address: order.shippingInfo?.streetName ?? '',
+      region: order.shippingInfo?.region?.name,
+      commune: order.shippingInfo?.communes?.name,
     },
     method: {
       method: order.shippingMethod?.duration ?? ''
     },
     paid: {
-      name: order.paymentMethod?.name ?? '',
-      ending: order.paymentMethod?.ending ?? '',
-      type: order.paymentMethod?.type ?? '',
+      name: order.paymentInfo?.name ?? '',
+      ending: order.paymentInfo?.ending ?? '',
+      type: order.paymentInfo?.type ?? '',
     }
   }
 

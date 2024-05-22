@@ -1,16 +1,18 @@
 import { Fragment } from 'react';
 
-import type { OrderStatus } from '../../../../../types';
 import type { PriceData } from '../../../../../types/PriceData.types';
 import { Badge, Link, Text, View } from '../../../../atomic';
 import type { OrdersHistoryBodyProps } from './OrderHistoryBody.types';
 import { IconBoxArrowUpRight } from '../../../../../icons';
 import { Price } from '../../../shared';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes, OrderStatus } from '@ducati/types';
+import { ColorUtils, FormatDate } from '@ducati/ui';
+
+
 
 const renderField = (field: string, value: unknown) => {
   switch (field) {
-    case 'code':
+    case 'numOrder':
       return (
         <View.Item columns="auto" grow>
           <Link
@@ -22,24 +24,25 @@ const renderField = (field: string, value: unknown) => {
           </Link>
         </View.Item>
       );
-    case 'orderStatus': {
-      const status = value as OrderStatus;
+    case 'status': {
+      const status = value as OrderStatus
       return (
         <View.Item columns="auto" grow>
-          <Badge color={status.data.badgeColor} rounded>
-            <Text variant="caption-1">{status.name}</Text>
+          <Badge color={ColorUtils.badgeColor(status)} rounded>
+            <Text variant="caption-1">{status}</Text>
           </Badge>
         </View.Item>
       );
     }
     case 'createdDate':
-    case 'poNumber':
+      const formattedDate = FormatDate.format(value);
       return (
         <View.Item columns="auto" grow>
-          <Text variant="caption-1">{`${value}`}</Text>
+          <Text variant="caption-1">{`${formattedDate}`}</Text>
         </View.Item>
       );
-    case 'totalPriceWithTax': {
+
+    case 'totalPrice': {
       const total = value as PriceData;
       return (
         <View.Item columns="auto" grow>
@@ -60,22 +63,22 @@ const OrdersHistoryBody = (props: OrdersHistoryBodyProps) => {
   const { searchTerm, orders } = props;
   const filteredOrders =
     searchTerm && searchTerm.trim() !== ''
-      ? orders?.filter((order) => {
-          const codeString = order.code?.toString() || '';
-          const statusString = order.status?.toString() || '';
-          const createdDateString = order.createdDate?.toString() || '';
-          const totalPriceString =
-            order?.totalPriceWithTax?.value?.centsAmount.toString() || '';
+      ? orders?.filter((_o) => {
+        const codeString = _o.numOrder?.toString() || '';
+        const statusString = _o.status?.toString() || '';
+        const createdDateString = _o.createdDate?.toString() || '';
+        const totalPriceString =
+          _o?.totalPriceWithTax?.value?.centsAmount.toString() || '';
 
-          return (
-            codeString.includes(searchTerm) ||
-            statusString.includes(searchTerm) ||
-            createdDateString.includes(searchTerm) ||
-            totalPriceString.includes(searchTerm)
-          );
-        })
+        return (
+          codeString.includes(searchTerm) ||
+          statusString.includes(searchTerm) ||
+          createdDateString.includes(searchTerm) ||
+          totalPriceString.includes(searchTerm)
+        );
+      })
       : orders;
-
+  console.log(filteredOrders)
   return (
     <View>
       {filteredOrders?.map((item, index) => (

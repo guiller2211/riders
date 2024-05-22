@@ -124,7 +124,19 @@ const CartEntryCard = (props: CartActionsProps) => {
               <Text variant="body-3">
                 sku: {entry.product?.sku}
               </Text>
-
+              {entry.product?.variants
+                ?.filter(_c => _c.type === TypeVariamEnum.Color)
+                .map((_c, index) => (
+                  <Text key={index} variant="body-3">
+                    Color {_c.name}
+                  </Text>
+                ))}
+              {entry.product?.variants?.filter(_s => _s.type === TypeVariamEnum.Size)
+                .map((_s, index) => (
+                  <Text key={index} variant="body-3">
+                    Talla {_s.name}
+                  </Text>
+                ))}
               <View.Item>
                 {entry.product?.stock && (
                   <View

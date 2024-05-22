@@ -12,7 +12,6 @@ import {
   RadioGroup,
   Radio,
   Card,
-  Loading
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -24,21 +23,17 @@ import { TypeVariamEnum } from '@ducati/types';
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { result } = useActionData<typeof action>() ?? {};
-  const [isLoading, setIsLoading] = useState(false);
   const [size, setSize] = useState<{ type: TypeVariamEnum, name: string }>();
   const [color, setColor] = useState<{ type: TypeVariamEnum, name: string }>();
   const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
 
     try {
-       await submit(e.currentTarget, { method: 'post' });
+      await submit(e.currentTarget, { method: 'post' });
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 

@@ -79,6 +79,7 @@ export const EditPersonalDetailsForm = (
             placeholder='Email'
             size="xlarge"
             value={values[Fields.Email]}
+            disabled
           />
 
           {!!(touched[Fields.Email] && errors[Fields.Email]) && (

@@ -3,7 +3,6 @@ import type { AccountQuickLinksProps } from './AccountQuickLinks.types';
 import { AccountQuickLinksURL } from './AccountQuickLinks.types';
 import {
   IconClockHistory,
-  IconCreditCard,
   IconJournal,
   IconPersonCircle,
 } from '../../../../icons';
@@ -32,14 +31,6 @@ const AccountQuickLinks = (props: AccountQuickLinksProps) => {
         <Link href={AccountQuickLinksURL.addresses}>
           <Tabs.Item icon={IconJournal} value={AccountQuickLinksURL.addresses}>
             Direcciones
-          </Tabs.Item>
-        </Link>
-        <Link href={AccountQuickLinksURL.payments}>
-          <Tabs.Item
-            icon={IconCreditCard}
-            value={AccountQuickLinksURL.payments}
-          >
-            Pagos
           </Tabs.Item>
         </Link>
         <Link href={AccountQuickLinksURL.orders}>

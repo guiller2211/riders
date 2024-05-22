@@ -21,11 +21,11 @@ const OrderDetailsHeader = (props: OrderDetailsHeaderProps) => {
             </Text>
           </View.Item>
           <View.Item>
-            {order?.orderStatus && (
-              <Badge color={order.orderStatus.data.badgeColor} rounded>
+            {/* {order?.orderStatus && (
+              <Badge color={order.orderStatus} rounded>
                 <Text variant="caption-1">{order.orderStatus.name}</Text>
               </Badge>
-            )}
+            )} */}
           </View.Item>
         </View>
       </View.Item>

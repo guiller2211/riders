@@ -5,6 +5,7 @@ export interface User extends Resource {
   firstName?: string;
   lastName?: string;
   email?: string;
+  phoneNumber?: string;
   isEmailVerified?: boolean;
   addresses?: AddressData[];
   addressID? : string;

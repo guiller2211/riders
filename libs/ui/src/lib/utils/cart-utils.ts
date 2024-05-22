@@ -87,7 +87,7 @@ export class CartUtils {
           shippingMethodPrice: cart.shippingInfo?.price,
         },
         deliveryMode: '', // DeliveryMode type
-        deliveryStatus: undefined, // TO DO
+        OrderStatus: undefined, // TO DO
         billingAddress: cart.billingAddress
           ? getAddress(cart.billingAddress)
           : undefined,

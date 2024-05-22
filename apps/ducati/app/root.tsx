@@ -1,4 +1,4 @@
-import { Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
+import { AuthProvider, Layout, LayoutProps, Theme, baseTheme } from '@ducati/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
@@ -19,7 +19,9 @@ import { getCustomerByUid } from './service/user.data.service';
 import { CartData, CartEntry, Customer } from '@ducati/types';
 import { addItemToCart, deleteEntryBySku, getCartById } from './service/cart.data.service';
 import { ErrorBoundary as ErrorBoundaryPage } from './ui/pages/error-boundary.page';
-
+import appFirebase from './server/firebase.service';
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
+const auth = getAuth(appFirebase);
 
 const links: LinksFunction = () => {
   return [
@@ -33,14 +35,22 @@ export async function loader({ request }: LoaderArgs) {
   const layout: LayoutProps = LayoutUtils.getLayout();
 
   const session = await getSession(request.headers.get("Cookie"));
-  let user: Customer | undefined;
+  let user: User;
+  let customer: Customer | undefined;
+
+  onAuthStateChanged(auth, (usuarioFirebase) => {
+    if (usuarioFirebase) {
+      user = usuarioFirebase
+    }
+  })
+
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
-    user = await getCustomerByUid(uid);
+    customer = await getCustomerByUid(uid);
 
-    if (user) {
+    if (customer) {
       layout.header.user.isLoggedIn = true;
-      layout.header.user.name = `${user.firstName ?? ''} ${user.lastName ?? ''}`;
+      layout.header.user.name = `${customer.firstName ?? ''} ${customer.lastName ?? ''}`;
       logger.debug(layout.header.user.name + ' is logged in');
     }
 
@@ -52,11 +62,10 @@ export async function loader({ request }: LoaderArgs) {
 
   // Cart
   let cart: CartData | undefined | null = undefined;
-  const cartSessionID = user?.cartId == null ? null : user.cartId;
+  const cartSessionID = customer?.cartId == null ? null : customer.cartId;
   if (cartSessionID) {
-    if (user && user.id) {
+    if (customer && customer.id) {
       cart = await getCartById(cartSessionID);
-      /* layout.header.cart = cart; */
     }
   }
 
@@ -76,14 +85,16 @@ const Body = (props: { children: ReactNode }) => {
   const { children } = props;
 
   return (
-    <body style={{ backgroundColor: 'black' }}>
-      <Theme theme="reshaped">
-        {children}
-      </Theme>
-      <ScrollRestoration />
-      <Scripts />
-      <LiveReload />
-    </body>
+    <AuthProvider>
+      <body style={{ backgroundColor: 'black' }}>
+        <Theme theme="reshaped">
+          {children}
+        </Theme>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </AuthProvider>
   );
 };
 

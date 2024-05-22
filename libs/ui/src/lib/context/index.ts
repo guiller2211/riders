@@ -6,3 +6,4 @@ export {
   RenderContext,
 } from './RenderContext';
 export type { Renderer } from './RenderContext';
+export { AuthProvider, useAuth } from './AuthContext'

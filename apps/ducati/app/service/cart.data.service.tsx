@@ -1,6 +1,6 @@
-import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, runTransaction, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../server/firebase.service";
-import { AddressData, AppRoutes, CartData, CartEntry, Customer, PriceData, ProductVariant, ShippingMethod } from "@ducati/types";
+import { AddressData, AppRoutes, CartData, CartEntry, Customer, OrderStatus, PriceData, ProductVariant, ShippingMethod } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
 import { PaymentProps, OrderData } from "@ducati/ui";
 import { useNavigate } from "@remix-run/react";
@@ -114,7 +114,7 @@ export async function addItemToCart(
   productCode: string,
   update?: boolean,
   variants?: ProductVariant[],
-  ) {
+) {
   try {
     const product = await getProductBySku(productCode);
 
@@ -127,7 +127,7 @@ export async function addItemToCart(
         categories: product?.categories,
         value: product?.value!,
         sku: product?.sku,
-        ...(variants ? { variants } : {}), 
+        ...(variants ? { variants } : {}),
       },
       id: product?.id,
       entryNumber: 0,
@@ -310,61 +310,87 @@ export function setShippingMethod(value: ShippingMethod, uid: string) {
     });
 }
 
-export const setPayment = async (value: PaymentProps, uid: string) => {
-  const navigate = useNavigate();
+const ORDER_COUNTER_DOC_ID = "orderCounter";
 
-  await getCart(uid).then(cart => {
+export const setPayment = async (value: PaymentProps, uid: string) => {
+  try {
+    const cart = await getCart(uid);
     if (!cart) {
       throw new Error("El carrito del usuario no existe.");
     }
 
     const cartDocRef = doc(db, "cart", cart.id!);
-    getDoc(cartDocRef)
-      .then(cartSnapshot => {
-        if (cartSnapshot.exists()) {
-          return updateDoc(cartDocRef, { paymentMethod: value })
-            .then(() => getCartById(cart.id!));
-        } else {
-          throw new Error("El carrito del usuario no existe.");
-        }
-      });
-      navigate(AppRoutes.OrdenConfirmation);
+    const cartSnapshot = await getDoc(cartDocRef);
 
-  }).catch(error => {
-    console.error("Error al establecer la dirección de envío:", error);
+    if (!cartSnapshot.exists()) {
+      throw new Error("El carrito del usuario no existe.");
+    }
+
+    await updateDoc(cartDocRef, { paymentMethod: value });
+    const newCart = await getCartById(cart.id!);
+
+    const entries = newCart.entries;
+    const shippingInfo = newCart.shippingAddress;
+    const shippingMethod = newCart.shippingMethod;
+    const paymentInfo = newCart.paymentMethod;
+    const totalPrice = newCart.totalPrice;
+
+    if (!shippingInfo) {
+      throw new Error("La información de envío no está definida.");
+    }
+
+    if (!paymentInfo) {
+      throw new Error("La información de pago no está definida.");
+    }
+
+    const numOrder = await runTransaction(db, async (transaction) => {
+      const counterRef = doc(db, "counters", ORDER_COUNTER_DOC_ID);
+      const counterDoc = await transaction.get(counterRef);
+
+      if (!counterDoc.exists()) {
+        transaction.set(counterRef, { count: 1 });
+        return 1;
+      } else {
+        const newCount = counterDoc.data().count + 1;
+        transaction.update(counterRef, { count: newCount });
+        return newCount;
+      }
+    });
+
+    const orderDoc = await addDoc(collection(db, "orders"), {
+      entries,
+      numOrder,
+      createdDate: new Date(),
+      status: OrderStatus.InProcess,
+      guestCustomer: uid,
+      shippingInfo,
+      shippingMethod,
+      paymentInfo,
+      totalPrice
+    });
+
+    const customerRef = doc(db, "customer", uid);
+    const customerSnapshot = await getDoc(customerRef);
+
+    if (!customerSnapshot.exists()) {
+      throw new Error("El cliente no existe.");
+    }
+
+    const orderID = customerSnapshot.data()?.orderID as string[] || [];
+    if (orderID.length === 0) {
+      await updateDoc(customerRef, { orderID: [orderDoc.id], cartId: '' });
+    } else {
+      await updateDoc(customerRef, { orderID: [...orderID, orderDoc.id], cartId: '' });
+    }
+    return {
+      success: true,
+      message: 'orden creada'
+    };
+  } catch (error) {
+    console.error("Error al establecer el método de pago:", error);
     throw error;
-  });
-
-  return await getCart(uid).then(newCart => {
-    const cartDocRef = doc(db, "cart", newCart.id!);
-    getDoc(cartDocRef)
-      .then(cartSnapshot => {
-        if (cartSnapshot.exists()) {
-          const order = cartSnapshot.data() as OrderData;
-          return addDoc(collection(db, "orders"), { order })
-            .then(async (order) => {
-              getCartById(newCart.id!)
-              const customerRef = doc(db, "customer", uid);
-              const customerSnapshot = await getDoc(customerRef);
-              let orderID;
-
-              if (customerSnapshot.exists()) {
-                orderID = customerSnapshot.data()?.orderID as string[];
-                if (!orderID) {
-                  await updateDoc(doc(db, 'customer', uid), { orderID: [order.id], cartId: '' });
-                } else {
-                  updateDoc(doc(db, "customer", uid), { orderID: [...orderID, order.id], cartId: '' })
-                }
-              }
-
-            });
-        } else {
-          throw new Error("El carrito del usuario no existe.");
-        }
-      });
-
-  })
-}
+  }
+};
 
 
 

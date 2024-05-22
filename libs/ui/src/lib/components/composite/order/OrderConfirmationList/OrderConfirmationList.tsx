@@ -7,7 +7,7 @@ const OrderConfirmationList = (props: OrderConfirmationListProps) => {
     <View>
       {props.showTitle && (
         <View paddingBottom={7}>
-          <Text variant="featured-3">Products</Text>
+          <Text variant="featured-3">Productos</Text>
         </View>
       )}
       {props.order.entries?.map((entry: any, index: number) => (
