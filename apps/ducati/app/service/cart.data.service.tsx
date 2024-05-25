@@ -356,24 +356,26 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       }
     });
 
-
-
     const customerRef = doc(db, "customer", uid);
     const customerSnapshot = await getDoc(customerRef);
-    const customerData = customerSnapshot.data() as Customer;
 
     if (!customerSnapshot.exists()) {
       throw new Error("El cliente no existe.");
     }
 
-    const user: Customer = {
-      id: customerData.id,
-      email: customerData.email,
-      firstName: customerData.firstName,
-      lastName: customerData.lastName,
-      anonymous: customerData.anonymous,
-      phoneNumber: customerData.phoneNumber
+    const customerData = customerSnapshot.data();
+    if (!customerData) {
+      throw new Error("Datos del cliente no encontrados.");
     }
+
+    const user: Customer = {
+      id: uid,
+      email: customerData.email || '',
+      firstName: customerData.firstName || '',
+      lastName: customerData.lastName || '',
+      anonymous: customerData.anonymous || false,
+      phoneNumber: customerData.phoneNumber || ''
+    };
 
     const orderDoc = await addDoc(collection(db, "orders"), {
       entries,
@@ -387,21 +389,21 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       totalPrice
     });
 
-    const orderID = customerSnapshot.data()?.orderID as string[] || [];
+    const orderID = customerData.orderID as string[] || [];
     if (orderID.length === 0) {
       await updateDoc(customerRef, { orderID: [orderDoc.id], cartId: '' });
     } else {
       await updateDoc(customerRef, { orderID: [...orderID, orderDoc.id], cartId: '' });
     }
+
     return {
       success: true,
-      message: 'orden creada'
+      message: 'Orden creada'
     };
   } catch (error) {
     console.error("Error al establecer el método de pago:", error);
     throw error;
   }
 };
-
 
 
