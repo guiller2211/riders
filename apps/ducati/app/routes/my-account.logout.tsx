@@ -12,7 +12,7 @@ export const loader = async ({
 }: LoaderArgs) => {
    // get session
    let session = await getSession(request.headers.get("Cookie"));
-
+    
    // destroy session and redirect to login page
    return redirect("/login", {
      headers: { "Set-Cookie": await destroySession(session) },

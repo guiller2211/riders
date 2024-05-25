@@ -38,28 +38,21 @@ export async function loader({ request }: LoaderArgs) {
   let user: User;
   let customer: Customer | undefined;
 
-  onAuthStateChanged(auth, (usuarioFirebase) => {
-    if (usuarioFirebase) {
-      user = usuarioFirebase
-    }
-  })
-
   if (session.has('__session')) {
     const uid: string = session.get('user')['uid'];
     customer = await getCustomerByUid(uid);
 
-    if (customer) {
+    if (!customer.anonymous) {
       layout.header.user.isLoggedIn = true;
       layout.header.user.name = `${customer.firstName ?? ''} ${customer.lastName ?? ''}`;
       logger.debug(layout.header.user.name + ' is logged in');
+    } else {
+      logger.debug('Estamos en una sesión anónima. Establecer la bandera isLoggedIn = false');
+      layout.header.user.isLoggedIn = false;
     }
 
 
-  } else {
-    logger.debug('Estamos en una sesión anónima. Establecer la bandera isLoggedIn = false');
-    layout.header.user.isLoggedIn = false;
   }
-
   // Cart
   let cart: CartData | undefined | null = undefined;
   const cartSessionID = customer?.cartId == null ? null : customer.cartId;

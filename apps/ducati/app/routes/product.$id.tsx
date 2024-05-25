@@ -3,12 +3,13 @@ import { meta } from '../root';
 import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
-import { getSession } from '../server/fb.sessions.server';
+import { getSession, setCookieAndRedirect } from '../server/fb.sessions.server';
 import { CartData, CartEntry, Customer, ProductVariant, TypeVariamEnum } from '@ducati/types';
-import { getCustomerByUid } from '../service/user.data.service';
+import { getCustomerByUid, setCustomer } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { getCategories } from '../service/category.data.service';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function loader({
   params,
@@ -43,28 +44,50 @@ export async function action({ request, context: { registry } }: ActionArgs) {
       }
     });
 
+    let uid: string;
+    let sessionCookie: string | null = null;
+    let isAnonymous = false;
+
     if (!session.has('__session')) {
-      // Manejar el caso en el que no hay una sesión
-      throw new Error('No hay sesión');
+      const anonymousUser: Customer = {
+        email: '',
+        firstName: '',
+        lastName: '',
+        anonymous: true,
+        lastModifiedAt: new Date().toISOString()
+      };
+
+      const authResult = await setCustomer(anonymousUser);
+      uid = authResult;
+
+      sessionCookie = uuidv4();
+      isAnonymous = true;
+
+    } else {
+      const userSession = session.get('user');
+      if (!userSession || !userSession.uid) {
+        throw new Error('Sesión de usuario inválida');
+      }
+      uid = userSession.uid;
     }
 
-    const uid: string = session.get('user')['uid'];
     const customer = await getCustomerByUid(uid);
-
     if (!customer) {
-      // Manejar el caso en el que no se encuentra el cliente
       throw new Error('Cliente no encontrado');
     }
 
     const getCartCustomer: CartData = await getCart(uid);
     const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode, false, variants);
 
+    if (sessionCookie && isAnonymous) {
+      return await setCookieAndRedirect(request, sessionCookie, { uid, anonymous: true }, undefined);
+    }
+
     return typedjson({
       result: cartItem
     });
   } catch (error) {
     console.error("Error en la acción:", error);
-    // Manejar errores y devolver una respuesta adecuada
     return typedjson({
       result: error
     });

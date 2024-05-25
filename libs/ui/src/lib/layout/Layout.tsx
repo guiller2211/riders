@@ -1,12 +1,11 @@
 import { View } from '../components/atomic';
 import type { LayoutProps } from '.';
-import { Footer, Header } from '.';
+import { Header } from '.';
 import { useResponsiveClientValue } from 'reshaped';
-import { useLocation } from 'react-router-dom';
 
 export const Layout = (props: LayoutProps) => {
   const { children, header, handleAction, cart } = props;
- 
+
   return (
     <View gap={5} backgroundColor='black'>
       <View.Item columns={12}>

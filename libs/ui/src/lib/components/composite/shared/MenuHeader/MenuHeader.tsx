@@ -1,12 +1,20 @@
-import { useResponsiveClientValue } from "reshaped";
 import { Accordion, Link, Text, Button, View, Divider } from "../../../atomic";
 import { DrawerContent } from "../utils";
 import { MenuHeaderProps } from "./MenuHeader.types";
 import { AppRoutes } from "@ducati/types";
+import { useAuth } from "../../../../context";
+import { signOut } from "firebase/auth";
+import { useNavigate } from '@remix-run/react';
 
 export const MenuHeader = (props: MenuHeaderProps) => {
     const { navigation, user, userMenu } = props;
+    const { auth } = useAuth();
 
+    const navigate = useNavigate();
+    const signOutSession = () => {
+        auth && signOut(auth);
+        navigate(AppRoutes.Logout)
+    }
 
     return (
         <DrawerContent direction="column" gap={6}>
@@ -18,17 +26,27 @@ export const MenuHeader = (props: MenuHeaderProps) => {
                         </Accordion.Trigger>
                         <Accordion.Content>
                             <View direction="column" align="start">
-                                {userMenu?.map((node, i) => {
-                                    return (
-                                        <Button
-                                            variant="ghost"
-                                            color="inherit" href={node.button?.props?.href} key={i}>
-                                            <Text variant="body-3" weight="medium">
-                                                {node.button?.message}
-                                            </Text>
-                                        </Button>
-                                    );
-                                })}
+                                {userMenu?.map((node, i) => (
+                                    <Button
+                                        variant="ghost"
+                                        color="inherit" href={node.button?.props?.href != AppRoutes.Logout ? node.button?.props?.href : ''}
+                                        onClick={() => node.button?.props?.href == AppRoutes.Logout && signOutSession()}
+                                        key={i}
+                                    >
+                                        <Text variant="body-3" weight="medium">
+                                            {node.button?.message}
+                                        </Text>
+                                    </Button>
+                                ))}
+                                <Button
+                                    variant="ghost"
+                                    color="inherit"
+                                    onClick={() => signOutSession()}
+                                >
+                                    <Text variant="body-3" weight="medium">
+                                        cerrar sesion
+                                    </Text>
+                                </Button>
                             </View>
                         </Accordion.Content>
                     </Accordion>

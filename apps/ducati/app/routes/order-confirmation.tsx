@@ -50,7 +50,7 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
     contact: {
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
-      email: user?.email ?? '',
+      email: user?.email != '' ? user?.email! : order.shippingInfo?.email!,
       phone: order.shippingInfo?.phone ?? ''
     },
     shipping: {

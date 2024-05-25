@@ -1,15 +1,19 @@
 import { useResponsiveClientValue } from 'reshaped';
-import { IconCart, IconHeart } from '../../../icons';
+import { IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
-import { AddToCart } from '../shared';
 import { AppRoutes } from '@ducati/types';
+import { useAuth } from '../../../context';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
-  const { product, sendForm, isLoading, result } = props;
-
+  const { product, sendForm, isLoading } = props;
   const image = product.image?.find((_image) => _image.default)
-
+  const { auth } = useAuth();
+  const navigate = useNavigate()
+  const likeProduct = () => {
+    auth?.currentUser && sendForm ? sendForm(`${product.id}`) : navigate(AppRoutes.Login)
+  }
   return (
     <View
       direction="column"
@@ -49,13 +53,17 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
         ? product.value.centsAmount
         : ''}</Text>
 
-      <View direction={useResponsiveClientValue({ s: 'column', l: 'row' })} gap={5}>
 
-        <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
-          Favorito
-        </Button>
+      <Button
+        size='xlarge'
+        color="primary"
+        icon={IconHeart}
+        onClick={likeProduct}
+        loading={isLoading}
+        fullWidth>
+        Favorito
+      </Button>
 
-      </View>
     </View>
   );
 };

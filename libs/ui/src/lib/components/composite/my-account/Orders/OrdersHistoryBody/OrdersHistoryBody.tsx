@@ -78,7 +78,7 @@ const OrdersHistoryBody = (props: OrdersHistoryBodyProps) => {
         );
       })
       : orders;
-  console.log(filteredOrders)
+  
   return (
     <View>
       {filteredOrders?.map((item, index) => (

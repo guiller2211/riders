@@ -1,26 +1,17 @@
 import { action, loader } from '../../routes/_index';
 import { useActionData, useLoaderData, useSubmit } from '@remix-run/react';
 import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveClientValue } from '@ducati/ui';
-import { FormEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const HomePage = () => {
   const { layout, product } = useLoaderData<typeof loader>();
-  const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
-  const [cart, setCart] = useState(result);
 
-  const submit = useSubmit();
-
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendAddProduct = async (value: string) => {
 
     try {
       setIsLoading(true);
-      const formData = new FormData(e.currentTarget);
-      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-      const productCode: string = formData.get('productCode') as string;
 
-      await submit({ addToCartQuantity, productCode }, { method: "post" });
 
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
@@ -29,12 +20,6 @@ export const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    if (result) {
-      setCart(result);
-    }
-  }, [result]);
-  
   return (
     <View gap={10}>
       <Herobanner images={layout.homeImage} />
@@ -43,8 +28,7 @@ export const HomePage = () => {
         <ProductListForPLP
           products={product}
           sendForm={sendAddProduct}
-          isLoading={isLoading}
-          result={cart} />
+          isLoading={isLoading} />
       </View>
     </View>
   );

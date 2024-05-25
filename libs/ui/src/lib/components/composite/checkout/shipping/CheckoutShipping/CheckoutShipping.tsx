@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Accordion, Button, Text, View } from '../../../../atomic';
 import { AddressForm, GenericActionCard } from '../../../shared';
 import { getDefault } from '../../../../../utils';
 import CheckoutAddresses from './CheckoutAddresses';
 import CheckoutShippingMethod from '../CheckoutShippingMethod';
 import type { AddressData } from '../../../../../types';
-import type { CartProps } from '../../../cart';
 import type { CheckoutShippingProps } from './CheckoutShipping.types';
 import type { ShippingMethod } from '../CheckoutShippingMethod';
 import { useResponsiveClientValue } from 'libs/ui/src/lib/hooks';
 import { AppRoutes } from '@ducati/types';
+import { useAuth } from '../../../../../context';
 
 const CheckoutShipping = (props: CheckoutShippingProps) => {
   const { addresses,
@@ -21,6 +20,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     sendShippingMethod,
     isLoading,
     deleteAddress } = props;
+  const { auth } = useAuth();
 
   const [activeValue, setActiveValue] = useState(false);
   const [agreed, toggleAgreed] = useState(false);
@@ -89,18 +89,21 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                 <View.Item columns={12}>
                   {addresses.length > 0 ? (
                     <>
-                      <View width="100%">
-                        <View.Item columns="auto">
-                          <View width={80} paddingStart={1}>
-                            <GenericActionCard
-                              cardLabel='Agregar Direccion'
-                              drawerTitle='Agregar Direccion'
-                            >
-                              <AddressForm sendForm={sendForm} />
-                            </GenericActionCard>
-                          </View>
-                        </View.Item>
-                      </View>
+                      {
+                        auth?.currentUser &&
+                        <View width="100%">
+                          <View.Item columns="auto">
+                            <View width={80} paddingStart={1}>
+                              <GenericActionCard
+                                cardLabel='Agregar Direccion'
+                                drawerTitle='Agregar Direccion'
+                              >
+                                <AddressForm sendForm={sendForm} />
+                              </GenericActionCard>
+                            </View>
+                          </View.Item>
+                        </View>
+                      }
                       <CheckoutAddresses
                         onChangedToForm={onChangedToForm}
                         onChangeAddress={onChangeAddress}

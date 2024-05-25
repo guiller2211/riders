@@ -79,7 +79,7 @@ function getUserMenu() {
       button: { message: 'Mis Ordenes', props: { href: AppRoutes.Orders } },
     },
     {
-      button: { message: 'cerrar sesion', props: { href: AppRoutes.Logout } },
+      button: { message: 'My Lista Deseo', props: { href: AppRoutes.WishList } },
     },
   ];
 }

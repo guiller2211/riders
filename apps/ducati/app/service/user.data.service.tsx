@@ -1,8 +1,9 @@
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../server/firebase.service";
-import { AddressData, Customer } from "@ducati/types";
+import { AddressData, Customer, ProductData } from "@ducati/types";
 import { getAddress } from "@ducati/ui";
-import { EmailAuthProvider, User, reauthenticateWithCredential, updateEmail, updatePassword } from "firebase/auth";
+import { User, updatePassword } from "firebase/auth";
+import { getProductById } from "./product.data.service";
 
 export async function getUserById(uid: string) {
   try {
@@ -28,6 +29,54 @@ export async function getCustomerByUid(uid: string) {
   }
 }
 
+
+export async function setLikeProduct(productId: string, uid: string) {
+  try {
+    const customerRef = doc(db, "customer", uid);
+    const customerSnapshot = await getDoc(customerRef);
+
+    if (!customerSnapshot.exists()) {
+      throw new Error("El cliente no existe.");
+    }
+
+    const like = customerSnapshot.data()?.likeProduct as ProductData[] || [];
+    const likeSet = new Set<string>(like.map(p => p.id!));
+
+    let message: string;
+    if (likeSet.has(productId)) {
+      likeSet.delete(productId);
+      message = "Producto eliminado de favoritos";
+    } else {
+      const product: ProductData | null = await getProductById(productId);
+      if (product) {
+        like.push(product);
+        likeSet.add(productId);
+        message = "Producto agregado a favoritos";
+      } else {
+        throw new Error("Producto no encontrado.");
+      }
+    }
+
+    const updatedLike = Array.from(likeSet).map(id => like.find(p => p.id === id));
+
+    await updateDoc(customerRef, { likeProduct: updatedLike });
+
+    return {
+      success: true,
+      data: updatedLike,
+      message,
+    };
+  } catch (error) {
+    console.error('Error:', error);
+    return {
+      success: false,
+      message: error,
+    };
+  }
+}
+
+
+
 export async function getAddressCustomerById(uid: string) {
   try {
     const docRef = doc(db, 'address', uid);
@@ -46,13 +95,29 @@ export async function getAddressCustomerById(uid: string) {
   }
 }
 
+export async function getwishlist(uid: string) {
+  try {
+    const docRef = doc(db, "customer", uid);
+    const customerData = await getDoc(docRef);
+    const wishlist = customerData.data()?.likeProduct;
+    return wishlist;
+  } catch (error) {
+    throw new Error(`Error al obtener el usuario con ID '${uid}': ${error}`);
+  }
+}
+
 export async function setCustomer(customer: Customer) {
   try {
+    let docRef;
+
     if (!customer.id) {
-      throw new Error("El ID del cliente no está definido");
+      docRef = await addDoc(collection(db, "customer"), { ...customer });
+    } else {
+      docRef = doc(db, "customer", customer.id);
+      await setDoc(docRef, { ...customer });
     }
 
-    await setDoc(doc(db, "customer", customer.id), { ...customer });
+    return docRef.id;
   } catch (error) {
     console.error('Error:', error);
     throw error;

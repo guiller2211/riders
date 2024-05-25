@@ -1,45 +1,43 @@
 import { View } from 'reshaped';
-import { action, loader } from '../../routes/category';
+import { loader } from '../../routes/category';
 import {
+  AlertNotification,
+  AlertNotificationEnum,
   Facets,
   PlpEmpty,
   ProductListForPLP,
   useResponsiveClientValue,
 } from '@ducati/ui';
-import { useActionData, useFetcher, useLoaderData, useSubmit } from '@remix-run/react';
-import { FormEvent, useEffect, useState } from 'react';
+import { useLoaderData } from '@remix-run/react';
+import { useState } from 'react';
+import { setLikeProduct } from '../../service/user.data.service';
 
 
 export const CategoryPage = () => {
   const loaderData = useLoaderData<typeof loader>();
-  const { result } = useActionData<typeof action>() ?? {};
   const [isLoading, setIsLoading] = useState(false);
-  const [cart, setCart] = useState(result);
-  const submit = useSubmit();
+  const [message, setMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sendAddProduct = async (value: string) => {
 
     try {
       setIsLoading(true);
-      const formData = new FormData(e.currentTarget);
-      const addToCartQuantity: string = formData.get('addToCartQuantity') as string;
-      const productCode: string = formData.get('productCode') as string;
 
-      await submit({ addToCartQuantity, productCode }, { method: "post" });
-
+      const result = await setLikeProduct(value, loaderData.uid)
+      setMessage(`${result.message}`);
+      setShowAlert(true);
+      setIsLoading(false);
+      setSuccess(result.success)
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
+      setMessage(`${error}`);
+      setShowAlert(true);
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (result) {
-      setCart(result);
-    }
-  }, [result]);
 
   return (
     <View
@@ -55,11 +53,18 @@ export const CategoryPage = () => {
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
         {loaderData.getProduct && loaderData.getProduct.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
+            {
+              success &&
+              <AlertNotification
+                type={AlertNotificationEnum.Success}
+                message={message}
+                close={() => setShowAlert(false)}
+              />
+            }
             <ProductListForPLP
               products={loaderData.getProduct}
               sendForm={sendAddProduct}
-              isLoading={isLoading}
-              result={cart} />
+              isLoading={isLoading} />
           </View>
         ) : (
           <PlpEmpty />

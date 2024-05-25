@@ -11,6 +11,7 @@ export const SignUpPage = () => {
   const [notification, setNotification] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsloading] = useState(false)
+  
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     setIsloading(true);
     e.preventDefault();

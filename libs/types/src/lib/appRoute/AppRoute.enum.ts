@@ -13,6 +13,7 @@ export enum AppRoutes {
   AddressBook = '/my-account/address-book',
   PaymentMethods = '/my-account/payment-methods',
   Orders = '/my-account/orders',
+  WishList = '/my-account/wishlist',
   Logout = '/my-account/logout',
 
   Help = '/help-center',

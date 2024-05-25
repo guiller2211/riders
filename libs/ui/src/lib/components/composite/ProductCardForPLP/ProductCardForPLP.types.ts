@@ -1,10 +1,7 @@
-import { ProductData, CartEntry } from '@ducati/types';
-import { FormEvent } from 'react';
-
+import { ProductData } from '@ducati/types';
 
 export type ProductCardForPLPProps = {
   product: ProductData;
+  sendForm?: (form: string) => void;
   isLoading?: boolean;
-  sendForm: (form: FormEvent<HTMLFormElement>) => void;
-  result?: CartEntry;
 };

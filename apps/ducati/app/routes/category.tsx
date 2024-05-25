@@ -44,51 +44,23 @@ function getFacetData(): FacetProps[] {
   ];
 }
 
-export async function loader({ }: LoaderArgs) {
+export async function loader({ request, context: { registry } }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const products = await getProduct();
+  const session = await getSession(request.headers.get("Cookie"));
+  let uid: string = '';
 
+  if (session.has('__session')) {
+    uid = session.get('user')['uid'];
+  }
 
   return typedjson({
     layout,
+    uid,
     facets: getFacetData(),
     getProduct: products ?? [],
   });
 }
-
-export async function action({ request, context: { registry } }: ActionArgs) {
-  try {
-    const formData: FormData = await request.formData();
-    const session = await getSession(request.headers.get("Cookie"));
-    const quantity: string = formData.get('addToCartQuantity') as string;
-    const productCode: string = formData.get('productCode') as string;
-
-    let customer: Customer | undefined;
-    let cart: CartEntry | undefined;
-
-    if (session.has('__session')) {
-      const uid: string = session.get('user')['uid'];
-      customer = await getCustomerByUid(uid);
-
-      if (customer) {
-        const getCartCustomer: CartData = await getCart(uid);
-        const { cartItem } = await addItemToCart(getCartCustomer, parseInt(quantity), productCode);
-        cart = cartItem
-
-        return typedjson({
-          result: cart
-        });
-      }
-    }
-  } catch (error) {
-    console.error("Error al procesar la acción:", error);
-  }
-
-  return typedjson({
-    result: null
-  });
-}
-
 
 
 export default function Index() {
