@@ -356,13 +356,23 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       }
     });
 
-  
+
 
     const customerRef = doc(db, "customer", uid);
     const customerSnapshot = await getDoc(customerRef);
+    const customerData = customerSnapshot.data() as Customer;
 
     if (!customerSnapshot.exists()) {
       throw new Error("El cliente no existe.");
+    }
+
+    const user: Customer = {
+      id: customerData.id,
+      email: customerData.email,
+      firstName: customerData.firstName,
+      lastName: customerData.lastName,
+      anonymous: customerData.anonymous,
+      phoneNumber: customerData.phoneNumber
     }
 
     const orderDoc = await addDoc(collection(db, "orders"), {
@@ -370,7 +380,7 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       numOrder,
       createdDate: new Date(),
       status: OrderStatus.InProcess,
-      user: customerSnapshot.data(),
+      user: user,
       shippingInfo,
       shippingMethod,
       paymentInfo,

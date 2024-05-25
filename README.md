@@ -1,4 +1,4 @@
-# Package: @decohome/ui
+# Package: @ducati/ui
 
 React UI Toolkit Package composed by:
 
@@ -38,7 +38,7 @@ This will generate dist folder and other files in the root folder.
 <br>
 
 
-1 - Install @decohome/ui
+1 - Install @ducati/ui
 <br>
 
 ```sh
@@ -104,7 +104,7 @@ npx nx run ducati:dev:development --skip-nx-cache
 - Icon
 - Image
 - Text
-- decohomeUI (aka: Reshaped Provider)
+- ducatiUI (aka: Reshaped Provider)
 - Theme provider
 - View
 <hr>
