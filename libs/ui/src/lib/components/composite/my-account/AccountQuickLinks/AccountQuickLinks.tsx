@@ -3,6 +3,7 @@ import type { AccountQuickLinksProps } from './AccountQuickLinks.types';
 import { AccountQuickLinksURL } from './AccountQuickLinks.types';
 import {
   IconClockHistory,
+  IconHeart,
   IconJournal,
   IconPersonCircle,
 } from '../../../../icons';
@@ -41,7 +42,14 @@ const AccountQuickLinks = (props: AccountQuickLinksProps) => {
             Ordenes
           </Tabs.Item>
         </Link>
-
+        <Link href={AccountQuickLinksURL.wishlist}>
+          <Tabs.Item
+            icon={IconHeart}
+            value={AccountQuickLinksURL.wishlist}
+          >
+            Productos Deseados
+          </Tabs.Item>
+        </Link>
       </Tabs.List>
     </Tabs>
   );

@@ -8,3 +8,4 @@ export type { PersonalDetailsProps } from './PersonalDetails';
 export { default as PersonalDetailsTile } from './PersonalDetailsTile';
 export * from './Orders';
 export * from './EditPersonalDetailsForm';
+export * from './Wishlist';

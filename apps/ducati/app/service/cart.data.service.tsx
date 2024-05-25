@@ -356,17 +356,7 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       }
     });
 
-    const orderDoc = await addDoc(collection(db, "orders"), {
-      entries,
-      numOrder,
-      createdDate: new Date(),
-      status: OrderStatus.InProcess,
-      guestCustomer: uid,
-      shippingInfo,
-      shippingMethod,
-      paymentInfo,
-      totalPrice
-    });
+  
 
     const customerRef = doc(db, "customer", uid);
     const customerSnapshot = await getDoc(customerRef);
@@ -374,6 +364,18 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
     if (!customerSnapshot.exists()) {
       throw new Error("El cliente no existe.");
     }
+
+    const orderDoc = await addDoc(collection(db, "orders"), {
+      entries,
+      numOrder,
+      createdDate: new Date(),
+      status: OrderStatus.InProcess,
+      user: customerSnapshot.data(),
+      shippingInfo,
+      shippingMethod,
+      paymentInfo,
+      totalPrice
+    });
 
     const orderID = customerSnapshot.data()?.orderID as string[] || [];
     if (orderID.length === 0) {

@@ -12,19 +12,29 @@ import {
   RadioGroup,
   Radio,
   Card,
+  AlertNotification,
+  AlertNotificationEnum,
 } from '@ducati/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { FormEvent, useState } from 'react';
 import { useActionData, useSubmit } from '@remix-run/react';
 import { action, loader } from '../../routes/product.$id';
-import { TypeVariamEnum } from '@ducati/types';
+import { AppRoutes, TypeVariamEnum } from '@ducati/types';
+import { setLikeProduct } from '../../service/user.data.service';
+import { useNavigate } from 'react-router-dom';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { result } = useActionData<typeof action>() ?? {};
   const [size, setSize] = useState<{ type: TypeVariamEnum, name: string }>();
   const [color, setColor] = useState<{ type: TypeVariamEnum, name: string }>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [showAlert, setShowAlert] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate()
+
   const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
@@ -37,6 +47,27 @@ const ProductDetailPage = () => {
     }
   };
 
+  const sendWishlistProduct = async () => {
+
+    try {
+      setIsLoading(true);
+      if (loaderData.user?.anonymous || loaderData.user == undefined) {
+        navigate(AppRoutes.Login)
+      } else {
+        const result = await setLikeProduct(`${loaderData.product?.id}`, loaderData.user?.id!)
+        setMessage(`${result.message}`);
+        setShowAlert(true);
+        setIsLoading(false);
+        setSuccess(result.success)
+      }
+    } catch (error) {
+      console.error("Error al enviar el formulario:", error);
+      setMessage(`${error}`);
+      setShowAlert(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <View
@@ -44,6 +75,14 @@ const ProductDetailPage = () => {
       gap={useResponsiveClientValue({ l: 8, s: 0 })}
       paddingInline={useResponsiveClientValue({ l: 0, s: 6 })}
     >
+      {
+        success &&
+        <AlertNotification
+          type={AlertNotificationEnum.Success}
+          message={message}
+          close={() => setShowAlert(false)}
+        />
+      }
       <View.Item columns={12}>
         <View direction="row" align="center">
 
@@ -157,7 +196,13 @@ const ProductDetailPage = () => {
                 </View.Item>
               )}
 
-              <Button size='xlarge' color="primary" icon={IconHeart} fullWidth>
+              <Button
+                onClick={sendWishlistProduct}
+                size='xlarge'
+                color="primary"
+                icon={IconHeart}
+                loading={isLoading}
+                fullWidth>
                 Favorito
               </Button>
 

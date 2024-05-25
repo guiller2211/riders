@@ -11,13 +11,21 @@ import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { getCategories } from '../service/category.data.service';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function loader({
-  params,
-}: LoaderArgs) {
+export async function loader({ request, params, context: { registry } }: LoaderArgs) {
 
   const product = await getProductById(params.id);
   const categories = await getCategories();
-  return typedjson({ product, categories });
+  const session = await getSession(request.headers.get("Cookie"));
+
+  let uid: string = '';
+  let user: Customer | undefined;
+
+  if (session.has('__session')) {
+    uid = session.get('user')['uid'];
+    user = await getCustomerByUid(uid);
+  }
+
+  return typedjson({ product, categories, user });
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders }) => {

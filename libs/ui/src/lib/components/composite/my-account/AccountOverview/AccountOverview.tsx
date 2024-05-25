@@ -6,6 +6,7 @@ import {
   OrdersTile,
   PersonalDetailsTile,
 } from '../..';
+import Wishlist from '../Wishlist';
 
 const AccountOverview = () => {
   return (
@@ -16,9 +17,9 @@ const AccountOverview = () => {
       <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
         <AddressBookTile />
       </View.Item>
-     {/*  <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
-        <PaymentMethodsTile />
-      </View.Item> */}
+      <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
+        <Wishlist />
+      </View.Item>
       <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
         <OrdersTile />
       </View.Item>

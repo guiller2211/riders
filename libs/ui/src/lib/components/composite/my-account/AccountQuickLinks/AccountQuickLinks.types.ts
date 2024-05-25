@@ -7,5 +7,6 @@ export enum AccountQuickLinksURL {
   personalDetails = '/my-account/personal-details',
   addresses = '/my-account/address-book',
   payments = '/my-account/payment-methods',
+  wishlist = '/my-account/wishlist',
   orders = '/my-account/orders',
 }
