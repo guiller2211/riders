@@ -67,7 +67,6 @@ export default function CheckoutShippingPage() {
     setAddresses(shippingProps.addresses);
   }, [cart, shippingProps.addresses]);
 
-  console.log(addresses)
   return (
     <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
       <View paddingBottom={2}>

@@ -87,10 +87,10 @@ const OrdersHistoryBody = (props: OrdersHistoryBodyProps) => {
           padding={3}
           paddingStart={2}
           direction="row"
-          key={item.code}
+          key={`${item.id}-${item.id}`}
         >
           {Object.entries(item).map(([field, value]) => (
-            <Fragment key={item.code + field}>
+            <Fragment key={`${item.id}-${field}-${index}`}>
               {renderField(field, value)}
             </Fragment>
           ))}

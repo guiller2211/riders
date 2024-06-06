@@ -9,7 +9,7 @@ export const HomePage = () => {
   return (
     <View gap={10}>
       <Herobanner images={layout.homeImage} />
-      <Button href='/send'>Enviar</Button>
+      
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
         <CategoryCarousel images={layout.categoryImage} />
         <ProductListForPLP products={product} />

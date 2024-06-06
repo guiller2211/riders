@@ -44,7 +44,6 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   }
 
   const order = await getOrder(uid);
-  console.log(order)
   overview = {
     numOrder: order.numOrder,
     contact: {
