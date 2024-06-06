@@ -3,7 +3,6 @@ import type { AddressData } from './AddressData.types';
 import type { PriceData } from './PriceData.types';
 import type { ProductData } from './ProductData.types';
 import type { ShippingInfo } from './ShippingInfo.types';
-import type { TaxData } from './TaxData.types';
 import type { UserData } from './UserData.types';
 import { PaymentProps } from '../components';
 
@@ -21,7 +20,6 @@ export interface AbstractOrderData  extends Resource {
   totalDiscounts?: PriceData;
   totalItems?: number;
   subTotal?: PriceData;
-  totalTax?: TaxData;
   totalPriceWithTax?: PriceData;
   shippingTotal?: PriceData;
   paymentInfo?: CreditCardPaymentInfo;

@@ -1,8 +1,6 @@
 import { AddressData } from "../types";
 import { generateRandomId } from "./generateRandomId-utils";
 
-/* address: AddressData */
-
 export const getAddress = (formData: FormData): AddressData => {
   const firstName = formData.get('firstName') as string;
   const lastName = formData.get('lastName') as string;

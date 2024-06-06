@@ -1,21 +1,25 @@
-# Package: @ducati/ui
+# Rider's Realm UI Toolkit
 
-React UI Toolkit Package composed by:
+Un paquete integral de herramientas de UI para React.
 
-- 28 Components.<br>
-- 14 Utilities.<br>
-- 23 Icons.<br>
+- 28 Componentes.<br>
+- 14 utilidades.<br>
+- 23 Iconos.<br>
 - 10 Hooks.<br>
 <hr>
 
-### Prerequisites
+### Prerrequisitos
+
+Asegúrate de tener instalados los siguientes programas:
 
 - Node.js [v16.19.1](https://nodejs.org/dist/v16.19.1/).
 - npm 8.19.3.
 - Visual Studio Code.
 <hr>
 
-### Installation
+### Instalacion
+
+Para instalar las dependencias necesarias, ejecuta:
 
 ```sh
 npm run install
@@ -25,27 +29,28 @@ npm run install
 
 ### Build
 
+Para compilar el proyecto, ejecuta:
+
 ```sh
 npx nx build ui
 ```
 
-This will generate dist folder and other files in the root folder.
+Este comando genera la carpeta dist y otros archivos en el directorio raíz.
 
 <hr>
 
-### Remix Integration
+### Integración con Remix
 
 <br>
 
-
-1 - Install @ducati/ui
+1 - installa @ducati/ui
 <br>
 
 ```sh
 yarn install
 ```
 
-2 - start Project
+2 - Inicia el proyecto:
 <br>
 
 ```sh
@@ -55,7 +60,7 @@ npx nx run ducati:dev:development --skip-nx-cache
 
 <hr>
 
-### Components
+### Componentes
 
 <hr>
 
@@ -89,7 +94,7 @@ npx nx run ducati:dev:development --skip-nx-cache
 - Tooltip
 <hr>
 
-### Utilities
+### Utilidades
 
 <hr>
 
@@ -114,7 +119,6 @@ npx nx run ducati:dev:development --skip-nx-cache
 <hr>
 
 - useElementId
-- useFormControl
 - useHotkeys
 - useResponsiveClientValue
 - useRTL
@@ -124,7 +128,9 @@ npx nx run ducati:dev:development --skip-nx-cache
 
 <hr>
 
-### Documentation
+### Documentacion
 
-- [Storybook] (https://storybook.js.org/docs/react/get-started/why-storybook)
 - [Reshaped] (https://reshaped.so/content/docs/getting-started/overview)
+- [Million js] (https://million.dev/)
+- [NX dev] (https://nx.dev/)
+- [Remix] (https://remix.run/)

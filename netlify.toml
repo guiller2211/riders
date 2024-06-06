@@ -26,13 +26,13 @@ to = "/.netlify/functions/server"
 [[headers]]
 for = "/favicon.ico"
 [headers.values]
-"Cache-Control" = "public, max-age=3600"
+"Cache-Control" = "public, max-age=5600"
 
 # Images, Icons, etc.
 [[headers]]
 for = "/assets/*"
 [headers.values]
-"Cache-Control" = "public, max-age=3600"
+"Cache-Control" = "public, max-age=5600"
 
 # Remix
 [[headers]]
