@@ -27,7 +27,7 @@ const LoginView = (props: LoginViewProps) => {
           <View.Item columns={12}>
             <View paddingBottom={useResponsiveClientValue({ l: 3, s: 6 })}>
               <Text variant="featured-1">
-                Login
+                Inicio de Sesión
               </Text>
             </View>
           </View.Item>
