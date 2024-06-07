@@ -3,11 +3,10 @@ import { Outlet } from '@remix-run/react';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { loader } from '../../routes/checkout';
-import { useState } from 'react';
 
 export default function CheckoutPage() {
   const loaderData = useTypedLoaderData<typeof loader>();
-  const [getCart, setCart] = useState(loaderData.cart);
+  const { cart } = loaderData;
 
   return (
     <View
@@ -22,8 +21,8 @@ export default function CheckoutPage() {
         <Card padding={8}>
 
           <OrderSummary
-            subTotal={getCart?.totalPrice}
-            total={getCart?.totalPrice}
+            subTotal={cart?.totalPrice}
+            total={cart?.totalPrice}
             showTitle
           />
         </Card>

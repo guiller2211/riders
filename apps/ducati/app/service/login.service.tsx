@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { auth } from "../server/firebase.service";
 import { setCustomer } from "./user.data.service";
 import { Customer } from "@ducati/types";
+import { auth } from "@ducati/firebase";
 
 export const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {

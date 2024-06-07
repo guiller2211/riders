@@ -1,0 +1,8 @@
+{
+  "name": "provider-firebase",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/providers/firebase/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}

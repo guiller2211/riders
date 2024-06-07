@@ -1,7 +1,5 @@
 import {
   Button,
-  Divider,
-  I18nContext,
   IconCart2,
   OrdersHistory,
   Pagination,

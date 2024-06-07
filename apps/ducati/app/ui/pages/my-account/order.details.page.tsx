@@ -1,8 +1,6 @@
 import {
   CartEntry,
   CheckoutOverview,
-  I18nContext,
-  OrderPlaced,
   OrderSummary,
   Text,
   View,

@@ -1,6 +1,5 @@
 import { SignUpView, View, useResponsiveClientValue } from '@ducati/ui';
-import { useFetcher, useNavigation, useSubmit } from '@remix-run/react';
-import { useTypedLoaderData } from 'remix-typedjson';
+import { useFetcher, useNavigation } from '@remix-run/react';
 import { FormEvent, useState } from 'react';
 import { createAccount } from '../../service/login.service';
 import { Customer } from '@ducati/types';

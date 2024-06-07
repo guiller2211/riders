@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { getAuth, onAuthStateChanged, User, Auth } from "firebase/auth";
-import appFirebase from "../../../../../apps/ducati/app/server/firebase.service";
+import appFirebase from "../../../../providers/firebase/src/lib/services/firebase.service";
 
 // Crear el contexto de autenticación
 const AuthContext = createContext<{ user: User | null, loading: boolean, auth: Auth | null }>({

@@ -1,6 +1,6 @@
 import { UIComposedProps } from "@ducati/types";
 
-export type UserProps = {
+export type UserHeaderProps = {
   user: HeaderUserProps;
   navigation: UIComposedProps[];
 };

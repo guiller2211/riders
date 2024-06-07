@@ -6,8 +6,6 @@ import {
   Modal,
   Dismissible,
   useToggle,
-  Alert,
-  IconCheckCircle,
   AlertNotification,
   AlertNotificationEnum,
 } from '@ducati/ui';

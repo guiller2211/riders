@@ -1,10 +1,9 @@
-import { useFetcher, useNavigation, useSubmit } from '@remix-run/react';
+import { useFetcher } from '@remix-run/react';
 import { LoginView, View, useResponsiveClientValue } from '@ducati/ui';
 import { FormEvent, useState } from 'react';
 import { loginWithEmailAndPassword } from '../../service/login.service';
 
 export const LoginPage = () => {
-    const navigation = useNavigation();
     const fetcher = useFetcher();
     const [isLoading, setIsloading] = useState(false)
     const [notification, setNotification] = useState<string>("");

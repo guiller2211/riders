@@ -1,4 +1,4 @@
-import { CartData, CartEntry } from '@ducati/types';
+import { CartData } from '@ducati/types';
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 import { Items } from 'mercadopago/dist/clients/commonTypes';
 import { PreferenceRequest } from 'mercadopago/dist/clients/preference/commonTypes';

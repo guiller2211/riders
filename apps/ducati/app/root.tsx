@@ -19,9 +19,7 @@ import { getCustomerByUid } from './service/user.data.service';
 import { CartData, CartEntry, Customer } from '@ducati/types';
 import { addItemToCart, deleteEntryBySku, getCartById } from './service/cart.data.service';
 import { ErrorBoundary as ErrorBoundaryPage } from './ui/pages/error-boundary.page';
-import appFirebase from './server/firebase.service';
-import { User, getAuth, onAuthStateChanged } from "firebase/auth";
-const auth = getAuth(appFirebase);
+import { OrderProvider, UserProvider } from '@ducati/firebase';
 
 const links: LinksFunction = () => {
   return [
@@ -35,7 +33,6 @@ export async function loader({ request }: LoaderArgs) {
   const layout: LayoutProps = LayoutUtils.getLayout();
 
   const session = await getSession(request.headers.get("Cookie"));
-  let user: User;
   let customer: Customer | undefined;
 
   if (session.has('__session')) {
@@ -53,7 +50,7 @@ export async function loader({ request }: LoaderArgs) {
 
 
   }
-  // Cart
+
   let cart: CartData | undefined | null = undefined;
   const cartSessionID = customer?.cartId == null ? null : customer.cartId;
   if (cartSessionID) {
@@ -135,9 +132,13 @@ const Root = () => {
 
   return (
     <Document>
-      <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
-        <Outlet />
-      </Layout>
+      <UserProvider>
+        <OrderProvider>
+          <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
+            <Outlet />
+          </Layout>
+        </OrderProvider>
+      </UserProvider>
     </Document>
   );
 }
@@ -164,18 +165,14 @@ const ErrorBoundary = () => {
   const [errorType, setErrorType] = useState('');
 
   useEffect(() => {
-    // Aquí podrías manejar cualquier tipo de error que ocurra en tu aplicación
-    // Por ejemplo, podrías usar un try-catch para capturar errores en alguna parte de tu aplicación
     try {
-      // Código que podría lanzar errores
+
     } catch (error: any) {
-      // Dependiendo del tipo de error, establece el tipo de error
       if (error.response && error.response.status === 404) {
         setErrorType('pageNotFound');
       } else if (error.response && error.response.status === 503) {
         setErrorType('serviceUnavailable');
       } else {
-        // Otros tipos de errores
         setErrorType('default');
       }
     }

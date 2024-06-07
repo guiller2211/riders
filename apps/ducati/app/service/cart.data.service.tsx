@@ -1,8 +1,8 @@
 import { addDoc, collection, doc, getDoc, runTransaction, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../server/firebase.service";
-import { AddressData, AppRoutes, CartData, CartEntry, Customer, OrderStatus, PriceData, ProductVariant, ShippingMethod } from "@ducati/types";
+import { AddressData, CartData, CartEntry, Customer, OrderStatus, PriceData, ProductVariant, ShippingMethod } from "@ducati/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
-import { PaymentProps, OrderData } from "@ducati/ui";
+import { PaymentProps } from "@ducati/ui";
+import { db } from "@ducati/firebase";
 
 export function getCartById(cartId: string): Promise<CartData> {
   const docRef = doc(db, 'cart', cartId);

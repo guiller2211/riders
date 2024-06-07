@@ -1,7 +1,6 @@
 import {
   AlertNotification,
   AlertNotificationEnum,
-  I18nContext,
   Text,
   View,
 } from '@ducati/ui';

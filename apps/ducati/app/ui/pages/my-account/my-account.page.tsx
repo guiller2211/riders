@@ -1,7 +1,6 @@
 import { Outlet, useLocation } from '@remix-run/react';
 import {
   AccountQuickLinks,
-  I18nContext,
   Loading,
   View,
 } from '@ducati/ui';

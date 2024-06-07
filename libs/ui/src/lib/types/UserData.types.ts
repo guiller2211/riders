@@ -12,6 +12,7 @@ export type UserData = {
   division?: string;
   status?: UserStatus;
   lastModifiedAt?: string;
+  addressID?: string;
 };
 
 export type UserStatus = {

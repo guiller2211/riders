@@ -1,9 +1,9 @@
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../server/firebase.service";
 import { AddressData, Customer, ProductData } from "@ducati/types";
 import { getAddress } from "@ducati/ui";
 import { User, updatePassword } from "firebase/auth";
 import { getProductById } from "./product.data.service";
+import { db } from "@ducati/firebase";
 
 export async function getUserById(uid: string) {
   try {

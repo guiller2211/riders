@@ -1,6 +1,6 @@
-import { CheckoutOverviewProp, OrderData } from "@ducati/ui";
+import { db } from "@ducati/firebase";
+import { OrderData } from "@ducati/ui";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../server/firebase.service";
 
 
 export async function getOrder(uid: string): Promise<OrderData> {
