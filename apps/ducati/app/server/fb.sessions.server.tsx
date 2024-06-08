@@ -16,11 +16,12 @@ const { getSession, commitSession, destroySession } =
     {
       cookie: {
         name: "__session",
-        httpOnly: true,
-        path: "/",
-        sameSite: "lax",
-        secrets: ["f3cr@z7"],
-        secure: true,
+       httpOnly: true,
+       maxAge: 6000,
+       path: "/",
+       sameSite: "lax",
+       secrets: ["f3cr@z7"],
+       secure: true,
       },
     }
   );
@@ -80,7 +81,7 @@ export const sessionLogin = async (request: any, idToken: string, redirectTo?: s
   try {
     const user = await admin.auth().verifyIdToken(idToken);
     const sessionCookie = await admin.auth().createSessionCookie(idToken, {
-      expiresIn: 60 * 60 * 24 * 5 * 1000, 
+      expiresIn: 60 * 60 * 24 * 5 * 1000,
     });
 
     return setCookieAndRedirect(request, sessionCookie, user, redirectTo);

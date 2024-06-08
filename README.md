@@ -58,6 +58,16 @@ npx nx run ducati:dev:development --skip-nx-cache
 
 ```
 
+### Testing en los Package
+
+```sh
+npm run ui:test
+```
+
+```sh
+npm run provider-firebase:test
+```
+
 <hr>
 
 ### Componentes

@@ -33,6 +33,7 @@ yarn-error.log
 testem.log
 /typings
 .cache
+package-lock.json
 *.todo
 .nx
 
