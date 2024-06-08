@@ -5,7 +5,7 @@ import type { OrdersHistoryProps } from './OrdersHistory.types';
 import OrdersHistoryBody from '../OrdersHistoryBody';
 import Table from '../../../shared/utils/Table';
 
-const fieldNames = ['NumOrder', 'Fecha de Creacion', 'status', 'total'];
+const fieldNames = ['Nº Order', 'Fecha de Creacion', 'Estatus', 'Total'];
 
 const OrdersHistory = (props: OrdersHistoryProps) => {
   const nameSpace = 'orders';

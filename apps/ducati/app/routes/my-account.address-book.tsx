@@ -1,5 +1,5 @@
 import AddressBookPage from '../ui/pages/my-account/address-book.page';
-import { LoaderArgs, ActionArgs } from '@remix-run/node';
+import { LoaderArgs, ActionArgs, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -21,13 +21,15 @@ export async function loader({
   let addresses: AddressData[] = [];
   let uid: string = '';
 
-  if (session.has('__session')) {
-    uid = session.get('user')['uid'];
-    user = await getCustomerByUid(uid);
-    if (user?.addressID) {
-      addresses = await getAddressCustomerById(user?.addressID)
-    };
+  if (!session.has('__session')) {
+    return redirect('/');
   }
+
+  uid = session.get('user')['uid'];
+  user = await getCustomerByUid(uid);
+  if (user?.addressID) {
+    addresses = await getAddressCustomerById(user?.addressID)
+  };
   return typedjson({
     user,
     addresses,

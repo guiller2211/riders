@@ -1,5 +1,5 @@
 import PersonalDetailsPage from '../ui/pages/my-account/personal-details.page';
-import { ActionArgs, LoaderArgs, json } from '@remix-run/node';
+import { ActionArgs, LoaderArgs, json, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -19,12 +19,15 @@ export async function loader({
 
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;
-  if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
-    const useContext: string = session.get('useContext');
 
-    user = await getCustomerByUid(uid);
+  if (!session.has('__session')) {
+    return redirect('/');
   }
+
+  const uid: string = session.get('user')['uid'];
+  const useContext: string = session.get('useContext');
+
+  user = await getCustomerByUid(uid);
 
   return typedjson({
     customer: user

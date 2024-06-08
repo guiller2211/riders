@@ -1,5 +1,5 @@
 import OrdersPage from '../ui/pages/my-account/orders.page';
-import { LoaderArgs } from '@remix-run/node';
+import { LoaderArgs, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -20,11 +20,15 @@ export async function loader({
   const session = await getSession(request.headers.get("Cookie"));
   let user: Customer | undefined;
   let orders;
-  if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
-    user = await getCustomerByUid(uid);
-    orders = await getOrders(uid)
+
+  if (!session.has('__session')) {
+    return redirect('/');
   }
+
+  const uid: string = session.get('user')['uid'];
+  user = await getCustomerByUid(uid);
+  orders = await getOrders(uid)
+  
   return typedjson({
     user,
     orders

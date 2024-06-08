@@ -1,8 +1,9 @@
 import { meta } from '../root';
-import { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { ActionArgs, LoaderArgs, redirect } from '@remix-run/node';
 import PaymentMethodsPage from '../ui/pages/my-account/payment-methods.page';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { typedjson } from 'remix-typedjson';
+import { getSession } from '../server/fb.sessions.server';
 
 export default PaymentMethodsPage;
 export { meta };
@@ -15,7 +16,11 @@ export async function loader({
 }: LoaderArgs) {
 
   const paymentMethods = getPaymentMethods();
+  const session = await getSession(request.headers.get("Cookie"));
 
+  if (!session.has('__session')) {
+    return redirect('/');
+  }
  
   return typedjson({
     methods: paymentMethods,

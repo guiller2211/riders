@@ -14,7 +14,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
         if (authResp) {
             const currentUser = auth.currentUser;
             if (!currentUser) {
-                throw new Error('User not authenticated');
+                throw new Error('User not autorizado');
             }
 
             const __session = await currentUser.getIdToken();

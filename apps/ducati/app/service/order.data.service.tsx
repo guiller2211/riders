@@ -89,6 +89,7 @@ export async function getOrders(uid: string) {
                     const formattedOrder = {
                         numOrder: orderData.numOrder,
                         createdDate: orderData.createdDate,
+                        user: orderData.user,
                         status: orderData.status,
                         total: orderData.total,
                         ...orderData
