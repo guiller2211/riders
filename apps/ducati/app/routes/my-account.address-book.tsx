@@ -22,7 +22,7 @@ export async function loader({
   let uid: string = '';
 
   if (!session.has('__session')) {
-    return redirect('/');
+    redirect('/');
   }
 
   uid = session.get('user')['uid'];

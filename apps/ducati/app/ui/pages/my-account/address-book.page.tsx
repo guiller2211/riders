@@ -1,8 +1,8 @@
 import { Addresses, Loading, Text, View } from '@ducati/ui';
 import { FormEvent, useEffect, useState } from 'react';
-import { useTypedLoaderData } from 'remix-typedjson';
 import { deleteShippingAddress, setAddressCustomer } from '../../../service/user.data.service';
 import type { loader } from '../../../routes/my-account.address-book';
+import { useTypedLoaderData } from 'remix-typedjson';
 
 export default function AddressBookPage() {
   const loaderData = useTypedLoaderData<typeof loader>();

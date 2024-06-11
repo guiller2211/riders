@@ -19,9 +19,9 @@ export async function loader({
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has('__session')) {
-    return redirect('/');
+    redirect('/');
   }
- 
+
   return typedjson({
     methods: paymentMethods,
     ...meta,

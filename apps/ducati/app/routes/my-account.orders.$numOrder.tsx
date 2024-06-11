@@ -24,7 +24,7 @@ export async function loader({
   let overview: CheckoutOverviewProp;
 
   if (!session.has('__session')) {
-    return redirect('/');
+    redirect('/');
   }
 
   const uid: string = session.get('user')['uid'];

@@ -11,20 +11,19 @@ if (admin.apps.length === 0) {
   });
 }
 
-const { getSession, commitSession, destroySession } =
-  createCookieSessionStorage(
-    {
-      cookie: {
-        name: "__session",
-       httpOnly: true,
-       maxAge: 6000,
-       path: "/",
-       sameSite: "lax",
-       secrets: ["f3cr@z7"],
-       secure: true,
-      },
-    }
-  );
+const { getSession, commitSession, destroySession } = 
+createCookieSessionStorage({
+  cookie: {
+    name: "__session",
+    httpOnly: true,
+    maxAge: 6000,
+    path: "/",
+    sameSite: "lax",
+    secrets: ["f3cr@z7"],
+    secure: true,
+  },
+});
+
 
 
 export const isSessionValid = async (request: any, redirectTo: string) => {
