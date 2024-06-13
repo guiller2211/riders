@@ -18,7 +18,7 @@ import {
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { FormEvent, useState } from 'react';
-import { useActionData, useSubmit } from '@remix-run/react';
+import { useActionData, useLoaderData, useSubmit } from '@remix-run/react';
 import { action, loader } from '../../routes/product.$id';
 import { AppRoutes, TypeVariamEnum } from '@ducati/types';
 import { setLikeProduct } from '../../service/user.data.service';

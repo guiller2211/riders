@@ -3,16 +3,16 @@ import { meta } from '../root';
 import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
-import { getSession, setCookieAndRedirect } from '../server/fb.sessions.server';
+import { commitSession, getSession, setCookieAndRedirect } from '../server/fb.sessions.server';
 import { CartData, CartEntry, Customer, ProductVariant, TypeVariamEnum } from '@ducati/types';
 import { getCustomerByUid, setCustomer } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { getCategories } from '../service/category.data.service';
 import { v4 as uuidv4 } from 'uuid';
+import { generateCsrfToken, verifyCsrfToken } from '../server/csrf.server';
 
 export async function loader({ request, params, context: { registry } }: LoaderArgs) {
-
   const product = await getProductById(params.id);
   const categories = await getCategories();
   const session = await getSession(request.headers.get("Cookie"));
@@ -25,12 +25,13 @@ export async function loader({ request, params, context: { registry } }: LoaderA
     user = await getCustomerByUid(uid);
   }
 
-  return typedjson({ product, categories, user });
+  return typedjson({ product, categories, user }, {
+    headers: {
+      "Set-Cookie": await commitSession(session),
+    },
+  });
 }
 
-export const headers: HeadersFunction = ({ loaderHeaders }) => {
-  return { 'Cache-Control': loaderHeaders.get('Cache-Control') ?? 'no-cache' };
-};
 
 export async function action({ request, context: { registry } }: ActionArgs) {
   try {
@@ -38,6 +39,11 @@ export async function action({ request, context: { registry } }: ActionArgs) {
     const session = await getSession(request.headers.get("Cookie"));
     const quantity: string = formData.get('addToCartQuantity') as string;
     const productCode: string = formData.get('productCode') as string;
+    const csrfToken = await generateCsrfToken(session);
+
+    if (!(await verifyCsrfToken(session, csrfToken as string))) {
+      throw new Response("Invalid CSRF Token", { status: 403 });
+    }
 
     const variants: ProductVariant[] = [];
     formData.forEach((value, key) => {
@@ -101,6 +107,11 @@ export async function action({ request, context: { registry } }: ActionArgs) {
     });
   }
 }
+
+export const headers: HeadersFunction = ({ loaderHeaders }) => {
+  return { 'Cache-Control': loaderHeaders.get('Cache-Control') ?? 'no-cache' };
+};
+
 
 export default function Index() {
   return <ProductDetailPage />;
