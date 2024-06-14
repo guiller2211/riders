@@ -30,6 +30,7 @@
     "mercadopago": "^2.0.9",
     "million": "^3.0.3",
     "morgan": "^1.10.0",
+    "newrelic": "^11.19.0",
     "node-ts-cache": "^4.4.0",
     "node-ts-cache-storage-memory": "^4.4.0",
     "ramda": "^0.29.1",
