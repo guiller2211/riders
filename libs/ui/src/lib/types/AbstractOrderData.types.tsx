@@ -15,8 +15,8 @@ export interface AbstractOrderData  extends Resource {
   shippingAddress?: AddressData;
   billingAddress?: AddressData;
   shippingInfo?: ShippingInfo;
-  deliveryMode?: string; // DeliveryMode type
-  OrderStatus?: string; // OrderStatus type
+  deliveryMode?: string;
+  OrderStatus?: string;
   totalDiscounts?: PriceData;
   totalItems?: number;
   subTotal?: PriceData;

@@ -2,14 +2,12 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { getAuth, onAuthStateChanged, User, Auth } from "firebase/auth";
 import appFirebase from "../../../../providers/firebase/src/lib/services/firebase.service";
 
-// Crear el contexto de autenticación
 const AuthContext = createContext<{ user: User | null, loading: boolean, auth: Auth | null }>({
   user: null,
   loading: true,
   auth: null,
 });
 
-// Proveedor de contexto de autenticación
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -17,9 +15,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const authInstance = getAuth(appFirebase);
-    setAuth(authInstance); // Establecer auth aquí
+    setAuth(authInstance); 
 
-    // Este código solo se ejecutará en el cliente
     if (typeof window !== 'undefined') {
       const body = document.querySelector('body');
       if (body) {

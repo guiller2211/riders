@@ -12,7 +12,7 @@ Un paquete integral de herramientas de UI para React.
 
 Asegúrate de tener instalados los siguientes programas:
 
-- Node.js [v16.19.1](https://nodejs.org/dist/v16.19.1/).
+- Node.js [v16.19.1](https://nodejs.org/dist/v16.19.1/) o Superior.
 - npm 8.19.3.
 - Visual Studio Code.
 <hr>
@@ -22,7 +22,11 @@ Asegúrate de tener instalados los siguientes programas:
 Para instalar las dependencias necesarias, ejecuta:
 
 ```sh
-npm run install
+npm run install --legacy-peer-deps 
+
+o
+
+yarn install
 ```
 
 <hr>
@@ -42,20 +46,11 @@ Este comando genera la carpeta dist y otros archivos en el directorio raíz.
 ### Integración con Remix
 
 <br>
-
-1 - installa @riders/ui
-<br>
-
-```sh
-yarn install
-```
-
-2 - Inicia el proyecto:
+1 - Inicia el proyecto:
 <br>
 
 ```sh
 npx nx run riders:dev:development --skip-nx-cache
-
 ```
 
 ### Testing en los Package
