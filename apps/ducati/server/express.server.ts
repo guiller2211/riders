@@ -34,9 +34,21 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://sdk.mercadopago.com", "https://http2.mlstatic.com"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://sdk.mercadopago.com",
+          "https://http2.mlstatic.com"
+        ],
         styleSrc: ["'self'", "'unsafe-inline'"],
-        imgSrc: ["'self'", "data:", "https://firebasestorage.googleapis.com", "https://www.mercadolivre.com", "https://www.mercadolibre.com"],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://firebasestorage.googleapis.com",
+          "https://www.mercadolivre.com",
+          "https://www.mercadolibre.com"
+        ],
         connectSrc: [
           "'self'",
           "ws://localhost:3001",
@@ -59,12 +71,19 @@ app.use(
         frameAncestors: ["'self'"],
         workerSrc: ["'self'", 'blob:'],
         formAction: ["'self'"],
-        frameSrc: ["'self'", "https://*.firebaseapp.com", "https://*.firebaseio.com", "https://api-static.mercadopago.com", "https://www.mercadolibre.com"],  // Agregar el dominio de MercadoLibre aquí
+        frameSrc: [
+          "'self'",
+          "https://*.firebaseapp.com",
+          "https://*.firebaseio.com",
+          "https://api-static.mercadopago.com",
+          "https://www.mercadolibre.com"
+        ],
         manifestSrc: ["'self'"],
       },
     },
   }),
 );
+
 
 // Configuración específica de encabezados de seguridad adicionales
 app.use((request, response, next) => {
@@ -85,7 +104,6 @@ app.use((request, response, next) => {
 
   // Referrer-Policy
   response.set('Referrer-Policy', 'no-referrer');
-
   // Cleanup URLs (/clean-urls/ -> /clean-urls)
   if (request.path.endsWith('/') && request.path.length > 1) {
     const query = request.url.slice(request.path.length);
