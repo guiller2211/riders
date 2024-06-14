@@ -21,30 +21,30 @@ export const Herobanner = (props: HerobannerProps) => {
   const imagePath = images?.[imageIndex]?.src || '';
 
   return (
-    <View overflow="hidden" height={useResponsiveClientValue({s: 120, l: 250})}>
-      <Scrim  backgroundSlot={<Image src={imagePath} width="100%" />}>
-        <View align="center" direction="column" gap={5}>
-          <Text variant="title-2" weight="bold">
+    <View overflow="hidden" height={useResponsiveClientValue({ s: 120, l: 250 })}>
+      <Scrim backgroundSlot={<Image src={imagePath} width="100%" />} position='full'>
+        <View align='center' direction="column" gap={5}>
+          <Text variant={useResponsiveClientValue({ s: 'title-6', l: 'title-2' })} weight="bold">
             ¡SABER MÁS, ANTES!
           </Text>
 
-          <Text variant="featured-1" weight="bold">
+          <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
             Conozca todo sobre el vehículo antes de decidirse.
           </Text>
 
-          <Text variant="featured-1" weight="bold">
+          <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
             {' '}
             BUSCA 956 VEHÍCULOS
           </Text>
 
           <StandaloneSearchBox />
 
-          <Text variant="featured-1" weight="bold">
+          <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })}weight="bold">
             -O-
           </Text>
 
           <Button color="critical" size="large" rounded>
-            <Text variant="featured-1" weight="bold">
+            <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
               {' '}
               VER TODO EL INVENTARIO
             </Text>
