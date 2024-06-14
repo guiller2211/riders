@@ -2,10 +2,10 @@
 
 Un paquete integral de herramientas de UI para React.
 
-- 28 Componentes.<br>
-- 14 utilidades.<br>
+- 46 Componentes.<br>
+- 26 utilidades.<br>
 - 23 Iconos.<br>
-- 10 Hooks.<br>
+- 11 Hooks.<br>
 <hr>
 
 ### Prerrequisitos
