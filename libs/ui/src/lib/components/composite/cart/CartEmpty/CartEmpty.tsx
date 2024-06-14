@@ -54,11 +54,11 @@ const CartEmpty = (props: CartEmptyProps) => {
                 paddingEnd={useResponsiveClientValue({ s: 13, l: 0 })}
               >
                 <Text variant="featured-2" align="center" weight="bold">
-                  mini cart
+                  Mini carrito
                 </Text>
               </View>
               <Text variant="featured-3" align="center">
-                mini cart
+                Mini carrito
               </Text>
               {data.link?.props && (
                 <View paddingTop={8}>
