@@ -1,4 +1,4 @@
-import { PriceData } from '@ducati/types';
+import { PriceData } from '@riders/types';
 import type { GenericCarouselProps, PriceProps } from '../../../shared';
 
 export type ShippingMethodsProps = Omit<

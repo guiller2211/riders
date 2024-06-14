@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 import type { PaymentProps } from '../..';
-import { CartData } from '@ducati/types';
+import { CartData } from '@riders/types';
 
 export type CheckoutPaymentProps = {
   isDefaultCheck: boolean;

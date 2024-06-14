@@ -1,4 +1,4 @@
-import { AppRoutes, CartData, CartEntry, UIComposedProps } from '@ducati/types';
+import { AppRoutes, CartData, CartEntry, UIComposedProps } from '@riders/types';
 
 
 import { View, Text } from '../../../../atomic';

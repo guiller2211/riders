@@ -14,7 +14,7 @@ import {
 import { IconEyeFill, IconEyeSlashFill } from '../../../../../icons';
 import { ValidationUtils } from '../../../../../utils';
 import type { LoginFormProps } from './LoginForm.types';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 
 const LoginForm = (props: LoginFormProps) => {
   const { sendForm, isLoading } = props;

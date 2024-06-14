@@ -43,7 +43,7 @@ Este comando genera la carpeta dist y otros archivos en el directorio raíz.
 
 <br>
 
-1 - installa @ducati/ui
+1 - installa @riders/ui
 <br>
 
 ```sh
@@ -54,7 +54,7 @@ yarn install
 <br>
 
 ```sh
-npx nx run ducati:dev:development --skip-nx-cache
+npx nx run riders:dev:development --skip-nx-cache
 
 ```
 
@@ -119,7 +119,7 @@ npm run provider-firebase:test
 - Icon
 - Image
 - Text
-- ducatiUI (aka: Reshaped Provider)
+- ridersUI (aka: Reshaped Provider)
 - Theme provider
 - View
 <hr>

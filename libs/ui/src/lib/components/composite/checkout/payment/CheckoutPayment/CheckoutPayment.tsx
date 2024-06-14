@@ -5,7 +5,7 @@ import { CheckoutPaymentMethod, PaymentProps } from '../..';
 import { IconLockFill } from '../../../../../icons';
 import type { CheckoutPaymentProps } from './CheckoutPayment.types';
 import { useResponsiveClientValue } from '../../../../../hooks'
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 import { Payment } from '@mercadopago/sdk-react';
 import { CreditCardEnum } from '../../../shared';
 import { useNavigate } from '@remix-run/react';

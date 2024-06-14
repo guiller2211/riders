@@ -1,5 +1,5 @@
 {
-  "name": "@ducati/ui",
+  "name": "@riders/ui",
   "version": "0.0.0",
   "main": "./index.js",
   "types": "./index.d.ts",

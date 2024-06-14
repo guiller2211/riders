@@ -1,4 +1,4 @@
-import { CreditCardPaymentInfo, Resource, ShippingMethod } from '@ducati/types';
+import { CreditCardPaymentInfo, Resource, ShippingMethod } from '@riders/types';
 import type { AddressData } from './AddressData.types';
 import type { PriceData } from './PriceData.types';
 import type { ProductData } from './ProductData.types';

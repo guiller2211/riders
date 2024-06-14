@@ -5,7 +5,7 @@ import { useOpenState } from '../../../../../hooks';
 import MiniCart from '../MiniCart';
 import type { AddToCartProps } from './AddToCart.types';
 import { QuantityCounter } from '../../utils';
-import { CartEntry } from '@ducati/types';
+import { CartEntry } from '@riders/types';
 import { useNavigation } from '@remix-run/react';
 
 const AddToCart = (props: AddToCartProps) => {

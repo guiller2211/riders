@@ -1,0 +1,81 @@
+{
+  "name": "riders",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/riders",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "remix build",
+        "cwd": "apps/riders"
+      }
+    },
+    "dev": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build", "server:express"],
+      "options": {
+        "commands": [
+          "remix dev -c \"node --inspect ./dist/express/server.cjs\""
+        ],
+        "cwd": "apps/riders"
+      }
+    }, 
+    "server:express": {
+      "executor": "@nx/esbuild:esbuild",
+      "inputs": [
+        "{projectRoot}/server/express.server.ts",
+        "{projectRoot}/package.json"
+      ],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "platform": "node",
+        "outputPath": "apps/riders/dist/express",
+        "outputFileName": "server.js",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "apps/riders/server/express.server.ts",
+        "tsConfig": "apps/riders/tsconfig.json",
+        "deleteOutputPath": true,
+        "assets": [
+          {
+            "input": "apps/riders/public",
+            "glob": "**/*",
+            "output": "../public"
+          }
+        ],
+        "esbuildOptions": {
+          "sourcemap": true
+        },
+        "watch": false
+      }
+    },
+    "server:netlify": {
+      "executor": "@nx/esbuild:esbuild",
+      "inputs": [
+        "{projectRoot}/server/netlify.server.ts",
+        "{projectRoot}/package.json"
+      ],
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "platform": "node",
+        "outputPath": "apps/riders/dist/netlify",
+        "outputFileName": "server.js",
+        "format": ["cjs"],
+        "bundle": true,
+        "main": "apps/riders/server/netlify.server.ts",
+        "tsConfig": "apps/riders/tsconfig.json",
+        "deleteOutputPath": false,
+        "assets": [
+          {
+            "input": "apps/riders/public",
+            "glob": "**/*",
+            "output": "../public"
+          }
+        ],
+        "external": ["@coveo/headless"]
+      }
+    }
+  },
+  "tags": []
+}

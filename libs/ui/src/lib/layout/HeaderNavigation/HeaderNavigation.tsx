@@ -1,4 +1,4 @@
-import { AppRoutes, type UIComposedProps } from '@ducati/types';
+import { AppRoutes, type UIComposedProps } from '@riders/types';
 
 import {
   Button,

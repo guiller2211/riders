@@ -1,4 +1,4 @@
-import { ProductData } from "@ducati/types";
+import { ProductData } from "@riders/types";
 
 export type ProductListForPLPProps = {
   products?: ProductData[];

@@ -1,4 +1,4 @@
-import { CurrencySymbolPosition, ProductData, ProductVariant, } from "@ducati/types";
+import { CurrencySymbolPosition, ProductData, ProductVariant, } from "@riders/types";
 
 export class getProduct {
     static getAddProduct(formData: FormData) {

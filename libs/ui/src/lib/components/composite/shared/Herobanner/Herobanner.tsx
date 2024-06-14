@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Scrim, View, Image, Text, Button } from '../../../atomic';
 import { HerobannerProps } from './Herobanner.types';
-import { StandaloneSearchBox, useResponsiveClientValue } from '@ducati/ui';
+import { StandaloneSearchBox, useResponsiveClientValue } from '@riders/ui';
 
 export const Herobanner = (props: HerobannerProps) => {
   const { images } = props;

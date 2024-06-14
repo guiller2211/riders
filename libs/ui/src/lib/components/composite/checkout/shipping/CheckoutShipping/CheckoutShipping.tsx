@@ -8,7 +8,7 @@ import type { AddressData } from '../../../../../types';
 import type { CheckoutShippingProps } from './CheckoutShipping.types';
 import type { ShippingMethod } from '../CheckoutShippingMethod';
 import { useResponsiveClientValue } from 'libs/ui/src/lib/hooks';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 import { useAuth } from '../../../../../context';
 
 const CheckoutShipping = (props: CheckoutShippingProps) => {

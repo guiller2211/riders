@@ -1,4 +1,4 @@
-import type { Money } from '@ducati/types';
+import type { Money } from '@riders/types';
 import type { TextProps } from 'reshaped';
 
 export type PriceProps = {

@@ -1,5 +1,5 @@
-import { UIComposedProps } from "@ducati/types";
-import { HeaderUserProps } from "@ducati/ui";
+import { UIComposedProps } from "@riders/types";
+import { HeaderUserProps } from "@riders/ui";
 
 export type MenuHeaderProps = {
   navigation: UIComposedProps[];

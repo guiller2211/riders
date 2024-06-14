@@ -1,4 +1,4 @@
-import { CommunesData, RegionData } from "@ducati/types";
+import { CommunesData, RegionData } from "@riders/types";
 
 export interface ShippingInfo {
   id?: string;

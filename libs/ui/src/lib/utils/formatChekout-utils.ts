@@ -1,4 +1,4 @@
-import { AddressData } from "@ducati/types";
+import { AddressData } from "@riders/types";
 
 export const getFormatAddressPrevious = (address: AddressData) => {
   const { streetNumber, streetName, state, postalCode } = address;

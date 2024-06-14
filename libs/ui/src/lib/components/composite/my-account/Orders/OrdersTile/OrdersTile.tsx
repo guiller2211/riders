@@ -1,6 +1,6 @@
 import { Button, Card, Icon, Text, View } from '../../../../atomic';
 import { IconArrowRight, IconClockHistory } from '../../../../../icons';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 
 const OrdersTile = () => {
   

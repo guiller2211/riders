@@ -12,7 +12,7 @@ import {
 import { ValidationUtils } from '../../../../utils';
 import type { ForgotPasswordFormProps } from './ForgotPasswordForm.types';
 import { useResponsiveClientValue } from '../../../../hooks';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 
 const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
   const { sendForm } = props;

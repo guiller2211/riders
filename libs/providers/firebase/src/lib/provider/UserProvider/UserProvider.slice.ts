@@ -1,4 +1,4 @@
-import { UserProps } from '@ducati/types';
+import { UserProps } from '@riders/types';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 

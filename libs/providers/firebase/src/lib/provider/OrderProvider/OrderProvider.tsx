@@ -9,7 +9,7 @@ import type {
 } from './OrderProvider.types';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services';
-import { OrderData } from '@ducati/ui';
+import { OrderData } from '@riders/ui';
 
 export const OrderContext = createContext<Context>({} as Context);
 

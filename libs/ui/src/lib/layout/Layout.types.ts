@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import type { HeaderProps } from './Header';
 import { ImageProps, ProductCardForPLPProps } from '../components';
-import { CartEntry, CartData } from '@ducati/types';
+import { CartEntry, CartData } from '@riders/types';
 
 export type LayoutProps = {
   header: HeaderProps;

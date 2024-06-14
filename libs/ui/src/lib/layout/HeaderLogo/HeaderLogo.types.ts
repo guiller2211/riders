@@ -1,4 +1,4 @@
-import type { UIDeviceImageProps } from '@ducati/types';
+import type { UIDeviceImageProps } from '@riders/types';
 import type { LinkProps } from 'reshaped';
 
 export type HeaderLogoProps = {

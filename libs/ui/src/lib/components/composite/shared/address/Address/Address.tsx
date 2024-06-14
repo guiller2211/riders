@@ -1,4 +1,4 @@
-import { AddressData, AppRoutes, communes, regions } from '@ducati/types';
+import { AddressData, AppRoutes, communes, regions } from '@riders/types';
 
 import { IconPencil, IconThreeDotsVertical } from '../../../../../icons';
 import {

@@ -1,4 +1,4 @@
-import { OrderStatus } from '@ducati/types';
+import { OrderStatus } from '@riders/types';
 import type {
   AbstractOrderData,
   AbstractOrderEntryData,

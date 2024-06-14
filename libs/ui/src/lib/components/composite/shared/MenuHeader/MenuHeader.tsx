@@ -1,7 +1,7 @@
 import { Accordion, Link, Text, Button, View, Divider } from "../../../atomic";
 import { DrawerContent } from "../utils";
 import { MenuHeaderProps } from "./MenuHeader.types";
-import { AppRoutes } from "@ducati/types";
+import { AppRoutes } from "@riders/types";
 import { useAuth } from "../../../../context";
 import { signOut } from "firebase/auth";
 import { useNavigate } from '@remix-run/react';

@@ -11,7 +11,7 @@ import { IconSquareFill } from '../../../../../icons';
 import styles from './AddressForm.module.css';
 import type { AddressFormProps } from './AddressForm.types';
 import { FormEvent, useEffect, useState } from 'react';
-import { communes, regions } from '@ducati/types';
+import { communes, regions } from '@riders/types';
 
 export const AddressForm = (props: AddressFormProps) => {
   const { className, isBilling = false, sendForm, initialValues, ...rest } = props;

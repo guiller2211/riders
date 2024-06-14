@@ -1,4 +1,4 @@
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 
 import { Link, Text, View, Divider } from 'reshaped';
 

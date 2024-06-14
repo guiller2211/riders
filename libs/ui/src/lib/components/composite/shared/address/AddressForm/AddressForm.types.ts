@@ -1,4 +1,4 @@
-import { AddressData } from '@ducati/types';
+import { AddressData } from '@riders/types';
 import type { FormEvent } from 'react';
 
 import type { ViewProps } from 'reshaped';

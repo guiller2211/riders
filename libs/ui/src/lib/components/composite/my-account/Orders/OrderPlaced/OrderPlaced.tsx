@@ -4,7 +4,7 @@ import { Card, Text, View } from '../../../../atomic';
 import { CreditCardIcon } from '../../../shared';
 import type { OrderPlacedProps } from './OrderPlaced.types';
 import { useState } from 'react';
-import { communes, regions } from '@ducati/types';
+import { communes, regions } from '@riders/types';
 
 const OrderPlaced = (props: OrderPlacedProps) => {
   const { payment, createdDate, shippingInfo, shippingMethod } =

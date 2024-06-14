@@ -6,7 +6,7 @@ import { INITIAL_STATE, slice } from './UserProvider.slice';
 import type { Context, UserProviderProps } from './UserProvider.types';
 import { addDoc, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services';
-import { AddressData, getAddress } from '@ducati/ui';
+import { AddressData, getAddress } from '@riders/ui';
 
 export const UserContext = createContext<Context>({} as Context);
 

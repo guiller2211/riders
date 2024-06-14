@@ -14,7 +14,7 @@ import {
 import { ValidationUtils } from '../../../../../utils';
 import { SendProductProps } from './SendProduct.types';
 import { FileUpload } from 'reshaped';
-import { ProductEnum } from '@ducati/types';
+import { ProductEnum } from '@riders/types';
 
 export const SendProduct = (props: SendProductProps) => {
   const { sendForm, isLoading } = props;

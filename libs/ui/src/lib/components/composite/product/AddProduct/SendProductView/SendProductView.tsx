@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Text, View } from '../../../../atomic';
 import { AlertNotification, AlertNotificationEnum } from '../../../shared';
-import { SendProduct, useResponsiveClientValue } from '@ducati/ui';
+import { SendProduct, useResponsiveClientValue } from '@riders/ui';
 import { SendProductViewProps } from './SendProductView.types';
 
 export const SendProductView = (props: SendProductViewProps) => {

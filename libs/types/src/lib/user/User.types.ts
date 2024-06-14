@@ -1,4 +1,4 @@
-import { UserData } from "@ducati/ui";
+import { UserData } from "@riders/ui";
 
 export type UserProps = {
   user: UserData;

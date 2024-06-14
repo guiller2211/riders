@@ -1,5 +1,5 @@
 
-import type { CreditCardPaymentInfo, OrderStatus, ShippingMethod } from '@ducati/types';
+import type { CreditCardPaymentInfo, OrderStatus, ShippingMethod } from '@riders/types';
 
 
 import { OrderEntryData } from '../../../../../types/OrderData.types';

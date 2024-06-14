@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { TextProps } from 'reshaped';
-import { CartEntry as CartEntryData, TypeVariamEnum } from '@ducati/types';
+import { CartEntry as CartEntryData, TypeVariamEnum } from '@riders/types';
 
 import type { CartEntryProps, CartActionsProps } from './CartEntry.types';
 import {

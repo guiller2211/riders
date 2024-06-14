@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { CaseReducerActions } from '@reduxjs/toolkit';
 
 import type { slice } from './UserProvider.slice';
-import { AddressData, Session, UserProps } from '@ducati/types';
+import { AddressData, Session, UserProps } from '@riders/types';
 
 export type CaseReducers = typeof slice.caseReducers;
 

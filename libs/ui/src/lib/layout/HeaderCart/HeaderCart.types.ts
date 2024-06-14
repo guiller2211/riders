@@ -1,4 +1,4 @@
-import { CartData, CartEntry } from '@ducati/types';
+import { CartData, CartEntry } from '@riders/types';
 
 export type HeaderCartProps = {
   cart?: CartData;

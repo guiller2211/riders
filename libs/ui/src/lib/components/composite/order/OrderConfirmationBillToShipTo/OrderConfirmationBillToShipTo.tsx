@@ -1,7 +1,7 @@
 import { Text, View } from 'reshaped';
 import type { OrderConfirmationBillToShipToProps } from './OrderConfirmationBillToShipTo.types';
 import { useState } from 'react';
-import { communes, regions } from '@ducati/types';
+import { communes, regions } from '@riders/types';
 
 const OrderConfirmationBillToShipTo = (
   props: OrderConfirmationBillToShipToProps,

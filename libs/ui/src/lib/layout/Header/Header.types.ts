@@ -1,4 +1,4 @@
-import type { CartData, UIComposedProps, CartEntry } from '@ducati/types';
+import type { CartData, UIComposedProps, CartEntry } from '@riders/types';
 
 import type { HeaderCartProps } from '../HeaderCart';
 import type { HeaderUserProps } from '../HeaderUser';

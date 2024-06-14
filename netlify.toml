@@ -1,7 +1,7 @@
 #############################################################################
-# DUCATI
+# riders
 
-## The following Netlify configurration is for the ducati application ONLY
+## The following Netlify configurration is for the riders application ONLY
 ## In situations where multiple sites need to be deployed from a monorepo,
 ## Netlify configuration should be managed directly via the UI
 #############################################################################
@@ -9,11 +9,11 @@
 ## -- BUILD -- ##
 
 [build]
-command = "npx nx build ducati --skip-nx-cache && npx nx server:netlify ducati --skip-nx-cache"
-publish = "apps/ducati/dist/public"
+command = "npx nx build riders --skip-nx-cache && npx nx server:netlify riders --skip-nx-cache"
+publish = "apps/riders/dist/public"
 
 [build.environment]
-PROJECT_NAME = "ducati"
+PROJECT_NAME = "riders"
 
 ## - PROXY & CACHE -- ##
 
@@ -43,7 +43,7 @@ for = "/build/*"
 ## -- FUNCTIONS -- ##
 
 [functions]
-directory = "apps/ducati/dist/netlify"
+directory = "apps/riders/dist/netlify"
 external_node_modules = [
   "@remix-run/react",
   "@remix-run/node",
@@ -70,7 +70,7 @@ external_node_modules = [
   "axios",
   "classnames",
 ]
-included_files = ["apps/ducati/dist/index.js", "apps/ducati/data/**", "apps/ducati/config/*.json"]
+included_files = ["apps/riders/dist/index.js", "apps/riders/data/**", "apps/riders/config/*.json"]
 node_bundler = "esbuild"
 
 ## -- PLUGINS -- ##

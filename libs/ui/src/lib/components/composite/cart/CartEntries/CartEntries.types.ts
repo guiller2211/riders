@@ -1,4 +1,4 @@
-import { CartEntry } from '@ducati/types';
+import { CartEntry } from '@riders/types';
 
 export type CartEntriesProps = {
   entries: CartEntry[];

@@ -2,7 +2,7 @@ import { Button, Icon, Text, View } from '../../../atomic';
 import { useResponsiveClientValue } from '../../../../hooks';
 import { IconCart, IconFilter } from '../../../../icons';
 import type { CartEmptyProps } from './CartEmpty.types';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 
 const CartEmpty = (props: CartEmptyProps) => {
   const { data, isMiniCart } = props;

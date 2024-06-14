@@ -2,7 +2,7 @@ import { useResponsiveClientValue } from 'reshaped';
 import { IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 import { useAuth } from '../../../context';
 import { useNavigate } from 'react-router-dom';
 

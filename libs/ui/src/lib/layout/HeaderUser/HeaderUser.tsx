@@ -1,6 +1,6 @@
 import { Button, View, Text, Actionable, Icon, DropdownMenu } from '../../components/atomic';
 import { IconChevronRight, IconHome, IconPerson } from '../../icons';
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 import { signOut } from 'firebase/auth';
 import { useAuth } from '../../context';
 import { useNavigate } from '@remix-run/react';

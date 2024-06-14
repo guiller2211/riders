@@ -1,4 +1,4 @@
-import { AppRoutes } from '@ducati/types';
+import { AppRoutes } from '@riders/types';
 import { IconArrowRight, IconPersonCircle } from '../../../../icons';
 import { Button, Card, Icon, Text, View } from '../../../atomic';
 

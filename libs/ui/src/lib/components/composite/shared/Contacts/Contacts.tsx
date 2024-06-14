@@ -1,4 +1,4 @@
-import { Button, FormControl, Select, Text, TextArea, TextField, View, useResponsiveClientValue } from '@ducati/ui';
+import { Button, FormControl, Select, Text, TextArea, TextField, View, useResponsiveClientValue } from '@riders/ui';
 import { useState } from 'react';
 
 export const Contacts = () => {

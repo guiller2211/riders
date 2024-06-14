@@ -10,9 +10,9 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "paths": {
-      "@ducati/firebase": ["libs/providers/firebase/src/index.ts"],
-      "@ducati/types": ["libs/types/src/index.ts"],
-      "@ducati/ui": ["libs/ui/src/index.ts"]
+      "@riders/firebase": ["libs/providers/firebase/src/index.ts"],
+      "@riders/types": ["libs/types/src/index.ts"],
+      "@riders/ui": ["libs/ui/src/index.ts"]
     },
     "rootDir": ".",
     "skipLibCheck": true,

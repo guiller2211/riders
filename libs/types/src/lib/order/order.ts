@@ -4,8 +4,8 @@ import type { Resource } from '../resource';
 import type { User } from '../user';
 import type { AddressData } from '../user/address';
 import type {  DeliveryCostData, PriceData } from '../price';
-import { Money, ProductData } from '@ducati/types';
-import { CreditCardEnum, PaymentProps } from '@ducati/ui';
+import { Money, ProductData } from '@riders/types';
+import { CreditCardEnum, PaymentProps } from '@riders/ui';
 
 export enum OrderStatus {
   InProcess = 'Procesando',

@@ -1,4 +1,4 @@
-import { OrderStatus } from "@ducati/types";
+import { OrderStatus } from "@riders/types";
 
 
 export class ColorUtils {

@@ -1,4 +1,4 @@
-import { CartEntry, TypeVariamEnum } from "@ducati/types";
+import { CartEntry, TypeVariamEnum } from "@riders/types";
 import { FormEvent } from "react";
 
 export type AddToCartProps = {

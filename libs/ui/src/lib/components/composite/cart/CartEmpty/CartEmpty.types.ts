@@ -1,4 +1,4 @@
-import type { UIComposedProps } from '@ducati/types';
+import type { UIComposedProps } from '@riders/types';
 
 export type CartEmptyProps = {
   data: UIComposedProps;

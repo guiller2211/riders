@@ -1,4 +1,4 @@
-import { Order } from "@ducati/types";
+import { Order } from "@riders/types";
 
 export type OrderProps = {
   order: Order;

@@ -1,4 +1,4 @@
-import { UIComposedProps } from "@ducati/types";
+import { UIComposedProps } from "@riders/types";
 
 export type UserHeaderProps = {
   user: HeaderUserProps;

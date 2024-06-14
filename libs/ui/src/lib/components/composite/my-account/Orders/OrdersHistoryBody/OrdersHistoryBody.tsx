@@ -5,8 +5,8 @@ import { Badge, Link, Text, View } from '../../../../atomic';
 import type { OrdersHistoryBodyProps } from './OrderHistoryBody.types';
 import { IconBoxArrowUpRight } from '../../../../../icons';
 import { Price } from '../../../shared';
-import { AppRoutes, OrderStatus } from '@ducati/types';
-import { ColorUtils, FormatDate } from '@ducati/ui';
+import { AppRoutes, OrderStatus } from '@riders/types';
+import { ColorUtils, FormatDate } from '@riders/ui';
 
 
 
