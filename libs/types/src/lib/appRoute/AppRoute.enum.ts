@@ -16,6 +16,9 @@ export enum AppRoutes {
   WishList = '/my-account/wishlist',
   Logout = '/my-account/logout',
 
+  Contacts = '/contacts',
+  Me = 'https://guillermo-araujo.netlify.app/',
+
   Help = '/help-center',
 
   Home = '/',

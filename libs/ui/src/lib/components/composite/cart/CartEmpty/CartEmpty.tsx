@@ -65,7 +65,7 @@ const CartEmpty = (props: CartEmptyProps) => {
                   <Button
                     size="xlarge"
                     color="black"
-                    href={data.link.props.href}
+                    href={AppRoutes.Category}
                   >
                     continuar
                   </Button>

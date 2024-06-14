@@ -18,14 +18,14 @@ function getFacetData(): FacetProps[] {
       isOpen: true,
       values: [
         {
-          name: 'Nuevas',
+          name: 'Cascos',
           type: FacetValueTypeEnum.Link,
-          quantity: 55,
+          quantity: 1,
         },
         {
-          name: 'Seminuevas',
+          name: 'Guantes',
           type: FacetValueTypeEnum.Link,
-          quantity: 33,
+          quantity: 1,
         }
       ],
     },

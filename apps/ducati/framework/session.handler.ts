@@ -1,7 +1,6 @@
 import type {
   Session as RemixSession,
   SessionData as RemixSessionData,
-  SessionStorage as RemixSessionStorage,
 } from '@remix-run/node';
 import type { InnerSession } from '@ducati/types';
 import { getSession } from '../app/server/fb.sessions.server';
@@ -51,11 +50,3 @@ export async function getSessionDucati(request: Request): Promise<InnerSession> 
     },
   };
 }
-
-/*   async commitSession(session: InnerSession): Promise<string> {
-    return this.sessionStorage.commitSession(session.dangerousInner());
-  }
-
-  async destroySession(session: InnerSession): Promise<string> {
-    return this.sessionStorage.destroySession(session.dangerousInner());
-  } */

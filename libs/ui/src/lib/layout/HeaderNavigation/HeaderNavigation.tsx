@@ -1,4 +1,4 @@
-import type { UIComposedProps } from '@ducati/types';
+import { AppRoutes, type UIComposedProps } from '@ducati/types';
 
 import {
   Button,
@@ -13,7 +13,7 @@ export const HeaderNavigation = (props: { nodes: UIComposedProps[] }) => {
   const { nodes } = props;
   return (
     <View gap={2} direction="row" >
-      {nodes?.map((nav,i) => {
+      {nodes?.map((nav, i) => {
         return nav.nodes && nav.nodes.length > 0 ? (
           <DropdownMenu key={i}>
             <DropdownMenu.Trigger>
@@ -33,7 +33,10 @@ export const HeaderNavigation = (props: { nodes: UIComposedProps[] }) => {
             <DropdownMenu.Content>
               {nav.nodes?.map((node, i) => {
                 return (
-                  <DropdownMenu.Item href={node.button?.props?.href} key={i}>
+                  <DropdownMenu.Item
+                    href={node.button?.props?.href}
+                    key={i}
+                    attributes={node.button?.props?.href === AppRoutes.Me ? { target: "_blank" } : {}}>
                     <Text variant="body-3" weight="medium">
                       {node.button?.message}
                     </Text>

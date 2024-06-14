@@ -1,5 +1,5 @@
 import WishlistPage from '../ui/pages/my-account/wishlist.page'
-import { LoaderArgs, ActionArgs } from '@remix-run/node';
+import { LoaderArgs } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 

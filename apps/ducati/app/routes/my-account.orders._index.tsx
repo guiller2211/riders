@@ -13,7 +13,6 @@ import { getOrders } from '../service/order.data.service';
 
 export async function loader({
   request,
-  context
 }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
 

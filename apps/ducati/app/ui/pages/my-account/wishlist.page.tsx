@@ -50,7 +50,6 @@ export default function WishlistPage() {
                         <ProductListForPLP
                             products={wishlist}
                             sendForm={sendAddProduct} />
-
                 }
             </View.Item>
         </View>

@@ -48,7 +48,6 @@ export async function loader({ request }: LoaderArgs) {
       layout.header.user.isLoggedIn = false;
     }
 
-
   }
 
   let cart: CartData | undefined | null = undefined;

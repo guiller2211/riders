@@ -11,7 +11,7 @@ export async function getOrder(uid: string): Promise<OrderData> {
             if (uid) {
                 const customerSnapshot = await getDoc(customerRef);
                 if (!customerSnapshot.exists()) {
-                    reject(new Error("Customer not found"));
+                    reject(new Error("Customer no Encontrado"));
                     return;
                 }
 
@@ -19,7 +19,7 @@ export async function getOrder(uid: string): Promise<OrderData> {
                 const orderIDs: string[] = customerData?.orderID || [];
 
                 if (orderIDs.length === 0) {
-                    reject(new Error("No orders found for this customer"));
+                    reject(new Error("No hay orden encontrada para este cliente"));
                     return;
                 }
 
@@ -28,14 +28,14 @@ export async function getOrder(uid: string): Promise<OrderData> {
                 const orderSnapshot = await getDoc(orderRef);
 
                 if (!orderSnapshot.exists()) {
-                    reject(new Error("Order not found"));
+                    reject(new Error("Order no encontrada"));
                     return;
                 }
 
                 const orderData = orderSnapshot.data() as OrderData;
                 resolve(orderData);
             } else {
-                reject(new Error("Invalid UID"));
+                reject(new Error("UID Invalido"));
             }
         } catch (error) {
             console.error("Error al obtener la orden:", error);
@@ -47,7 +47,7 @@ export async function getOrder(uid: string): Promise<OrderData> {
 export async function getOrderByNumOrder(numOrder: number): Promise<OrderData> {
     try {
         if (!numOrder) {
-            throw new Error("Invalid numOrder");
+            throw new Error("numOrder Invalid");
         }
 
         const ordersRef = collection(db, "orders");
@@ -55,7 +55,7 @@ export async function getOrderByNumOrder(numOrder: number): Promise<OrderData> {
         const querySnapshot = await getDocs(q);
 
         if (querySnapshot.empty) {
-            throw new Error("Order not found");
+            throw new Error("Order no encontrado");
         }
 
         const orderDoc = querySnapshot.docs[0];

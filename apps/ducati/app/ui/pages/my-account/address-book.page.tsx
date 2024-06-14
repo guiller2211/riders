@@ -58,7 +58,6 @@ export default function AddressBookPage() {
               addresses={address}
               sendForm={submitForm}
               deleteAddress={deleteAddress}
-
             />
         }
       </View.Item>

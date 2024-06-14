@@ -40,7 +40,6 @@ export const SignUpPage = () => {
     }
   };
 
-
   return (
     <View gap={10} paddingInline={useResponsiveClientValue({ s: 10, l: 20 })}>
       <SignUpView

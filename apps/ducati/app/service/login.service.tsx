@@ -6,7 +6,7 @@ import { auth } from "@ducati/firebase";
 export const loginWithEmailAndPassword = async (email: string, password: string) => {
     try {
         if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
-            throw new Error('Invalid email or password');
+            throw new Error('Correo o Contraseña Invalida');
         }
 
         const authResp: UserCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -14,7 +14,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
         if (authResp) {
             const currentUser = auth.currentUser;
             if (!currentUser) {
-                throw new Error('User not autorizado');
+                throw new Error('Usuario no autorizado');
             }
 
             const __session = await currentUser.getIdToken();
@@ -38,7 +38,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
 export const createAccount = async (user: Customer, password: string) => {
     try {
         if (!user.email || !password || typeof user.email !== 'string' || typeof password !== 'string') {
-            throw new Error('Invalid email or password');
+            throw new Error('Correo o Contraseña Invalida');
         }
 
         const authResp = await createUserWithEmailAndPassword(auth, user.email, password);

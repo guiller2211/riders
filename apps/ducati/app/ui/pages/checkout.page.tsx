@@ -14,12 +14,10 @@ export default function CheckoutPage() {
       paddingBlock={12}
       paddingInline={6}
       gap={useResponsiveClientValue({ s: 12, l: 18 })}
-
     >
       <Outlet />
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 4 })}>
         <Card padding={8}>
-
           <OrderSummary
             subTotal={cart?.totalPrice}
             total={cart?.totalPrice}

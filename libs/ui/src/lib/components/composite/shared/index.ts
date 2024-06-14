@@ -7,3 +7,4 @@ export * from './misc';
 export * from './price';
 export * from './address';
 export * from './payment';
+export * from './Contacts';

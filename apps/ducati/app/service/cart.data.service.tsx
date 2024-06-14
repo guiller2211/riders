@@ -185,20 +185,20 @@ export async function addItemToCart(
 export async function deleteEntryBySku(cartCustomer: CartData, productCode: string) {
   try {
     if (!cartCustomer.id || !productCode) {
-      throw new Error("Invalid input parameters");
+      throw new Error("Parametro Invalido");
     }
 
     const docRef = doc(db, "cart", cartCustomer.id);
     const cartSnapshot = await getDoc(docRef);
 
     if (!cartSnapshot.exists()) {
-      throw new Error("Cart data not found");
+      throw new Error("Carro no encontrado");
     }
 
     const cartData = cartSnapshot.data() as CartData;
 
     if (!cartData || !cartData.entries) {
-      throw new Error("Invalid or incomplete cart data");
+      throw new Error("Carro invalido o data incompleta");
     }
 
     const updatedEntries = cartData.entries.filter(entry =>
@@ -225,8 +225,8 @@ export async function deleteEntryBySku(cartCustomer: CartData, productCode: stri
 
     return getCartById(cartCustomer.id);
   } catch (error) {
-    console.error("Error deleting entry:", error);
-    throw error; // Re-throw the error for the caller to handle
+    console.error("Error al eliminar entry:", error);
+    throw error; 
   }
 }
 

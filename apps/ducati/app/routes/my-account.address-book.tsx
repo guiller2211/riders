@@ -1,5 +1,5 @@
 import AddressBookPage from '../ui/pages/my-account/address-book.page';
-import { LoaderArgs, ActionArgs, redirect } from '@remix-run/node';
+import { LoaderArgs, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -12,7 +12,6 @@ import { meta } from '../root';
 
 export async function loader({
   request,
-  context
 }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'AddressBookPage.tsx' });
 

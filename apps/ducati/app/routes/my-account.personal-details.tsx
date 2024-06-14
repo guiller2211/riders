@@ -1,5 +1,5 @@
 import PersonalDetailsPage from '../ui/pages/my-account/personal-details.page';
-import { ActionArgs, LoaderArgs, json, redirect } from '@remix-run/node';
+import { LoaderArgs, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -9,11 +9,9 @@ import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid, updateCustomer } from '../service/user.data.service';
 import { Customer } from '@ducati/types';
 import { meta } from '../root';
-import { Auth, User } from 'firebase/auth';
 
 export async function loader({
   request,
-  context
 }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
 

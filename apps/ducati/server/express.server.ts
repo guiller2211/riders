@@ -28,7 +28,7 @@ sourceMapSupport.install();
 
 const app: Express = express();
 
-// Usa Helmet para configurar múltiples encabezados de seguridad
+// Helmet para configurar múltiples encabezados de seguridad
 app.use(
   helmet({
     contentSecurityPolicy: {

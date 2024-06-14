@@ -6,7 +6,7 @@ export interface CartData extends AbstractOrder {
 }
 
 export interface CartEntry extends AbstractOrderEntry {
-  readOnly?: boolean; // FE only
+  readOnly?: boolean; 
 }
 
 export interface CartAction {

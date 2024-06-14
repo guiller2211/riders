@@ -3,9 +3,6 @@ import {
   type HeaderProps,
   type LayoutProps,
 } from '@ducati/ui';
-import p1 from '../public/assets/images/product/1.png';
-import p2 from '../public/assets/images/product/2.png';
-import p3 from '../public/assets/images/product/3.png';
 import b6 from '../public/assets/images/imagesDemo/6.png';
 import b7 from '../public/assets/images/imagesDemo/7.png';
 import b8 from '../public/assets/images/imagesDemo/8.png';
@@ -18,9 +15,6 @@ import c6 from '../public/assets/images/categories/Triumph.png';
 import logo from '../public/assets/images/logo/logo.png';
 import { AppRoutes } from '@ducati/types';
 
-const PRODUCT_IMAGE_1 = p1;
-const PRODUCT_IMAGE_2 = p2;
-const PRODUCT_IMAGE_3 = p3;
 const LOGO_IMAGE = logo;
 
 function getHeaderLogo(): HeaderLogoProps {
@@ -50,16 +44,15 @@ function getCategoryCarousel() {
 
 function getHeaderNavigation() {
   return [
-    { button: { message: 'INICIO', props: { href: '/' } } },
+    { button: { message: 'INICIO', props: { href: AppRoutes.Home } } },
     {
-      button: { message: 'PRODUCTOS', props: { href: '/category' } },
+      button: { message: 'PRODUCTOS', props: { href: AppRoutes.Category } },
     },
     {
       button: { message: 'CONTACTO' },
       nodes: [
-        { button: { message: 'Category 13', props: { href: '/category' } } },
-        { button: { message: 'Category 14', props: { href: '/category' } } },
-        { button: { message: 'Category 15', props: { href: '/category' } } },
+        { button: { message: 'Contactos', props: { href: AppRoutes.Contacts } } },
+        { button: { message: 'Nosotros', props: { href: AppRoutes.Me } } }
       ],
     },
   ];
@@ -67,7 +60,7 @@ function getHeaderNavigation() {
 function getUserMenu() {
   return [
     {
-      button: { message: 'Mi Cuenta', props: { href: '/my-account' } }
+      button: { message: 'Mi Cuenta', props: { href: AppRoutes.Dashboard } }
     },
     {
       button: { message: 'Datos Personales', props: { href: AppRoutes.PersonalDetails } },

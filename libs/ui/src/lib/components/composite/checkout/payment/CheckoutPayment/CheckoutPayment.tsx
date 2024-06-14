@@ -30,7 +30,6 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
     sendForm && sendForm(savePay)
 
   }
-
   return (
     <View
       borderRadius="small"

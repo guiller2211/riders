@@ -92,8 +92,6 @@ export const sessionLogin = async (request: any, idToken: string, redirectTo?: s
   }
 };
 
-
-
 export const sessionLogout = async (request: any) => {
   const session = await getSession(request.headers.get("cookie"));
   return admin

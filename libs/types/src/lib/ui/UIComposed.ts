@@ -5,7 +5,6 @@ import type { UITextProps } from './UIText';
 import type { UILinkProps } from './UILink';
 import type { UIDeviceImageProps } from './UIDeviceImage';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface UIComposedType {}
 
 export interface UIComposedProps {
