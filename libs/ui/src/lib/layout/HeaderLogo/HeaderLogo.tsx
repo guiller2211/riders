@@ -6,7 +6,7 @@ export const HeaderLogo = (props: HeaderLogoProps) => {
   return (
     <View align="center">
       <Link href={link?.href}>
-        <Image width="100%" height='9rem' src={image?.desktop?.src} />
+        <Image width="100%" height='6rem' src={image?.desktop?.src} />
       </Link>
     </View>
   );
