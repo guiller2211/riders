@@ -1,5 +1,4 @@
 import { createHash } from 'crypto';
-import { getSession, commitSession } from './fb.sessions.server';
 
 export const generateCsrfToken = async (session: any) => {
   const csrfToken = createHash('sha256').update(session.id + process.env.CSRF_SECRET).digest('hex');

@@ -19,6 +19,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const authInstance = getAuth(appFirebase);
     setAuth(authInstance); // Establecer auth aquí
 
+    // Este código solo se ejecutará en el cliente
+    if (typeof window !== 'undefined') {
+      const body = document.querySelector('body');
+      if (body) {
+        body.setAttribute('cz-shortcut-listen', 'true');
+      }
+    }
+
     const unsubscribe = onAuthStateChanged(authInstance, (user) => {
       setUser(user);
       setLoading(false);
