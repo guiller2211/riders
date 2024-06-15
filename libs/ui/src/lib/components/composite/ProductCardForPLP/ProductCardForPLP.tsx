@@ -48,6 +48,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
       </Text>
 
       <Text variant="body-3">SKU: {product.sku}</Text>
+      <Text variant="body-3">Stock: {product.stock?.quantity}</Text>
 
       <Text variant="body-3">Precio:  {product.value
         ? product.value.centsAmount

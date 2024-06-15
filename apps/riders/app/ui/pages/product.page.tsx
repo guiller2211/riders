@@ -14,6 +14,7 @@ import {
   Card,
   AlertNotification,
   AlertNotificationEnum,
+  ProductSpecifications,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -102,14 +103,6 @@ const ProductDetailPage = () => {
                   <ImageGallery images={loaderData.product.image} />
                 </View.Item>
               )}
-              {loaderData.product?.description && (
-                <View.Item columns={12}>
-                  <Text variant="featured-3" weight="bold" color="neutral">
-                    Descripcion
-                  </Text>
-                  <ProductOverview summary={loaderData.product?.description} />
-                </View.Item>
-              )}
             </View>
           </View.Item>
 
@@ -179,6 +172,9 @@ const ProductDetailPage = () => {
                 </Text>
               )}
 
+              <Text variant='body-2' weight='bold'>
+                Stock: {loaderData.product?.stock?.quantity}
+              </Text>
               <View.Item columns={12}>
                 <Divider />
               </View.Item>
@@ -188,7 +184,8 @@ const ProductDetailPage = () => {
                   <AddToCart
                     productCode={loaderData.product?.sku ?? ''}
                     showInPlp
-                    stockAvailable={230}
+                    min={1}
+                    stockAvailable={loaderData.product?.stock?.quantity!}
                     sendForm={sendAddProduct}
                     variant={[size!, color!]}
                     result={result}
@@ -216,6 +213,19 @@ const ProductDetailPage = () => {
           <Divider />
         </View>
       </View.Item>
+
+      {loaderData.product?.description && (
+        <View.Item columns={12}>
+          <View backgroundColor='white' borderRadius='large' padding={10}>
+
+          <ProductSpecifications
+            defaultActive
+            specifications={[{ label: 'Descripcion', value: loaderData.product?.description }]}
+          />
+
+          </View>
+        </View.Item>
+      )}
 
     </View>
   );

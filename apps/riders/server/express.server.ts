@@ -62,7 +62,8 @@ app.use(
           "https://sdk.mercadopago.com",
           "https://events.mercadopago.com",
           "https://api-static.mercadopago.com",
-          "https://securetoken.googleapis.com"
+          "https://securetoken.googleapis.com",
+          "https://firebasestorage.googleapis.com"
         ],
         fontSrc: ["'self'"],
         objectSrc: ["'none'"],

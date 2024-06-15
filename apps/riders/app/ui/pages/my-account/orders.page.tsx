@@ -26,7 +26,7 @@ const Empty = () => {
       </View.Item>
 
       <View.Item columns={12}>
-        <Button icon={IconCart2} size="xlarge" color="primary">
+        <Button size="xlarge" color="primary">
           Vacio
         </Button>
       </View.Item>

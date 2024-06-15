@@ -377,6 +377,34 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
       phoneNumber: customerData.phoneNumber || ''
     };
 
+    for (const entry of entries) {
+      const productRef = doc(db, "product", entry.id!);
+      await runTransaction(db, async (transaction) => {
+        const productDoc = await transaction.get(productRef);
+
+        if (!productDoc.exists()) {
+          throw new Error(`El producto con ID ${entry.id} no existe.`);
+        }
+
+        const productData = productDoc.data();
+        const stockData = productData.stock;
+
+        if (!stockData.available) {
+          throw new Error(`El producto ${entry.id} no está disponible.`);
+        }
+
+        const newStock = parseInt(stockData.quantity) - entry.quantity;
+
+        if (newStock < 0) {
+          throw new Error(`Stock insuficiente para el producto ${entry.id}.`);
+        }
+
+        transaction.update(productRef, {
+          'stock.quantity': newStock.toString()
+        });
+      });
+    }
+
     const orderDoc = await addDoc(collection(db, "orders"), {
       entries,
       numOrder,
@@ -405,5 +433,6 @@ export const setPayment = async (value: PaymentProps, uid: string) => {
     throw error;
   }
 };
+
 
 
