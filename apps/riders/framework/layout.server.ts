@@ -12,17 +12,19 @@ import c3 from '../public/assets/images/categories/Kawasaki.png';
 import c4 from '../public/assets/images/categories/Skidoo.png';
 import c5 from '../public/assets/images/categories/Surron.png';
 import c6 from '../public/assets/images/categories/Triumph.png';
-import logo from '../public/assets/images/logo/logo.png';
+import logo_d from '../public/assets/images/logo/logo_1.png';
+import logo_m from '../public/assets/images/logo/logo_m_1.png';
 import { AppRoutes } from '@riders/types';
 
-const LOGO_IMAGE = logo;
+const LOGO_IMAGE_DESKTOP = logo_d;
+const LOGO_IMAGE_MOBILE = logo_m;
 
 function getHeaderLogo(): HeaderLogoProps {
   return {
     link: { href: '/category' },
     image: {
-      desktop: { src: LOGO_IMAGE },
-      mobile: { src: LOGO_IMAGE },
+      desktop: { src: LOGO_IMAGE_DESKTOP },
+      mobile: { src: LOGO_IMAGE_MOBILE },
     },
   };
 }

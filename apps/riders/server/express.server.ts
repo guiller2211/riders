@@ -118,7 +118,7 @@ app.use((request, response, next) => {
 // Configuración para limitar la tasa de solicitudes (rate limiting)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutos
-  max: 100, // limita cada IP a 100 solicitudes por ventana de 15 minutos
+  max: 1000, // limita cada IP a 1000 solicitudes por ventana de 15 minutos
   message: 'Demasiadas solicitudes, por favor intente nuevamente más tarde.',
 });
 
