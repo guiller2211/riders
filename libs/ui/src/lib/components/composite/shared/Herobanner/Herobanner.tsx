@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Scrim, View, Image, Text, Button } from '../../../atomic';
 import { HerobannerProps } from './Herobanner.types';
 import { StandaloneSearchBox, useResponsiveClientValue } from '@riders/ui';
+import { AppRoutes } from '@riders/types';
 
 export const Herobanner = (props: HerobannerProps) => {
   const { images } = props;
@@ -21,20 +22,15 @@ export const Herobanner = (props: HerobannerProps) => {
   const imagePath = images?.[imageIndex]?.src || '';
 
   return (
-    <View overflow="hidden" height={useResponsiveClientValue({ s: 120, l: 250 })}>
-      <Scrim backgroundSlot={<Image src={imagePath} width="100%" />} position='full'>
+    <View overflow="hidden"  >
+      <Scrim backgroundSlot={<Image src={imagePath} width="100%" />} >
         <View align='center' direction="column" gap={5}>
           <Text variant={useResponsiveClientValue({ s: 'title-6', l: 'title-2' })} weight="bold">
-            ¡SABER MÁS, ANTES!
+            SIENTETE EN LIBERTAD
           </Text>
 
           <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
-            Conozca todo sobre el vehículo antes de decidirse.
-          </Text>
-
-          <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
-            {' '}
-            BUSCA 956 VEHÍCULOS
+            Conozca todo sobre calidad.
           </Text>
 
           <StandaloneSearchBox />
@@ -43,7 +39,7 @@ export const Herobanner = (props: HerobannerProps) => {
             -O-
           </Text>
 
-          <Button color="critical" size="large" rounded>
+          <Button color="critical" size="large" rounded href={AppRoutes.Category}>
             <Text variant={useResponsiveClientValue({ s: 'featured-3', l: 'featured-1' })} weight="bold">
               {' '}
               VER TODO EL INVENTARIO

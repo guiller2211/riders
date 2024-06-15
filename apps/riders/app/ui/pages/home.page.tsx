@@ -5,13 +5,15 @@ import { CategoryCarousel, Herobanner, ProductListForPLP, View, useResponsiveCli
 export const HomePage = () => {
   const { layout, product } = useLoaderData<typeof loader>();
 
+  const limitedProducts = product.slice(0, 3);
+  
   return (
     <View gap={10}>
       <Herobanner images={layout.homeImage} />
 
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
         <CategoryCarousel images={layout.categoryImage} />
-        <ProductListForPLP products={product} />
+        <ProductListForPLP products={limitedProducts} />
       </View>
     </View>
   );

@@ -2,7 +2,7 @@ import { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProduct } from '../service/product.data.service';
 import { getSession } from '../server/fb.sessions.server';
-import { CartData, CartEntry, Customer, ProductEnum } from '@riders/types';
+import { CartData, CartEntry, Customer, FacetValue, ProductEnum } from '@riders/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { CategoryPage } from '../ui/pages/category.page';
@@ -10,24 +10,14 @@ import { FacetProps, FacetValueTypeEnum } from '@riders/ui';
 import { LayoutUtils } from '../../framework/layout.server';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { meta } from '../root';
+import { getCategoriesWithProductData } from '../service/category.data.service';
 
-function getFacetData(): FacetProps[] {
+function getFacetData(categories: FacetValue[]): FacetProps[] {
   return [
     {
       name: 'Categorías',
       isOpen: true,
-      values: [
-        {
-          name: 'Cascos',
-          type: FacetValueTypeEnum.Link,
-          quantity: 1,
-        },
-        {
-          name: 'Guantes',
-          type: FacetValueTypeEnum.Link,
-          quantity: 1,
-        }
-      ],
+      values: categories,
     },
     {
       name: 'Descuentos',
@@ -47,17 +37,18 @@ function getFacetData(): FacetProps[] {
 export async function loader({ request, context: { registry } }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const products = await getProduct();
+  const categories = await getCategoriesWithProductData();
+  console.log(categories)
   const session = await getSession(request.headers.get("Cookie"));
   let uid: string = '';
 
   if (session.has('__session')) {
     uid = session.get('user')['uid'];
   }
-
   return typedjson({
     layout,
     uid,
-    facets: getFacetData(),
+    facets: getFacetData(categories),
     getProduct: products ?? [],
   });
 }

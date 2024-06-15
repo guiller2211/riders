@@ -4,13 +4,16 @@ import {
   AlertNotification,
   AlertNotificationEnum,
   Facets,
+  Pagination,
   PlpEmpty,
   ProductListForPLP,
+  displayedPerPage,
   useResponsiveClientValue,
 } from '@riders/ui';
 import { useLoaderData } from '@remix-run/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { setLikeProduct } from '../../service/user.data.service';
+import { ProductData } from '@riders/types';
 
 
 export const CategoryPage = () => {
@@ -19,6 +22,18 @@ export const CategoryPage = () => {
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [page, setPage] = useState(1);
+  const [items, setItems] = useState<ProductData[]>(loaderData?.getProduct || []);
+  const [displayedProductsList, setDisplayedProductsList] = useState<ProductData[]>([]);
+  const displayPage = 5;
+  const numPage = (num: number) => {
+    setPage(num);
+  };
+
+  useEffect(() => {
+    const displayedProducts = displayedPerPage(displayPage, page, items);
+    setDisplayedProductsList(displayedProducts);
+  }, [items, page]);
 
   const sendAddProduct = async (value: string) => {
 
@@ -62,9 +77,17 @@ export const CategoryPage = () => {
               />
             }
             <ProductListForPLP
-              products={loaderData.getProduct}
+              products={displayedProductsList}
               sendForm={sendAddProduct}
               isLoading={isLoading} />
+
+            <Pagination
+              hideSearch
+              numPage={numPage}
+              itemsPerPage={displayPage}
+              totalItems={loaderData.getProduct.length ? loaderData.getProduct.length : 0}
+            />
+
           </View>
         ) : (
           <PlpEmpty />
