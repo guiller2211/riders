@@ -16,14 +16,12 @@ const AddToCart = (props: AddToCartProps) => {
     quantityValue = 1,
     showInPlp,
     sendForm,
-    result,
-    variant
+    result
   } = props;
   const [quantity, setQuantity] = useState(quantityValue);
   const navigation = useNavigation();
   const [cartEntryData, setCartEntry] = useState<CartEntry>();
   const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
-  const [available, setAvailable] = useState(true);
   const changedQuantity = (value: number) => {
     setQuantity(value);
   };
@@ -33,12 +31,8 @@ const AddToCart = (props: AddToCartProps) => {
       onOpenDrawerHandler();
       setCartEntry(result);
     }
-  
-    if (variant && variant.every(v => v !== undefined)) {
-      setAvailable(false);
-    }
-  }, [result, variant]);
-  
+  }, [result]);
+
   return (
     <form onSubmit={sendForm}>
       <View gap={6} direction={showInPlp ? 'row' : 'column'}>
@@ -58,16 +52,8 @@ const AddToCart = (props: AddToCartProps) => {
 
         <Hidden hide>
           <TextField name="productCode" defaultValue={productCode} />
-          {variant?.map((_v, index) => (
-            _v && (
-              <div key={index}>
-                <TextField name={`type-${index}`} defaultValue={_v.type} />
-                <TextField name={`variant-${index}`} defaultValue={_v.name} />
-              </div>
-            )
-          ))}
-          
         </Hidden>
+
         <View.Item grow>
           <Button
             size='xlarge'
@@ -75,7 +61,6 @@ const AddToCart = (props: AddToCartProps) => {
             variant="solid"
             type="submit"
             fullWidth
-            disabled={available}
             loading={navigation.state === 'idle' ? false : true}
           >
             Agregar

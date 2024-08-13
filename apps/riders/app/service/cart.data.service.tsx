@@ -106,7 +106,97 @@ export async function createAnonymousCart(quantity: string, productCode: string,
     throw error;
   }
 }
+//TODO: para agregar mismo producto pero distintas variantes
+/* export async function addItemToCart(
+  cartCustomer: CartData,
+  quantity: number,
+  productCode: string,
+  update?: boolean,
+  variants?: ProductVariant[],
+) {
+  try {
+    const product = await getProductBySku(productCode);
 
+    const cartItem: CartEntry = {
+      product: {
+        image: product?.image?.filter((_i) => _i.default),
+        name: product?.name,
+        description: product?.description,
+        stock: product?.stock,
+        categories: product?.categories,
+        value: product?.value!,
+        sku: product?.sku,
+        ...(variants ? { variants } : {}),
+      },
+      id: product?.id,
+      entryNumber: 0,
+      quantity: quantity,
+      totalPrice: product?.value
+        ? { value: { ...product.value, centsAmount: (parseFloat(`${product.value.centsAmount}`) * quantity) }, }
+        : undefined,
+    };
+
+    const docRef = doc(db, "cart", cartCustomer.id!);
+    const cartSnapshot = await getDoc(docRef);
+
+    const cartData = cartSnapshot.data() as CartData;
+
+    if (!cartData || !cartData.entries) {
+      throw new Error("Los datos del carrito no son válidos o están incompletos");
+    }
+
+    // Función para comparar variantes
+    const areVariantsEqual = (variants1: ProductVariant[] | undefined, variants2: ProductVariant[] | undefined) => {
+      if (!variants1 || !variants2) return false;
+      if (variants1.length !== variants2.length) return false;
+
+      const sortedVariants1 = variants1.slice().sort((a, b) => a.id.localeCompare(b.id));
+      const sortedVariants2 = variants2.slice().sort((a, b) => a.id.localeCompare(b.id));
+
+      return sortedVariants1.every((v, i) => v.id === sortedVariants2[i].id && v.name === sortedVariants2[i].name);
+    };
+
+    const existingItem = cartData.entries.find(entry =>
+      entry.product?.sku === cartItem.product?.sku &&
+      areVariantsEqual(entry.product?.variants, cartItem.product?.variants)
+    );
+
+    if (existingItem) {
+      if (update) {
+        existingItem.quantity = cartItem.quantity;
+      } else {
+        existingItem.quantity += cartItem.quantity;
+      }
+
+      if (existingItem.totalPrice && existingItem.product?.value) {
+        existingItem.totalPrice.value.centsAmount = parseFloat(`${existingItem.product.value.centsAmount}`) * existingItem.quantity;
+      }
+      cartItem.totalPrice = existingItem.totalPrice;
+      cartItem.quantity = existingItem.quantity;
+    } else {
+      cartData.entries.push(cartItem);
+    }
+
+    const totalCentsAmount = parseFloat(`${cartData.entries.reduce((total, entry) =>
+      total + (entry.totalPrice?.value.centsAmount || 0), 0)}`
+    );
+
+    const updatedTotalPrice: PriceData = {
+      value: {
+        ...cartItem.totalPrice!.value!,
+        centsAmount: totalCentsAmount,
+      }
+    };
+
+    await setDoc(docRef, { entries: cartData.entries, totalPrice: updatedTotalPrice });
+    const cartUpdate = await getCartById(cartCustomer.id!);
+
+    return { cartItem: cartItem, cartUpdate: cartUpdate };
+  } catch (error) {
+    console.error("Error al agregar el artículo al carrito:", error);
+    throw error;
+  }
+} */
 export async function addItemToCart(
   cartCustomer: CartData,
   quantity: number,

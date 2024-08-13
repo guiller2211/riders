@@ -15,34 +15,38 @@ import {
   AlertNotification,
   AlertNotificationEnum,
   ProductSpecifications,
+  FormControl,
+  CheckboxGroup,
+  Checkbox,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import { FormEvent, useState } from 'react';
 import { useActionData, useLoaderData, useSubmit } from '@remix-run/react';
 import { action, loader } from '../../routes/product.$id';
-import { AppRoutes, TypeVariamEnum } from '@riders/types';
+import { AppRoutes } from '@riders/types';
 import { setLikeProduct } from '../../service/user.data.service';
 import { useNavigate } from 'react-router-dom';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
   const { result } = useActionData<typeof action>() ?? {};
-  const [size, setSize] = useState<{ type: TypeVariamEnum, name: string }>();
-  const [color, setColor] = useState<{ type: TypeVariamEnum, name: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string[] }>({});
   const navigate = useNavigate()
 
   const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    formData.append('variant', JSON.stringify(selectedVariants));
 
     try {
-      await submit(e.currentTarget, { method: 'post' });
+      await submit(formData, { method: 'post' });
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
     }
@@ -69,7 +73,13 @@ const ProductDetailPage = () => {
       setIsLoading(false);
     }
   };
-
+  const handleRadioChange = (name: string, value: string) => {
+    setSelectedVariants(prevState => ({
+      ...prevState,
+      [name]: [value]
+    }));
+    console.log(selectedVariants)
+  };
   return (
     <View
       direction="column"
@@ -110,6 +120,10 @@ const ProductDetailPage = () => {
             <View direction="column" gap={5} backgroundColor='page' padding={8} borderRadius='large'>
 
               <Text variant='body-2' weight='bold'>
+                Nombre: {loaderData.product?.name}
+              </Text>
+
+              <Text variant='body-2' weight='bold'>
                 SKU: {loaderData.product?.sku}
               </Text>
 
@@ -117,53 +131,40 @@ const ProductDetailPage = () => {
                 Categoria: {loaderData.product?.categories?.name}
               </Text>
 
-              <RadioGroup name="color" >
-                <View gap={1} direction='column'>
-                  <Text variant='body-1' weight='bold'>
-                    Color:
-                  </Text>
-                  <View gap={4} direction='row'>
-                    {loaderData.product?.variants
-                      ?.filter(_c => _c.type === TypeVariamEnum.Color)
-                      ?.map((_c) => (
-                        <Card key={`${_c.id}`}>
-                          <View gap={3} direction="row" align="center">
-                            <Radio
-                              value={_c.name!}
-                              onChange={(e) => setSize({ type: TypeVariamEnum.Color, name: _c.name! })}>
-                              {_c.name}
-                            </Radio>
-                          </View>
-                        </Card>
-                      ))}
-                  </View>
-                </View>
-              </RadioGroup>
+              {loaderData.variants?.map((variant, index) => {
+                const hasMatchingSubvariant = variant.subvariant?.some((data) =>
+                  loaderData.product?.variants?.some(_v => `${_v.id}` === `${data.id}`)
+                );
 
-              <RadioGroup name="size" >
-                <View gap={1} direction='column'>
-                  <Text variant='body-1' weight='bold'>
-                    Talla:
-                  </Text>
-                  <View gap={4} direction='row'>
-                    {loaderData.product?.variants
-                      ?.filter(_s => _s.type === TypeVariamEnum.Size)
-                      ?.sort((a, b) => (a.name! > b.name! ? 1 : -1))
-                      ?.reverse()
-                      ?.map((_s) => (
-                        <Card key={_s.id}>
-                          <View gap={3} direction="row" align="center">
-                            <Radio
-                              value={_s.name!}
-                              onChange={(e) => setColor({ type: TypeVariamEnum.Size, name: _s.name! })}>
-                              {_s.name}
-                            </Radio>
-                          </View>
-                        </Card>
-                      ))}
-                  </View>
-                </View>
-              </RadioGroup>
+                if (!hasMatchingSubvariant) return null;
+
+                return (
+                  <View.Item columns={6} key={variant.id}>
+                    <FormControl>
+                      <FormControl.Label>{variant.type}:</FormControl.Label>
+                      <RadioGroup name={`variant_${index}`} onChange={(e: any) => handleRadioChange(`variant_${index}`, e.value)}>
+                        <View gap={3} direction='row'>
+                          {
+                            variant.subvariant?.map((data) => {
+                              const isChecked = loaderData.product?.variants?.some(_v => `${_v.id}` === `${data.id}`);
+                              return isChecked && (
+                                <Card key={data.id}>
+                                  <View gap={3} direction="row" align="center">
+                                    <Radio value={`${data.id}__${data.name}`}>{data.name}</Radio>
+                                  </View>
+                                </Card>
+                              );
+                            })
+                          }
+                        </View>
+                      </RadioGroup>
+                      <FormControl.Error>
+                        error
+                      </FormControl.Error>
+                    </FormControl>
+                  </View.Item>
+                );
+              })}
 
 
               {loaderData.product?.value && (
@@ -187,7 +188,6 @@ const ProductDetailPage = () => {
                     min={1}
                     stockAvailable={loaderData.product?.stock?.quantity!}
                     sendForm={sendAddProduct}
-                    variant={[size!, color!]}
                     result={result}
                   />
                 </View.Item>
@@ -218,10 +218,10 @@ const ProductDetailPage = () => {
         <View.Item columns={12}>
           <View backgroundColor='white' borderRadius='large' padding={10}>
 
-          <ProductSpecifications
-            defaultActive
-            specifications={[{ label: 'Descripcion', value: loaderData.product?.description }]}
-          />
+            <ProductSpecifications
+              defaultActive
+              specifications={[{ label: 'Descripcion', value: loaderData.product?.description }]}
+            />
 
           </View>
         </View.Item>

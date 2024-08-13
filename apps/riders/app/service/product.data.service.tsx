@@ -1,6 +1,6 @@
-import { getDocs, collection, doc, getDoc, addDoc, updateDoc, query, where } from "firebase/firestore";
+import { getDocs, collection, doc, getDoc, addDoc, updateDoc, query, where, DocumentSnapshot, QuerySnapshot } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { ProductData, TypeVariamEnum } from "@riders/types";
+import { ImageData, ProductData, ProductVariant, ProductVariantData, } from "@riders/types";
 import { getProduct as getProductUtil } from "@riders/ui";
 import { db, storage } from "@riders/firebase";
 
@@ -44,23 +44,6 @@ export function getProduct() {
         });
 }
 
-
-async function getProductColors() {
-    const colorSnapshot = await getDocs(collection(db, "color"));
-    return colorSnapshot.docs.reduce((acc: any, doc) => {
-        acc[doc.id] = doc.data().color;
-        return acc;
-    }, {});
-}
-
-async function getProductSizes() {
-    const sizeSnapshot = await getDocs(collection(db, "size"));
-    return sizeSnapshot.docs.reduce((acc: any, doc) => {
-        acc[doc.id] = doc.data().size;
-        return acc;
-    }, {});
-}
-
 async function getProductImages(images: any[]) {
     const imagePromises = images.map(async (image) => {
         if (!image.url.startsWith('http')) {
@@ -73,44 +56,39 @@ async function getProductImages(images: any[]) {
     return await Promise.all(imagePromises);
 }
 
-export function getProductById(uid?: string): Promise<ProductData | null> {
-    return new Promise(async (resolve, reject) => {
-        try {
-            if (uid) {
-                const productRef = doc(db, "product", uid);
-                const productSnapshot = await getDoc(productRef);
-                const productData = productSnapshot.data() as ProductData;
+export async function getProductById(uid?: string): Promise<ProductData | null> {
+    try {
+        if (!uid) return null;
 
-                if (productData) {
-                    productData.id = productSnapshot.id;
+        const productRef = doc(db, "product", uid);
+        const productSnapshot = await getDoc(productRef);
 
-                    const colors = await getProductColors();
-                    const sizes = await getProductSizes();
+        if (!productSnapshot.exists()) return null;
 
-                    productData.variants?.forEach((variant) => {
-                        if (colors.hasOwnProperty(variant.id)) {
-                            variant.name = colors[variant.id!];
-                            variant.type = TypeVariamEnum.Color
-                        }
-                        if (sizes.hasOwnProperty(variant.id)) {
-                            variant.name = sizes[variant.id!];
-                            variant.type = TypeVariamEnum.Size
-                        }
-                    });
+        const productData = productSnapshot.data() as ProductData;
+        productData.id = productSnapshot.id;
 
-                    if (productData.image && productData.image.length > 0) {
-                        productData.image = await getProductImages(productData.image);
-                    }
-
-                    resolve(productData);
-                }
-            }
-            resolve(null);
-        } catch (error) {
-            console.error("Error al obtener productos:", error);
-            reject(error);
+        if (productData.image && productData.image.length > 0) {
+            productData.image = await resolveImageUrls(productData.image);
         }
+
+        return productData;
+    } catch (error) {
+        console.error("Error al obtener productos:", error);
+        throw error;
+    }
+}
+
+async function resolveImageUrls(images: ImageData[]): Promise<ImageData[]> {
+    const imagePromises = images.map(async (image) => {
+        if (!image.url.startsWith('http')) {
+            const imageRef = ref(storage, "/product/" + image.url);
+            image.url = await getDownloadURL(imageRef);
+        }
+        return image;
     });
+
+    return await Promise.all(imagePromises);
 }
 
 export function getProductBySku(skuId?: string): Promise<ProductData | null> {
@@ -121,19 +99,19 @@ export function getProductBySku(skuId?: string): Promise<ProductData | null> {
                 const productSnapshot = await getDocs(productQuery);
 
                 if (productSnapshot.empty) {
-                    resolve(null); // Verificar si no hay documentos
+                    resolve(null);
                 } else {
-                    const productData = productSnapshot.docs[0].data() as ProductData; // Obtener el primer documento
+                    const productData = productSnapshot.docs[0].data() as ProductData;
                     productData.id = productSnapshot.docs[0].id;
 
                     if (productData.image && productData.image.length > 0) {
                         const imagePromises = productData.image.map(async (image) => {
-                            if (!image.url.startsWith('http')) { // Verificar que la URL no comience con 'http'
+                            if (!image.url.startsWith('http')) {
                                 const imageRef = ref(storage, "/product/" + image.url);
                                 const imageUrl = await getDownloadURL(imageRef);
                                 image.url = imageUrl;
                             }
-                            return image; // Retornamos la imagen modificada
+                            return image;
                         });
 
                         const resolvedImages = await Promise.all(imagePromises);
@@ -214,5 +192,5 @@ export function addProduct(formData: FormData): Promise<{ success: boolean, mess
 
 
 export function generateRandomId() {
-    return Math.random().toString(36).substring(2); 
+    return Math.random().toString(36).substring(2);
 }

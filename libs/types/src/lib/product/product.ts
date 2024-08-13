@@ -27,17 +27,19 @@ export interface ProductData extends AbstractProduct {
 }
 
 export interface ProductVariant {
-  id?: string
+  id: string;
   name?: string;
-  type?: TypeVariamEnum;
-}
-export interface ProductVariantData {
-  [key: string]: string[];
 }
 
-export const enum TypeVariamEnum {
-  Color = 'Color',
-  Size = 'Size',
+export interface ProductVariantData extends Resource {
+  subvariant?: ProductVariant[];
+  type?: string;
+  [key: string]: string[] | string | ProductVariant | ProductVariant[] | undefined;
 }
+
+
+
+
+
 
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { TextProps } from 'reshaped';
-import { CartEntry as CartEntryData, TypeVariamEnum } from '@riders/types';
+import { CartEntry as CartEntryData } from '@riders/types';
 
 import type { CartEntryProps, CartActionsProps } from './CartEntry.types';
 import {
@@ -124,7 +124,7 @@ const CartEntryCard = (props: CartActionsProps) => {
               <Text variant="body-3">
                 sku: {entry.product?.sku}
               </Text>
-              {entry.product?.variants
+             {/*  {entry.product?.variants
                 ?.filter(_c => _c.type === TypeVariamEnum.Color)
                 .map((_c, index) => (
                   <Text key={index} variant="body-3">
@@ -136,7 +136,7 @@ const CartEntryCard = (props: CartActionsProps) => {
                   <Text key={index} variant="body-3">
                     Talla {_s.name}
                   </Text>
-                ))}
+                ))} */}
               <View.Item>
                 {entry.product?.stock && (
                   <View
@@ -311,7 +311,7 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
       <Text variant="body-3">
         canidad {entry.quantity}
       </Text>
-      {entry.product?.variants
+    {/*   {entry.product?.variants
         ?.filter(_c => _c.type === TypeVariamEnum.Color)
         .map((_c, index) => (
           <Text key={index} variant="body-3">
@@ -323,7 +323,7 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
           <Text key={index} variant="body-3">
             Talla {_s.name}
           </Text>
-        ))}
+        ))} */}
     </View>
   );
 };

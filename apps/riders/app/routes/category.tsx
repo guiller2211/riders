@@ -38,7 +38,6 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const products = await getProduct();
   const categories = await getCategoriesWithProductData();
-  console.log(categories)
   const session = await getSession(request.headers.get("Cookie"));
   let uid: string = '';
 
