@@ -1,7 +1,7 @@
 import { FormEvent } from 'react';
 import type { AddressData } from '../../../../../types';
-import type { ShippingMethod, ShippingMethodsProps } from '../CheckoutShippingMethod';
-import { CartData } from '@riders/types';
+import type { ShippingMethodsProps } from '../CheckoutShippingMethod';
+import { CartData, ShippingMethod } from '@riders/types';
 
 export type CheckoutShippingProps = {
   checkoutShippingMethods?: ShippingMethodsProps;

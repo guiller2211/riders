@@ -1,4 +1,4 @@
-import type { ShippingMethod } from '../CheckoutShippingMethod/CheckoutShippingMethod.types';
+import { ShippingMethod } from "@riders/types";
 
 export type CheckoutShippingMethodCardProps = {
   isSelected?: boolean;
