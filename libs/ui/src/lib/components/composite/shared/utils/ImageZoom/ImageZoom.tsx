@@ -14,10 +14,10 @@ const ImageZoom = (props: ImageZoomProps) => {
   return (
     <View direction="row"
       borderColor='neutral-faded'
-      borderRadius='small' backgroundColor='white'>
+      borderRadius='small' backgroundColor='white' width='80%'>
       <View.Item columns={12}>
         <View borderRadius="medium" overflow="hidden" padding={2}>
-          <Image src={props.src} width={useResponsiveClientValue({l: '50rem', s: '100%'})} />
+          <Image src={props.src} width={useResponsiveClientValue({l: 'auto', s: '100%'})} />
           <div style={{ position: "absolute", top: 12, right: 12 }}>
             <View backgroundColor='white'
               borderRadius='circular'

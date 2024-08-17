@@ -15,13 +15,11 @@ export async function loader({ request }: LoaderArgs) {
   const session = await getSession(request.headers.get("Cookie"));
 
   const product = await getProduct();
-
-
   let cart: CartData | undefined;
+  let uid: string = '';
 
   if (session.has('__session')) {
-    const uid: string = session.get('user')['uid'];
-
+    uid = session.get('user')['uid'];
     cart = await getCart(uid);
   }
 

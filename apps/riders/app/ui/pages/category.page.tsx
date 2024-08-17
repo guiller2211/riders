@@ -82,7 +82,6 @@ export const CategoryPage = () => {
               isLoading={isLoading} />
 
             <Pagination
-              hideSearch
               numPage={numPage}
               itemsPerPage={displayPage}
               totalItems={loaderData.getProduct.length ? loaderData.getProduct.length : 0}

@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, runTransaction, setDoc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, getDocs, runTransaction, setDoc, updateDoc } from "firebase/firestore";
 import { AddressData, CartData, CartEntry, Customer, OrderStatus, PriceData, ProductVariant, ShippingMethod } from "@riders/types";
 import { generateRandomId, getProductBySku } from "./product.data.service";
 import { PaymentProps } from "@riders/ui";
@@ -316,7 +316,7 @@ export async function deleteEntryBySku(cartCustomer: CartData, productCode: stri
     return getCartById(cartCustomer.id);
   } catch (error) {
     console.error("Error al eliminar entry:", error);
-    throw error; 
+    throw error;
   }
 }
 
@@ -331,24 +331,26 @@ export async function updateCustomerCart(uid: string, cart: CartData): Promise<v
 }
 
 export async function getAvailableShippingMethods() {
-  const shippingMethodSnapshot = await getDoc(doc(db, "shippingMethods", 'ljKZTpYzZWx9zQQjZgSr'));
-
   try {
-    if (shippingMethodSnapshot.exists()) {
-      const shippingMethodData = shippingMethodSnapshot.data();
-      if (shippingMethodData) {
-        const shippingMethods = shippingMethodData.shippingMethods as ShippingMethod[];
-        return shippingMethods;
-      }
-      return [];
+    const shippingMethodSnapshot = await getDocs(collection(db, "shippingMethods"));
 
+    if (!shippingMethodSnapshot.empty) {
+
+      const shippingMethodData: ShippingMethod[] = await Promise.all(
+        shippingMethodSnapshot.docs.map(async (doc) => {
+        const customerData = doc.data() as ShippingMethod;
+        customerData.id = doc.id;
+
+        return customerData;
+      }));
+
+      return shippingMethodData;
     } else {
       return [];
     }
   } catch (error) {
-    throw new Error(`Error al obtener las direcciones: ${error}`);
+    throw new Error(`Error al obtener los métodos de envío: ${error}`);
   }
-
 }
 
 export function setShippingAddress(value: AddressData, uid: string) {

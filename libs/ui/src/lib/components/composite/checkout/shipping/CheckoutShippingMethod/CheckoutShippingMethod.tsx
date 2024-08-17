@@ -8,14 +8,13 @@ import { findById } from '../../../../../utils';
 import { View, Text } from '../../../../atomic';
 import CheckoutShippingMethodCard from '../CheckoutShippingMethodCard/CheckoutShippingMethodCard';
 import type {
-  ShippingMethod,
   ShippingMethodsProps,
 } from './CheckoutShippingMethod.types';
+import { ShippingMethod } from '@riders/types';
 
 
 const CheckoutShippingMethod = (props: ShippingMethodsProps) => {
   const { methods, cart, onChangeShippingMethod, ...rest } = props;
-
 
   const getShippingMethod = () => {
     return methods && methods.length > 0 ? methods[0] : null;

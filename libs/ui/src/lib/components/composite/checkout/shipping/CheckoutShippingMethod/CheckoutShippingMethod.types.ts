@@ -1,4 +1,4 @@
-import { PriceData } from '@riders/types';
+import { PriceData, ShippingMethod } from '@riders/types';
 import type { GenericCarouselProps, PriceProps } from '../../../shared';
 
 export type ShippingMethodsProps = Omit<
@@ -9,9 +9,4 @@ export type ShippingMethodsProps = Omit<
   cart?: any
   onChangeShippingMethod?: (ShippingMethod: ShippingMethod) => void;
 };
-export type ShippingMethod = {
-  id: string;
-  name: string;
-  price: PriceData;
-  duration: string;
-};
+

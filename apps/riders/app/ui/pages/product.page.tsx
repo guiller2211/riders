@@ -3,7 +3,6 @@ import {
   ImageGallery,
   View,
   Print,
-  ProductOverview,
   Divider,
   useResponsiveClientValue,
   Text,
@@ -16,8 +15,6 @@ import {
   AlertNotificationEnum,
   ProductSpecifications,
   FormControl,
-  CheckboxGroup,
-  Checkbox,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -119,16 +116,18 @@ const ProductDetailPage = () => {
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 5 })} >
             <View direction="column" gap={5} backgroundColor='page' padding={8} borderRadius='large'>
 
+              <View direction='row' gap={4}>
+                <Text variant='caption-1' weight='bold'>
+                  SKU: {loaderData.product?.sku}
+                </Text>
+
+                <Text variant='caption-1' weight='bold'>
+                  Categoria: {loaderData.product?.categories?.name}
+                </Text>
+              </View>
+
               <Text variant='body-2' weight='bold'>
                 Nombre: {loaderData.product?.name}
-              </Text>
-
-              <Text variant='body-2' weight='bold'>
-                SKU: {loaderData.product?.sku}
-              </Text>
-
-              <Text variant='body-2' weight='bold'>
-                Categoria: {loaderData.product?.categories?.name}
               </Text>
 
               {loaderData.variants?.map((variant, index) => {

@@ -2,6 +2,7 @@ import { Button, Divider, Link, Text, TextField, View } from '../../../../atomic
 import { PaginationProps } from './Pagination.types';
 import { useEffect, useState } from 'react';
 import { IconChevronLeft, IconChevronRight } from '../../../../../icons';
+import { useResponsiveClientValue } from 'reshaped';
 
 const Pagination = (props: PaginationProps) => {
   const {
@@ -61,18 +62,17 @@ const Pagination = (props: PaginationProps) => {
         <View
           direction="row"
           align="center"
-          height={{ s: 'auto', m: 14 }}
-          gap={{ s: 6, m: 0 }}
+          gap={useResponsiveClientValue({ s: 6, m: 0 })}
         >
-          <View.Item columns={{ s: 12, m: !hideButton ? 2 : 12 }}>
-            <View justify={{ s: 'center', m: 'start' }}>
+          <View.Item columns={useResponsiveClientValue({ s: 12, m: !hideButton ? 2 : 12 })}>
+            <View align={useResponsiveClientValue({ s: 'center', m: 'start' })}>
               <Text>
                 Mostrando {startIndex} - {endIndex} de {totalItems}
               </Text>
             </View>
           </View.Item>
           {!hideButton && numberOfPages > 1 && (
-            <View.Item columns={{ s: 12, m: 8 }}>
+            <View.Item columns={useResponsiveClientValue({ s: 12, m: 8 })}>
               <View direction="row" gap={2} justify="center">
                 <Button
                   color="primary"
@@ -109,8 +109,8 @@ const Pagination = (props: PaginationProps) => {
             </View.Item>
           )}
           {!hideSearch && numberOfPages > 1 && (
-            <View.Item columns={{ s: 12, m: 2 }}>
-              <View direction="row" align="center" gap={3}>
+            <View.Item columns={useResponsiveClientValue({ s: 12, m: 2 })}>
+              <View direction="row" align="center" justify='center' gap={3}>
                 <Text align="center">
                   Ir a
                 </Text>
