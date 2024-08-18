@@ -3,8 +3,8 @@ dist
 tmp
 /out-tsc
 /libs/ui/storybook/libs
-/libs/providers/firebase/src/lib/services/firebase.service.tsx
-/apps/riders/app/server/firebase-service.json
+libs/providers/firebase/src/lib/services/firebase.service.tsx
+apps/riders/app/server/firebase-service.json
 
 # dependencies
 node_modules
