@@ -142,6 +142,9 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
       const addressDocRef = await addDoc(collection(db, 'address'), { addresses: [address] });
       addressID = addressDocRef.id;
       await updateDoc(doc(db, 'customer', customerUID), { addressID });
+      const docRef = doc(db, "address", addressID);
+      const addressesSnapshot = await getDoc(docRef);
+      addressesData = addressesSnapshot.data();
     } else {
       const uid = formData.get('addressUid') as string;
       const docRef = doc(db, "address", addressID);

@@ -35,7 +35,6 @@ export async function loader({ request, params, context: { registry } }: LoaderA
 
 export async function action({ request, context: { registry } }: ActionArgs) {
   try {
-    console.log(request, "llego");
     const formData: FormData = await request.formData();
     const session = await getSession(request.headers.get("Cookie"));
     const quantity: string = formData.get('addToCartQuantity') as string;
@@ -62,8 +61,6 @@ export async function action({ request, context: { registry } }: ActionArgs) {
       throw new Response("Invalid CSRF Token", { status: 403 });
     }
 
-
-
     let uid: string;
     let sessionCookie: string | null = null;
     let isAnonymous = false;
@@ -89,11 +86,6 @@ export async function action({ request, context: { registry } }: ActionArgs) {
         throw new Error('Sesión de usuario inválida');
       }
       uid = userSession.uid;
-    }
-
-    const customer = await getCustomerByUid(uid);
-    if (!customer) {
-      throw new Error('Cliente no encontrado');
     }
 
     const getCartCustomer: CartData = await getCart(uid);

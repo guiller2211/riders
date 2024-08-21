@@ -15,6 +15,7 @@ import {
   AlertNotificationEnum,
   ProductSpecifications,
   FormControl,
+  useAuth,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -34,11 +35,13 @@ const ProductDetailPage = () => {
   const [success, setSuccess] = useState(false);
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string[] }>({});
   const navigate = useNavigate()
+  const { auth } = useAuth();
 
   const submit = useSubmit();
 
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
     const formData = new FormData(e.currentTarget);
     formData.append('variant', JSON.stringify(selectedVariants));
 
@@ -50,17 +53,16 @@ const ProductDetailPage = () => {
   };
 
   const sendWishlistProduct = async () => {
-
     try {
       setIsLoading(true);
       if (loaderData.user?.anonymous || loaderData.user == undefined) {
         navigate(AppRoutes.Login)
       } else {
-        const result = await setLikeProduct(`${loaderData.product?.id}`, loaderData.user?.id!)
-        setMessage(`${result.message}`);
+        const resultWishlist = await setLikeProduct(`${loaderData.product?.id}`, loaderData.user?.id!)
+        setMessage(`${resultWishlist.message}`);
         setShowAlert(true);
         setIsLoading(false);
-        setSuccess(result.success)
+        setSuccess(resultWishlist.success)
       }
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
