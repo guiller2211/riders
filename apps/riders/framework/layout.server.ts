@@ -6,12 +6,11 @@ import {
 import b6 from '../public/assets/images/imagesDemo/6.png';
 import b7 from '../public/assets/images/imagesDemo/7.png';
 import b8 from '../public/assets/images/imagesDemo/8.png';
-import c1 from '../public/assets/images/categories/Can-am.png';
+import c1 from '../public/assets/images/categories/dainese-logo.png';
 import c2 from '../public/assets/images/categories/honda.png';
 import c3 from '../public/assets/images/categories/Kawasaki.png';
-import c4 from '../public/assets/images/categories/Skidoo.png';
-import c5 from '../public/assets/images/categories/Surron.png';
-import c6 from '../public/assets/images/categories/Triumph.png';
+import c4 from '../public/assets/images/categories/Surron.png';
+import c5 from '../public/assets/images/categories/Triumph.png';
 import logo_d from '../public/assets/images/logo/logo_1.png';
 import logo_m from '../public/assets/images/logo/logo_m_1.png';
 import { AppRoutes } from '@riders/types';
@@ -40,7 +39,6 @@ function getCategoryCarousel() {
     { src: c3 },
     { src: c4 },
     { src: c5 },
-    { src: c6 },
   ];
 }
 

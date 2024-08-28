@@ -44,9 +44,9 @@ const ForgotPasswordPage = () => {
       )}
       {isLoading ? (
         <Loading
-          ariaLabel="layout:loader.ariaLabel"
+          ariaLabel="Cargando..."
           size="xlarge"
-          text={{ message: 'layout:loader.message' }}
+          text={{ message: 'Cargando...' }}
           view={{
             align: 'center',
             justify: 'center',

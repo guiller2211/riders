@@ -27,10 +27,6 @@ function getFacetData(categories: FacetValue[]): FacetProps[] {
       name: 'Precio',
       values: [],
     },
-    {
-      name: 'CC',
-      values: [],
-    },
   ];
 }
 

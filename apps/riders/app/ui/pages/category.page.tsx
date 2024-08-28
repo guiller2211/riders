@@ -25,7 +25,7 @@ export const CategoryPage = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<ProductData[]>(loaderData?.getProduct || []);
   const [displayedProductsList, setDisplayedProductsList] = useState<ProductData[]>([]);
-  const displayPage = 5;
+  const displayPage = 10;
   const numPage = (num: number) => {
     setPage(num);
   };
