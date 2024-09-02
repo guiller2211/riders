@@ -10,3 +10,4 @@ export * from './getProduct-utils';
 export * from './findById-utils';
 export * from './address-utils';
 export * from './displayedPerPage-utils';
+export * from './getImage-utils';
