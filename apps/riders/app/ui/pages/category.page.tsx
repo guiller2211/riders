@@ -93,7 +93,6 @@ export const CategoryPage = () => {
               numPage={numPage}
               itemsPerPage={displayPage}
               totalItems={items.length ? items.length : 0}
-              hideSearch
             />
           </View>
         ) : (
