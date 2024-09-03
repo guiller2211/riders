@@ -11,6 +11,7 @@ export default function WishlistPage() {
     const [message, setMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [isGridView, setIsGridView] = useState(true);
 
     const sendAddProduct = async (value: string) => {
 
@@ -49,7 +50,9 @@ export default function WishlistPage() {
                         :
                         <ProductListForPLP
                             products={wishlist}
-                            sendForm={sendAddProduct} />
+                            sendForm={sendAddProduct}
+                            isGridView={isGridView}
+                        />
                 }
             </View.Item>
         </View>

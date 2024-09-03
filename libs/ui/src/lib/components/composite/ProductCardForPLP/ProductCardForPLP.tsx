@@ -1,70 +1,158 @@
-import { useResponsiveClientValue } from 'reshaped';
+import { TextProps, useResponsiveClientValue } from 'reshaped';
 import { IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
 import { AppRoutes } from '@riders/types';
 import { useAuth } from '../../../context';
 import { useNavigate } from 'react-router-dom';
+import { Price } from '../shared';
+import { useIsMobile } from '../../../utils';
+import { ProductRating } from '../product';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
-  const { product, sendForm, isLoading } = props;
+  const { isGridView, product, isLoading, sendForm } = props;
+  const isMobile = useIsMobile();
+
+  const priceText: TextProps = {
+    color: 'neutral',
+    weight: 'bold',
+    variant: 'featured-2',
+  };
   const image = product.image?.find((_image) => _image.default)
   const { auth } = useAuth();
   const navigate = useNavigate()
+
   const likeProduct = () => {
     auth?.currentUser && sendForm ? sendForm(`${product.id}`) : navigate(AppRoutes.Login)
   }
   return (
-    <View
-      direction="column"
-      padding={6}
-      borderColor="neutral"
-      borderRadius="medium"
-      backgroundColor="neutral"
-      gap={5}
-    >
-      <Link href={`${AppRoutes.Product}/${product.id}`}>
-        <Image
-          displayMode="contain"
-          src={image?.url}
-          height={70}
-          width="100%"
-        />
-      </Link>
+    <View>
+      {isGridView ? (
+        <View
+          direction="column"
+          padding={6}
+          borderColor="neutral"
+          borderRadius="medium"
+          backgroundColor="neutral"
+          gap={3}
+        >
+          <Link href={`${AppRoutes.Product}/${product.id}`}>
+            <Image
+              {...product.image}
+              displayMode="contain"
+              src={image?.url}
+              height={70}
+              width="100%"
+            />
+          </Link>
 
-      <Text variant="body-2" weight="bold" maxLines={2}>
-        <Popover triggerType="hover">
-          <Popover.Trigger>
-            {(attributes: any) => (
-              <Link href={"/product/" + product.id} attributes={attributes} variant="plain" color="inherit">
-                {product.name}
-              </Link>
-            )}
-          </Popover.Trigger>
-          <Popover.Content>
-            <View>{product.name}</View>
-          </Popover.Content>
-        </Popover>
-      </Text>
+          <Text variant="body-2" weight="bold" maxLines={2}>
+            <Popover triggerType="hover">
+              <Popover.Trigger>
+                {(attributes: any) => (
+                  <Link
+                    attributes={attributes}
+                    href={`${AppRoutes.Product}/${product.id}`}
+                    variant="plain"
+                    color="inherit"
+                  >
+                    {product.name}
+                  </Link>
+                )}
+              </Popover.Trigger>
+              <Popover.Content>
+                <View>{product.name}</View>
+              </Popover.Content>
+            </Popover>
+          </Text>
 
-      <Text variant="body-3">SKU: {product.sku}</Text>
-      <Text variant="body-3">Stock: {product.stock?.quantity}</Text>
+          <Text variant="body-3">
+            SKU: {product.sku}{' '}
+          </Text>
 
-      <Text variant="body-3">Precio:  {product.value
-        ? product.value.centsAmount
-        : ''}</Text>
+          <Text variant="body-3">
+            Stock: {product.stock?.quantity} {' '}
+          </Text>
 
+          <ProductRating total={321} average={4.4} />
 
-      <Button
-        size='xlarge'
-        color="primary"
-        icon={IconHeart}
-        onClick={likeProduct}
-        loading={isLoading}
-        fullWidth>
-        Favorito
-      </Button>
+          <Price
+            text={priceText}
+            locale={product.value?.currency.isocode}
+            value={product.value}
+          />
 
+          <Button
+            size='xlarge'
+            color="primary"
+            icon={IconHeart}
+            onClick={likeProduct}
+            loading={isLoading}
+            fullWidth>
+            Favorito
+          </Button>
+        </View>
+      ) : (
+        <View
+          direction={isMobile ? 'column' : 'row'}
+          padding={6}
+          borderColor="neutral"
+          gap={isMobile ? 0 : 8}
+          backgroundColor="neutral"
+        >
+          <View.Item columns={isMobile ? 12 : 9}>
+            <View direction="row" gap={isMobile ? 4 : 8}>
+              <View.Item columns={isMobile ? 12 : 4}>
+                <Link href={`${AppRoutes.Product}/${product.id}`}>
+                  <Image
+                    {...product.image}
+                    displayMode="contain"
+                    src={image?.url}
+                    height={70}
+                    width="100%"
+                  />
+                </Link>
+              </View.Item>
+              <View.Item columns={isMobile ? 12 : 8}>
+                <Text variant="body-2" weight="bold">
+                  <Link
+                    href={`${AppRoutes.Product}/${product.id}`}
+                    variant="plain"
+                    color="inherit"
+                  >
+                    {product.name}
+                  </Link>
+                </Text>
+                <Text variant="body-3">
+                  SKU: {product.sku}{' '}
+                </Text>
+                <Text variant="body-3">
+                  Stock: {product.stock?.quantity} {' '}
+                </Text>
+                <ProductRating total={321} average={4.4} />
+                <Price
+                  text={priceText}
+                  locale={product.value?.currency.isocode}
+                  value={product.value}
+                  badgesOnTop
+                />
+              </View.Item>
+            </View>
+          </View.Item>
+
+          <View.Item columns={isMobile ? 12 : 3}>
+            <Button
+              size='xlarge'
+              color="primary"
+              icon={IconHeart}
+              onClick={likeProduct}
+              loading={isLoading}
+              fullWidth>
+              Favorito
+            </Button>
+          </View.Item>
+        </View>
+      )}
     </View>
   );
 };

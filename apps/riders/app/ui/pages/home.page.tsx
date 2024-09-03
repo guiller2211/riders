@@ -10,6 +10,7 @@ export const HomePage = () => {
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [isGridView, setIsGridView] = useState(true);
   const { auth } = useAuth();
 
   const limitedProducts = product.slice(0, 3);
@@ -38,7 +39,12 @@ export const HomePage = () => {
 
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
         <CategoryCarousel images={layout.categoryImage} />
-        <ProductListForPLP products={limitedProducts} sendForm={sendAddProduct} isLoading={isLoading} />
+        <ProductListForPLP
+          products={limitedProducts}
+          sendForm={sendAddProduct}
+          isLoading={isLoading}
+          isGridView={isGridView}
+        />
         {
           success &&
           <AlertNotification

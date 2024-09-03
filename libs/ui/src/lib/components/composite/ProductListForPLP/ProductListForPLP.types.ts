@@ -4,4 +4,5 @@ export type ProductListForPLPProps = {
   products?: ProductData[];
   sendForm?: (form: string) => void;
   isLoading?: boolean;
+  isGridView: boolean;
 };

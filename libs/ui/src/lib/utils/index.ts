@@ -11,3 +11,4 @@ export * from './findById-utils';
 export * from './address-utils';
 export * from './displayedPerPage-utils';
 export * from './getImage-utils';
+export * from './responsive-utils';

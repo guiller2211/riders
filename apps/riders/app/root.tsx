@@ -85,12 +85,11 @@ const Body = (props: { children: ReactNode }) => {
   return (
     <AuthProvider>
       <body style={{ backgroundColor: 'black' }}>
-        <Theme theme="reshaped">
+        <Theme theme="reshaped" defaultColorMode='dark'>
           {children}
         </Theme>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </AuthProvider>
   );
