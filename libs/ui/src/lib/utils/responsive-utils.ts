@@ -14,6 +14,8 @@ export function useIsMobile() {
 
       return () => window.removeEventListener('resize', handleResize);
     }
+
+    return undefined;
   }, []);
 
   return isMobile;
