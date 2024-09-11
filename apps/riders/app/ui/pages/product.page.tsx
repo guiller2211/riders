@@ -119,13 +119,22 @@ const ProductDetailPage = () => {
             <View direction="column" gap={5} backgroundColor='page' padding={8} borderRadius='large'>
 
               <View direction='row' gap={4}>
-                <Text variant='caption-1' weight='bold'>
-                  SKU: {loaderData.product?.sku}
-                </Text>
-
-                <Text variant='caption-1' weight='bold'>
-                  Categoria: {loaderData.product?.categories?.name}
-                </Text>
+                <View direction='row' gap={1} align='center'>
+                  <Text variant='body-2' weight='bold'>
+                    SKU:
+                  </Text>
+                  <Text variant='caption-1' >
+                    {loaderData.product?.sku}
+                  </Text>
+                </View>
+                <View direction='row' gap={1} align='center'>
+                  <Text variant='body-2' weight='bold'>
+                    Categoria:
+                  </Text>
+                  <Text variant='caption-1' >
+                    {loaderData.product?.categories?.name}
+                  </Text>
+                </View>
               </View>
 
               <Text variant='body-2' weight='bold'>

@@ -9,10 +9,12 @@ import { CartData, CartEntry, Customer, ProductEnum } from '@riders/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { meta } from '../root';
+import { getVariantsData } from '../service/category.data.service';
 
 export async function loader({ request }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const session = await getSession(request.headers.get("Cookie"));
+  const variants = await getVariantsData();
 
   const product = await getProduct();
   let cart: CartData | undefined;
@@ -28,6 +30,7 @@ export async function loader({ request }: LoaderArgs) {
     layout,
     product,
     cart: cart ?? null,
+    variants
   });
 }
 

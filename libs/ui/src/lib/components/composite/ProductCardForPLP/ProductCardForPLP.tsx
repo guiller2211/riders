@@ -1,16 +1,19 @@
-import { TextProps, useResponsiveClientValue } from 'reshaped';
-import { IconHeart } from '../../../icons';
+import { TextProps } from 'reshaped';
+import { IconEyeFill, IconHeart } from '../../../icons';
 import { View, Link, Image, Text, Popover, Button } from '../../atomic';
 import type { ProductCardForPLPProps } from './index';
-import { AppRoutes } from '@riders/types';
+import { AppRoutes, CartEntry } from '@riders/types';
 import { useAuth } from '../../../context';
 import { useNavigate } from 'react-router-dom';
-import { Price } from '../shared';
+import { Drawer, DrawerContent, DrawerHeader, ImageGallery, Price } from '../shared';
 import { useIsMobile } from '../../../utils';
 import { ProductRating } from '../product';
+import { useOpenState } from '../../../hooks';
+import { FormEvent, useState } from 'react';
 
 export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
   const { isGridView, product, isLoading, sendForm } = props;
+  const [open, onOpenDrawerHandler, onCloseDrawerHandler] = useOpenState();
   const isMobile = useIsMobile();
 
   const priceText: TextProps = {
@@ -25,6 +28,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
   const likeProduct = () => {
     auth?.currentUser && sendForm ? sendForm(`${product.id}`) : navigate(AppRoutes.Login)
   }
+
   return (
     <View>
       {isGridView ? (
@@ -85,6 +89,18 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
           <Button
             size='xlarge'
             color="primary"
+            variant="solid"
+            type="submit"
+            onClick={onOpenDrawerHandler}
+            fullWidth
+            icon={IconEyeFill}
+          >
+            Vista Rapida
+          </Button>
+
+          <Button
+            size='xlarge'
+            color="primary"
             icon={IconHeart}
             onClick={likeProduct}
             loading={isLoading}
@@ -141,18 +157,44 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
           </View.Item>
 
           <View.Item columns={isMobile ? 12 : 3}>
-            <Button
-              size='xlarge'
-              color="primary"
-              icon={IconHeart}
-              onClick={likeProduct}
-              loading={isLoading}
-              fullWidth>
-              Favorito
-            </Button>
+            <View direction='column' gap={3}>
+              <Button
+                size='xlarge'
+                color="primary"
+                variant="solid"
+                type="submit"
+                onClick={onOpenDrawerHandler}
+                fullWidth
+              >
+                Agregar
+              </Button>
+              <Button
+                size='xlarge'
+                color="primary"
+                icon={IconHeart}
+                onClick={likeProduct}
+                loading={isLoading}
+                fullWidth>
+                Favorito
+              </Button>
+
+            </View>
           </View.Item>
         </View>
       )}
+      <Drawer active={open} onClose={onCloseDrawerHandler} position='center' size="60rem">
+        <DrawerHeader
+          title='Galeria'
+          onClose={onCloseDrawerHandler}
+        />
+        <DrawerContent padding={0}>
+          <View direction="row" gap={5} backgroundColor='page' padding={8} borderRadius='large'>
+            <ImageGallery images={product.image} />
+
+          </View>
+        </DrawerContent>
+
+      </Drawer>
     </View>
   );
 };

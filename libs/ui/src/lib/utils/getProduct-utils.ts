@@ -64,9 +64,9 @@ export class getProduct {
             value: {
                 centsAmount: price,
                 currency: {
-                    isocode: 'CHL',
-                    name: 'CHL',
-                    symbol: 'CHL',
+                    isocode: 'CLP',
+                    name: 'CLP',
+                    symbol: '$',
                     symbolPosition: CurrencySymbolPosition.BEFORE,
                     decimalPlaces: 2,
                 }

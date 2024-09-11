@@ -1,5 +1,4 @@
-import { ProductData } from '@riders/types';
-import { ButtonProps } from 'reshaped';
+import { ProductData, } from '@riders/types';
 
 export type ProductCardForPLPProps = {
   product: ProductData;

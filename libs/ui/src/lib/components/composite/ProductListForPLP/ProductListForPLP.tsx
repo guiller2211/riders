@@ -4,7 +4,7 @@ import { ProductListForPLPProps } from './ProductListForPLP.types';
 import { useIsMobile } from '../../../utils';
 
 export const ProductListForPLP = (props: ProductListForPLPProps) => {
-  const { products, sendForm, isLoading, isGridView } = props;
+  const { products, sendForm, isLoading, isGridView} = props;
   const isMobile = useIsMobile(); 
   const columns = isMobile ? 12 : 4 ; 
 
