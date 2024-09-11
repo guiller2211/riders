@@ -64,11 +64,11 @@ export class getProduct {
             value: {
                 centsAmount: price,
                 currency: {
-                    isocode: 'CLP',
+                    isocode: 'es-CL',
                     name: 'CLP',
                     symbol: '$',
                     symbolPosition: CurrencySymbolPosition.BEFORE,
-                    decimalPlaces: 2,
+                    decimalPlaces: 3,
                 }
             },
             sku: sku,

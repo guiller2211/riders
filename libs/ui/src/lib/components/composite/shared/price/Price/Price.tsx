@@ -22,9 +22,9 @@ const Price = (props: PriceProps) => {
     oldValue = value?.centsAmount && value.centsAmount;
     oldFormmatedValue = FormatUtils.formatCurrency(
       oldValue,
-      value?.currency.isocode,
+      value?.currency.name,
       locale,
-      value?.currency.decimalPlaces,
+      value?.currency.decimalPlaces
     );
     discountPercentage = oldValue
       ? Math.round(((oldValue - newValue) / oldValue) * 100)
@@ -34,9 +34,9 @@ const Price = (props: PriceProps) => {
   }
   const newFormmatedValue = FormatUtils.formatCurrency(
     newValue,
-    value?.currency.isocode,
+    value?.currency.name,
     locale,
-    value?.currency.decimalPlaces,
+    value?.currency.decimalPlaces
   );
 
   return (
