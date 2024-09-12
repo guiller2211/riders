@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Accordion, Button, Text, View } from '../../../../atomic';
 import { AddressForm, GenericActionCard } from '../../../shared';
-import { getDefault } from '../../../../../utils';
+import { getDefault, useIsMobile } from '../../../../../utils';
 import CheckoutAddresses from './CheckoutAddresses';
 import CheckoutShippingMethod from '../CheckoutShippingMethod';
 import type { AddressData } from '../../../../../types';
@@ -20,6 +20,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
     isLoading,
     deleteAddress } = props;
   const { auth } = useAuth();
+  const isMobile = useIsMobile();
 
   const [activeValue, setActiveValue] = useState(false);
   const [agreed, toggleAgreed] = useState(false);
@@ -90,16 +91,14 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
                     <>
                       {
                         auth?.currentUser &&
-                        <View width="100%">
-                          <View.Item columns="auto">
-                            <View width={80} paddingStart={1}>
-                              <GenericActionCard
-                                cardLabel='Agregar Direccion'
-                                drawerTitle='Agregar Direccion'
-                              >
-                                <AddressForm sendForm={sendForm} />
-                              </GenericActionCard>
-                            </View>
+                        <View direction="row" gap={8}>
+                          <View.Item columns={isMobile ? 12 : 4 }>
+                            <GenericActionCard
+                              cardLabel='Agregar Direccion'
+                              drawerTitle='Agregar Direccion'
+                            >
+                              <AddressForm sendForm={sendForm} />
+                            </GenericActionCard>
                           </View.Item>
                         </View>
                       }

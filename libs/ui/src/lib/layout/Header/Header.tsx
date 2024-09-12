@@ -43,33 +43,37 @@ export const Header = (props: HeaderProps) => {
       </View>
 
       <View className={styles['mobile-screen']} direction='row' gap={5}>
-        <Button
-          color="primary"
-          variant="ghost"
-          size="xlarge"
-          endIcon={IconList}
-          onClick={onOpenDrawerHandler}
-        />
-        <Drawer padding={0} active={open} onClose={onCloseDrawerHandler} position='start' size='100%'>
-          <DrawerHeader
-            backgroundColor="warning"
-            title='Menu'
-            onClose={onCloseDrawerHandler}
-            closeButtonOnTop={false}
-            closeButtonProps={{
-              color: 'black',
-              rounded: true,
-              variant: 'outline',
-            }}
+        <View.Item columns={2}>
+          <Button
+            color="primary"
+            variant="ghost"
+            size="xlarge"
+            endIcon={IconList}
+            onClick={onOpenDrawerHandler}
           />
-          <MenuHeader navigation={navigation} userMenu={userMenu} user={user} />
-        </Drawer>
+          <Drawer padding={0} active={open} onClose={onCloseDrawerHandler} position='start' size='100%'>
+            <DrawerHeader
+              backgroundColor="warning"
+              title='Menu'
+              onClose={onCloseDrawerHandler}
+              closeButtonOnTop={false}
+              closeButtonProps={{
+                color: 'black',
+                rounded: true,
+                variant: 'outline',
+              }}
+            />
+            <MenuHeader navigation={navigation} userMenu={userMenu} user={user} />
+          </Drawer>
+        </View.Item>
 
-        <HeaderLogo image={logo?.image} link={logo?.link} />
+        <View.Item columns={7}>
+          <HeaderLogo image={logo?.image} link={logo?.link} />
+        </View.Item>
 
-
-        <HeaderCart cart={cart} handleAction={handleAction} isCheckout={location.pathname.includes('checkout')} />
-
+        <View.Item columns={3}>
+          <HeaderCart cart={cart} handleAction={handleAction} isCheckout={location.pathname.includes('checkout')} />
+        </View.Item>
       </View>
 
     </View >

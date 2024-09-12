@@ -39,7 +39,8 @@ app.use(
           "'unsafe-inline'",
           "'unsafe-eval'",
           "https://sdk.mercadopago.com",
-          "https://http2.mlstatic.com"
+          "https://http2.mlstatic.com",
+          "https://apis.google.com"
         ],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: [
@@ -63,7 +64,9 @@ app.use(
           "https://events.mercadopago.com",
           "https://api-static.mercadopago.com",
           "https://securetoken.googleapis.com",
-          "https://firebasestorage.googleapis.com"
+          "https://firebasestorage.googleapis.com",
+          "https://http2.mlstatic.com",
+          "https://apis.google.com" 
         ],
         fontSrc: ["'self'"],
         objectSrc: ["'none'"],

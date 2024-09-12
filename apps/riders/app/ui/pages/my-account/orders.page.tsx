@@ -1,6 +1,5 @@
 import {
-  Button,
-  IconCart2,
+  Empty,
   OrderData,
   OrdersHistory,
   Pagination,
@@ -12,29 +11,6 @@ import { useEffect, useState } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 
 import type { loader } from '../../../routes/my-account.orders._index';
-
-const Empty = () => {
-  return (
-    <View direction="row" gap={9}>
-      <View.Item columns={12}>
-        <View gap={2}>
-          <View.Item columns={12}>
-            <Text variant="body-2" weight="medium">
-              Vacio
-            </Text>
-            <Text variant="body-3">Vacio</Text>
-          </View.Item>
-        </View>
-      </View.Item>
-
-      <View.Item columns={12}>
-        <Button size="xlarge" color="primary">
-          Vacio
-        </Button>
-      </View.Item>
-    </View>
-  );
-};
 
 export default function OrdersPage() {
   const loaderData = useTypedLoaderData<typeof loader>();

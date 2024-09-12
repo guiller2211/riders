@@ -16,6 +16,7 @@ import {
   ProductSpecifications,
   FormControl,
   useAuth,
+  Price,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -25,6 +26,7 @@ import { action, loader } from '../../routes/product.$id';
 import { AppRoutes } from '@riders/types';
 import { setLikeProduct } from '../../service/user.data.service';
 import { useNavigate } from 'react-router-dom';
+import { TextProps } from 'reshaped';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
@@ -39,9 +41,15 @@ const ProductDetailPage = () => {
 
   const submit = useSubmit();
 
+  const priceText: TextProps = {
+    color: 'neutral',
+    weight: 'bold',
+    variant: 'body-1',
+  };
+
   const sendAddProduct = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     const formData = new FormData(e.currentTarget);
     formData.append('variant', JSON.stringify(selectedVariants));
 
@@ -77,7 +85,6 @@ const ProductDetailPage = () => {
       ...prevState,
       [name]: [value]
     }));
-    console.log(selectedVariants)
   };
   return (
     <View
@@ -178,9 +185,17 @@ const ProductDetailPage = () => {
 
 
               {loaderData.product?.value && (
-                <Text variant='body-2' weight='bold'>
-                  Precio: ${loaderData.product?.value.centsAmount}
-                </Text>
+                <View direction='row' gap={2}>
+
+                  <Text variant='body-2' weight='bold'>
+                    Precio:
+                  </Text>
+                  <Price
+                    text={priceText}
+                    locale={loaderData.product.value?.currency.isocode}
+                    value={loaderData.product.value}
+                  />
+                </View>
               )}
 
               <Text variant='body-2' weight='bold'>

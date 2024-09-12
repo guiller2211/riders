@@ -3,7 +3,6 @@ import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -85,7 +84,7 @@ const Body = (props: { children: ReactNode }) => {
   return (
     <AuthProvider>
       <body style={{ backgroundColor: 'black' }}>
-        <Theme theme="reshaped" defaultColorMode='dark'>
+        <Theme theme="reshaped" >
           {children}
         </Theme>
         <ScrollRestoration />

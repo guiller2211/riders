@@ -1,19 +1,15 @@
 import { useState } from 'react';
 
-import { Accordion, Button, Icon, Tabs, Text, View } from '../../../../atomic';
-import { CheckoutPaymentMethod, PaymentProps } from '../..';
+import { Accordion, Icon, Tabs, Text, View } from '../../../../atomic';
+import { PaymentProps } from '../..';
 import { IconLockFill } from '../../../../../icons';
 import type { CheckoutPaymentProps } from './CheckoutPayment.types';
 import { useResponsiveClientValue } from '../../../../../hooks'
-import { AppRoutes } from '@riders/types';
 import { Payment } from '@mercadopago/sdk-react';
-import { CreditCardEnum } from '../../../shared';
-import { useNavigate } from '@remix-run/react';
 
 export const CheckoutPayment = (props: CheckoutPaymentProps) => {
   const { payments, cart, preferenceId, sendForm } = props;
   const [activeValue, setActiveValue] = useState(false);
-  const navigate = useNavigate();
 
   const [isPayment, setIsPayment] = useState(payments?.length > 0);
   const isPaymentClick = (value: boolean) => {
@@ -34,28 +30,29 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
     <View
       borderRadius="small"
       borderColor="neutral"
-      padding={8}
       backgroundColor={!activeValue ? 'white' : 'disabled'}
     >
       <Accordion
         onToggle={(active: boolean) => setActiveValue(!active)}
         defaultActive
       >
-        <Accordion.Trigger>
-          <View direction="row" gap={4}>
-            <Text variant="featured-3">2</Text>
-            <Text variant="featured-3">
-              Pago
-            </Text>
-          </View>
-        </Accordion.Trigger>
+        <View padding={8}>
+          <Accordion.Trigger>
+            <View direction="row" gap={4} >
+              <Text variant="featured-3">2</Text>
+              <Text variant="featured-3">
+                Pago
+              </Text>
+            </View>
+          </Accordion.Trigger>
+        </View>
 
         <Accordion.Content>
           <View gap={5} padding={useResponsiveClientValue({ s: 0, m: 8 })} paddingTop={useResponsiveClientValue({ s: 10 })}>
             <Tabs defaultValue="1">
               <View
                 direction="row"
-                paddingBottom={8}
+                paddingInline={8}
                 gap={useResponsiveClientValue({ s: 6, l: 6 })}
               >
                 <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
@@ -87,18 +84,6 @@ export const CheckoutPayment = (props: CheckoutPaymentProps) => {
               </View>
 
               <Tabs.Panel value="1">
-                {/*  {isPayment ? (
-                  <CheckoutPaymentMethod
-                    isPayment={isPaymentClick}
-                    methods={payments}
-                  />
-
-                )
-                  :
-                  <>
-                 
-                  </>
-                } */}
                 <Payment
                   initialization={{
                     preferenceId: preferenceId,
