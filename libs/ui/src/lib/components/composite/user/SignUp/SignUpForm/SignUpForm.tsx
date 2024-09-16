@@ -247,7 +247,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                     <View.Item>
                       <Link
                         color="primary"
-                        href="./terms-and-conditions"
+                        href={AppRoutes.TermsConditions}
                         disabled={isLoading}
                       >
                         <Text variant="body-2" weight="medium">

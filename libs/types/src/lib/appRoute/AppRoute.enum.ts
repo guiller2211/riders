@@ -15,6 +15,7 @@ export enum AppRoutes {
   Orders = '/my-account/orders',
   WishList = '/my-account/wishlist',
   Logout = '/my-account/logout',
+  TermsConditions = '/terms-and-conditions',
 
   Contacts = '/contacts',
   Me = 'https://guillermo-araujo.netlify.app/',
