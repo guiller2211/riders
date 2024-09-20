@@ -3,6 +3,7 @@ import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -89,6 +90,7 @@ const Body = (props: { children: ReactNode }) => {
         </Theme>
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </AuthProvider>
   );
