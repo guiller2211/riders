@@ -165,8 +165,9 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
                 type="submit"
                 onClick={onOpenDrawerHandler}
                 fullWidth
+                icon={IconEyeFill}
               >
-                Agregar
+                Vista Rapida
               </Button>
               <Button
                 size='xlarge'
