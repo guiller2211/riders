@@ -9,12 +9,12 @@ import {
   ProductListForPLP,
   displayedPerPage,
   useResponsiveClientValue,
+  ProductGridListToggleForPLP
 } from '@riders/ui';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { setLikeProduct } from '../../service/user.data.service';
 import { ProductData } from '@riders/types';
-
 
 export const CategoryPage = () => {
   const loaderData = useLoaderData<typeof loader>();
@@ -25,26 +25,26 @@ export const CategoryPage = () => {
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<ProductData[]>(loaderData?.getProduct || []);
   const [displayedProductsList, setDisplayedProductsList] = useState<ProductData[]>([]);
-  const displayPage = 10;
-  const numPage = (num: number) => {
-    setPage(num);
-  };
+  const [isGridView, setIsGridView] = useState(true);
 
   useEffect(() => {
     const displayedProducts = displayedPerPage(displayPage, page, items);
     setDisplayedProductsList(displayedProducts);
   }, [items, page]);
 
-  const sendAddProduct = async (value: string) => {
+  const displayPage = 6;
+  const numPage = (num: number) => {
+    setPage(num);
+  };
 
+
+  const sendAddProduct = async (value: string) => {
     try {
       setIsLoading(true);
-
-      const result = await setLikeProduct(value, loaderData.uid)
-      setMessage(`${result.message}`);
+      const result = await setLikeProduct(value, loaderData.uid);
+      setMessage(result.message);
       setShowAlert(true);
-      setIsLoading(false);
-      setSuccess(result.success)
+      setSuccess(result.success);
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       setMessage(`${error}`);
@@ -52,6 +52,10 @@ export const CategoryPage = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const viewGrid = (value: boolean) => {
+    setIsGridView(value);
   };
 
   return (
@@ -66,27 +70,30 @@ export const CategoryPage = () => {
       </View.Item>
 
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
-        {loaderData.getProduct && loaderData.getProduct.length > 0 ? (
+        {items && items.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
-            {
-              success &&
+            {success && (
               <AlertNotification
                 type={AlertNotificationEnum.Success}
                 message={message}
                 close={() => setShowAlert(false)}
               />
-            }
+            )}
+            <ProductGridListToggleForPLP
+              isGridView={viewGrid}
+              view={isGridView}
+            />
             <ProductListForPLP
               products={displayedProductsList}
               sendForm={sendAddProduct}
-              isLoading={isLoading} />
-
+              isLoading={isLoading}
+              isGridView={isGridView}
+            />
             <Pagination
               numPage={numPage}
               itemsPerPage={displayPage}
-              totalItems={loaderData.getProduct.length ? loaderData.getProduct.length : 0}
+              totalItems={items.length ? items.length : 0}
             />
-
           </View>
         ) : (
           <PlpEmpty />

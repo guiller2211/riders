@@ -1,4 +1,4 @@
-import { Loader, ProductListForPLP, Text, View } from '@riders/ui';
+import { Empty, Loader, ProductListForPLP, Text, View } from '@riders/ui';
 import { useEffect, useState } from 'react';
 import { useTypedLoaderData } from 'remix-typedjson';
 import type { loader } from '../../../routes/my-account.wishlist';
@@ -11,6 +11,7 @@ export default function WishlistPage() {
     const [message, setMessage] = useState('');
     const [showAlert, setShowAlert] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [isGridView, setIsGridView] = useState(true);
 
     const sendAddProduct = async (value: string) => {
 
@@ -35,6 +36,7 @@ export default function WishlistPage() {
     useEffect(() => {
         setWishlist(loaderData.wishlist);
     }, [loaderData.wishlist]);
+
     return (
         <View direction="row" gap={12} backgroundColor='white'
             padding={10}
@@ -42,16 +44,26 @@ export default function WishlistPage() {
             <View.Item columns={12}>
                 <Text variant="featured-1">Productos Deseados</Text>
             </View.Item>
-            <View.Item columns={12}>
-                {
-                    isLoading ?
-                        <Loader />
-                        :
-                        <ProductListForPLP
-                            products={wishlist}
-                            sendForm={sendAddProduct} />
-                }
-            </View.Item>
+            {
+                wishlist.lenght > 0
+                    ?
+                    <View.Item columns={12}>
+                        {
+                            isLoading ?
+                                <Loader />
+                                :
+                                <ProductListForPLP
+                                    products={wishlist}
+                                    sendForm={sendAddProduct}
+                                    isGridView={isGridView}
+                                />
+                        }
+                    </View.Item>
+                    :
+                    <View.Item columns={12}>
+                        <Empty />
+                    </View.Item>
+            }
         </View>
     );
 }

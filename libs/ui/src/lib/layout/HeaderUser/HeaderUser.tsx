@@ -39,7 +39,7 @@ export const HeaderUser = (props: UserHeaderProps) => {
             ))}
             <DropdownMenu.Item onClick={() => signOutSession()}>
               <Text variant="body-3" weight="medium">
-                cerrar sesion
+                Cerrar sesion
               </Text>
             </DropdownMenu.Item>
           </DropdownMenu.Content>

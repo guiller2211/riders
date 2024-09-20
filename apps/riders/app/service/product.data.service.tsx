@@ -5,44 +5,47 @@ import { getProduct as getProductUtil } from "@riders/ui";
 import { db, storage } from "@riders/firebase";
 
 
-export function getProduct() {
-    return getDocs(collection(db, "product"))
-        .then(productsSnapshot => {
-            return Promise.all(
-                productsSnapshot.docs.map(doc => {
-                    const productData = doc.data() as ProductData;
-                    productData.id = doc.id;
-                    if (productData.image && productData.image.length > 0) {
-                        const imagePromises = productData.image.map(async (image) => {
-                            if (!image.url.startsWith('http')) {
-                                const imageRef = ref(storage, "/product/" + image.url);
-                                const imageUrl = await getDownloadURL(imageRef);
-                                image.url = imageUrl;
-                            }
-                            return image;
-                        });
+export async function getProduct(): Promise<ProductData[]> {
+    try {
+        const productsSnapshot = await getDocs(collection(db, "product"));
 
-                        return Promise.all(imagePromises)
-                            .then(resolvedImages => {
-                                productData.image = resolvedImages.filter(image => image !== null);
-                                const { id, name, categories, sku, active, ...rest } = productData;
-                                return { id, name, categories, sku, active, ...rest };
-                            });
-                    } else {
-                        const { id, name, categories, sku, active, ...rest } = productData;
-                        return Promise.resolve({ id, name, categories, sku, active, ...rest });
-                    }
-                })
-            );
-        })
-        .then(productsData => {
-            return productsData.filter(_p => _p.active);
-        })
-        .catch(error => {
-            console.error("Error al obtener productos:", error);
-            throw error;
-        });
+        const productsData: ProductData[] = await Promise.all(
+            productsSnapshot.docs.map(async (doc) => {
+                const productData = doc.data() as ProductData;
+                productData.id = doc.id;
+
+                if (productData.image && productData.image.length > 0) {
+                    const imagePromises = productData.image.map(async (image) => {
+                        if (!image.url.startsWith('http')) {
+                            const imageRef = ref(storage, `/product/${image.url}`);
+                            try {
+                                const imageUrl = await getDownloadURL(imageRef);
+                                return { ...image, url: imageUrl };
+                            } catch (error) {
+                                console.error(`Error al obtener URL para la imagen ${image.url}:`, error);
+                                return null; 
+                            }
+                        }
+                        return image;
+                    });
+
+                    const resolvedImages = await Promise.all(imagePromises);
+
+                    productData.image = resolvedImages.filter((image): image is ImageData => image !== null);
+                }
+
+                const { id, name, categories, sku, active, ...rest } = productData;
+                return { id, name, categories, sku, active, ...rest };
+            })
+        );
+
+        return productsData.filter(product => product.active);
+    } catch (error) {
+        console.error("Error al obtener productos:", error);
+        throw error;
+    }
 }
+
 
 async function getProductImages(images: any[]) {
     const imagePromises = images.map(async (image) => {

@@ -8,3 +8,4 @@ export * from './price';
 export * from './address';
 export * from './payment';
 export * from './Contacts';
+export * from './terms-and-conditions';

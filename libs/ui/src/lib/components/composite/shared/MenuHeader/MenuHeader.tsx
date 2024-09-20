@@ -44,7 +44,7 @@ export const MenuHeader = (props: MenuHeaderProps) => {
                                     onClick={() => signOutSession()}
                                 >
                                     <Text variant="body-3" weight="medium">
-                                        cerrar sesion
+                                        Cerrar sesion
                                     </Text>
                                 </Button>
                             </View>
@@ -64,7 +64,7 @@ export const MenuHeader = (props: MenuHeaderProps) => {
                         Ingresar
                     </Button>
                     <Button
-                        href='/'
+                        href={AppRoutes.SignUp}
                         variant="outline"
                         size="large"
                         fullWidth

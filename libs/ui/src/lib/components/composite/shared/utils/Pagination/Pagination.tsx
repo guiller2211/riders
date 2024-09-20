@@ -18,6 +18,10 @@ const Pagination = (props: PaginationProps) => {
   const [pageNo, setPageNo] = useState('');
   const itemsByPage = itemsPerPage;
   const numberOfPages = Math.ceil(totalItems / itemsByPage);
+ 
+  useEffect(() => {
+    setPage(currentPage || 1);
+  }, [currentPage]);
 
   const pagesArray = Array.from(
     { length: numberOfPages },
@@ -26,9 +30,6 @@ const Pagination = (props: PaginationProps) => {
   const startIndex = (page - 1) * itemsByPage + 1;
   const endIndex = Math.min(page * itemsByPage, totalItems);
 
-  useEffect(() => {
-    setPage(currentPage || 1);
-  }, [currentPage]);
 
   const handleChange = (value: number) => {
     window.scrollTo(0, 0);

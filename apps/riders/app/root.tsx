@@ -3,7 +3,6 @@ import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
@@ -16,10 +15,11 @@ import "reshaped/themes/reshaped/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './server/fb.sessions.server';
 import { getCustomerByUid } from './service/user.data.service';
-import { CartData, CartEntry, Customer } from '@riders/types';
+import { CartData, CartEntry, Customer, ImageData } from '@riders/types';
 import { addItemToCart, deleteEntryBySku, getCartById } from './service/cart.data.service';
 import { ErrorBoundary as ErrorBoundaryPage } from './ui/pages/error-boundary.page';
 import { OrderProvider, UserProvider } from '@riders/firebase';
+import { getMediaLayout } from './service/media.data.service';
 
 const links: LinksFunction = () => {
   return [
@@ -30,8 +30,16 @@ const links: LinksFunction = () => {
 
 export async function loader({ request }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
-  const layout: LayoutProps = LayoutUtils.getLayout();
-
+  const layout: LayoutProps = await LayoutUtils.getLayout();
+  const layoutMedia: ImageData | null = await getMediaLayout();
+  layout.header.logo = {
+    link: { href: '/category' },
+    image: {
+      desktop: { src: layoutMedia?.url },
+      mobile: { src: layoutMedia?.url },
+    },
+  };
+ ;
   const session = await getSession(request.headers.get("Cookie"));
   let customer: Customer | undefined;
 
@@ -76,12 +84,11 @@ const Body = (props: { children: ReactNode }) => {
   return (
     <AuthProvider>
       <body style={{ backgroundColor: 'black' }}>
-        <Theme theme="reshaped">
+        <Theme theme="reshaped" >
           {children}
         </Theme>
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </AuthProvider>
   );

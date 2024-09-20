@@ -70,7 +70,7 @@ export async function setLikeProduct(productId: string, uid: string) {
     console.error('Error:', error);
     return {
       success: false,
-      message: error,
+      message: `${error}`,
     };
   }
 }

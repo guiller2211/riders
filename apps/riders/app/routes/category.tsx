@@ -44,7 +44,7 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
     layout,
     uid,
     facets: getFacetData(categories),
-    getProduct: products ?? [],
+    getProduct: products,
   });
 }
 

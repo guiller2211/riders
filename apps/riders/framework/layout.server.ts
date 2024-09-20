@@ -11,22 +11,7 @@ import c2 from '../public/assets/images/categories/honda.png';
 import c3 from '../public/assets/images/categories/Kawasaki.png';
 import c4 from '../public/assets/images/categories/Surron.png';
 import c5 from '../public/assets/images/categories/Triumph.png';
-import logo_d from '../public/assets/images/logo/logo_1.png';
-import logo_m from '../public/assets/images/logo/logo_m_1.png';
 import { AppRoutes } from '@riders/types';
-
-const LOGO_IMAGE_DESKTOP = logo_d;
-const LOGO_IMAGE_MOBILE = logo_m;
-
-function getHeaderLogo(): HeaderLogoProps {
-  return {
-    link: { href: '/category' },
-    image: {
-      desktop: { src: LOGO_IMAGE_DESKTOP },
-      mobile: { src: LOGO_IMAGE_MOBILE },
-    },
-  };
-}
 
 function getHomeHeroBanner() {
   return [{ src: b6 }, { src: b7 }, { src: b8 }];
@@ -79,7 +64,6 @@ function getUserMenu() {
 
 function getHeader(): HeaderProps {
   return {
-    logo: getHeaderLogo(),
     navigation: getHeaderNavigation(),
     userMenu: getUserMenu(),
     user: {}

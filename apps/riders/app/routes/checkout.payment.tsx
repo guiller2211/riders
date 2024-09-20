@@ -86,13 +86,10 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   if (cartSessionID) {
     if (user && user.id) {
       cart = await getCartById(cartSessionID);
-
-
     }
   }
   let response: PreferenceResponse | null = null;
   if (cart) {
-
     response = await getMercadoPago(cart);
   }
   const payment = getPaymentMethods();

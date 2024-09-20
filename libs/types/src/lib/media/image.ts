@@ -6,9 +6,12 @@ export interface ImageData extends Resource {
   label?: string;
   default?: boolean;
   description?: string;
+  islayout?: boolean;
 }
 
 export interface ImageDimensions {
   width: number;
   height: number;
 }
+
+export interface ImagenLayout extends ImageData{}

@@ -1,16 +1,21 @@
 export class FormatUtils {
   static formatCurrency(
-    value?: number,
+    centsAmount?: number,
     currency?: string,
     locale?: string,
     decimalPlaces?: number,
   ): string {
-    if (value !== undefined && currency && locale && decimalPlaces) {
+    if (centsAmount !== undefined && currency && locale && decimalPlaces !== undefined) {
+      const value = centsAmount / 10 ** decimalPlaces;
+
       const currencyFormatter = new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,
+        minimumFractionDigits: decimalPlaces,
+        maximumFractionDigits: decimalPlaces,
       });
-      return currencyFormatter.format(value / 10 ** decimalPlaces);
+
+      return currencyFormatter.format(value);
     }
     return '';
   }

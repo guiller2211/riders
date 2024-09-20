@@ -19,3 +19,4 @@ export const auth = getAuth(appFirebase);
 export const db = getFirestore(appFirebase);
 export const storage = getStorage(appFirebase, "gs://rider-s-realm-25d75.appspot.com");
 export default appFirebase;
+
