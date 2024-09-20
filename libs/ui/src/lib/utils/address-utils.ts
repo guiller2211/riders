@@ -21,12 +21,12 @@ export const getAddress = (formData: FormData): AddressData => {
     streetName: address,
     communes: {
       idRegion: region,
-      isocode: 'CHL',
+      isocode: 'es-CL',
       name: state
     },
     region: {
       uid: id,
-      isocode: 'CHL',
+      isocode: 'es-CL',
       name: region,
     },
     postalCode: zipCode,

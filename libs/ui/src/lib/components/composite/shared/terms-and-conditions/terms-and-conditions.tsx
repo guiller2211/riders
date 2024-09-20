@@ -1,3 +1,4 @@
+import { useResponsiveClientValue } from "reshaped"
 import { Timeline, View, Text } from "../../../atomic"
 
 export const TermsConditions = () => {
@@ -7,13 +8,14 @@ export const TermsConditions = () => {
             gap={6}
             direction="column"
             backgroundColor='white'
-            padding={10}
+            paddingBlock={10}
+            paddingInline={useResponsiveClientValue({s: 2 , l:10})}
             borderRadius='large'>
             <Text variant='title-6' align='center'>
                 Términos y Condiciones
             </Text>
             <Timeline>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         1. Protección de Datos Personales
                     </Text>
@@ -30,7 +32,7 @@ export const TermsConditions = () => {
                     </Text>
                     Para más detalles, por favor consulte nuestra Política de Privacidad completa.
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         2. Seguridad Cibernética
                     </Text>
@@ -46,7 +48,7 @@ export const TermsConditions = () => {
                         </ul>
                     </Text>
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         3. Transparencia y Consentimiento
                     </Text>
@@ -62,7 +64,7 @@ export const TermsConditions = () => {
                         </ul>
                     </Text>
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         4. Responsabilidad y Cumplimiento Continuo
                     </Text>
@@ -79,19 +81,19 @@ export const TermsConditions = () => {
                         </ul>
                     </Text>
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         5. Cambios en los Términos y Condiciones
                     </Text>
                     Nos reservamos el derecho de modificar estos Términos y Condiciones en cualquier momento. Los cambios entrarán en vigor inmediatamente después de su publicación en nuestro sitio web. Le recomendamos que revise periódicamente estos Términos y Condiciones para mantenerse informado de cualquier actualización.
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         6. Contacto
                     </Text>
                     Si tiene alguna pregunta o inquietud sobre estos Términos y Condiciones, nuestra Política de Privacidad, o nuestras prácticas de manejo de datos, por favor contáctenos a través de ....
                 </View>
-                <View backgroundColor="neutral-faded"  paddingStart={6} paddingBlock={4}>
+                <View backgroundColor="neutral-faded"  paddingInline={6} paddingBlock={4}>
                     <Text variant='title-6' weight="bold">
                         7. Ley Aplicable
                     </Text>
