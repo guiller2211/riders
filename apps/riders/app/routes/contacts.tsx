@@ -6,11 +6,17 @@ import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
 import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
+import { Meta } from '@riders/types';
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request }: LoaderArgs) {
     const logger: Logger<ILogObj> = new Logger({ name: 'Contact.tsx' });
 
-    return typedjson({});
+    const meta: Meta = await RemixUtils.pageMeta(
+        'Contacto',
+    );
+
+    return typedjson({ ...meta });
 }
 
 

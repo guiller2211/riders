@@ -7,16 +7,14 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { CartData, Customer, ShippingMethod } from '@riders/types';
+import { CartData, Customer, Meta } from '@riders/types';
 import { getCartById } from '../service/cart.data.service';
 import CheckoutPaymentPage from '../ui/pages/checkout.payment.page';
 import { CreditCardEnum, PaymentProps } from '@riders/ui';
 import { getMercadoPago } from '../ui/pages/api/mercadopago';
 import { PreferenceResponse } from 'mercadopago/dist/clients/preference/commonTypes';
+import { RemixUtils } from "../../framework/utils.server";
 
-export default CheckoutPaymentPage;
-export { meta };
-export { ErrorBoundary };
 
 export async function action() {
 
@@ -94,10 +92,13 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   }
   const payment = getPaymentMethods();
 
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Verificar Pago',
+  );
 
-  return typedjson({ cart, payment, page: response, uid });
+  return typedjson({ cart, payment, page: response, uid, ...meta });
 }
 
-
-
-
+export default CheckoutPaymentPage;
+export { meta };
+export { ErrorBoundary };

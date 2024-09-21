@@ -7,10 +7,11 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { Customer } from '@riders/types';
+import { Customer, Meta } from '@riders/types';
 import { meta } from '../root';
 import { getOrderByNumOrder } from '../service/order.data.service';
 import { CheckoutOverviewProp } from '@riders/ui';
+import { RemixUtils } from '../../framework/utils.server';
 
 export async function loader({
   request,
@@ -53,10 +54,16 @@ export async function loader({
       type: order?.paymentInfo?.type ?? '',
     }
   }
+
+  const meta: Meta = await RemixUtils.pageMeta(
+    `Orden Nº ${params.numOrder}`,
+  );
+  
   return typedjson({
     user,
     order,
-    overview
+    overview,
+    ...meta
   });
 }
 

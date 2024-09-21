@@ -5,11 +5,12 @@ import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { getProduct } from '../service/product.data.service';
 import { getSession } from '../server/fb.sessions.server';
 import { addItemToCart, getCart } from '../service/cart.data.service';
-import { CartData, CartEntry, Customer, ProductEnum } from '@riders/types';
+import { CartData, CartEntry, Customer, Meta } from '@riders/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { meta } from '../root';
 import { getVariantsData } from '../service/category.data.service';
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
@@ -25,15 +26,18 @@ export async function loader({ request }: LoaderArgs) {
     cart = await getCart(uid);
   }
 
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Inicio',
+  );
 
   return typedjson({
     layout,
     product,
     cart: cart ?? null,
-    variants
+    variants,
+    ...meta
   });
 }
-
 
 export async function action({ request, context: { registry } }: ActionArgs) {
   try {

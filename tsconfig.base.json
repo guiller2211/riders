@@ -12,6 +12,7 @@
     "paths": {
       "@riders/firebase": ["libs/providers/firebase/src/index.ts"],
       "@riders/types": ["libs/types/src/index.ts"],
+      "@riders/core": ["libs/core/src/index.ts"],
       "@riders/ui": ["libs/ui/src/index.ts"]
     },
     "rootDir": ".",

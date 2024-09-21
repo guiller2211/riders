@@ -7,8 +7,9 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getwishlist, getCustomerByUid } from '../service/user.data.service';
-import { Customer } from '@riders/types';
+import { Customer, Meta } from '@riders/types';
 import { meta } from '../root';
+import { RemixUtils } from '../../framework/utils.server';
 
 export async function loader({
   request,
@@ -28,10 +29,16 @@ export async function loader({
       wishlist = await getwishlist(uid)
     };
   }
+
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Mi Lista de Deseo',
+  );
+  
   return typedjson({
     user,
     wishlist,
-    uid
+    uid,
+    ...meta
   });
 }
 

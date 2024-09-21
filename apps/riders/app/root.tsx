@@ -161,11 +161,11 @@ const meta: V2_MetaFunction = ({ data }) => {
       charSet: 'utf-8',
     },
     {
-      title: data?.meta?.title ?? '',
+      title: data?.title ?? '',
     },
     {
       name: 'description',
-      content: data?.meta?.description,
+      content: data?.description,
     },
   ];
 };

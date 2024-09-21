@@ -7,11 +7,12 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { CartData, Customer, ShippingMethod } from '@riders/types';
+import { CartData, Customer, Meta } from '@riders/types';
 import { getCartById } from '../service/cart.data.service';
 import CheckoutConfirmationPage from '../ui/pages/order-confirmation.page';
-import { CheckoutOverviewProp, OrderData } from '@riders/ui';
+import { CheckoutOverviewProp } from '@riders/ui';
 import { getOrder } from '../service/order.data.service';
+import { RemixUtils } from '../../framework/utils.server';
 
 export default CheckoutConfirmationPage;
 export { meta };
@@ -63,7 +64,11 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
     }
   }
 
-  return typedjson({ cart, uid, overview, order });
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Confirmacion de Orden',
+  );
+  
+  return typedjson({ cart, uid, overview, order, ...meta });
 }
 
 

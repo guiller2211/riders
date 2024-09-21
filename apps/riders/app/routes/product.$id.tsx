@@ -4,13 +4,14 @@ import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
 import { commitSession, getSession, setCookieAndRedirect } from '../server/fb.sessions.server';
-import { CartData, CartEntry, Customer, ProductVariant } from '@riders/types';
+import { CartData, Customer, Meta, ProductVariant } from '@riders/types';
 import { getCustomerByUid, setCustomer } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { getCategories, getVariantsData } from '../service/category.data.service';
 import { v4 as uuidv4 } from 'uuid';
 import { generateCsrfToken, verifyCsrfToken } from '../server/csrf.server';
+import { RemixUtils } from '../../framework/utils.server';
 
 export async function loader({ request, params, context: { registry } }: LoaderArgs) {
   const product = await getProductById(params.id);
@@ -25,7 +26,11 @@ export async function loader({ request, params, context: { registry } }: LoaderA
     user = await getCustomerByUid(uid);
   }
 
-  return typedjson({ product, categories, user, variants }, {
+  const meta: Meta = await RemixUtils.pageMeta(
+    `Producto ${params.id}`,
+  );
+
+  return typedjson({ product, categories, user, variants, ...meta }, {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
@@ -42,7 +47,7 @@ export async function action({ request, context: { registry } }: ActionArgs) {
     const variant: string = formData.get('variant') as string;
     const csrfToken = await generateCsrfToken(session);
     let parsedVariant: Record<string, string[]> = {};
-    
+
     try {
       parsedVariant = JSON.parse(variant);
     } catch (error) {
@@ -50,13 +55,13 @@ export async function action({ request, context: { registry } }: ActionArgs) {
       return typedjson({ success: false, error: 'Error al parsear los datos del formulario' });
     }
 
-    const variants: ProductVariant[] = Object.values(parsedVariant).flatMap((values) => 
+    const variants: ProductVariant[] = Object.values(parsedVariant).flatMap((values) =>
       values.map((item: string) => {
         const [id, name] = item.split("__");
         return { id, name };
       })
     );
-    
+
     if (!(await verifyCsrfToken(session, csrfToken as string))) {
       throw new Response("Invalid CSRF Token", { status: 403 });
     }

@@ -7,14 +7,11 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getAddressCustomerById, getCustomerByUid } from '../service/user.data.service';
-import { AddressData, CartData, Customer, ShippingMethod } from '@riders/types';
+import { AddressData, CartData, Customer, Meta, ShippingMethod } from '@riders/types';
 import { getAvailableShippingMethods, getCartById } from '../service/cart.data.service';
 import CheckoutShippingPage from '../ui/pages/checkout.shipping.page';
 import { CheckoutShippingProps } from '@riders/ui';
-
-export default CheckoutShippingPage;
-export { meta };
-export { ErrorBoundary };
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request, context: { registry } }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'checkout.shipping.tsx' });
@@ -39,7 +36,7 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
       if (user?.addressID) {
         addresses = await getAddressCustomerById(user?.addressID)
       };
-        shippingMethods = await getAvailableShippingMethods();
+      shippingMethods = await getAvailableShippingMethods();
     }
   }
 
@@ -51,5 +48,13 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
     cart: cart!
   };
 
-  return typedjson({ cart, shippingProps, uid });
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Verificar Direccion',
+  );
+
+  return typedjson({ cart, shippingProps, uid, ...meta });
 }
+
+export default CheckoutShippingPage;
+export { meta };
+export { ErrorBoundary };
