@@ -1,16 +1,15 @@
-import { ActionArgs, LoaderArgs } from '@remix-run/node';
+import { LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProduct } from '../service/product.data.service';
 import { getSession } from '../server/fb.sessions.server';
-import { CartData, CartEntry, Customer, FacetValue, ProductEnum } from '@riders/types';
-import { getCustomerByUid } from '../service/user.data.service';
-import { addItemToCart, getCart } from '../service/cart.data.service';
+import { FacetValue, Meta } from '@riders/types';
 import { CategoryPage } from '../ui/pages/category.page';
-import { FacetProps, FacetValueTypeEnum } from '@riders/ui';
+import { FacetProps } from '@riders/ui';
 import { LayoutUtils } from '../../framework/layout.server';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { meta } from '../root';
 import { getCategoriesWithProductData } from '../service/category.data.service';
+import { RemixUtils } from "../../framework/utils.server";
 
 function getFacetData(categories: FacetValue[]): FacetProps[] {
   return [
@@ -40,11 +39,17 @@ export async function loader({ request, context: { registry } }: LoaderArgs) {
   if (session.has('__session')) {
     uid = session.get('user')['uid'];
   }
+
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Productos',
+  );
+
   return typedjson({
     layout,
     uid,
     facets: getFacetData(categories),
     getProduct: products,
+    ...meta
   });
 }
 

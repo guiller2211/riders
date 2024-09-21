@@ -3,14 +3,14 @@ import { meta } from '../root';
 import { LoaderArgs } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
-import { LayoutProps } from '@riders/ui';
 
 import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { CartData, Customer } from '@riders/types';
+import { CartData, Customer, Meta } from '@riders/types';
 import { getCartById } from '../service/cart.data.service';
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request }: LoaderArgs) {
   const logger: Logger<ILogObj> = new Logger({ name: 'CartPage.tsx' });
@@ -32,7 +32,11 @@ export async function loader({ request }: LoaderArgs) {
     }
   }
 
-  return typedjson({ cart });
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Mi Carro',
+  );
+  
+  return typedjson({ cart, ...meta });
 }
 
 

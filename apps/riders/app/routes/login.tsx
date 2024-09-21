@@ -6,11 +6,17 @@ import { meta } from '../root';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { getSession, commitSession } from '../server/fb.sessions.server';
 import { generateCsrfToken, verifyCsrfToken } from '../server/csrf.server';
+import { Meta } from "@riders/types";
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request }: ActionArgs) {
   const session = await getSession(request.headers.get("cookie"));
   const csrfToken = await generateCsrfToken(session);
-  return json({ csrfToken }, {
+  const meta: Meta = await RemixUtils.pageMeta(
+    'login',
+  );
+
+  return json({ csrfToken, ...meta }, {
     headers: {
       "Set-Cookie": await commitSession(session),
     },

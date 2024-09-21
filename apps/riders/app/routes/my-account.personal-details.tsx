@@ -7,8 +7,9 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid, updateCustomer } from '../service/user.data.service';
-import { Customer } from '@riders/types';
+import { Customer, Meta } from '@riders/types';
 import { meta } from '../root';
+import { RemixUtils } from '../../framework/utils.server';
 
 export async function loader({
   request,
@@ -27,8 +28,13 @@ export async function loader({
 
   user = await getCustomerByUid(uid);
 
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Detalle Perosnal',
+  );
+
   return typedjson({
-    customer: user
+    customer: user,
+    ...meta
   });
 }
 

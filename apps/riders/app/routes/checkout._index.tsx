@@ -8,9 +8,9 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { CartData, Customer } from '@riders/types';
+import { CartData, Customer, Meta } from '@riders/types';
 import { getCartById } from '../service/cart.data.service';
-
+import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({
   request,
@@ -35,7 +35,11 @@ export async function loader({
     }
   }
 
-  return typedjson({ cart });
+  const meta: Meta = await RemixUtils.pageMeta(
+    'Verificar',
+  );
+
+  return typedjson({ cart, ...meta });
 }
 
 export default CheckoutPage;
