@@ -1,6 +1,6 @@
-import { Addresses, Loading, Text, View } from '@riders/ui';
+import { AddressData, Addresses, Loading, Text, View } from '@riders/ui';
 import { FormEvent, useEffect, useState } from 'react';
-import { deleteShippingAddress, setAddressCustomer } from '../../../service/user.data.service';
+import { deleteShippingAddress, setAddressCustomer, setDefaultAddress } from '../../../service/user.data.service';
 import type { loader } from '../../../routes/my-account.address-book';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -34,6 +34,11 @@ export default function AddressBookPage() {
     const formData = new FormData(e.currentTarget);
     await handleOperation(setAddressCustomer, formData, setIsloading);
   };
+
+  const selectDefault = async (addressFormData: AddressData) => {
+    await handleOperation(setDefaultAddress, addressFormData, setIsloading);
+  };
+
   const deleteAddress = async (value: string) => {
     await handleOperation(deleteShippingAddress, value, setIsloading);
   };
@@ -58,6 +63,7 @@ export default function AddressBookPage() {
               addresses={address}
               sendForm={submitForm}
               deleteAddress={deleteAddress}
+              selectDefault={selectDefault}
             />
         }
       </View.Item>

@@ -7,5 +7,6 @@ export type AddressProps = {
   isDefault?: boolean;
   isSelected?: boolean;
   sendForm?: (form: FormEvent<HTMLFormElement>) => void;
+  selectDefault?: (addressFormData: AddressData) => void;
   deleteAddress?: (uid: string) => void;
 };

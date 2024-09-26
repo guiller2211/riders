@@ -52,7 +52,7 @@ export const createAccount = async (user: Customer, password: string) => {
     } catch (err: any) {
         console.error("signInWithEmailAndPassword Error:", err);
         return {
-            error: err.message // Retorna el mensaje de error en caso de fallo
+            error: err.code // Retorna el mensaje de error en caso de fallo
         };
     }
     return null;

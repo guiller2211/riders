@@ -5,7 +5,9 @@ export interface CategoryData extends Resource {
   name?: string;
   type?: string;
   description?: string;
+  ancestors?: CategoryData[];
   productCount?: number; 
+  slug?: string;
 }
 export interface FacetValue {
   name: string;

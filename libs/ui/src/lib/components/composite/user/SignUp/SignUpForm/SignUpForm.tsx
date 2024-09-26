@@ -210,7 +210,7 @@ const SignUpForm = (props: SignUpFormProps) => {
               <div style={{ position: 'absolute', bottom: 8, right: 16 }}>
                 <Button
                   variant="ghost"
-                  onClick={() => setShowConfirmPassword(!showPassword)}
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   <Icon
                     svg={showConfirmPassword ? IconEyeFill : IconEyeSlashFill}

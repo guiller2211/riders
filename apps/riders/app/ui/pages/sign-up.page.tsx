@@ -1,4 +1,4 @@
-import { SignUpView, View, useResponsiveClientValue } from '@riders/ui';
+import { SignUpView, View, handleAuthError, useResponsiveClientValue } from '@riders/ui';
 import { useFetcher, useNavigation } from '@remix-run/react';
 import { FormEvent, useState } from 'react';
 import { createAccount } from '../../service/login.service';
@@ -10,7 +10,7 @@ export const SignUpPage = () => {
   const [notification, setNotification] = useState<string>("");
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsloading] = useState(false)
-  
+
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     setIsloading(true);
     e.preventDefault();
@@ -35,7 +35,8 @@ export const SignUpPage = () => {
       setSuccess(authResult.success);
       await fetcher.submit({ __session: authResult.__session, "email-login": true }, { method: "post" });
     } else {
-      setNotification(authResult ? authResult.error : "error");
+      setSuccess(false);
+      setNotification(authResult ? handleAuthError(authResult.error) : "error");
       setIsloading(false);
     }
   };

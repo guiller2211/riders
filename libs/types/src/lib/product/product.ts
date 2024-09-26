@@ -29,6 +29,7 @@ export interface ProductData extends AbstractProduct {
 export interface ProductVariant {
   id: string;
   name?: string;
+  type?: string;
 }
 
 export interface ProductVariantData extends Resource {

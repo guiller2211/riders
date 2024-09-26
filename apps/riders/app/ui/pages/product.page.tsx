@@ -167,7 +167,7 @@ const ProductDetailPage = () => {
                               return isChecked && (
                                 <Card key={data.id}>
                                   <View gap={3} direction="row" align="center">
-                                    <Radio value={`${data.id}__${data.name}`}>{data.name}</Radio>
+                                    <Radio value={`${data.id}__${data.name}__${variant.type}`}>{data.name}</Radio>
                                   </View>
                                 </Card>
                               );

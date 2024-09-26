@@ -1,6 +1,6 @@
-import { AddressData, AppRoutes, communes, regions } from '@riders/types';
+import { AddressData, communes, regions } from '@riders/types';
 
-import { IconPencil, IconThreeDotsVertical } from '../../../../../icons';
+import { IconThreeDotsVertical } from '../../../../../icons';
 import {
   ActionBar,
   Avatar,
@@ -23,7 +23,7 @@ import { Drawer, DrawerContent, DrawerHeader } from '../../utils';
 import { AddressForm } from '../AddressForm';
 
 export const Address = (props: AddressProps) => {
-  const { address, canModify, isSelected, sendForm, deleteAddress } = props;
+  const { address, canModify, isSelected, sendForm, deleteAddress, selectDefault } = props;
   const isDefaultShippingAddress = address.defaultShippingAddress;
   const firstNameInitial = (address?.firstName ?? '').charAt(0);
   const lastNameInitial = (address?.lastName ?? '').charAt(0);
@@ -38,7 +38,6 @@ export const Address = (props: AddressProps) => {
     key: address.key ? address.key : '',
     firstName: address.firstName,
     lastName: address.lastName,
-    state: address.state,
     streetName: address.streetName,
     phone: address.phone,
     region: address.region,
@@ -59,6 +58,13 @@ export const Address = (props: AddressProps) => {
       deactivate();
     }
   };
+  const selectDefaultHandler = () => {
+    if (selectDefault) {
+      const updatedAddressFormData = { ...addressFormData, defaultShippingAddress: true };
+      selectDefault(updatedAddressFormData);
+    }
+  };
+
   return (
     <>
       <Card padding={0} selected={isSelected}>
@@ -211,7 +217,7 @@ export const Address = (props: AddressProps) => {
                         readOnly
                       />
                       <View.Item columns={12}>
-                        <Link type="submit" href={AppRoutes.Home}>
+                        <Link onClick={selectDefaultHandler}>
                           Seleccionar por Defecto
                         </Link>
                       </View.Item>

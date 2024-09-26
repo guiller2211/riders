@@ -3,6 +3,6 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "**/*.jsx", "../ui/src/lib/utils/handleAuthError-utils.ts", "../ui/src/lib/utils/error.utils.ts", "../ui/src/lib/utils/json.utils.ts", "../ui/src/lib/utils/localization.utils.ts", "../ui/src/lib/utils/meta.utils.ts", "../ui/src/lib/utils/parse.utils.ts", "../ui/src/lib/utils/response.utils.ts", "../ui/src/lib/utils/url.utils.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

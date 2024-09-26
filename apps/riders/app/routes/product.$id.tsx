@@ -57,8 +57,8 @@ export async function action({ request, context: { registry } }: ActionArgs) {
 
     const variants: ProductVariant[] = Object.values(parsedVariant).flatMap((values) =>
       values.map((item: string) => {
-        const [id, name] = item.split("__");
-        return { id, name };
+        const [id, name, type] = item.split("__");
+        return { id, name, type };
       })
     );
 

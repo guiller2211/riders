@@ -1,5 +1,5 @@
 import { View } from 'reshaped';
-import { loader } from '../../routes/category';
+import { loader } from '../../routes/category.$';
 import {
   AlertNotification,
   AlertNotificationEnum,
@@ -9,7 +9,11 @@ import {
   ProductListForPLP,
   displayedPerPage,
   useResponsiveClientValue,
-  ProductGridListToggleForPLP
+  ProductGridListToggleForPLP,
+  Modal,
+  useToggle,
+  Dismissible,
+  PlpHeader
 } from '@riders/ui';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
@@ -26,6 +30,7 @@ export const CategoryPage = () => {
   const [items, setItems] = useState<ProductData[]>(loaderData?.getProduct || []);
   const [displayedProductsList, setDisplayedProductsList] = useState<ProductData[]>([]);
   const [isGridView, setIsGridView] = useState(true);
+  const { active, activate, deactivate } = useToggle(false);
 
   useEffect(() => {
     const displayedProducts = displayedPerPage(displayPage, page, items);
@@ -45,6 +50,7 @@ export const CategoryPage = () => {
       setMessage(result.message);
       setShowAlert(true);
       setSuccess(result.success);
+      activate();
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       setMessage(`${error}`);
@@ -57,7 +63,6 @@ export const CategoryPage = () => {
   const viewGrid = (value: boolean) => {
     setIsGridView(value);
   };
-
   return (
     <View
       direction={useResponsiveClientValue({ s: 'column', l: 'row' })}
@@ -65,6 +70,13 @@ export const CategoryPage = () => {
       gap={6}
       paddingInline={useResponsiveClientValue({ s: 10, l: 20 })}
     >
+      <View.Item columns={12}>
+        <PlpHeader
+          categoryName={'Categorias'}
+          category={loaderData.categories}
+        />
+      </View.Item>
+
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 3 })}>
         <Facets facets={loaderData.facets} />
       </View.Item>
@@ -72,13 +84,17 @@ export const CategoryPage = () => {
       <View.Item columns={useResponsiveClientValue({ s: 12, l: 9 })}>
         {items && items.length > 0 ? (
           <View direction="column" gap={4} paddingBottom={5}>
-            {success && (
-              <AlertNotification
-                type={AlertNotificationEnum.Success}
-                message={message}
-                close={() => setShowAlert(false)}
-              />
-            )}
+            <Modal active={active} onClose={deactivate}>
+              <View gap={3}>
+                <View backgroundColor="neutral-faded" >
+                  <AlertNotification
+                    type={AlertNotificationEnum.Success}
+                    message={message}
+                    close={deactivate}
+                  />
+                </View>
+              </View>
+            </Modal>
             <ProductGridListToggleForPLP
               isGridView={viewGrid}
               view={isGridView}
