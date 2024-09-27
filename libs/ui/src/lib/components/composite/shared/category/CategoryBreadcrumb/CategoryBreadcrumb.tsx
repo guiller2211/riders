@@ -1,11 +1,14 @@
-import type { CategoryData } from '@riders/types';
+import { AppRoutes, type CategoryData } from '@riders/types';
 
 import { Breadcrumbs, Hidden, Icon, Text, View } from '../../../../atomic';
 import { IconHome } from '../../../../../icons';
 import type { CategoryBreadcrumbProps } from './CategoryBreadcrumb.types';
+import { useIsMobile } from '../../../../../utils';
+import { bool } from 'yup';
 
 const CategoryBreadcrumb = (props: CategoryBreadcrumbProps) => {
   let categories: { name?: string; url: string }[] = [];
+  const isMobile = useIsMobile();
 
   if (props.category) {
     categories = buildTree(props.category, []);
@@ -17,12 +20,12 @@ const CategoryBreadcrumb = (props: CategoryBreadcrumbProps) => {
     categories = categories.reverse();
   }
   return (
-    <View paddingBlock={6} paddingInline={2}  backgroundColor='white' borderRadius="medium">
-      <Hidden hide={{ s: false, l: true }}>
+    <View paddingBlock={6} paddingInline={2} backgroundColor='white' borderRadius="medium">
+      <Hidden hide={!isMobile}>
         <Breadcrumb visibleItems={2} items={categories} />
       </Hidden>
 
-      <Hidden hide={{ s: true, l: false }}>
+      <Hidden hide={isMobile}>
         <Breadcrumb visibleItems={6} items={categories} />
       </Hidden>
     </View>
@@ -64,10 +67,19 @@ const Breadcrumb = (props: {
 function buildTree(
   category: CategoryData,
   categories: { name?: string; url: string }[],
+  isAncestors?: boolean,
 ) {
-  categories.push({ url: `/category/${category.name}`, name: category.name });
   if (category.ancestors && category.ancestors.length === 1) {
-    buildTree(category.ancestors[0], categories);
+    buildTree(category.ancestors[0], categories, true);
   }
+  categories.push(
+    {
+      url: isAncestors ?
+        AppRoutes.Product + '/' + category?.id
+        :
+        AppRoutes.Category + '/' + category?.name,
+      name: category.name
+    }
+  );
   return categories;
 }

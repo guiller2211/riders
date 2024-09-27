@@ -5,7 +5,7 @@ import { loginWithEmailAndPassword } from '../../service/login.service';
 
 export const LoginPage = () => {
     const fetcher = useFetcher();
-    const { csrfToken } = useLoaderData(); // Carga el token CSRF desde el loader
+    const { csrfToken } = useLoaderData(); 
     const [isLoading, setIsloading] = useState(false);
     const [notification, setNotification] = useState<string>("");
 
@@ -14,7 +14,7 @@ export const LoginPage = () => {
         setIsloading(true);
 
         const formData = new FormData(e.currentTarget);
-        formData.append('csrfToken', csrfToken); // Añade el token CSRF al FormData
+        formData.append('csrfToken', csrfToken); 
 
         const email: string = formData.get('email') as string;
         const passwordField = e.currentTarget.elements.namedItem('password') as HTMLInputElement;

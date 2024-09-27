@@ -17,6 +17,7 @@ import {
   FormControl,
   useAuth,
   Price,
+  PlpHeader,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -92,6 +93,10 @@ const ProductDetailPage = () => {
       gap={useResponsiveClientValue({ l: 8, s: 0 })}
       paddingInline={useResponsiveClientValue({ l: 0, s: 6 })}
     >
+       <PlpHeader
+          category={loaderData.categoryBreadcrumbs}
+          categoryName={loaderData?.categoryBreadcrumbs?.ancestors?.[0]?.name ?? ''}
+        />
       {
         success &&
         <AlertNotification
