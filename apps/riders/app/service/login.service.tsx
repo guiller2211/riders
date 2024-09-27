@@ -29,7 +29,7 @@ export const loginWithEmailAndPassword = async (email: string, password: string)
     } catch (err: any) {
         console.error("signInWithEmailAndPassword Error:", err);
         return {
-            error: err.message
+            error: err.code
         };
     }
     return null;

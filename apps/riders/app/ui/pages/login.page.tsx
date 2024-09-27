@@ -1,5 +1,5 @@
 import { useFetcher, useLoaderData } from '@remix-run/react';
-import { LoginView, View, useResponsiveClientValue } from '@riders/ui';
+import { LoginView, View, handleAuthError, useResponsiveClientValue } from '@riders/ui';
 import { FormEvent, useState } from 'react';
 import { loginWithEmailAndPassword } from '../../service/login.service';
 
@@ -24,7 +24,7 @@ export const LoginPage = () => {
         if (authResult && authResult.success) {
             await fetcher.submit({ __session: authResult.__session, "email-login": true, csrfToken }, { method: "post" });
         } else {
-            setNotification(authResult ? authResult.error : "error");
+            setNotification(authResult ? handleAuthError(authResult.error) : "error");
             setIsloading(false);
         }
     };
