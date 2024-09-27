@@ -44,7 +44,7 @@ export const OrderSummary = (props: OrderSummaryProps) => {
 
           <View direction="row" paddingBottom={4}>
             <Text variant="body-3" weight="bold">
-              Envio
+              Envío
             </Text>
             <View.Item columns={6} gapBefore="auto">
               {shippingTotal?.value?.centsAmount &&
@@ -55,7 +55,7 @@ export const OrderSummary = (props: OrderSummaryProps) => {
                   value={shippingTotal?.value}
                 />
               ) : (
-                'Envio Gratis'
+                'Envío Gratis'
               )}
             </View.Item>
           </View>

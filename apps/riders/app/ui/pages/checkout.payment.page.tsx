@@ -63,7 +63,7 @@ export default function CheckoutPaymentPage() {
               <View direction="row" gap={2} align="center">
                 <Text variant="featured-3">1</Text>
                 <Text variant="featured-3">
-                  Chequeo de Envio
+                  Chequeo de Envío
                 </Text>
                 <Text variant="body-2" weight="regular">
                   {/* {showInfo} */}

@@ -3,7 +3,7 @@ export { ColorUtils } from './colors-utils';
 export { FormatUtils } from './format-utils';
 export { ValidationUtils } from './validation-utils';
 export * from './getDefault-utils';
-export * from './formatChekout-utils';
+export * from './formatCheckout-utils';
 export * from './filterListByProperty-utils';
 export * from './formatDate';
 export * from './getProduct-utils';

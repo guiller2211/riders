@@ -72,8 +72,8 @@ export const CategoryPage = () => {
     >
       <View.Item columns={12}>
         <PlpHeader
-          categoryName={'Categorias'}
-          category={loaderData.categories}
+          categoryName={loaderData.categoryBreadcrumbs.name}
+          category={loaderData.categoryBreadcrumbs}
         />
       </View.Item>
 

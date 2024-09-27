@@ -19,7 +19,7 @@ const PersonalDetailsTile = () => {
             </View>
             <View paddingBottom={3}>
               <Text variant="body-3">
-                Actualice su nombre, correo electrónico y contraseña de cuenta en cualquier momento.
+                Actualice tu nombre, correo electrónico y contraseña de cuenta en cualquier momento.
               </Text>
             </View>
           </View>
@@ -30,7 +30,7 @@ const PersonalDetailsTile = () => {
               href={AppRoutes.PersonalDetails}
               endIcon={IconArrowRight}
             >
-              Tu Detalle
+              Tu detalle
             </Button>
           </View>
         </View.Item>

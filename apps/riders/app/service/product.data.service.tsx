@@ -23,7 +23,7 @@ export async function getProduct(): Promise<ProductData[]> {
                                 return { ...image, url: imageUrl };
                             } catch (error) {
                                 console.error(`Error al obtener URL para la imagen ${image.url}:`, error);
-                                return null; 
+                                return null;
                             }
                         }
                         return image;
@@ -40,6 +40,52 @@ export async function getProduct(): Promise<ProductData[]> {
         );
 
         return productsData.filter(product => product.active);
+    } catch (error) {
+        console.error("Error al obtener productos:", error);
+        throw error;
+    }
+}
+
+export async function getProductByCategory(category?: string): Promise<ProductData[]> {
+    try {
+        const productsSnapshot = await getDocs(collection(db, "product"));
+
+        const productsData: ProductData[] = await Promise.all(
+            productsSnapshot.docs.map(async (doc) => {
+                const productData = doc.data() as ProductData;
+                productData.id = doc.id;
+
+                if (productData.image && productData.image.length > 0) {
+                    const imagePromises = productData.image.map(async (image) => {
+                        if (!image.url.startsWith('http')) {
+                            const imageRef = ref(storage, `/product/${image.url}`);
+                            try {
+                                const imageUrl = await getDownloadURL(imageRef);
+                                return { ...image, url: imageUrl };
+                            } catch (error) {
+                                console.error(`Error al obtener URL para la imagen ${image.url}:`, error);
+                                return null;
+                            }
+                        }
+                        return image;
+                    });
+
+                    const resolvedImages = await Promise.all(imagePromises);
+
+                    productData.image = resolvedImages.filter((image): image is ImageData => image !== null);
+                }
+
+                const { id, name, categories, sku, active, ...rest } = productData;
+                return { id, name, categories, sku, active, ...rest };
+            })
+        );
+
+        // Si se pasa una categoría, filtramos por la misma
+        const filteredProducts = category
+            ? productsData.filter(product => product.categories?.name == category && product.active)
+            : productsData.filter(product => product.active);
+
+        return filteredProducts;
     } catch (error) {
         console.error("Error al obtener productos:", error);
         throw error;

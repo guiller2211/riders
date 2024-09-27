@@ -241,7 +241,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                   <View gap={1} direction="row">
                     <View.Item>
                       <Text variant="body-2">
-                        Terminos y condiciones
+                        Términos y condiciones
                       </Text>
                     </View.Item>
                     <View.Item>
@@ -251,7 +251,7 @@ const SignUpForm = (props: SignUpFormProps) => {
                         disabled={isLoading}
                       >
                         <Text variant="body-2" weight="medium">
-                        Terminos y condiciones
+                        Términos y condiciones
                         </Text>
                       </Link>
                     </View.Item>

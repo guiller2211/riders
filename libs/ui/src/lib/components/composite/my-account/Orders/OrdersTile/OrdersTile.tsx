@@ -14,12 +14,12 @@ const OrdersTile = () => {
           <View height={33}>
             <View paddingBottom={3}>
               <Text color="primary" variant="featured-3" weight="bold">
-                ordenes
+                Ordenes
               </Text>
             </View>
             <View paddingBottom={3}>
               <Text variant="body-3">
-              Realice un seguimiento de sus compras recientes y vea pedidos anteriores con facilidad.
+              Realice un seguimiento de tus compras recientes y vea pedidos anteriores con facilidad.
               </Text>
             </View>
           </View>

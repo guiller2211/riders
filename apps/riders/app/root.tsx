@@ -1,4 +1,4 @@
-import { AuthProvider, Layout, LayoutProps, Theme, baseTheme } from '@riders/ui';
+import { AuthProvider, Layout, LayoutProps, Theme, baseTheme, AutoSignOut } from '@riders/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
@@ -143,6 +143,7 @@ const Root = () => {
       <UserProvider>
         <OrderProvider>
           <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
+            <AutoSignOut />
             <Outlet />
           </Layout>
         </OrderProvider>

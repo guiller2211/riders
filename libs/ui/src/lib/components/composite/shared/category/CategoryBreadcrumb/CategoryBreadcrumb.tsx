@@ -17,7 +17,7 @@ const CategoryBreadcrumb = (props: CategoryBreadcrumbProps) => {
     categories = categories.reverse();
   }
   return (
-    <View paddingBlock={6} paddingInline={0}>
+    <View paddingBlock={6} paddingInline={2}  backgroundColor='white' borderRadius="medium">
       <Hidden hide={{ s: false, l: true }}>
         <Breadcrumb visibleItems={2} items={categories} />
       </Hidden>
@@ -65,7 +65,7 @@ function buildTree(
   category: CategoryData,
   categories: { name?: string; url: string }[],
 ) {
-  categories.push({ url: `/category/${category.id}`, name: category.name });
+  categories.push({ url: `/category/${category.name}`, name: category.name });
   if (category.ancestors && category.ancestors.length === 1) {
     buildTree(category.ancestors[0], categories);
   }

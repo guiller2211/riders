@@ -113,6 +113,7 @@ export const ProductCardForPLP = (props: ProductCardForPLPProps) => {
           direction={isMobile ? 'column' : 'row'}
           padding={6}
           borderColor="neutral"
+          borderRadius="medium"
           gap={isMobile ? 0 : 8}
           backgroundColor="neutral"
         >

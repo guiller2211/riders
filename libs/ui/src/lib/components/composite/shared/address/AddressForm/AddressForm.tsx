@@ -137,7 +137,7 @@ export const AddressForm = (props: AddressFormProps) => {
             name={Fields.DefaultAddress}
             checked={defaultShippingAddress}
             onChange={(e: any) => setDefaultShippingAddress(e.value)}>
-            Dejar por Defecto?
+            Dejar por Defecto
           </Checkbox>
         </DrawerContent>
 

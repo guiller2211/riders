@@ -78,7 +78,7 @@ const CheckoutShipping = (props: CheckoutShippingProps) => {
             <View direction="row" gap={4}>
               <Text variant="featured-3">1</Text>
               <Text variant="featured-3">
-                Chequeo de Envio
+                Chequeo de Envío
               </Text>
             </View>
           </Accordion.Trigger>
