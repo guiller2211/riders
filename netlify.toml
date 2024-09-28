@@ -50,6 +50,7 @@ external_node_modules = [
   "firebase-admin",
   "firebase",
   "mercadopago",
+  "primereact/rating",
   "@mercadopago/sdk-js",
   "isbot",
   "remix-typedjson",
