@@ -1,4 +1,4 @@
-import { AuthProvider, Layout, LayoutProps, Theme, baseTheme } from '@riders/ui';
+import { AuthProvider, Layout, LayoutProps, Theme, baseTheme, AutoSignOut } from '@riders/ui';
 import { cssBundleHref } from '@remix-run/css-bundle';
 import type { LinksFunction, LoaderArgs, V2_MetaFunction, } from '@remix-run/node';
 import {
@@ -13,6 +13,7 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode, useEffect, useState } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './server/fb.sessions.server';
 import { getCustomerByUid } from './service/user.data.service';
@@ -143,6 +144,7 @@ const Root = () => {
       <UserProvider>
         <OrderProvider>
           <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
+            <AutoSignOut />
             <Outlet />
           </Layout>
         </OrderProvider>

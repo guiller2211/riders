@@ -4,7 +4,7 @@ import { ActionArgs, HeadersFunction, LoaderArgs } from '@remix-run/node';
 import { typedjson } from 'remix-typedjson';
 import { getProductById } from '../service/product.data.service';
 import { commitSession, getSession, setCookieAndRedirect } from '../server/fb.sessions.server';
-import { CartData, Customer, Meta, ProductVariant } from '@riders/types';
+import { AppRoutes, CartData, CategoryData, Customer, Meta, ProductVariant } from '@riders/types';
 import { getCustomerByUid, setCustomer } from '../service/user.data.service';
 import { addItemToCart, getCart } from '../service/cart.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
@@ -18,6 +18,7 @@ export async function loader({ request, params, context: { registry } }: LoaderA
   const categories = await getCategories();
   const session = await getSession(request.headers.get("Cookie"));
   const variants = await getVariantsData();
+  let categoryBreadcrumbs: CategoryData = {};
   let uid: string = '';
   let user: Customer | undefined;
 
@@ -25,12 +26,23 @@ export async function loader({ request, params, context: { registry } }: LoaderA
     uid = session.get('user')['uid'];
     user = await getCustomerByUid(uid);
   }
-
+  categoryBreadcrumbs = {
+    id: product?.categories?.id,
+    name: product?.categories?.name,
+    url: AppRoutes.Category + '/' + product?.categories?.name,
+    ancestors: [
+      {
+        id: product?.id,
+        name: product?.name,
+        url: AppRoutes.Product + '/' + product?.id,
+      }
+    ]
+  };
   const meta: Meta = await RemixUtils.pageMeta(
     `Producto ${params.id}`,
   );
 
-  return typedjson({ product, categories, user, variants, ...meta }, {
+  return typedjson({ product, categories, user, variants, categoryBreadcrumbs, ...meta }, {
     headers: {
       "Set-Cookie": await commitSession(session),
     },
@@ -57,8 +69,8 @@ export async function action({ request, context: { registry } }: ActionArgs) {
 
     const variants: ProductVariant[] = Object.values(parsedVariant).flatMap((values) =>
       values.map((item: string) => {
-        const [id, name] = item.split("__");
-        return { id, name };
+        const [id, name, type] = item.split("__");
+        return { id, name, type };
       })
     );
 

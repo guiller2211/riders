@@ -45,7 +45,7 @@ export default function WishlistPage() {
                 <Text variant="featured-1">Productos Deseados</Text>
             </View.Item>
             {
-                wishlist.lenght > 0
+                wishlist && wishlist.lenght > 0
                     ?
                     <View.Item columns={12}>
                         {

@@ -186,6 +186,56 @@ export async function setAddressCustomer(formData: FormData, customerUID: string
   }
 }
 
+export async function setDefaultAddress(addressDefault: AddressData, customerUID: string) {
+  try {
+    const customerRef = doc(db, "customer", customerUID);
+    const customerSnapshot = await getDoc(customerRef);
+    
+    if (!customerSnapshot.exists()) {
+      throw new Error("No se encontró el cliente con el ID proporcionado.");
+    }
+
+    const addressID = customerSnapshot.data()?.addressID;
+    const docRef = doc(db, "address", addressID);
+    const addressesSnapshot = await getDoc(docRef);
+    const addressesData = addressesSnapshot.data();
+    
+    if (!addressesData || !addressesData.addresses) {
+      throw new Error("Los datos de la dirección no son válidos o están incompletos");
+    }
+
+    const addressIndex = addressesData.addresses.findIndex((address: any) => address.id === addressDefault.id);
+    if (addressDefault.defaultShippingAddress) {
+      const existingDefaultAddressIndex = addressesData.addresses.findIndex((address: any) => address.defaultShippingAddress);
+
+      if (existingDefaultAddressIndex !== -1) {
+        addressesData.addresses[existingDefaultAddressIndex].defaultShippingAddress = false;
+      }
+    }
+
+    // Asegúrate de que todos los campos en addressDefault estén definidos
+    addressesData.addresses[addressIndex] = addressDefault;
+
+    // Sanear los datos antes de enviar
+    
+    await setDoc(docRef, addressesData);
+
+    return {
+      success: true,
+      message: `Documento escrito exitosamente`,
+      addressesData: addressesData.addresses
+    };
+  } catch (error) {
+    console.error("Error en setDefaultAddress:", error); 
+    return {
+      success: false,
+      message: 'Error al agregar dirección:',
+      error: error instanceof Error ? error.message : 'Error desconocido' 
+    };
+  }
+}
+
+
 export async function deleteShippingAddress(uid: string, customerUID: string) {
   try {
     const customerRef = doc(db, "customer", customerUID);

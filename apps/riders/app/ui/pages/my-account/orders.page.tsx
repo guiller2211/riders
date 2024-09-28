@@ -27,9 +27,11 @@ export default function OrdersPage() {
     const displayedOrders = displayedPerPage(displayPage, page, items);
     setDisplayedOrdersList(displayedOrders);
   }, [items, page]);
-  
+
   return (
-    <View direction="row" gap={9}>
+    <View direction="row" gap={9} backgroundColor='white'
+      padding={10}
+      borderRadius='large'>
       <View.Item columns={12}>
         <Text variant="featured-1">
           Ordenes

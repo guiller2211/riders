@@ -1,12 +1,16 @@
 export class FormatDate {
   static format = (value: any) => {
     try {
-      const createdDate = typeof value === 'string'
-        ? JSON.parse(value)
-        : value;
+      let date: Date;
 
+      if (typeof value === 'object' && value !== null && 'seconds' in value && 'nanoseconds' in value) {
+        date = new Date(value.seconds * 1000 + value.nanoseconds / 1000000);
+      } else if (typeof value === 'string') {
+        date = new Date(value);
+      } else {
+        throw new Error('Formato de fecha no reconocido');
+      }
 
-      const date = new Date(createdDate.seconds * 1000 + createdDate.nanoseconds / 1000000);
       const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'long',
@@ -16,9 +20,10 @@ export class FormatDate {
         second: 'numeric',
         timeZoneName: 'short'
       };
+
       return date.toLocaleString('es-ES', options);
     } catch (error) {
-      console.error("Error parsing JSON:", error); 
+      console.error("Error parsing date:", error);
       return "Error al formatear la fecha";
     }
   }

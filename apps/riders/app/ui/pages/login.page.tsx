@@ -1,11 +1,11 @@
 import { useFetcher, useLoaderData } from '@remix-run/react';
-import { LoginView, View, useResponsiveClientValue } from '@riders/ui';
+import { LoginView, View, handleAuthError, useResponsiveClientValue } from '@riders/ui';
 import { FormEvent, useState } from 'react';
 import { loginWithEmailAndPassword } from '../../service/login.service';
 
 export const LoginPage = () => {
     const fetcher = useFetcher();
-    const { csrfToken } = useLoaderData(); // Carga el token CSRF desde el loader
+    const { csrfToken } = useLoaderData(); 
     const [isLoading, setIsloading] = useState(false);
     const [notification, setNotification] = useState<string>("");
 
@@ -14,7 +14,7 @@ export const LoginPage = () => {
         setIsloading(true);
 
         const formData = new FormData(e.currentTarget);
-        formData.append('csrfToken', csrfToken); // Añade el token CSRF al FormData
+        formData.append('csrfToken', csrfToken); 
 
         const email: string = formData.get('email') as string;
         const passwordField = e.currentTarget.elements.namedItem('password') as HTMLInputElement;
@@ -24,7 +24,7 @@ export const LoginPage = () => {
         if (authResult && authResult.success) {
             await fetcher.submit({ __session: authResult.__session, "email-login": true, csrfToken }, { method: "post" });
         } else {
-            setNotification(authResult ? authResult.error : "error");
+            setNotification(authResult ? handleAuthError(authResult.error) : "error");
             setIsloading(false);
         }
     };

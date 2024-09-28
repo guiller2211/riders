@@ -78,27 +78,30 @@ export async function getOrders(uid: string) {
             const orderIDs = customerData.orderID;
 
             const allOrders: OrderData[] = [];
+            if (orderIDs) {
+                for (const orderID of orderIDs) {
+                    const orderRef = doc(db, "orders", orderID);
+                    const orderSnapshot = await getDoc(orderRef);
 
-            for (const orderID of orderIDs) {
-                const orderRef = doc(db, "orders", orderID);
-                const orderSnapshot = await getDoc(orderRef);
+                    if (orderSnapshot.exists()) {
+                        const orderData = orderSnapshot.data();
 
-                if (orderSnapshot.exists()) {
-                    const orderData = orderSnapshot.data();
+                        const formattedOrder = {
+                            numOrder: orderData.numOrder,
+                            createdDate: orderData.createdDate,
+                            user: orderData.user,
+                            status: orderData.status,
+                            total: orderData.total,
+                            ...orderData
+                        };
 
-                    const formattedOrder = {
-                        numOrder: orderData.numOrder,
-                        createdDate: orderData.createdDate,
-                        user: orderData.user,
-                        status: orderData.status,
-                        total: orderData.total,
-                        ...orderData
-                    };
-
-                    allOrders.push({ id: orderSnapshot.id, ...formattedOrder });
+                        allOrders.push({ id: orderSnapshot.id, ...formattedOrder });
+                    }
                 }
-            }
+                return allOrders;
 
+            }
+            
             return allOrders;
         } else {
             throw new Error("El cliente no existe");

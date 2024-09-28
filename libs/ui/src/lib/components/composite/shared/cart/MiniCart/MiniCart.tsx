@@ -75,7 +75,7 @@ const ViewCart = (props: {
             </View.Item>
             <DrawerActionsButtons
               primaryHref={AppRoutes.CheckoutShipping}
-              primaryLabel="Chekout"
+              primaryLabel="Checkout"
               secondaryHref={AppRoutes.Cart}
               secondaryLabel="Ver carrito"
             />
@@ -107,7 +107,7 @@ const AddCart = (props: {
       <DrawerFooter>
         <DrawerActionsButtons
           primaryHref={AppRoutes.CheckoutShipping}
-          primaryLabel="Chekout"
+          primaryLabel="Checkout"
           secondaryHref={AppRoutes.Cart}
           secondaryLabel="Ver carrito"
         />

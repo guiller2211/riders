@@ -62,14 +62,11 @@ const PersonalDetailsPage = () => {
       </View.Item>
       <Modal active={active} onClose={deactivate}>
         <View gap={3}>
-          <Dismissible onClose={deactivate} closeAriaLabel="Close modal">
-            <Modal.Title>Actualizacion</Modal.Title>
-          </Dismissible>
           <View backgroundColor="neutral-faded" >
             <AlertNotification
               type={result!}
               message={message}
-              close={() => setShowAlert(false)}
+              close={deactivate}
             />
           </View>
         </View>

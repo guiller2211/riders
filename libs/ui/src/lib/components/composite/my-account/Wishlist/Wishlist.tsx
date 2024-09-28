@@ -17,7 +17,7 @@ const WishlistTile = () => {
               Productos Deseados
             </Text>
             <Text variant="body-3">
-              Ve tus productos Deseados
+              Ve tus productos deseados
             </Text>
           </View>
           <View gap={0} paddingTop={12} align="start">
@@ -27,7 +27,7 @@ const WishlistTile = () => {
               href={AppRoutes.WishList}
               endIcon={IconArrowRight}
             >
-              Productos Deseados
+              Productos deseados
             </Button>
           </View>
         </View.Item>

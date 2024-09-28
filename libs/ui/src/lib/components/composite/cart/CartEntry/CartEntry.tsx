@@ -104,39 +104,13 @@ const CartEntryCard = (props: CartActionsProps) => {
             <View direction="column">
               <Text variant="body-3">
                 <Link
-                  href={"/product/" + entry.product?.id}
+                  href={"/product/" + entry.id}
                   variant="underline"
                 >
                   {entry.product?.sku}
                 </Link>
               </Text>
-
-              <Text variant="body-2" weight="bold">
-                <Link
-                  href={"/product/" + entry.id}
-                  variant="plain"
-                  color="inherit"
-                >
-                  {entry.product?.name}
-                </Link>
-              </Text>
-
-              <Text variant="body-3">
-                sku: {entry.product?.sku}
-              </Text>
-             {/*  {entry.product?.variants
-                ?.filter(_c => _c.type === TypeVariamEnum.Color)
-                .map((_c, index) => (
-                  <Text key={index} variant="body-3">
-                    Color {_c.name}
-                  </Text>
-                ))}
-              {entry.product?.variants?.filter(_s => _s.type === TypeVariamEnum.Size)
-                .map((_s, index) => (
-                  <Text key={index} variant="body-3">
-                    Talla {_s.name}
-                  </Text>
-                ))} */}
+              <ProductInfo entry={entry} />
               <View.Item>
                 {entry.product?.stock && (
                   <View
@@ -293,7 +267,7 @@ const ProductImage = (props: { entry: CartEntryData }) => {
 const ProductInfo = (props: { entry: CartEntryData }) => {
   const { entry } = props;
   return (
-    <View direction="column">
+    <View direction="column" gap={1}>
       <View paddingBottom={1}>
         <Text variant="body-2" weight="bold">
           <Link
@@ -305,25 +279,34 @@ const ProductInfo = (props: { entry: CartEntryData }) => {
           </Link>
         </Text>
       </View>
-      <Text variant="body-3">
-        sku: {entry.product?.sku}
-      </Text>
-      <Text variant="body-3">
-        canidad {entry.quantity}
-      </Text>
-    {/*   {entry.product?.variants
-        ?.filter(_c => _c.type === TypeVariamEnum.Color)
-        .map((_c, index) => (
-          <Text key={index} variant="body-3">
-            Color {_c.name}
-          </Text>
-        ))}
-      {entry.product?.variants?.filter(_s => _s.type === TypeVariamEnum.Size)
-        .map((_s, index) => (
-          <Text key={index} variant="body-3">
-            Talla {_s.name}
-          </Text>
-        ))} */}
+      <View direction='row' gap={1} align='center'>
+        <Text variant='body-3' weight='bold'>
+          SKU:
+        </Text>
+        <Text variant='body-3' >
+          {entry.product?.sku}
+        </Text>
+      </View>
+      <View direction='row' gap={1} align='center'>
+        <Text variant='body-3' weight='bold'>
+          Canidad:
+        </Text>
+        <Text variant='body-3' >
+          {entry.quantity}
+        </Text>
+      </View>
+
+      {
+        entry.product?.variants?.map((variant) =>
+          <View direction='row' gap={1} >
+            <Text variant='body-3' weight='bold'>
+              {variant.type}:
+            </Text>
+            <Text variant='body-3' >
+              {variant.name}
+            </Text>
+          </View>
+        )}
     </View>
   );
 };

@@ -1,7 +1,9 @@
 
 import { redirect, createCookieSessionStorage } from "@remix-run/node"; 
+import { auth } from "@riders/firebase";
 import * as admin from "firebase-admin";
 import { DecodedIdToken } from "firebase-admin/lib/auth/token-verifier";
+import { signOut } from "firebase/auth";
 
 
 var serviceAccount = require("./firebase-service.json");
@@ -16,7 +18,7 @@ createCookieSessionStorage({
   cookie: {
     name: "__session",
     httpOnly: true,
-    maxAge: 6000,
+    maxAge: 600,
     path: "/",
     sameSite: "lax",
     secrets: ["f3cr@z7"],
@@ -24,6 +26,20 @@ createCookieSessionStorage({
   },
 });
 
+export async function checkSession(request: Request) {
+  const session = await getSession(request.headers.get("Cookie"));
+  const lastActive = session.get("lastActive") || Date.now();
+  const now = Date.now();
+  
+  if (now - lastActive > 600000) { // más de 10 minutos
+    await signOut(auth);
+    return destroySession(session);
+  }
+
+  // Actualiza la última actividad
+  session.set("lastActive", now);
+  return commitSession(session);
+}
 
 
 export const isSessionValid = async (request: any, redirectTo: string) => {

@@ -42,7 +42,7 @@ export const Facet = (props: FacetProps) => {
                       endIcon={showAll ? IconDashSquare : IconPlusSquare}
                       onClick={() => setShowAll(!showAll)}
                     >
-                      See {showAll ? 'less' : 'more'}
+                      Ver {showAll ? 'menos' : 'màs'}
                     </Button>
                   </View>
                 )}

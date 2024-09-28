@@ -17,6 +17,7 @@ import {
   FormControl,
   useAuth,
   Price,
+  PlpHeader,
 } from '@riders/ui';
 import { useTypedLoaderData } from 'remix-typedjson';
 
@@ -27,6 +28,7 @@ import { AppRoutes } from '@riders/types';
 import { setLikeProduct } from '../../service/user.data.service';
 import { useNavigate } from 'react-router-dom';
 import { TextProps } from 'reshaped';
+import { Rating } from 'primereact/rating';
 
 const ProductDetailPage = () => {
   const loaderData = useTypedLoaderData<typeof loader>();
@@ -35,6 +37,7 @@ const ProductDetailPage = () => {
   const [message, setMessage] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [value, setValue] = useState<number>();
   const [selectedVariants, setSelectedVariants] = useState<{ [key: string]: string[] }>({});
   const navigate = useNavigate()
   const { auth } = useAuth();
@@ -92,6 +95,10 @@ const ProductDetailPage = () => {
       gap={useResponsiveClientValue({ l: 8, s: 0 })}
       paddingInline={useResponsiveClientValue({ l: 0, s: 6 })}
     >
+      <PlpHeader
+        category={loaderData.categoryBreadcrumbs}
+        categoryName={loaderData?.categoryBreadcrumbs?.ancestors?.[0]?.name ?? ''}
+      />
       {
         success &&
         <AlertNotification
@@ -167,7 +174,7 @@ const ProductDetailPage = () => {
                               return isChecked && (
                                 <Card key={data.id}>
                                   <View gap={3} direction="row" align="center">
-                                    <Radio value={`${data.id}__${data.name}`}>{data.name}</Radio>
+                                    <Radio value={`${data.id}__${data.name}__${variant.type}`}>{data.name}</Radio>
                                   </View>
                                 </Card>
                               );
@@ -201,6 +208,9 @@ const ProductDetailPage = () => {
               <Text variant='body-2' weight='bold'>
                 Stock: {loaderData.product?.stock?.quantity}
               </Text>
+
+              <Rating value={value} onChange={(e:any) => setValue(e.value)} cancel={false}/>
+
               <View.Item columns={12}>
                 <Divider />
               </View.Item>

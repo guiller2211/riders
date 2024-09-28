@@ -46,7 +46,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               borderColor="neutral"
             >
               <Text variant="body-3" weight="bold">
-                Envio a:
+                Envío a:
               </Text>
               <View direction="row">
                 <View.Item>
@@ -91,7 +91,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               borderColor="neutral"
             >
               <Text variant="body-3" weight="bold">
-                Metodo de Envio
+                Metodo de Envío
               </Text>
               <View direction="row">
                 <View.Item>
@@ -155,7 +155,7 @@ const CheckoutOverview = (props: CheckoutOverviewProps) => {
               </View.Item>
               <View.Item columns={{ s: 12, l: 2 }} gapBefore="auto">
                 <Link href={AppRoutes.CheckoutShipping}>
-                  Envio a:
+                  Envío a:
                 </Link>
               </View.Item>
             </View>

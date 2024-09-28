@@ -21,7 +21,7 @@ const CheckoutShippingMethodCard = (props: CheckoutShippingMethodCardProps) => {
                 text={{ variant: 'body-2', weight: 'medium' }}
               />
             ) : (
-              'Envio Gratis'
+              'Envío Gratis'
             )}{' '}
             <View.Item>
               <Text variant="body-2" weight="medium">

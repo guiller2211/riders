@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Text, View } from '../../../../atomic';
 import { AlertNotification, AlertNotificationEnum } from '../../../shared';

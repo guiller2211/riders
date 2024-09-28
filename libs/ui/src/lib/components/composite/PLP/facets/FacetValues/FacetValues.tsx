@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Checkbox, Link } from '../../../../atomic';
 import { FacetValueTypeEnum, FacetValuesProps } from './FacetValues.types';
+import { AppRoutes } from '@riders/types';
 
 export const FacetValues = (props: FacetValuesProps) => {
   return (
@@ -8,7 +9,7 @@ export const FacetValues = (props: FacetValuesProps) => {
       <View.Item>
         {props.type === FacetValueTypeEnum.Link ? (
           <View direction="row">
-            <Link variant="plain" color="inherit" href="?filter=">
+            <Link variant="plain" color="inherit" href={AppRoutes.Category + '/' + props.name}>
               <Text variant="body-2">{props.name}</Text>
             </Link>
             <View.Item gapBefore="auto">

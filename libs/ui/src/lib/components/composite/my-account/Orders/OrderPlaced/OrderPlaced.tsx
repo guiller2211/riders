@@ -63,7 +63,7 @@ const OrderPlaced = (props: OrderPlacedProps) => {
               <View direction="column" gap={6}>
                 <View.Item>
                   <Text variant="body-2" weight="bold">
-                    Envio
+                    Envío
                   </Text>
                 </View.Item>
                 <View.Item>
@@ -95,7 +95,7 @@ const OrderPlaced = (props: OrderPlacedProps) => {
               <View direction="column" gap={6}>
                 <View.Item>
                   <Text variant="body-2" weight="bold">
-                    Metodo de Envio
+                    Metodo de Envío
                   </Text>
                 </View.Item>
                 <View.Item>
@@ -105,7 +105,7 @@ const OrderPlaced = (props: OrderPlacedProps) => {
                         <Text variant="body-3" weight="medium">
                           {shippingMethod.price.value.centsAmount > 0
                             ? shippingMethod.price.value.centsAmount
-                            : 'Envio Gratis'}{' '}
+                            : 'Envío Gratis'}{' '}
                           {shippingMethod.duration}{' '}
                         </Text>
                       </View.Item>

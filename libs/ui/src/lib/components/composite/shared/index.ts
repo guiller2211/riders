@@ -3,6 +3,7 @@ export * from './CategoryCarousel';
 export * from './utils';
 export * from './MenuHeader';
 export * from './cart';
+export * from './category';
 export * from './misc';
 export * from './price';
 export * from './address';
