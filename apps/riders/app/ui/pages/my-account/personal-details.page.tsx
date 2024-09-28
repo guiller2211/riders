@@ -9,16 +9,16 @@ import {
   AlertNotification,
   AlertNotificationEnum,
 } from '@riders/ui';
-import { useTypedLoaderData } from 'remix-typedjson';
 import type {
   loader,
 } from '../../../routes/my-account.personal-details';
 import { useState } from 'react';
 import { updateCustomer } from '../../../service/user.data.service';
 import { User } from 'firebase/auth';
+import { useLoaderData } from '@remix-run/react';
 
 const PersonalDetailsPage = () => {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const { customer } = loaderData;
   const [user, setUser] = useState(customer);
   const [result, setResult] = useState<AlertNotificationEnum>();

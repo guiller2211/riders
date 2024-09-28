@@ -11,10 +11,51 @@ import c2 from '../public/assets/images/categories/honda.png';
 import c3 from '../public/assets/images/categories/Kawasaki.png';
 import c4 from '../public/assets/images/categories/Surron.png';
 import c5 from '../public/assets/images/categories/Triumph.png';
-import { AppRoutes } from '@riders/types';
+import { AppRoutes, FooterData } from '@riders/types';
 
 function getHomeHeroBanner() {
   return [{ src: b6 }, { src: b7 }, { src: b8 }];
+}
+function getFooter(): FooterData {
+  return {
+    aboutHeading: 'Creando una mejor experiencia',
+    aboutMessage:
+      'Comparta sus comentarios. Nos comprometemos a utilizarlos para ayudar a mejorar la experiencia de todos. Juntos podemos crear una mejor experiencia de compra.',
+    copyright:
+      '©2023 ProSource Industrial de Riders Commerce Storefront | Todos los derechos reservados',
+    facebookLink: 'https://facebook.com',
+    instagramLink: 'https://instagram.com',
+    twitterLink: 'https://twitter.com',
+    youtubeLink: 'https://youtube.com',
+    whatsappLink: 'https://w.app/RidersRealm',
+    links: [],
+    linkBlocks: [
+      {
+        heading: 'Atención al Cliente',
+        displayHeading: true,
+        links: [
+          { text: 'Contactanos', url: AppRoutes.Contacts },
+          { text: 'Centro de ayuda', url: AppRoutes.Contacts },
+        ],
+      },
+      {
+        heading: 'Cuenta',
+        displayHeading: true,
+        links: [
+          { text: 'Estado del pedido', url: AppRoutes.Orders },
+          { text: 'Administrar cuenta', url: AppRoutes.Dashboard },
+        ],
+      },
+      {
+        heading: 'Sobre nosotros',
+        displayHeading: true,
+        links: [
+          { text: 'Información corporativa', url: AppRoutes.Me },
+        ],
+      },
+    ],
+    changeLanguage: () => {},
+  };
 }
 
 function getCategoryCarousel() {
@@ -75,11 +116,13 @@ export class LayoutUtils {
     const header = getHeader();
     const homeImage = getHomeHeroBanner();
     const categoryImage = getCategoryCarousel();
+    const footer = getFooter();
+
     return {
       header,
       homeImage,
       categoryImage,
-
+      footer
     };
   }
 }

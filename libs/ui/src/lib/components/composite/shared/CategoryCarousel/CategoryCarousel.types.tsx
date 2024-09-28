@@ -1,5 +1,5 @@
-import { ImageProps } from "reshaped";
+import { CategoryData, ProductData } from "@riders/types";
 
 export type CategoryCarouselProps ={
-    images?: ImageProps[];
+    category: ProductData[];
 }

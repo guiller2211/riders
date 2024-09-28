@@ -2,10 +2,10 @@ import { AddressData, Addresses, Loading, Text, View } from '@riders/ui';
 import { FormEvent, useEffect, useState } from 'react';
 import { deleteShippingAddress, setAddressCustomer, setDefaultAddress } from '../../../service/user.data.service';
 import type { loader } from '../../../routes/my-account.address-book';
-import { useTypedLoaderData } from 'remix-typedjson';
+import { useLoaderData } from '@remix-run/react';
 
 export default function AddressBookPage() {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const { uid, addresses } = loaderData;
   const [address, setAddress] = useState(addresses)
   const [isLoading, setIsloading] = useState(false)

@@ -7,7 +7,7 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid, updateCustomer } from '../service/user.data.service';
-import { Customer, Meta } from '@riders/types';
+import { AppRoutes, Customer, Meta } from '@riders/types';
 import { meta } from '../root';
 import { RemixUtils } from '../../framework/utils.server';
 
@@ -17,12 +17,12 @@ export async function loader({
   const logger: Logger<ILogObj> = new Logger({ name: 'root.tsx' });
 
   const session = await getSession(request.headers.get("Cookie"));
-  let user: Customer | undefined;
-
+  
   if (!session.has('__session')) {
-    redirect('/');
+    return redirect(AppRoutes.Home);
   }
-
+  
+  let user: Customer | undefined;
   const uid: string = session.get('user')['uid'];
   const useContext: string = session.get('useContext');
 

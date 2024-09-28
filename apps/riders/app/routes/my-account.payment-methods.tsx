@@ -4,6 +4,7 @@ import PaymentMethodsPage from '../ui/pages/my-account/payment-methods.page';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { typedjson } from 'remix-typedjson';
 import { getSession } from '../server/fb.sessions.server';
+import { AppRoutes } from '@riders/types';
 
 export default PaymentMethodsPage;
 export { meta };
@@ -17,7 +18,7 @@ export async function loader({
   const session = await getSession(request.headers.get("Cookie"));
 
   if (!session.has('__session')) {
-    redirect('/');
+    return redirect(AppRoutes.Home);
   }
 
   return typedjson({

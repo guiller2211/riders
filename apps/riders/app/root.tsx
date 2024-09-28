@@ -143,7 +143,11 @@ const Root = () => {
     <Document>
       <UserProvider>
         <OrderProvider>
-          <Layout header={loaderData.layout.header} handleAction={handleAction} cart={getCart}>
+          <Layout
+            header={loaderData.layout.header}
+            footer={loaderData.layout.footer}
+            handleAction={handleAction}
+            cart={getCart}>
             <AutoSignOut />
             <Outlet />
           </Layout>

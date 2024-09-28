@@ -20,3 +20,4 @@ export * from './Weather';
 export * from './WebUI';
 export * from './IconMoon';
 export * from './IconSun';
+export * from './Motorcycles';

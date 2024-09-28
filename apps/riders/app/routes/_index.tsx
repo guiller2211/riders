@@ -5,17 +5,18 @@ import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { getProduct } from '../service/product.data.service';
 import { getSession } from '../server/fb.sessions.server';
 import { addItemToCart, getCart } from '../service/cart.data.service';
-import { CartData, CartEntry, Customer, Meta } from '@riders/types';
+import { AppRoutes, CartData, CartEntry, Customer, Meta } from '@riders/types';
 import { getCustomerByUid } from '../service/user.data.service';
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 import { meta } from '../root';
-import { getVariantsData } from '../service/category.data.service';
+import {  fetchRandomProductsForCarousel, getVariantsData } from '../service/category.data.service';
 import { RemixUtils } from "../../framework/utils.server";
 
 export async function loader({ request }: LoaderArgs) {
   const layout = LayoutUtils.getLayout();
   const session = await getSession(request.headers.get("Cookie"));
   const variants = await getVariantsData();
+  const categoriesRider = await fetchRandomProductsForCarousel();
 
   const product = await getProduct();
   let cart: CartData | undefined;
@@ -35,6 +36,7 @@ export async function loader({ request }: LoaderArgs) {
     product,
     cart: cart ?? null,
     variants,
+    categories: categoriesRider,
     ...meta
   });
 }
