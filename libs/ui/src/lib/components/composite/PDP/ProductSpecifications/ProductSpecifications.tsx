@@ -32,7 +32,7 @@ export const ProductSpecifications = (props: ProductSpecificationsProps) => {
 
             <View.Item grow>
               <Text variant="body-3" color="neutral-faded">
-                {item.value}
+                <span dangerouslySetInnerHTML={{ __html: item.value || '' }} />
               </Text>
             </View.Item>
           </View>

@@ -13,6 +13,7 @@ import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { ReactNode, useEffect, useState } from 'react';
 import { LayoutUtils } from '../framework/layout.server';
 import "reshaped/themes/reshaped/theme.css";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from './server/fb.sessions.server';
 import { getCustomerByUid } from './service/user.data.service';
