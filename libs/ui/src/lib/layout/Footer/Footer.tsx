@@ -20,7 +20,6 @@ export const Footer = (props: FooterData) => {
     >
       <View
         gap={0}
-        width={isMobile ? 324 : '100%'}
         direction="row"
         align={useResponsiveClientValue({ s: 'center' })}
       >
@@ -35,7 +34,7 @@ export const Footer = (props: FooterData) => {
             </View.Item>
 
             <View.Item columns={useResponsiveClientValue({ l: 4, s: 12 })}>
-              <View align={{ l: 'start', s: 'center' }}>
+              <View align={useResponsiveClientValue({ l: 'start', s: 'center' })}>
                 <Text variant="body-2" weight="bold">
                   {props.aboutHeading}
                 </Text>
@@ -95,7 +94,7 @@ export const Footer = (props: FooterData) => {
                             <Text
                               variant="caption-1"
                               color="neutral-faded"
-                              align={{ s: 'center', l: 'start' }}
+                              align={useResponsiveClientValue({ s: 'center', l: 'start' })}
                             >
                               {link.text}
                             </Text>

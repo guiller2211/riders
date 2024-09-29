@@ -13,7 +13,9 @@ import {
   Modal,
   useToggle,
   Dismissible,
-  PlpHeader
+  PlpHeader,
+  Hidden,
+  useIsMobile
 } from '@riders/ui';
 import { useLoaderData } from '@remix-run/react';
 import { useEffect, useState } from 'react';
@@ -31,6 +33,7 @@ export const CategoryPage = () => {
   const [displayedProductsList, setDisplayedProductsList] = useState<ProductData[]>([]);
   const [isGridView, setIsGridView] = useState(true);
   const { active, activate, deactivate } = useToggle(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const displayedProducts = displayedPerPage(displayPage, page, items);
@@ -95,10 +98,13 @@ export const CategoryPage = () => {
                 </View>
               </View>
             </Modal>
-            <ProductGridListToggleForPLP
-              isGridView={viewGrid}
-              view={isGridView}
-            />
+            <Hidden hide={isMobile}>
+              <ProductGridListToggleForPLP
+                isGridView={viewGrid}
+                view={isGridView}
+              />
+            </Hidden>
+
             <ProductListForPLP
               products={displayedProductsList}
               sendForm={sendAddProduct}

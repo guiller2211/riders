@@ -9,7 +9,7 @@ export const CategoryCarousel = (props: CategoryCarouselProps) => {
 
   return (
     <View gap={10}>
-      <Carousel visibleItems={useResponsiveClientValue({ s: 2, l: 3 })}>
+      <Carousel visibleItems={useResponsiveClientValue({ s: 1, l: 3 })}>
 
         {category.map((item, i) => {
           const image = item.image?.find((_image) => _image.default);

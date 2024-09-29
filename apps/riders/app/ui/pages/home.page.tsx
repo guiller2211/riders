@@ -52,13 +52,6 @@ export const HomePage = () => {
       <Herobanner images={layout.homeImage} />
 
       <View paddingInline={useResponsiveClientValue({ s: 10, l: 20 })} direction="column" gap={10}>
-        <Carousel visibleItems={useResponsiveClientValue({ s: 2, l: 3 })}>
-          {layout.categoryImage?.map((item: any, i: number) => (
-            <View backgroundColor='white' key={i}>
-              <Image src={item.src} />
-            </View>
-          ))}
-        </Carousel>
         <CategoryCarousel category={categories} />
         {
           success &&
