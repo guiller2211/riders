@@ -54,7 +54,7 @@ export async function loader({ request, context: { registry }, params }: LoaderA
     products = await getProductByCategory(fullCategorySlug);
 
     categoryBreadcrumbs = {
-      id: products[0].categories?.id,
+      id: '1',
       name: categorySlug,
       url: `/${fullCategorySlug}`
     };
