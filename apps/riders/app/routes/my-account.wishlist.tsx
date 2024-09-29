@@ -1,5 +1,5 @@
 import WishlistPage from '../ui/pages/my-account/wishlist.page'
-import { LoaderArgs } from '@remix-run/node';
+import { LoaderArgs, redirect } from '@remix-run/node';
 
 import { ErrorBoundary } from '../ui/pages/error-boundary.page';
 
@@ -7,7 +7,7 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getwishlist, getCustomerByUid } from '../service/user.data.service';
-import { Customer, Meta } from '@riders/types';
+import { AppRoutes, Customer, Meta } from '@riders/types';
 import { meta } from '../root';
 import { RemixUtils } from '../../framework/utils.server';
 
@@ -22,6 +22,9 @@ export async function loader({
   let wishlist;
   let uid: string = '';
 
+  if (!session.has('__session')) {
+    return redirect(AppRoutes.Home);
+  }
   if (session.has('__session')) {
     uid = session.get('user')['uid'];
     user = await getCustomerByUid(uid);

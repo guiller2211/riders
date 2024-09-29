@@ -3,15 +3,15 @@ import {
   Text,
   View,
 } from '@riders/ui';
-import { useTypedLoaderData, useTypedRouteLoaderData } from 'remix-typedjson';
 
 import type { loader as myAccountLoader } from '../../../routes/my-account';
 import type { loader } from '../../../routes/my-account._index';
+import { useLoaderData, useRouteLoaderData } from '@remix-run/react';
 
 export default function AccountOverviewPage() {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const userProps =
-    useTypedRouteLoaderData<typeof myAccountLoader>('routes/my-account')?.user;
+    useRouteLoaderData<typeof myAccountLoader>('routes/my-account')?.user;
   const user = userProps;
 
   return (

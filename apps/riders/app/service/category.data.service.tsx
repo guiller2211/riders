@@ -1,7 +1,9 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { CategoryData, ProductVariantData } from "@riders/types";
-import { db } from "@riders/firebase";
+import { CategoryData, ProductData, ProductVariantData, ImageData } from "@riders/types";
+import { db, storage } from "@riders/firebase";
 import { FacetValueTypeEnum } from "@riders/ui";
+import { getDownloadURL, ref } from "firebase/storage";
+import { getProduct } from "./product.data.service";
 
 export async function getCategories() {
   try {
@@ -90,3 +92,38 @@ export async function getCategoriesWithProductData() {
   return values;
 }
 
+export async function getRandomByCategory(categoryId: string) {
+  const productsData = await getProduct();
+
+  const productsInCategory = productsData.filter(product => product.categories?.id === categoryId);
+
+  if (productsInCategory.length > 0) {
+    const randomProduct = productsInCategory[Math.floor(Math.random() * productsInCategory.length)];
+    return randomProduct;
+  }
+
+  return null;
+}
+
+export async function getRandomByCategories() {
+  const categoriesData = await getCategoriesData();
+  
+  const productsByCategory = await Promise.all(
+    categoriesData.map(async (category) => {
+    
+      if (!category.id) {
+        return null;
+      }
+      const product = await getRandomByCategory(category.id);
+      return product;
+    })
+  );
+
+  return productsByCategory.filter(item => item !== null);
+}
+
+export async function fetchRandomProductsForCarousel() {
+  const randomCategoriesForCarousel = await getRandomByCategories();
+
+  return randomCategoriesForCarousel;
+}

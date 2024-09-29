@@ -7,11 +7,15 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { Customer, Meta } from '@riders/types';
+import { AppRoutes, Customer, Meta } from '@riders/types';
 import { meta } from '../root';
 import { getOrders } from '../service/order.data.service';
 import { RemixUtils } from '../../framework/utils.server';
-
+import { OrderData } from '@riders/ui';
+export interface LoaderData {
+  user: Customer;
+  orders: OrderData[];
+}
 export async function loader({
   request,
 }: LoaderArgs) {
@@ -22,7 +26,7 @@ export async function loader({
   let orders;
 
   if (!session.has('__session')) {
-    redirect('/');
+    return redirect(AppRoutes.Login); 
   }
 
   const uid: string = session.get('user')['uid'];
@@ -34,8 +38,8 @@ export async function loader({
   );
 
   return typedjson({
-    user,
-    orders,
+    user:user,
+    orders:orders,
     ...meta
   });
 }

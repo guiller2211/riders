@@ -26,7 +26,7 @@ const AccountQuickLinks = (props: AccountQuickLinksProps) => {
             icon={IconPersonCircle}
             value={AccountQuickLinksURL.personalDetails}
           >
-            Detalles Personal
+            Detalles Personales
           </Tabs.Item>
         </Link>
         <Link href={AccountQuickLinksURL.addresses}>

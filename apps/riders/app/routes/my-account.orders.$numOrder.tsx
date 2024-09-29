@@ -7,7 +7,7 @@ import { typedjson } from 'remix-typedjson';
 import { ILogObj, Logger } from 'tslog';
 import { getSession } from '../server/fb.sessions.server';
 import { getCustomerByUid } from '../service/user.data.service';
-import { Customer, Meta } from '@riders/types';
+import { AppRoutes, Customer, Meta } from '@riders/types';
 import { meta } from '../root';
 import { getOrderByNumOrder } from '../service/order.data.service';
 import { CheckoutOverviewProp } from '@riders/ui';
@@ -25,7 +25,7 @@ export async function loader({
   let overview: CheckoutOverviewProp;
 
   if (!session.has('__session')) {
-    redirect('/');
+    return redirect(AppRoutes.Login);
   }
 
   const uid: string = session.get('user')['uid'];

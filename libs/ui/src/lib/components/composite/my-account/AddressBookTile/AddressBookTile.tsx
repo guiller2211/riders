@@ -17,7 +17,7 @@ const AddressBookTile = () => {
               Libro de Direcciones
             </Text>
             <Text variant="body-3">
-              Agregue tus direcciones preferidas y elija un favorito.
+              Agrega tus direcciones preferidas y elije un favorito.
             </Text>
           </View>
           <View gap={0} paddingTop={12} align="start">

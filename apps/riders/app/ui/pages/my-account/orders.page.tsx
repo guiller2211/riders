@@ -8,12 +8,12 @@ import {
   displayedPerPage,
 } from '@riders/ui';
 import { useEffect, useState } from 'react';
-import { useTypedLoaderData } from 'remix-typedjson';
 
 import type { loader } from '../../../routes/my-account.orders._index';
+import { useLoaderData } from '@remix-run/react';
 
 export default function OrdersPage() {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const { orders } = loaderData;
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<OrderData[]>(loaderData?.orders || []);

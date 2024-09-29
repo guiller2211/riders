@@ -2,10 +2,11 @@ import type { ReactNode } from 'react';
 
 import type { HeaderProps } from './Header';
 import { ImageProps, ProductCardForPLPProps } from '../components';
-import { CartEntry, CartData } from '@riders/types';
+import { CartEntry, CartData, FooterData } from '@riders/types';
 
 export type LayoutProps = {
   header: HeaderProps;
+  footer: FooterData;
   children?: ReactNode;
   homeImage?: ImageProps[];
   categoryImage?: ImageProps[];

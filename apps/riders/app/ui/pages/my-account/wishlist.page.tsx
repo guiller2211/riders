@@ -1,11 +1,11 @@
 import { Empty, Loader, ProductListForPLP, Text, View } from '@riders/ui';
 import { useEffect, useState } from 'react';
-import { useTypedLoaderData } from 'remix-typedjson';
 import type { loader } from '../../../routes/my-account.wishlist';
 import { setLikeProduct } from '../../../service/user.data.service';
+import { useLoaderData } from '@remix-run/react';
 
 export default function WishlistPage() {
-    const loaderData = useTypedLoaderData<typeof loader>();
+    const loaderData = useLoaderData<typeof loader>();
     const [wishlist, setWishlist] = useState(loaderData.wishlist);
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -36,7 +36,7 @@ export default function WishlistPage() {
     useEffect(() => {
         setWishlist(loaderData.wishlist);
     }, [loaderData.wishlist]);
-
+    
     return (
         <View direction="row" gap={12} backgroundColor='white'
             padding={10}
@@ -45,7 +45,7 @@ export default function WishlistPage() {
                 <Text variant="featured-1">Productos Deseados</Text>
             </View.Item>
             {
-                wishlist && wishlist.lenght > 0
+                Array.isArray(wishlist) && wishlist.length > 0
                     ?
                     <View.Item columns={12}>
                         {

@@ -19,7 +19,7 @@ const OrdersTile = () => {
             </View>
             <View paddingBottom={3}>
               <Text variant="body-3">
-              Realice un seguimiento de tus compras recientes y vea pedidos anteriores con facilidad.
+              Realiza un seguimiento de tus compras recientes y ve pedidos anteriores con facilidad.
               </Text>
             </View>
           </View>

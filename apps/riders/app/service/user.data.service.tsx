@@ -100,7 +100,7 @@ export async function getwishlist(uid: string) {
     const docRef = doc(db, "customer", uid);
     const customerData = await getDoc(docRef);
     const wishlist = customerData.data()?.likeProduct;
-    return wishlist;
+    return wishlist ;
   } catch (error) {
     throw new Error(`Error al obtener el usuario con ID '${uid}': ${error}`);
   }

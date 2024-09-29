@@ -6,12 +6,11 @@ import {
   View,
   useResponsiveClientValue,
 } from '@riders/ui';
-import { useTypedLoaderData } from 'remix-typedjson';
 
 import type { loader } from '../../../routes/my-account.orders.$numOrder';
-
+import { useLoaderData } from '@remix-run/react';
 export default function OrderDetailsPage() {
-  const loaderData = useTypedLoaderData<typeof loader>();
+  const loaderData = useLoaderData<typeof loader>();
   const { order, overview } = loaderData;
   return (
     <View direction="column" gap={9} padding={8} backgroundColor='white' borderRadius='large'>
@@ -26,7 +25,7 @@ export default function OrderDetailsPage() {
 
         <View direction="row" gap={16}>
           <View.Item columns={useResponsiveClientValue({ s: 12, l: 8 })}>
-            {order?.entries?.map((entry: any, index) => (
+            {order?.entries?.map((entry: any, index: number) => (
               <View.Item columns={12} key={index}>
                 <CartEntry entry={entry} viewCart="ReadOnly" />
               </View.Item>
