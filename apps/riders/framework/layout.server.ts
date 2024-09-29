@@ -98,7 +98,7 @@ function getUserMenu() {
       button: { message: 'Mis Ordenes', props: { href: AppRoutes.Orders } },
     },
     {
-      button: { message: 'My Lista Deseo', props: { href: AppRoutes.WishList } },
+      button: { message: 'Mi Lista Deseo', props: { href: AppRoutes.WishList } },
     },
   ];
 }
