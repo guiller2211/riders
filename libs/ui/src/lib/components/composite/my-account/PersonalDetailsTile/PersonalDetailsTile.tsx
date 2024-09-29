@@ -14,12 +14,12 @@ const PersonalDetailsTile = () => {
           <View height={33}>
             <View paddingBottom={3}>
               <Text color="primary" variant="featured-3" weight="bold">
-                Detalles Personal
+                Detalles Personales
               </Text>
             </View>
             <View paddingBottom={3}>
               <Text variant="body-3">
-                Actualice tu nombre, correo electrónico y contraseña de cuenta en cualquier momento.
+                Actualiza tu nombre, correo electrónico y contraseña de cuenta en cualquier momento.
               </Text>
             </View>
           </View>
