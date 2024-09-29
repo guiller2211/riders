@@ -1,6 +1,7 @@
 import type { CartHeaderProps } from './CartHeader.types';
 import { Button, Text, View } from '../../../atomic';
 import { useResponsiveClientValue } from '../../../../hooks';
+import { AppRoutes } from '@riders/types';
 
 const CartHeader = (props: CartHeaderProps) => {
   const { totalItems } = props;
@@ -17,9 +18,9 @@ const CartHeader = (props: CartHeaderProps) => {
             fullWidth
             color="positive"
             size="xlarge"
-            href="/checkout/shipping"
+            href={AppRoutes.CheckoutShipping}
           >
-            seguir checkout
+            Ir a Pagar
           </Button>
         </View.Item>
       )}

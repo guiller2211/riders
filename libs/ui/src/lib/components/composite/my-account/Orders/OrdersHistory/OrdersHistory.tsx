@@ -5,8 +5,6 @@ import type { OrdersHistoryProps } from './OrdersHistory.types';
 import OrdersHistoryBody from '../OrdersHistoryBody';
 import Table from '../../../shared/utils/Table';
 
-const fieldNames = ['Nº Order', 'Fecha de Creacion', 'Estatus', 'Total'];
-
 const OrdersHistory = (props: OrdersHistoryProps) => {
   const nameSpace = 'orders';
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,9 +17,7 @@ const OrdersHistory = (props: OrdersHistoryProps) => {
   return (
     <View>
       <Table
-        showSearcher
         nameSpace={nameSpace}
-        fieldNames={fieldNames}
         searchTerm={searchOrders}
       >
         <OrdersHistoryBody orders={orders} searchTerm={searchTerm} />

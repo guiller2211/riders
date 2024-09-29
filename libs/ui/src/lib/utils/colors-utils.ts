@@ -4,17 +4,17 @@ import { OrderStatus } from "@riders/types";
 export class ColorUtils {
   static badgeColor = (
     value: string,
-  ): 'primary' | 'positive' | 'critical' | 'warning' | undefined => {
+  ): 'success' | 'info' | 'warning' | 'danger' | 'secondary' | 'contrast' | undefined => {
     switch (value) {
       case OrderStatus.InProcess:
-        return 'primary';
+        return 'info';
       case OrderStatus.Approved:
       case OrderStatus.Delivered:
-        return 'positive';
+        return 'success';
       case OrderStatus.Shipped:
         return 'warning';
       default:
-        return 'critical';
+        return 'danger';
     }
   }
 }

@@ -5,11 +5,14 @@ import type {
 } from './AbstractOrderData.types';
 
 export interface OrderData extends AbstractOrderData {
-  createdDate?: Date;
+  createdDate?: Timestamp;
   guestCustomer?: boolean;
   appliedPromotions?: string[];
   entries?: OrderEntryData[];
   status?: OrderStatus;
 }
-
+interface Timestamp {
+  seconds: number;
+  nanoseconds: number;
+}
 export type OrderEntryData = AbstractOrderEntryData;

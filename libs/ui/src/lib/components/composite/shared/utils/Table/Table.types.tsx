@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 export type TableProps = {
-  fieldNames: string[];
+  fieldNames?: string[];
   nameSpace: string;
   showSearcher?: boolean;
   children: ReactNode;

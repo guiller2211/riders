@@ -35,28 +35,31 @@ const TableHeader = (props: TableHeaderProps) => {
           </View>
         )}
       </View.Item>
-      <View backgroundColor="disabled" padding={3} direction="row">
-        {fieldNames.map((_, index) => {
-          return (
-            <View.Item columns="auto" grow key={index}>
-              <Actionable onClick={() => sort(index)}>
-                <View direction="row">
-                  <View.Item>
-                    <Text color="primary" variant="caption-1">
-                      {fieldNames[index]}
-                    </Text>
-                  </View.Item>
-                  {showIconIndex === index && (
+      {
+        fieldNames &&
+        <View backgroundColor="disabled" padding={3} direction="row">
+          {fieldNames.map((_, index) => {
+            return (
+              <View.Item columns="auto" grow key={index}>
+                <Actionable onClick={() => sort(index)}>
+                  <View direction="row">
                     <View.Item>
-                      <Icon svg={icon} color="primary" />
+                      <Text color="primary" variant="caption-1">
+                        {fieldNames[index]}
+                      </Text>
                     </View.Item>
-                  )}
-                </View>
-              </Actionable>
-            </View.Item>
-          );
-        })}
-      </View>
+                    {showIconIndex === index && (
+                      <View.Item>
+                        <Icon svg={icon} color="primary" />
+                      </View.Item>
+                    )}
+                  </View>
+                </Actionable>
+              </View.Item>
+            );
+          })}
+        </View>
+      }
     </View>
   );
 };
